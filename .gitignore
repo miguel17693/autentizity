@@ -15,6 +15,9 @@
 /.next/
 /out/
 
+# runtime data (JSON file storage)
+/data/
+
 # production
 /build
 
