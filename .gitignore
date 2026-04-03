@@ -32,6 +32,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# local corporate registry override
+.npmrc.local
+
 # vercel
 .vercel
 
