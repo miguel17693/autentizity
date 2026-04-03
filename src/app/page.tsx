@@ -15,7 +15,7 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-primary opacity-100" />
       
       {/* Textura geométrica sutil */}
-      <div className="absolute inset-0 opacity-[0.04]">
+      <div className="absolute inset-0 overflow-hidden opacity-[0.04]">
         <div className="absolute top-1/4 right-0 w-[500px] h-[500px] border border-white rounded-full" />
         <div className="absolute top-1/3 right-16 w-[400px] h-[400px] border border-white rounded-full" />
         <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] border border-white rounded-full" />
@@ -182,6 +182,7 @@ function Events() {
                   src={event.coverImage}
                   alt={event.title}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
                 {/* Overlay gradient */}
@@ -251,18 +252,19 @@ function News() {
         </div>
 
         {/* News grid — editorial layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 auto-rows-fr">
           {mockNews.map((news, i) => (
             <Link
               key={news.id}
               href={`/noticias/${news.slug}`}
               className={`group block ${i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
             >
-              <div className={`relative overflow-hidden ${i === 0 ? "h-72 lg:h-full" : "h-56"}`}>
+              <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[20rem] lg:min-h-0" : "min-h-[14rem]"}`}>
                 <Image
                   src={news.coverImage}
                   alt={news.title}
                   fill
+                  sizes={i === 0 ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 1024px) 100vw, 33vw"}
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -311,7 +313,7 @@ function Stats() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {stats.map((stat, i) => (
-            <div key={stat.label} className="text-center lg:text-left">
+            <div key={stat.label} className="relative text-center lg:text-left">
               <div className="font-serif text-5xl lg:text-6xl text-primary font-light tracking-[-0.02em]">
                 {stat.number}
               </div>
@@ -319,7 +321,7 @@ function Stats() {
                 {stat.label}
               </div>
               {i < stats.length - 1 && (
-                <div className="hidden lg:block absolute right-0 top-1/4 bottom-1/4 w-[1px] bg-border" />
+                <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[1px] bg-border" />
               )}
             </div>
           ))}
