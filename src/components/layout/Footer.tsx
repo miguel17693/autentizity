@@ -46,11 +46,11 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <Image
-              src="/images/logo.png"
+              src="/images/logo-transparent.png"
               alt="AuthentiZity"
-              width={160}
-              height={48}
-              className="h-10 w-auto brightness-0 invert mb-4"
+              width={200}
+              height={60}
+              className="h-12 w-auto brightness-0 invert mb-4"
             />
             <p className="text-white/70 text-sm leading-relaxed mt-4">
               Aceleradora de Impacto Social que impulsa una cultura empresarial

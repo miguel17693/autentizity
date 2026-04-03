@@ -21,11 +21,11 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/images/logo.png"
+              src="/images/logo-transparent.png"
               alt="AuthentiZity"
-              width={160}
-              height={48}
-              className="h-10 sm:h-12 w-auto"
+              width={200}
+              height={60}
+              className="h-12 sm:h-14 w-auto"
               priority
             />
           </Link>
