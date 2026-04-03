@@ -1,13 +1,14 @@
 // Placeholder — Detalle de noticia
-export default function NoticiaDetailPage({
+export default async function NoticiaDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold">Noticia: {params.slug}</h1>
-      <p className="text-text-secondary mt-2">Próximamente — Fase 2</p>
+    <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-24">
+      <h1 className="font-serif text-4xl text-primary font-light">Noticia: {slug}</h1>
+      <p className="text-text-secondary mt-2 font-light">Próximamente — Fase 2</p>
     </div>
   );
 }

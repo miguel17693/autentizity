@@ -15,96 +15,103 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
+          <Link href="/" className="shrink-0">
             <Image
               src="/images/logo-transparent.png"
               alt="AuthentiZity"
-              width={200}
-              height={60}
-              className="h-12 sm:h-14 w-auto"
+              width={180}
+              height={54}
+              className="h-11 lg:h-14 w-auto"
               priority
             />
           </Link>
 
           {/* Nav desktop */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-10">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-4 py-2 text-sm font-semibold text-text-secondary hover:text-primary transition-colors rounded-lg hover:bg-surface-alt"
+                className="text-[13px] font-medium tracking-[0.08em] uppercase text-text-body hover:text-primary transition-colors"
               >
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/eventos"
-              className="ml-4 px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-[var(--radius-button)] hover:bg-primary-light transition-colors"
-            >
-              Próximos Eventos
-            </Link>
           </nav>
 
-          {/* Mobile hamburger */}
+          {/* CTA desktop */}
+          <div className="hidden lg:block">
+            <Link
+              href="/eventos"
+              className="text-[13px] font-medium tracking-[0.08em] uppercase text-primary border border-primary px-6 py-3 hover:bg-primary hover:text-white transition-all"
+            >
+              Eventos
+            </Link>
+          </div>
+
+          {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-surface-alt transition-colors"
-            aria-label="Abrir menú"
+            className="lg:hidden p-2 -mr-2"
+            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           >
-            <svg
-              className="w-6 h-6 text-primary"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {mobileOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            <div className="w-6 flex flex-col gap-1.5">
+              <span
+                className={`block h-[1.5px] bg-primary transition-all duration-300 ${
+                  mobileOpen ? "rotate-45 translate-y-[7.5px]" : ""
+                }`}
+              />
+              <span
+                className={`block h-[1.5px] bg-primary transition-all duration-300 ${
+                  mobileOpen ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`block h-[1.5px] bg-primary transition-all duration-300 ${
+                  mobileOpen ? "-rotate-45 -translate-y-[7.5px]" : ""
+                }`}
+              />
+            </div>
           </button>
         </div>
       </div>
 
+      {/* Subtle bottom line */}
+      <div className="h-[1px] bg-border-light" />
+
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-white">
-          <nav className="px-4 py-4 space-y-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-4 py-3 text-base font-semibold text-text-secondary hover:text-primary hover:bg-surface-alt rounded-lg transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
+      <div
+        className={`lg:hidden fixed inset-0 top-[81px] bg-white z-40 transition-all duration-500 ${
+          mobileOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+      >
+        <nav className="flex flex-col px-6 pt-12">
+          {navItems.map((item, i) => (
             <Link
-              href="/eventos"
+              key={item.href}
+              href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="block mt-3 px-4 py-3 bg-primary text-white text-base font-bold rounded-[var(--radius-button)] text-center hover:bg-primary-light transition-colors"
+              className="font-serif text-3xl font-light text-primary py-4 border-b border-border-light hover:text-accent transition-colors"
+              style={{ transitionDelay: `${i * 50}ms` }}
             >
-              Próximos Eventos
+              {item.label}
             </Link>
-          </nav>
-        </div>
-      )}
+          ))}
+          <Link
+            href="/eventos"
+            onClick={() => setMobileOpen(false)}
+            className="mt-10 inline-block text-center text-[13px] font-medium tracking-[0.08em] uppercase text-primary border border-primary px-8 py-4 hover:bg-primary hover:text-white transition-all"
+          >
+            Ver Eventos
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }

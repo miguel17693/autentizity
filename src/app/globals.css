@@ -2,14 +2,16 @@
 
 /*
  * ============================================
- * AUTHENTIZITY — Global Styles
+ * AUTHENTIZITY — Design System
  * ============================================
- * Paleta: Verde oscuro + Rosa/granate + Teal
- * Tipografía: P22 Mackinac (títulos) + Source Sans Pro (cuerpo) + Chulapa (complementaria)
+ * Tipografía de marca: RoxboroughCF (serif) + Poppins (sans)
+ * Fallback local: Chulapa (serif) + Poppins (sans)
+ * Paleta: Verde profundo + Rosa antiguo + Teal
+ * Estilo: Editorial, premium, mucho whitespace
  * ============================================
  */
 
-/* --- Fuente local Chulapa --- */
+/* --- Fuente local Chulapa (fallback serif para RoxboroughCF) --- */
 @font-face {
   font-family: "Chulapa";
   src: url("/fonts/Chulapa-Light.otf") format("opentype");
@@ -33,55 +35,86 @@
 }
 
 @theme {
-  /* --- Colores de marca AuthentiZity --- */
+  /* --- Colores de marca --- */
   --color-primary: #013F3F;
   --color-primary-light: #074040;
   --color-primary-dark: #012d2d;
 
   --color-secondary: #965458;
   --color-secondary-light: #D6BEB7;
+  --color-secondary-dark: #7a4245;
 
   --color-accent: #0F9181;
   --color-accent-light: #079585;
+  --color-accent-dark: #0a7568;
 
   --color-dark-teal: #305358;
 
   --color-surface: #ffffff;
-  --color-surface-alt: #F8F8F8;
+  --color-surface-alt: #FAFAF8;
+  --color-surface-warm: #F5F0EB;
   --color-surface-dark: #f1f5f9;
-  --color-border: #e2e8f0;
+  --color-border: #E8E4DF;
+  --color-border-light: #F0ECE7;
 
   --color-text-primary: #013F3F;
-  --color-text-secondary: #305358;
-  --color-text-muted: #94a3b8;
+  --color-text-body: #305358;
+  --color-text-secondary: #6B7F84;
+  --color-text-muted: #9CAAAE;
   --color-text-inverse: #ffffff;
 
-  /* --- Tipografía --- */
-  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Chulapa", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  /* --- Tipografía: serif heading + sans body --- */
+  --font-serif: "Chulapa", "Georgia", "Times New Roman", serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 
-  /* --- Espaciado personalizado --- */
-  --spacing-section: 5rem;
+  /* --- Espaciado editorial --- */
+  --spacing-section: 8rem;
+  --spacing-section-sm: 5rem;
 
   /* --- Bordes --- */
-  --radius-card: 0.75rem;
-  --radius-button: 0.5rem;
+  --radius-card: 0.25rem;
+  --radius-button: 0.25rem;
+  --radius-pill: 100px;
 }
 
-/* Reset y base */
+/* Base */
 body {
   font-family: var(--font-sans);
-  color: var(--color-text-primary);
+  color: var(--color-text-body);
   background-color: var(--color-surface);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scroll suave */
 html {
   scroll-behavior: smooth;
 }
 
-/* Focus visible accesible */
+/* Focus accesible */
 *:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Utilidades editorial */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Línea decorativa de marca */
+.brand-line {
+  width: 48px;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+/* Transición suave para links */
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
 }

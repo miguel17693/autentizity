@@ -4,177 +4,212 @@ import { mockEvents, mockNews } from "@/lib/data/mock";
 import { formatDate } from "@/lib/utils";
 
 /* ============================================
- * HOME PAGE — AuthentiZity
- * Secciones: Hero, Qué es, Próximos Eventos,
- * Últimas Noticias, Ecosistema, CTA
+ * HOME — AuthentiZity
+ * Diseño editorial premium
  * ============================================ */
 
-function HeroSection() {
+function Hero() {
   return (
-    <section className="relative bg-primary overflow-hidden">
-      {/* Decorative shapes */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-accent" />
-        <div className="absolute -bottom-32 -left-20 w-80 h-80 rounded-full bg-secondary" />
+    <section className="relative min-h-[90vh] flex items-center bg-primary overflow-hidden">
+      {/* Gradiente sutil */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-primary opacity-100" />
+      
+      {/* Textura geométrica sutil */}
+      <div className="absolute inset-0 opacity-[0.04]">
+        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] border border-white rounded-full" />
+        <div className="absolute top-1/3 right-16 w-[400px] h-[400px] border border-white rounded-full" />
+        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] border border-white rounded-full" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
+      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-0 w-full">
         <div className="max-w-3xl">
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white leading-tight">
-            Aceleradora de{" "}
-            <span className="text-accent-light">Impacto Social</span>
+          {/* Overline */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-[1px] bg-accent" />
+            <span className="text-accent text-[13px] font-medium tracking-[0.15em] uppercase">
+              Aceleradora de Impacto Social
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="font-serif text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.05] text-white font-light tracking-[-0.02em] text-balance">
+            Donde la autenticidad
+            <br />
+            <em className="font-normal text-secondary-light">
+              transforma
+            </em>{" "}
+            la cultura
+            <br />
+            empresarial
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-2xl">
-            Acompañamos a las empresas en la consecución de sus objetivos de
-            impacto social y mejora de cultura de empresa, dentro de un espacio
-            impulsado por instituciones y guiado por valores compartidos.
+
+          {/* Subtext */}
+          <p className="mt-8 text-white/60 text-lg lg:text-xl leading-relaxed max-w-xl font-light">
+            Conectamos empresas, instituciones y sociedad civil para
+            impulsar entornos de trabajo donde las personas pueden ser
+            quienes realmente son.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+
+          {/* CTAs */}
+          <div className="mt-12 flex flex-wrap gap-4">
             <Link
               href="/eventos"
-              className="inline-flex items-center justify-center px-8 py-4 bg-accent text-white font-bold rounded-[var(--radius-button)] hover:bg-accent-light transition-colors text-base"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
             >
-              Descubre los Eventos
+              Próximos eventos
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white font-bold rounded-[var(--radius-button)] hover:bg-white/20 transition-colors text-base border border-white/20"
+              className="inline-flex items-center gap-3 px-8 py-4 text-white/70 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
             >
-              Conoce AuthentiZity
+              Descubre el ecosistema
             </Link>
           </div>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-white/30 text-[10px] tracking-[0.2em] uppercase">Scroll</span>
+        <div className="w-[1px] h-8 bg-gradient-to-b from-white/30 to-transparent" />
+      </div>
     </section>
   );
 }
 
-function WhatWeAreSection() {
-  const pillars = [
-    {
-      icon: "🤝",
-      title: "Autenticidad",
-      description:
-        "Impulsamos espacios donde las personas y las empresas pueden ser fieles a sus valores.",
-    },
-    {
-      icon: "🌍",
-      title: "Impacto Social",
-      description:
-        "Conectamos empresas, instituciones y ONG para generar un cambio real y medible en la sociedad.",
-    },
-    {
-      icon: "💡",
-      title: "Cultura Corporativa",
-      description:
-        "Transformamos la cultura de las empresas hacia el bienestar, la diversidad y el compromiso.",
-    },
-    {
-      icon: "🏆",
-      title: "Reconocimiento",
-      description:
-        "Ranking Authentic Leaders y Diploma Empresa AuthentiZity para quienes lideran el cambio.",
-    },
-  ];
-
+function Introduction() {
   return (
-    <section className="py-20 sm:py-28 bg-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl text-primary">
-            ¿Qué es AuthentiZity?
-          </h2>
-          <p className="mt-4 text-text-secondary text-lg leading-relaxed">
-            El ecosistema que reúne a empresas, instituciones, ONG, cámaras de
-            comercio y líderes del impacto social en un espacio de valores
-            compartidos.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {pillars.map((pillar) => (
-            <div
-              key={pillar.title}
-              className="bg-surface-alt rounded-[var(--radius-card)] p-8 text-center hover:shadow-lg transition-shadow border border-border"
-            >
-              <div className="text-4xl mb-4">{pillar.icon}</div>
-              <h3 className="font-heading font-bold text-xl text-primary mb-3">
-                {pillar.title}
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                {pillar.description}
-              </p>
+    <section className="py-28 lg:py-40">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Text */}
+          <div>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="brand-line" />
+              <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+                El ecosistema
+              </span>
             </div>
-          ))}
+            <h2 className="font-serif text-4xl lg:text-5xl text-primary font-light leading-[1.15] tracking-[-0.01em]">
+              Un espacio único de
+              <br />
+              <em className="font-normal">valores compartidos</em>
+            </h2>
+            <p className="mt-8 text-text-body text-lg leading-relaxed font-light">
+              AuthentiZity es el punto de encuentro entre los valores de la
+              sociedad y la cultura de las empresas. Impulsa una cultura
+              empresarial basada en lo que nos une: aquello que nos
+              identifica, nos hace únicos y nos posiciona en el mundo.
+            </p>
+            <p className="mt-4 text-text-secondary text-base leading-relaxed font-light">
+              El potencial de «ser tú» es clave de éxito tanto para las
+              empresas como para los profesionales. Cuentan con el apoyo de
+              instituciones, ONG, equipos internos y referentes de la
+              sociedad que ayudan a que estas acciones generen impacto real.
+            </p>
+          </div>
+
+          {/* Pillars grid */}
+          <div className="grid grid-cols-2 gap-[1px] bg-border">
+            {[
+              { title: "Autenticidad", desc: "Espacios donde las personas y empresas pueden ser fieles a sus valores" },
+              { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones y ONG" },
+              { title: "Cultura", desc: "Transformar la cultura corporativa hacia el bienestar y la diversidad" },
+              { title: "Reconocimiento", desc: "Ranking Authentic Leaders y Diploma Empresa AuthentiZity" },
+            ].map((pillar) => (
+              <div
+                key={pillar.title}
+                className="bg-surface p-8 lg:p-10 group hover:bg-surface-alt transition-colors"
+              >
+                <h3 className="font-serif text-xl text-primary font-normal mb-3">
+                  {pillar.title}
+                </h3>
+                <p className="text-text-secondary text-sm leading-relaxed font-light">
+                  {pillar.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function UpcomingEventsSection() {
+function Events() {
   const featured = mockEvents.filter((e) => e.featured);
 
   return (
-    <section className="py-20 sm:py-28 bg-surface-alt">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+    <section className="py-28 lg:py-40 bg-surface-alt">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-16">
           <div>
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-primary">
-              Próximos Eventos
+            <div className="flex items-center gap-4 mb-6">
+              <div className="brand-line" />
+              <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+                Agenda
+              </span>
+            </div>
+            <h2 className="font-serif text-4xl lg:text-5xl text-primary font-light leading-[1.15]">
+              Próximos eventos
             </h2>
-            <p className="mt-2 text-text-secondary">
-              Descubre las actividades del ecosistema AuthentiZity
-            </p>
           </div>
           <Link
             href="/eventos"
-            className="text-accent font-semibold hover:text-accent-light transition-colors flex items-center gap-1"
+            className="group flex items-center gap-3 text-[13px] font-medium tracking-[0.08em] uppercase text-text-body hover:text-primary transition-colors"
           >
-            Ver todos los eventos
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            Ver agenda completa
+            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Events grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {featured.map((event) => (
             <Link
               key={event.id}
               href={`/eventos/${event.slug}`}
-              className="group bg-white rounded-[var(--radius-card)] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-border"
+              className="group block bg-white overflow-hidden hover:shadow-2xl hover:shadow-black/5 transition-all duration-500"
             >
-              <div className="relative h-56 overflow-hidden">
+              <div className="relative h-64 lg:h-72 overflow-hidden">
                 <Image
                   src={event.coverImage}
                   alt={event.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
-                <div className="absolute top-4 left-4">
-                  <span className="inline-block px-3 py-1 text-xs font-bold bg-accent text-white rounded-full">
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                {/* Type badge */}
+                <div className="absolute top-6 left-6">
+                  <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-accent/90 backdrop-blur-sm px-4 py-2">
                     {event.type}
                   </span>
                 </div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-sm text-text-muted mb-2">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  {formatDate(event.startDate)}
+                {/* Date overlay */}
+                <div className="absolute bottom-6 left-6">
+                  <span className="text-white/90 text-sm font-light">
+                    {formatDate(event.startDate)}
+                  </span>
                 </div>
-                <h3 className="font-heading font-bold text-xl text-primary group-hover:text-accent transition-colors">
+              </div>
+              <div className="p-8">
+                <h3 className="font-serif text-2xl text-primary font-normal group-hover:text-accent transition-colors">
                   {event.title}
                 </h3>
-                <p className="mt-2 text-text-secondary text-sm leading-relaxed line-clamp-2">
+                <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-2">
                   {event.description}
                 </p>
-                <div className="mt-4 flex items-center gap-2 text-sm text-text-muted">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <div className="mt-5 flex items-center gap-2 text-text-muted text-sm font-light">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
                   </svg>
                   {event.location}
                 </div>
@@ -187,65 +222,73 @@ function UpcomingEventsSection() {
   );
 }
 
-function LatestNewsSection() {
+function News() {
   return (
-    <section className="py-20 sm:py-28 bg-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+    <section className="py-28 lg:py-40">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-16">
           <div>
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-primary">
-              Últimas Noticias
+            <div className="flex items-center gap-4 mb-6">
+              <div className="brand-line" />
+              <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+                Actualidad
+              </span>
+            </div>
+            <h2 className="font-serif text-4xl lg:text-5xl text-primary font-light leading-[1.15]">
+              Últimas noticias
             </h2>
-            <p className="mt-2 text-text-secondary">
-              Actualidad del ecosistema y el impacto social
-            </p>
           </div>
           <Link
             href="/noticias"
-            className="text-accent font-semibold hover:text-accent-light transition-colors flex items-center gap-1"
+            className="group flex items-center gap-3 text-[13px] font-medium tracking-[0.08em] uppercase text-text-body hover:text-primary transition-colors"
           >
-            Ver todas las noticias
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            Todas las noticias
+            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {mockNews.map((news) => (
+        {/* News grid — editorial layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {mockNews.map((news, i) => (
             <Link
               key={news.id}
               href={`/noticias/${news.slug}`}
-              className="group bg-surface-alt rounded-[var(--radius-card)] overflow-hidden hover:shadow-lg transition-all border border-border"
+              className={`group block ${i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className={`relative overflow-hidden ${i === 0 ? "h-72 lg:h-full" : "h-56"}`}>
                 <Image
                   src={news.coverImage}
                   alt={news.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
-              </div>
-              <div className="p-6">
-                <div className="flex gap-2 mb-3">
-                  {news.tags.slice(0, 2).map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-semibold text-secondary px-2 py-0.5 bg-secondary-light/30 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <div className="flex gap-3 mb-3">
+                    {news.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[10px] font-medium tracking-[0.1em] uppercase text-white/80"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className={`font-serif text-white font-normal leading-tight group-hover:text-secondary-light transition-colors ${i === 0 ? "text-3xl lg:text-4xl" : "text-xl"}`}>
+                    {news.title}
+                  </h3>
+                  {i === 0 && (
+                    <p className="mt-3 text-white/60 text-sm leading-relaxed font-light max-w-lg">
+                      {news.excerpt}
+                    </p>
+                  )}
+                  <p className="mt-4 text-white/40 text-xs font-light">
+                    {formatDate(news.publishedAt)}
+                  </p>
                 </div>
-                <h3 className="font-heading font-bold text-lg text-primary group-hover:text-accent transition-colors line-clamp-2">
-                  {news.title}
-                </h3>
-                <p className="mt-2 text-text-secondary text-sm leading-relaxed line-clamp-3">
-                  {news.excerpt}
-                </p>
-                <p className="mt-4 text-xs text-text-muted">
-                  {formatDate(news.publishedAt)}
-                </p>
               </div>
             </Link>
           ))}
@@ -255,36 +298,29 @@ function LatestNewsSection() {
   );
 }
 
-function EcosystemSection() {
+function Stats() {
   const stats = [
-    { number: "40+", label: "Embajadores" },
-    { number: "10+", label: "Empresas Impulsoras" },
-    { number: "12", label: "Líneas de Actuación" },
-    { number: "2026", label: "Lanzamiento" },
+    { number: "40+", label: "Embajadores del ecosistema" },
+    { number: "12", label: "Líneas de actuación" },
+    { number: "10+", label: "Empresas impulsoras" },
+    { number: "2026", label: "Año de lanzamiento" },
   ];
 
   return (
-    <section className="py-20 sm:py-28 bg-primary text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-heading font-bold text-3xl sm:text-4xl">
-            El Ecosistema AuthentiZity
-          </h2>
-          <p className="mt-4 text-white/70 text-lg">
-            Empresas, instituciones, ONG, cámaras de comercio y embajadores
-            unidos por el impacto social.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="font-heading font-bold text-4xl sm:text-5xl text-accent-light">
+    <section className="py-24 lg:py-32 bg-surface-warm">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+          {stats.map((stat, i) => (
+            <div key={stat.label} className="text-center lg:text-left">
+              <div className="font-serif text-5xl lg:text-6xl text-primary font-light tracking-[-0.02em]">
                 {stat.number}
               </div>
-              <div className="mt-2 text-white/60 text-sm font-medium uppercase tracking-wider">
+              <div className="mt-2 text-text-secondary text-sm font-light">
                 {stat.label}
               </div>
+              {i < stats.length - 1 && (
+                <div className="hidden lg:block absolute right-0 top-1/4 bottom-1/4 w-[1px] bg-border" />
+              )}
             </div>
           ))}
         </div>
@@ -293,29 +329,37 @@ function EcosystemSection() {
   );
 }
 
-function CTASection() {
+function CTA() {
   return (
-    <section className="py-20 sm:py-28 bg-surface-alt">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-heading font-bold text-3xl sm:text-4xl text-primary">
-          ¿Quieres ser parte del cambio?
+    <section className="relative py-32 lg:py-44 bg-primary overflow-hidden">
+      {/* Decorative circles */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white rounded-full" />
+      </div>
+
+      <div className="relative max-w-3xl mx-auto px-6 text-center">
+        <h2 className="font-serif text-4xl lg:text-6xl text-white font-light leading-[1.1] text-balance">
+          ¿Quieres ser parte
+          <br />
+          del <em className="font-normal text-secondary-light">cambio</em>?
         </h2>
-        <p className="mt-4 text-text-secondary text-lg leading-relaxed max-w-2xl mx-auto">
-          Únete al ecosistema AuthentiZity y empieza a construir una cultura
-          corporativa basada en la autenticidad y el impacto social.
+        <p className="mt-8 text-white/50 text-lg leading-relaxed font-light max-w-lg mx-auto">
+          Únete al ecosistema AuthentiZity y lidera la transformación
+          hacia una cultura corporativa auténtica.
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="mailto:comunidad@autentizity.org"
-            className="inline-flex items-center justify-center px-8 py-4 bg-primary text-white font-bold rounded-[var(--radius-button)] hover:bg-primary-light transition-colors"
+            className="inline-flex items-center justify-center px-10 py-4 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
           >
-            Contacta con nosotros
+            Contactar
           </a>
           <Link
             href="/about"
-            className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary font-bold rounded-[var(--radius-button)] hover:bg-surface-dark transition-colors border border-border"
+            className="inline-flex items-center justify-center px-10 py-4 text-white/60 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/40 hover:text-white transition-all"
           >
-            Más información
+            Conocer más
           </Link>
         </div>
       </div>
@@ -326,12 +370,12 @@ function CTASection() {
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
-      <WhatWeAreSection />
-      <UpcomingEventsSection />
-      <LatestNewsSection />
-      <EcosystemSection />
-      <CTASection />
+      <Hero />
+      <Introduction />
+      <Events />
+      <News />
+      <Stats />
+      <CTA />
     </>
   );
 }

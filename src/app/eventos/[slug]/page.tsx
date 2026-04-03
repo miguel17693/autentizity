@@ -1,13 +1,14 @@
 // Placeholder — Detalle de evento
-export default function EventoDetailPage({
+export default async function EventoDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold">Evento: {params.slug}</h1>
-      <p className="text-text-secondary mt-2">Próximamente — Fase 3</p>
+    <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-24">
+      <h1 className="font-serif text-4xl text-primary font-light">Evento: {slug}</h1>
+      <p className="text-text-secondary mt-2 font-light">Próximamente — Fase 3</p>
     </div>
   );
 }
