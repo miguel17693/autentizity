@@ -57,8 +57,8 @@
   --color-text-inverse: #ffffff;
 
   /* --- Tipografía --- */
-  --font-sans: "Source Sans Pro", "Chulapa", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Chulapa", "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Chulapa", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Espaciado personalizado --- */
   --spacing-section: 5rem;

@@ -22,11 +22,11 @@
 
 | Uso | Fuente | Notas |
 |-----|--------|-------|
-| **Títulos / Headings** | P22 Mackinac | Fuente serif con personalidad — verificar licencia web |
-| **Cuerpo / Párrafos** | Source Sans Pro Semibold | Google Fonts, disponible gratis |
-| **Complementaria** | Chulapa (Bold, Regular, Light) | Tipografía del Ayto. de Madrid, CC BY 4.0. Disponible en `/public/fonts/` |
+| **Títulos / Headings** | **Chulapa Bold** | Tipografía del Ayto. de Madrid, CC BY 4.0. En `/public/fonts/` |
+| **Cuerpo / Párrafos** | **Source Sans 3** (antes Source Sans Pro) | Google Fonts, gratuita |
+| **Complementaria** | Chulapa Regular / Light | Para subtítulos o textos destacados |
 
-> **Nota**: P22 Mackinac es una fuente de pago. Hay que verificar si se tiene licencia web. Si no, Chulapa podría ser alternativa para headings.
+> **Decisión**: P22 Mackinac descartada por falta de licencia web (~$200-300). Chulapa es la alternativa elegida para headings.
 
 ## ✅ Logo
 
