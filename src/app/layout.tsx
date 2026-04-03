@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AuthentiZity",
-  description: "Portal comunitario de noticias y eventos",
+  title: {
+    default: "AuthentiZity — Aceleradora de Impacto Social",
+    template: "%s | AuthentiZity",
+  },
+  description:
+    "Aceleradora de Impacto Social que acompaña a empresas, ONG e instituciones a impulsar una cultura corporativa basada en la autenticidad y el compromiso social.",
 };
 
 export default function RootLayout({
@@ -22,9 +28,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col font-sans">
-        {/* TODO: Header component */}
+        <Header />
         <main className="flex-1">{children}</main>
-        {/* TODO: Footer component */}
+        <Footer />
       </body>
     </html>
   );
