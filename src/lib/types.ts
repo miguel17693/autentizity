@@ -32,7 +32,13 @@ export interface Event {
   type: "presencial" | "virtual" | "híbrido";
   tags: string[];
   organizer: string;
-  registrationUrl?: string;
+  /**
+   * URL de registro externa.
+   * - Si type="virtual" → enlace a Zoom
+   * - Si type="presencial" o "híbrido" → enlace a Eventbrite
+   * El botón "Inscríbete" en el detalle del evento redirige aquí.
+   */
+  registrationUrl: string;
   featured: boolean;
   status: "draft" | "published" | "cancelled";
 }

@@ -15,10 +15,24 @@
 ### Qué es la web
 Portal público **sin autenticación de usuarios** que funciona como:
 - **Noticias** (artículos/blog posts sobre impacto social, cultura corporativa, diversidad)
+  - Listado en cuadrícula con previsualización (imagen + título + extracto)
+  - Buscador de noticias
+  - Detalle de noticia con rich text
 - **Eventos** (con sistema de calendario: desayunos, foros, galas, talleres)
-- **Panel de administración** (para gestionar noticias y eventos)
+  - Listado en cuadrícula con previsualización
+  - Buscador de eventos
+  - Filtros por tipo (presencial / virtual / híbrido)
+  - Detalle de evento con botón "Inscríbete" que redirige a:
+    - **Virtual** → enlace Zoom
+    - **Presencial / Híbrido** → enlace Eventbrite
+- **Panel de administración** (para crear/editar/eliminar noticias y eventos)
 
 **No hay login de usuarios públicos.** Solo el panel admin requiere autenticación.
+
+### Redes Sociales
+- **Instagram**: [@authentiZity](https://www.instagram.com/authentizity)
+- **LinkedIn**: [AuthentiZity](https://www.linkedin.com/company/authentizity)
+- ⛔ No hay cuenta de X/Twitter
 
 ### Ecosistema AuthentiZity
 - **Empresas impulsoras** (grandes empresas que se adhieren)
