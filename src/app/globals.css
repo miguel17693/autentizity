@@ -4,36 +4,61 @@
  * ============================================
  * AUTHENTIZITY — Global Styles
  * ============================================
- * Paleta de colores: POR DEFINIR (pendiente input del cliente)
- * Tipografía: POR DEFINIR
- * 
- * De momento usamos una paleta neutra base.
- * Se actualizará cuando el cliente proporcione branding.
+ * Paleta: Verde oscuro + Rosa/granate + Teal
+ * Tipografía: P22 Mackinac (títulos) + Source Sans Pro (cuerpo) + Chulapa (complementaria)
  * ============================================
  */
 
+/* --- Fuente local Chulapa --- */
+@font-face {
+  font-family: "Chulapa";
+  src: url("/fonts/Chulapa-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Chulapa";
+  src: url("/fonts/Chulapa-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Chulapa";
+  src: url("/fonts/Chulapa-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  /* --- Colores base (temporales, se actualizarán con branding) --- */
-  --color-primary: #2563eb;
-  --color-primary-light: #3b82f6;
-  --color-primary-dark: #1d4ed8;
-  --color-secondary: #7c3aed;
-  --color-secondary-light: #8b5cf6;
-  --color-accent: #06b6d4;
+  /* --- Colores de marca AuthentiZity --- */
+  --color-primary: #013F3F;
+  --color-primary-light: #074040;
+  --color-primary-dark: #012d2d;
+
+  --color-secondary: #965458;
+  --color-secondary-light: #D6BEB7;
+
+  --color-accent: #0F9181;
+  --color-accent-light: #079585;
+
+  --color-dark-teal: #305358;
 
   --color-surface: #ffffff;
-  --color-surface-alt: #f8fafc;
+  --color-surface-alt: #F8F8F8;
   --color-surface-dark: #f1f5f9;
   --color-border: #e2e8f0;
 
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
+  --color-text-primary: #013F3F;
+  --color-text-secondary: #305358;
   --color-text-muted: #94a3b8;
   --color-text-inverse: #ffffff;
 
   /* --- Tipografía --- */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Source Sans Pro", "Chulapa", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Chulapa", "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Espaciado personalizado --- */
   --spacing-section: 5rem;

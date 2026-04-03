@@ -7,12 +7,37 @@
 
 ## 📋 Resumen del Proyecto
 
-Página web comunitaria **sin autenticación de usuarios** que funciona como portal de información con:
-- **Noticias** (artículos/blog posts)
-- **Eventos** (con sistema de calendario)
+**AuthentiZity** es una **Aceleradora de Impacto Social** que acompaña a empresas en la consecución de objetivos de impacto social y mejora de cultura de empresa, y ayuda a ONG y asociaciones a hablar un lenguaje corporativo, dentro de un espacio impulsado por instituciones y guiado por valores compartidos.
+
+**Web**: www.autentizity.org
+**Contacto**: miguelgarzon@autentizity.org / comunidad@autentizity.org
+
+### Qué es la web
+Portal público **sin autenticación de usuarios** que funciona como:
+- **Noticias** (artículos/blog posts sobre impacto social, cultura corporativa, diversidad)
+- **Eventos** (con sistema de calendario: desayunos, foros, galas, talleres)
 - **Panel de administración** (para gestionar noticias y eventos)
 
 **No hay login de usuarios públicos.** Solo el panel admin requiere autenticación.
+
+### Ecosistema AuthentiZity
+- **Empresas impulsoras** (grandes empresas que se adhieren)
+- **Entidades colaboradoras** (instituciones, cámaras de comercio, asociaciones)
+- **Media Partners y Social Media Partners**
+- **Embajadores** (~40 profesionales referentes en diversas temáticas)
+- **Ruta AuthentiZity 2026-2027**: programa anual de acciones de impacto social
+- **Ranking 'Authentic Leaders'** (en colaboración con ManpowerGroup)
+- **Diploma 'Empresa/Institución AuthentiZity'**
+
+### Temáticas principales
+- Salud mental y prevención del suicidio
+- Diversidad (género, orientación sexual, intergeneracional, cultural, discapacidad, neurodiversidad)
+- Feminismo en el ámbito corporativo
+- Bienestar y liderazgo auténtico
+- IA y humanismo (IAuthenticity)
+- No discriminación VIH
+- Pensamiento creativo y soft skills
+- Diplomacia corporativa y derechos humanos
 
 ---
 
@@ -195,12 +220,15 @@ interface Event {
 
 | Decisión | Opciones | Estado |
 |----------|----------|--------|
-| Paleta de colores | Pendiente input del cliente | ⏳ Esperando |
-| Tipografía | Inter / Manrope / Custom | ⏳ Esperando |
+| Paleta de colores | Verde oscuro #013F3F + rosa/granate #965458 + teal #0F9181 | ✅ Extraída del branding |
+| Tipografía títulos | P22 Mackinac (verificar licencia web) | ✅ Definida |
+| Tipografía cuerpo | Source Sans Pro Semibold (Google Fonts) | ✅ Definida |
+| Tipografía complementaria | Chulapa (CC BY 4.0, en /public/fonts/) | ✅ Disponible |
+| Logo | /public/images/logo.png + logo-full.png | ✅ Disponible |
 | Backend/CMS | Supabase / Payload CMS / MDX estático | ⏳ Por decidir |
 | Hosting | Vercel / Netlify / otro | ⏳ Por decidir |
 | Nombre del proyecto | AuthentiZity | ✅ Decidido |
-| Idioma del contenido | Español / Bilingüe | ⏳ Por decidir |
+| Idioma del contenido | Español (principal) — posible bilingüe en futuro | ✅ Español |
 
 ---
 

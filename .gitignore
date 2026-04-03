@@ -35,6 +35,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# inbox temporal (carpeta de input para la IA)
+/inbox/*
+!/inbox/README.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
