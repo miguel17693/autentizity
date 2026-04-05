@@ -60,8 +60,8 @@ export default function RankingPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-primary py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
+      <section className="bg-primary py-14 sm:py-20 lg:py-28">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="w-8 h-[1px] bg-accent" />
             <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
@@ -83,8 +83,8 @@ export default function RankingPage() {
       </section>
 
       {/* Introduction */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <section className="py-12 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <ScrollReveal>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
@@ -108,8 +108,8 @@ export default function RankingPage() {
       </section>
 
       {/* Categories */}
-      <section className="py-16 lg:py-24 bg-surface-alt">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
             <div className="flex items-center gap-4 mb-4 justify-center">
               <div className="brand-line" />
@@ -123,7 +123,7 @@ export default function RankingPage() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mt-10 sm:mt-12">
             {categories.map((cat, i) => (
               <ScrollReveal key={cat.title} delay={i * 0.1}>
                 <div className="bg-white p-8 h-full group hover:shadow-lg hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500">
@@ -144,17 +144,17 @@ export default function RankingPage() {
       </section>
 
       {/* Timeline / Process */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <section className="py-12 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
-            <div className="text-center mb-12">
+            <div className="text-center mb-10 sm:mb-12">
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
                 Proceso de Selección
               </h2>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {timeline.map((item, i) => (
               <ScrollReveal key={item.step} delay={i * 0.12}>
                 <div className="relative">
@@ -178,8 +178,8 @@ export default function RankingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 lg:py-24 bg-surface-warm">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+      <section className="py-12 sm:py-16 lg:py-24 bg-surface-warm">
+        <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
           <ScrollReveal>
             <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
               ¿Quieres participar?

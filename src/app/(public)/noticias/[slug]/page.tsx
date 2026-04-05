@@ -32,7 +32,7 @@ export default async function NoticiaDetailPage({
   return (
     <>
       {/* Hero with cover image */}
-      <section className="relative h-[50vh] min-h-[360px] flex items-end">
+      <section className="relative h-[40vh] sm:h-[50vh] min-h-[280px] sm:min-h-[360px] flex items-end">
         <Image
           src={noticia.coverImage}
           alt={noticia.title}
@@ -41,7 +41,7 @@ export default async function NoticiaDetailPage({
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="relative max-w-[1400px] w-full mx-auto px-6 lg:px-12 pb-12">
+        <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
           <div className="flex gap-3 mb-4">
             {noticia.tags.map((tag) => (
               <span
@@ -52,7 +52,7 @@ export default async function NoticiaDetailPage({
               </span>
             ))}
           </div>
-          <h1 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
             {noticia.title}
           </h1>
           <div className="mt-4 flex items-center gap-4 text-white/50 text-sm font-light">
@@ -64,8 +64,8 @@ export default async function NoticiaDetailPage({
       </section>
 
       {/* Content */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[800px] mx-auto px-6 lg:px-12">
+      <section className="py-10 sm:py-16 lg:py-24">
+        <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
           <p className="text-text-body text-lg leading-relaxed font-light">
             {noticia.excerpt}
           </p>

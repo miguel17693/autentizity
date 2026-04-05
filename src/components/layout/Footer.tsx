@@ -11,9 +11,9 @@ const links = [
 export default function Footer() {
   return (
     <footer className="bg-[#012D2D] text-white">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10">
-        {/* Single row: Logo — Nav — Social — Contact */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 py-8 sm:py-10">
+        {/* Single row on desktop, stacked on mobile */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
           {/* Logo + tagline */}
           <div className="flex items-center gap-4">
             <Image
@@ -21,7 +21,7 @@ export default function Footer() {
               alt="AutentiZity"
               width={160}
               height={48}
-              className="h-8 w-auto brightness-0 invert"
+              className="h-7 sm:h-8 w-auto brightness-0 invert"
             />
             <span className="hidden sm:block text-white/20 text-xs font-light">
               Aceleradora de Impacto Social
@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
 
           {/* Nav */}
-          <nav className="flex flex-wrap gap-x-8 gap-y-2">
+          <nav className="flex flex-wrap gap-x-6 sm:gap-x-8 gap-y-2">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -42,7 +42,7 @@ export default function Footer() {
           </nav>
 
           {/* Social + contact */}
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <a
               href="mailto:comunidad@autentizity.org"
               className="text-white/40 hover:text-white text-xs font-light transition-colors"
@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom line */}
-        <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <p className="text-white/15 text-[11px] font-light">
             © {new Date().getFullYear()} AutentiZity. Todos los derechos reservados.
           </p>

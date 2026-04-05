@@ -24,8 +24,8 @@ export default async function NoticiasPage() {
   return (
     <>
       {/* Hero banner */}
-      <section className="bg-primary py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
+      <section className="bg-primary py-14 sm:py-20 lg:py-28">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="w-8 h-[1px] bg-accent" />
             <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
@@ -43,14 +43,14 @@ export default async function NoticiasPage() {
       </section>
 
       {/* Listing */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <section className="py-10 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           {published.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
               No hay noticias publicadas todavía.
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
               {published.map((item) => (
                 <Link
                   key={item.id}

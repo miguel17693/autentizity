@@ -22,6 +22,16 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -94,25 +104,37 @@ export default function Header() {
 
       {/* Mobile menu */}
       <div
-        className={`lg:hidden fixed inset-x-0 top-[81px] bottom-0 bg-white/98 backdrop-blur-sm z-40 overflow-y-auto transition-all duration-400 ${
+        className={`lg:hidden fixed inset-x-0 top-[81px] bottom-0 bg-white/[0.98] backdrop-blur-md z-40 overflow-y-auto transition-all duration-300 ${
           mobileOpen
             ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-4 pointer-events-none"
+            : "opacity-0 -translate-y-2 pointer-events-none"
         }`}
       >
-        <nav className="flex flex-col px-6 pt-10 gap-1">
+        <nav className="flex flex-col px-6 pt-8 gap-0">
           {navItems.map((item, i) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="group font-serif text-2xl font-light text-primary py-3 border-b border-border-light hover:text-accent hover:pl-2 transition-all duration-200"
-              style={{ transitionDelay: `${i * 40}ms` }}
+              className={`group font-serif text-[1.35rem] font-light text-primary py-4 border-b border-border-light hover:text-accent hover:pl-2 transition-all duration-200 ${
+                mobileOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
+              }`}
+              style={{ transitionDelay: mobileOpen ? `${i * 60 + 80}ms` : "0ms" }}
             >
               {item.label}
             </Link>
           ))}
         </nav>
+
+        {/* Mobile menu footer */}
+        <div className="px-6 mt-8">
+          <a
+            href="mailto:comunidad@autentizity.org"
+            className="text-text-secondary text-sm font-light"
+          >
+            comunidad@autentizity.org
+          </a>
+        </div>
       </div>
     </header>
   );

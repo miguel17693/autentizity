@@ -45,7 +45,7 @@ export default async function EventoDetailPage({
   return (
     <>
       {/* Hero with cover image */}
-      <section className="relative h-[50vh] min-h-[360px] flex items-end">
+      <section className="relative h-[40vh] sm:h-[50vh] min-h-[280px] sm:min-h-[360px] flex items-end">
         <Image
           src={evento.coverImage}
           alt={evento.title}
@@ -54,7 +54,7 @@ export default async function EventoDetailPage({
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="relative max-w-[1400px] w-full mx-auto px-6 lg:px-12 pb-12">
+        <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
           <div className="flex gap-3 mb-4">
             <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-accent/90 backdrop-blur-sm px-3 py-1.5">
               {evento.type}
@@ -65,18 +65,18 @@ export default async function EventoDetailPage({
               </span>
             )}
           </div>
-          <h1 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
             {evento.title}
           </h1>
         </div>
       </section>
 
       {/* Content */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+      <section className="py-10 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16">
             {/* Main content */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 order-2 lg:order-1">
               <p className="text-text-body text-lg leading-relaxed font-light">
                 {evento.description}
               </p>
@@ -124,8 +124,8 @@ export default async function EventoDetailPage({
             </div>
 
             {/* Sidebar — event details */}
-            <aside className="lg:col-span-1">
-              <div className="sticky top-28 bg-surface-alt p-8 space-y-6">
+            <aside className="lg:col-span-1 order-1 lg:order-2">
+              <div className="lg:sticky lg:top-28 bg-surface-alt p-6 sm:p-8 space-y-5 sm:space-y-6">
                 <h3 className="font-serif text-lg text-primary font-normal uppercase tracking-[0.04em]">
                   Detalles
                 </h3>

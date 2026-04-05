@@ -27,7 +27,7 @@ async function getNews() {
 /* ============== HERO ============== */
 function Hero() {
   return (
-    <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center bg-primary overflow-hidden">
+    <section className="relative min-h-[calc(100dvh-81px)] lg:min-h-[calc(100dvh-97px)] flex items-center justify-center bg-primary overflow-hidden">
       {/* Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-primary" />
 
@@ -38,9 +38,9 @@ function Hero() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-white rounded-full" />
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-20 w-full text-center">
+      <div className="relative max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 py-12 sm:py-20 w-full text-center">
         {/* Overline */}
-        <div className="flex items-center justify-center gap-4 mb-6">
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-5 sm:mb-6">
           <div className="w-8 h-[1px] bg-accent" />
           <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
             Aceleradora de Impacto Social
@@ -56,16 +56,16 @@ function Hero() {
         </h1>
 
         {/* Subtext */}
-        <p className="mt-6 text-white/55 text-lg leading-relaxed max-w-2xl mx-auto font-light">
+        <p className="mt-4 sm:mt-6 text-white/55 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
           Conectamos empresas, instituciones y sociedad civil para impulsar
           entornos de trabajo donde las personas pueden ser quienes realmente son.
         </p>
 
         {/* CTAs */}
-        <div className="mt-10 flex flex-wrap gap-4 justify-center">
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <Link
             href="/eventos"
-            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+            className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
           >
             Próximos eventos
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@ function Hero() {
           </Link>
           <Link
             href="/about"
-            className="inline-flex items-center gap-3 px-8 py-3.5 text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
+            className="inline-flex items-center justify-center gap-3 px-8 py-3.5 text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
           >
             Descubre el ecosistema
           </Link>
@@ -92,9 +92,9 @@ function Hero() {
 /* ============== INTRODUCTION ============== */
 function Introduction() {
   return (
-    <section className="py-16 lg:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+    <section className="py-12 sm:py-16 lg:py-24">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           {/* Text */}
           <ScrollReveal direction="left">
             <div className="flex items-center gap-4 mb-5">
@@ -121,7 +121,7 @@ function Introduction() {
 
           {/* Pillars grid */}
           <ScrollReveal direction="right" delay={0.15}>
-            <div className="grid grid-cols-2 gap-[1px] bg-border">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[1px] bg-border">
               {[
                 { title: "Autenticidad", desc: "Espacios donde las personas y empresas pueden ser fieles a sus valores" },
                 { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones y ONG" },
@@ -130,7 +130,7 @@ function Introduction() {
               ].map((pillar) => (
                 <div
                   key={pillar.title}
-                  className="bg-surface p-6 lg:p-8 group hover:bg-surface-alt transition-colors duration-300"
+                  className="bg-surface p-5 sm:p-6 lg:p-8 group hover:bg-surface-alt transition-colors duration-300"
                 >
                   <h3 className="font-serif text-lg text-primary font-normal mb-2 group-hover:text-accent transition-colors">
                     {pillar.title}
@@ -153,8 +153,8 @@ function Events({ events }: { events: any[] }) {
   const featured = events.filter((e: any) => e.featured);
 
   return (
-    <section className="py-16 lg:py-24 bg-surface-alt">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+    <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
         {/* Header */}
         <ScrollReveal>
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-4 mb-10">
@@ -236,11 +236,11 @@ function Events({ events }: { events: any[] }) {
 /* ============== NEWS ============== */
 function News({ news }: { news: any[] }) {
   return (
-    <section className="py-16 lg:py-24">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+    <section className="py-12 sm:py-16 lg:py-24">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
         {/* Header */}
         <ScrollReveal>
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-4 mb-10">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-4 mb-8 sm:mb-10">
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="brand-line" />
@@ -265,14 +265,14 @@ function News({ news }: { news: any[] }) {
         </ScrollReveal>
 
         {/* News grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-fr">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 auto-rows-fr">
           {news.map((item: any, i: number) => (
             <ScrollReveal key={item.id} delay={i * 0.1} className={i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}>
               <Link
                 href={`/noticias/${item.slug}`}
                 className="group block h-full"
               >
-                <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[18rem]" : "min-h-[14rem]"}`}>
+                <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[14rem] sm:min-h-[18rem]" : "min-h-[12rem] sm:min-h-[14rem]"}`}>
                   <Image
                     src={item.coverImage}
                     alt={item.title}
@@ -321,16 +321,16 @@ function Stats() {
   ];
 
   return (
-    <section className="py-14 lg:py-20 bg-surface-warm">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+    <section className="py-10 sm:py-14 lg:py-20 bg-surface-warm">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
           {stats.map((stat, i) => (
             <div key={stat.label} className="relative text-center">
               <CountUp
                 end={stat.number}
                 suffix={stat.suffix}
                 duration={2.2}
-                className="font-serif text-4xl lg:text-5xl text-primary font-light tracking-[-0.02em]"
+                className="font-serif text-3xl sm:text-4xl lg:text-5xl text-primary font-light tracking-[-0.02em]"
               />
               <div className="mt-1 text-text-secondary text-xs font-light">
                 {stat.label}
@@ -349,7 +349,7 @@ function Stats() {
 /* ============== CTA ============== */
 function CTA() {
   return (
-    <section className="relative py-20 lg:py-28 bg-primary overflow-hidden">
+    <section className="relative py-14 sm:py-20 lg:py-28 bg-primary overflow-hidden">
       <div className="absolute inset-0 overflow-hidden opacity-[0.03]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white rounded-full" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white rounded-full" />
