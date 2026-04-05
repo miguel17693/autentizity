@@ -4,8 +4,8 @@ import Image from "next/image";
 const links = [
   { label: "Noticias", href: "/noticias" },
   { label: "Eventos", href: "/eventos" },
+  { label: "Ranking", href: "/ranking" },
   { label: "Sobre Nosotros", href: "/about" },
-  { label: "Ranking", href: "/about#ranking" },
 ];
 
 export default function Footer() {
@@ -18,7 +18,7 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <Image
               src="/images/logo-transparent.png"
-              alt="AuthentiZity"
+              alt="AutentiZity"
               width={160}
               height={48}
               className="h-8 w-auto brightness-0 invert"
@@ -51,7 +51,7 @@ export default function Footer() {
             </a>
             <div className="flex items-center gap-4">
               <a
-                href="https://www.linkedin.com/company/authentizity"
+                href="https://www.linkedin.com/company/autentizity"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -62,7 +62,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/authentizity"
+                href="https://www.instagram.com/autentizity"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -79,7 +79,7 @@ export default function Footer() {
         {/* Bottom line */}
         <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-white/15 text-[11px] font-light">
-            © {new Date().getFullYear()} AuthentiZity. Todos los derechos reservados.
+            © {new Date().getFullYear()} AutentiZity. Todos los derechos reservados.
           </p>
           <div className="flex gap-6 text-[11px] text-white/15 font-light">
             <Link href="/privacy" className="hover:text-white/40 transition-colors">Privacidad</Link>

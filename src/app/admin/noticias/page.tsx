@@ -9,7 +9,7 @@ const emptyNoticia: Partial<News> = {
   content: "",
   coverImage: "",
   tags: [],
-  author: "AuthentiZity",
+  author: "AutentiZity",
   featured: false,
   status: "draft",
 };

@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     location: body.location ?? "",
     type: body.type ?? "presencial",
     tags: body.tags ?? [],
-    organizer: body.organizer ?? "AuthentiZity",
+    organizer: body.organizer ?? "AutentiZity",
     registrationUrl: body.registrationUrl ?? "",
     featured: body.featured ?? false,
     status: body.status ?? "draft",

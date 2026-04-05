@@ -1,4 +1,4 @@
-# 🤖 AI CONTEXT — AuthentiZity
+# 🤖 AI CONTEXT — AutentiZity
 
 > **Este archivo es el punto de entrada para la IA.** Léelo siempre antes de trabajar en el proyecto.
 > Última actualización: 3 de abril de 2026
@@ -7,7 +7,7 @@
 
 ## 📋 Resumen del Proyecto
 
-**AuthentiZity** es una **Aceleradora de Impacto Social** que acompaña a empresas en la consecución de objetivos de impacto social y mejora de cultura de empresa, y ayuda a ONG y asociaciones a hablar un lenguaje corporativo, dentro de un espacio impulsado por instituciones y guiado por valores compartidos.
+**AutentiZity** es una **Aceleradora de Impacto Social** que acompaña a empresas en la consecución de objetivos de impacto social y mejora de cultura de empresa, y ayuda a ONG y asociaciones a hablar un lenguaje corporativo, dentro de un espacio impulsado por instituciones y guiado por valores compartidos.
 
 **Web**: www.autentizity.org
 **Contacto**: miguelgarzon@autentizity.org / comunidad@autentizity.org
@@ -30,18 +30,18 @@ Portal público **sin autenticación de usuarios** que funciona como:
 **No hay login de usuarios públicos.** Solo el panel admin requiere autenticación.
 
 ### Redes Sociales
-- **Instagram**: [@authentiZity](https://www.instagram.com/authentizity)
-- **LinkedIn**: [AuthentiZity](https://www.linkedin.com/company/authentizity)
+- **Instagram**: [@authentiZity](https://www.instagram.com/autentizity)
+- **LinkedIn**: [AutentiZity](https://www.linkedin.com/company/autentizity)
 - ⛔ No hay cuenta de X/Twitter
 
-### Ecosistema AuthentiZity
+### Ecosistema AutentiZity
 - **Empresas impulsoras** (grandes empresas que se adhieren)
 - **Entidades colaboradoras** (instituciones, cámaras de comercio, asociaciones)
 - **Media Partners y Social Media Partners**
 - **Embajadores** (~40 profesionales referentes en diversas temáticas)
-- **Ruta AuthentiZity 2026-2027**: programa anual de acciones de impacto social
+- **Ruta AutentiZity 2026-2027**: programa anual de acciones de impacto social
 - **Ranking 'Authentic Leaders'** (en colaboración con ManpowerGroup)
-- **Diploma 'Empresa/Institución AuthentiZity'**
+- **Diploma 'Empresa/Institución AutentiZity'**
 
 ### Temáticas principales
 - Salud mental y prevención del suicidio
@@ -89,7 +89,7 @@ Portal público **sin autenticación de usuarios** que funciona como:
 ### Estructura de Carpetas
 
 ```
-AuthentiZity/
+AutentiZity/
 ├── AI_CONTEXT.md              # ← ESTE ARCHIVO (léelo siempre)
 ├── design/                    # Recursos de diseño (imágenes, mockups, assets del cliente)
 │   ├── references/            # Screenshots y referencias visuales
@@ -241,7 +241,7 @@ interface Event {
 | Logo | /public/images/logo.png + logo-full.png | ✅ Disponible |
 | Backend/CMS | Supabase / Payload CMS / MDX estático | ⏳ Por decidir |
 | Hosting | Vercel / Netlify / otro | ⏳ Por decidir |
-| Nombre del proyecto | AuthentiZity | ✅ Decidido |
+| Nombre del proyecto | AutentiZity | ✅ Decidido |
 | Idioma del contenido | Español (principal) — posible bilingüe en futuro | ✅ Español |
 
 ---

@@ -53,7 +53,7 @@ function LoginForm() {
         <div className="flex justify-center mb-10">
           <Image
             src="/images/logo-transparent.png"
-            alt="AuthentiZity"
+            alt="AutentiZity"
             width={180}
             height={54}
             className="h-10 w-auto brightness-0 invert"
@@ -127,7 +127,7 @@ function LoginForm() {
         </div>
 
         <p className="mt-6 text-center text-white/20 text-xs font-light">
-          © {new Date().getFullYear()} AuthentiZity
+          © {new Date().getFullYear()} AutentiZity
         </p>
       </div>
     </div>

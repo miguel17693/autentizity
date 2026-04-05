@@ -8,6 +8,7 @@ const navItems = [
   { label: "Inicio", href: "/" },
   { label: "Noticias", href: "/noticias" },
   { label: "Eventos", href: "/eventos" },
+  { label: "Ranking", href: "/ranking" },
   { label: "Sobre Nosotros", href: "/about" },
 ];
 
@@ -30,14 +31,14 @@ export default function Header() {
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-16 lg:h-[72px]">
+        <div className="flex items-center justify-between h-20 lg:h-24">
           {/* Logo — fills the full header height */}
           <Link href="/" className="shrink-0 flex items-center h-full py-2">
             <Image
               src="/images/logo-transparent.png"
-              alt="AuthentiZity"
-              width={220}
-              height={66}
+              alt="AutentiZity"
+              width={280}
+              height={84}
               className="h-full w-auto object-contain"
               priority
             />
@@ -93,7 +94,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       <div
-        className={`lg:hidden fixed inset-x-0 top-[65px] bottom-0 bg-white/98 backdrop-blur-sm z-40 overflow-y-auto transition-all duration-400 ${
+        className={`lg:hidden fixed inset-x-0 top-[81px] bottom-0 bg-white/98 backdrop-blur-sm z-40 overflow-y-auto transition-all duration-400 ${
           mobileOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-4 pointer-events-none"

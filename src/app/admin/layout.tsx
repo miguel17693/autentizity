@@ -61,7 +61,7 @@ export default function AdminLayout({
         <div className="px-5 py-5 border-b border-border">
           <Image
             src="/images/logo-transparent.png"
-            alt="AuthentiZity"
+            alt="AutentiZity"
             width={140}
             height={42}
             className="h-7 w-auto"

@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "AuthentiZity — Aceleradora de Impacto Social",
-    template: "%s | AuthentiZity",
+    default: "AutentiZity — Aceleradora de Impacto Social",
+    template: "%s | AutentiZity",
   },
   description:
     "Aceleradora de Impacto Social que acompaña a empresas, ONG e instituciones a impulsar una cultura corporativa basada en la autenticidad y el compromiso social.",

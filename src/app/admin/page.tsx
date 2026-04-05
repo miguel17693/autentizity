@@ -21,7 +21,7 @@ export default function AdminDashboard() {
         Dashboard
       </h1>
       <p className="mt-2 text-text-secondary text-sm font-light">
-        Bienvenido al panel de administración de AuthentiZity.
+        Bienvenido al panel de administración de AutentiZity.
       </p>
 
       {/* Stats cards */}

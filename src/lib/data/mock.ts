@@ -3,7 +3,7 @@ import type { News, Event } from "@/lib/types";
 /* ============================================
  * Mock data para desarrollo
  * Se reemplazará por datos reales del CMS/backend
- * Basado en contenido real del PPTX de AuthentiZity
+ * Basado en contenido real del PPTX de AutentiZity
  * ============================================ */
 
 export const mockEvents: Event[] = [
@@ -20,17 +20,17 @@ export const mockEvents: Event[] = [
     location: "Madrid",
     type: "presencial",
     tags: ["Bullying", "Sensibilización", "Educación"],
-    organizer: "AuthentiZity",
+    organizer: "AutentiZity",
     registrationUrl: "https://www.eventbrite.es/e/nuestro-legado",
     featured: true,
     status: "published",
   },
   {
     id: "2",
-    slug: "puesta-de-largo-authentizity",
-    title: "Puesta de Largo AuthentiZity",
+    slug: "puesta-de-largo-autentizity",
+    title: "Puesta de Largo AutentiZity",
     description:
-      "Presentación oficial de la primera Aceleradora de Impacto Social en España. Conoce la Ruta AuthentiZity 2026–2027.",
+      "Presentación oficial de la primera Aceleradora de Impacto Social en España. Conoce la Ruta AutentiZity 2026–2027.",
     content: "",
     coverImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=640&q=80",
     startDate: "2026-06-20T18:00:00",
@@ -38,8 +38,8 @@ export const mockEvents: Event[] = [
     location: "Serrería Belga, Madrid",
     type: "presencial",
     tags: ["Lanzamiento", "Networking", "Impacto Social"],
-    organizer: "AuthentiZity",
-    registrationUrl: "https://www.eventbrite.es/e/puesta-de-largo-authentizity",
+    organizer: "AutentiZity",
+    registrationUrl: "https://www.eventbrite.es/e/puesta-de-largo-autentizity",
     featured: true,
     status: "published",
   },
@@ -56,7 +56,7 @@ export const mockEvents: Event[] = [
     location: "Online + Madrid",
     type: "híbrido",
     tags: ["IA", "Ética", "Humanismo", "Tech"],
-    organizer: "AuthentiZity",
+    organizer: "AutentiZity",
     registrationUrl: "https://zoom.us/j/foro-iauthenticity",
     featured: false,
     status: "published",
@@ -74,7 +74,7 @@ export const mockEvents: Event[] = [
     location: "Madrid",
     type: "presencial",
     tags: ["VIH", "No discriminación", "Salud"],
-    organizer: "AuthentiZity",
+    organizer: "AutentiZity",
     registrationUrl: "https://www.eventbrite.es/e/esta-historia-va-contigo",
     featured: false,
     status: "published",
@@ -84,14 +84,14 @@ export const mockEvents: Event[] = [
 export const mockNews: News[] = [
   {
     id: "1",
-    slug: "lanzamiento-ruta-authentizity-2026",
-    title: "Se presenta la Ruta AuthentiZity 2026–2027",
+    slug: "lanzamiento-ruta-autentizity-2026",
+    title: "Se presenta la Ruta AutentiZity 2026–2027",
     excerpt:
       "La primera Aceleradora de Impacto Social en España anuncia su programa de actividades con más de 12 líneas de actuación orientadas a transformar la cultura empresarial.",
     content: "",
     coverImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=640&q=80",
-    tags: ["AuthentiZity", "Impacto Social", "Lanzamiento"],
-    author: "AuthentiZity",
+    tags: ["AutentiZity", "Impacto Social", "Lanzamiento"],
+    author: "AutentiZity",
     publishedAt: "2026-04-01T10:00:00",
     updatedAt: "2026-04-01T10:00:00",
     featured: true,
@@ -106,7 +106,7 @@ export const mockNews: News[] = [
     content: "",
     coverImage: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=640&q=80",
     tags: ["Ranking", "Liderazgo", "ManpowerGroup"],
-    author: "AuthentiZity",
+    author: "AutentiZity",
     publishedAt: "2026-03-28T09:00:00",
     updatedAt: "2026-03-28T09:00:00",
     featured: true,
@@ -121,7 +121,7 @@ export const mockNews: News[] = [
     content: "",
     coverImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=640&q=80",
     tags: ["Formación", "Soft Skills", "Creatividad"],
-    author: "AuthentiZity",
+    author: "AutentiZity",
     publishedAt: "2026-03-20T12:00:00",
     updatedAt: "2026-03-20T12:00:00",
     featured: false,

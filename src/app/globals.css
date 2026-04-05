@@ -2,7 +2,7 @@
 
 /*
  * ============================================
- * AUTHENTIZITY — Design System
+ * AUTENTIZITY — Design System
  * ============================================
  * Tipografía de marca: RoxboroughCF (serif) + Poppins (sans)
  * Fallback local: Chulapa (serif) + Poppins (sans)
@@ -113,6 +113,14 @@ html {
   width: 48px;
   height: 2px;
   background: var(--color-accent);
+}
+
+/* Scroll‑snap para secciones de la home */
+.snap-container {
+  scroll-snap-type: y proximity;
+}
+.snap-container > section {
+  scroll-snap-align: start;
 }
 
 /* Transición suave para links */

@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     content: body.content ?? "",
     coverImage: body.coverImage ?? "",
     tags: body.tags ?? [],
-    author: body.author ?? "AuthentiZity",
+    author: body.author ?? "AutentiZity",
     publishedAt: body.publishedAt ?? now,
     updatedAt: now,
     featured: body.featured ?? false,

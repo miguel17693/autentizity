@@ -13,7 +13,7 @@ const emptyEvento: Partial<Event> = {
   location: "",
   type: "presencial",
   tags: [],
-  organizer: "AuthentiZity",
+  organizer: "AutentiZity",
   registrationUrl: "",
   featured: false,
   status: "draft",

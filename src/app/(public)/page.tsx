@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import CountUp from "@/components/ui/CountUp";
 import { formatDate } from "@/lib/utils";
 
 /* ============================================
- * HOME — AuthentiZity
+ * HOME — AutentiZity
  * Editorial premium · Scroll animations
  * ============================================ */
 
@@ -48,7 +49,7 @@ function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto">
+        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto uppercase">
           Donde la autenticidad{" "}
           <em className="font-normal text-secondary-light">transforma</em>{" "}
           la cultura empresarial
@@ -102,12 +103,12 @@ function Introduction() {
                 El ecosistema
               </span>
             </div>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] tracking-[-0.01em]">
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] tracking-[-0.01em] uppercase">
               Un espacio único de{" "}
               <em className="font-normal">valores compartidos</em>
             </h2>
             <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
-              AuthentiZity es el punto de encuentro entre los valores de la
+              AutentiZity es el punto de encuentro entre los valores de la
               sociedad y la cultura de las empresas. Impulsa una cultura
               empresarial basada en lo que nos une: aquello que nos identifica,
               nos hace únicos y nos posiciona en el mundo.
@@ -125,7 +126,7 @@ function Introduction() {
                 { title: "Autenticidad", desc: "Espacios donde las personas y empresas pueden ser fieles a sus valores" },
                 { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones y ONG" },
                 { title: "Cultura", desc: "Transformar la cultura corporativa hacia el bienestar y la diversidad" },
-                { title: "Reconocimiento", desc: "Ranking Authentic Leaders y Diploma Empresa AuthentiZity" },
+                { title: "Reconocimiento", desc: "Ranking Authentic Leaders y Diploma Empresa AutentiZity" },
               ].map((pillar) => (
                 <div
                   key={pillar.title}
@@ -164,7 +165,7 @@ function Events({ events }: { events: any[] }) {
                   Agenda
                 </span>
               </div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
                 Próximos eventos
               </h2>
             </div>
@@ -247,7 +248,7 @@ function News({ news }: { news: any[] }) {
                   Actualidad
                 </span>
               </div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
                 Últimas noticias
               </h2>
             </div>
@@ -313,32 +314,33 @@ function News({ news }: { news: any[] }) {
 /* ============== STATS ============== */
 function Stats() {
   const stats = [
-    { number: "40+", label: "Embajadores del ecosistema" },
-    { number: "12", label: "Líneas de actuación" },
-    { number: "10+", label: "Empresas impulsoras" },
-    { number: "2026", label: "Año de lanzamiento" },
+    { number: 40, suffix: "+", label: "Embajadores del ecosistema" },
+    { number: 12, suffix: "", label: "Líneas de actuación" },
+    { number: 10, suffix: "+", label: "Empresas impulsoras" },
+    { number: 2026, suffix: "", label: "Año de lanzamiento" },
   ];
 
   return (
     <section className="py-14 lg:py-20 bg-surface-warm">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <ScrollReveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-            {stats.map((stat, i) => (
-              <div key={stat.label} className="relative text-center">
-                <div className="font-serif text-4xl lg:text-5xl text-primary font-light tracking-[-0.02em]">
-                  {stat.number}
-                </div>
-                <div className="mt-1 text-text-secondary text-xs font-light">
-                  {stat.label}
-                </div>
-                {i < stats.length - 1 && (
-                  <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-border" />
-                )}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+          {stats.map((stat, i) => (
+            <div key={stat.label} className="relative text-center">
+              <CountUp
+                end={stat.number}
+                suffix={stat.suffix}
+                duration={2.2}
+                className="font-serif text-4xl lg:text-5xl text-primary font-light tracking-[-0.02em]"
+              />
+              <div className="mt-1 text-text-secondary text-xs font-light">
+                {stat.label}
               </div>
-            ))}
-          </div>
-        </ScrollReveal>
+              {i < stats.length - 1 && (
+                <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-border" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -355,12 +357,12 @@ function CTA() {
 
       <div className="relative max-w-3xl mx-auto px-6 text-center">
         <ScrollReveal>
-          <h2 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] text-balance">
+          <h2 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] text-balance uppercase">
             ¿Quieres ser parte del{" "}
             <em className="font-normal text-secondary-light">cambio</em>?
           </h2>
           <p className="mt-5 text-white/45 text-base lg:text-lg leading-relaxed font-light max-w-lg mx-auto">
-            Únete al ecosistema AuthentiZity y lidera la transformación
+            Únete al ecosistema AutentiZity y lidera la transformación
             hacia una cultura corporativa auténtica.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -400,13 +402,13 @@ export default async function HomePage() {
   }
 
   return (
-    <>
+    <div className="snap-container">
       <Hero />
       <Introduction />
       <Events events={events} />
       <News news={news} />
       <Stats />
       <CTA />
-    </>
+    </div>
   );
 }

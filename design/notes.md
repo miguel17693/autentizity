@@ -1,4 +1,4 @@
-# 📝 Notas de Diseño — AuthentiZity
+# 📝 Notas de Diseño — AutentiZity
 
 > Aquí se documentan las decisiones de diseño del proyecto.
 > Última actualización: 3 de abril de 2026
