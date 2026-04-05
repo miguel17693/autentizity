@@ -57,7 +57,7 @@ export default async function EventosPage() {
                   href={`/eventos/${event.slug}`}
                   className="group block bg-white border border-border-light overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
                 >
-                  <div className="relative h-56 lg:h-64 overflow-hidden">
+                  <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     <Image
                       src={event.coverImage}
                       alt={event.title}

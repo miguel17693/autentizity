@@ -57,7 +57,7 @@ export default async function NoticiasPage() {
                   href={`/noticias/${item.slug}`}
                   className="group block bg-white border border-border-light hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
                 >
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-48 sm:h-52 overflow-hidden">
                     <Image
                       src={item.coverImage}
                       alt={item.title}

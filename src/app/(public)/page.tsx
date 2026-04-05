@@ -27,7 +27,7 @@ async function getNews() {
 /* ============== HERO ============== */
 function Hero() {
   return (
-    <section className="relative min-h-[calc(100dvh-81px)] lg:min-h-[calc(100dvh-97px)] flex items-center justify-center bg-primary overflow-hidden">
+    <section className="relative min-h-[calc(100dvh-65px)] sm:min-h-[calc(100dvh-81px)] lg:min-h-[calc(100dvh-97px)] flex items-center justify-center bg-primary overflow-hidden">
       {/* Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-primary" />
 
@@ -189,7 +189,7 @@ function Events({ events }: { events: any[] }) {
                 href={`/eventos/${event.slug}`}
                 className="group block bg-white overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
               >
-                <div className="relative h-52 lg:h-60 overflow-hidden">
+                <div className="relative h-48 sm:h-52 lg:h-60 overflow-hidden">
                   <Image
                     src={event.coverImage}
                     alt={event.title}
@@ -272,7 +272,7 @@ function News({ news }: { news: any[] }) {
                 href={`/noticias/${item.slug}`}
                 className="group block h-full"
               >
-                <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[14rem] sm:min-h-[18rem]" : "min-h-[12rem] sm:min-h-[14rem]"}`}>
+                <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[16rem] sm:min-h-[18rem]" : "min-h-[13rem] sm:min-h-[14rem]"}`}>
                   <Image
                     src={item.coverImage}
                     alt={item.title}

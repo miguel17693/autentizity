@@ -45,7 +45,7 @@ export default async function EventoDetailPage({
   return (
     <>
       {/* Hero with cover image */}
-      <section className="relative h-[40vh] sm:h-[50vh] min-h-[280px] sm:min-h-[360px] flex items-end">
+      <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
           src={evento.coverImage}
           alt={evento.title}
