@@ -180,9 +180,11 @@ function Events({ events }: { events: any[] }) {
             </Link>
           </div>
         </ScrollReveal>
+      </div>
 
-        {/* Events grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Events grid — full-bleed on mobile */}
+      <div className="max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-6">
           {featured.map((event: any, i: number) => (
             <ScrollReveal key={event.id} delay={i * 0.1}>
               <Link
@@ -263,9 +265,11 @@ function News({ news }: { news: any[] }) {
             </Link>
           </div>
         </ScrollReveal>
+      </div>
 
-        {/* News grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 auto-rows-fr">
+        {/* News grid — full-bleed on mobile */}
+      <div className="max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 sm:gap-6 auto-rows-fr">
           {news.map((item: any, i: number) => (
             <ScrollReveal key={item.id} delay={i * 0.1} className={i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}>
               <Link

@@ -50,7 +50,7 @@ export default async function EventosPage() {
               No hay eventos publicados todavía.
             </p>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
               {published.map((event) => (
                 <Link
                   key={event.id}

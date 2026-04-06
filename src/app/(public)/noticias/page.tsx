@@ -50,7 +50,7 @@ export default async function NoticiasPage() {
               No hay noticias publicadas todavía.
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 sm:gap-8 -mx-5 sm:mx-0">
               {published.map((item) => (
                 <Link
                   key={item.id}

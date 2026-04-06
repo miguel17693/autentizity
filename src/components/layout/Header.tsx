@@ -52,15 +52,15 @@ export default function Header() {
         }`}
       >
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-          <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
+          <div className="flex items-center justify-between h-20 sm:h-24 lg:h-28">
             {/* Logo */}
-            <Link href="/" className="shrink-0 flex items-center h-full py-2">
+            <Link href="/" className="shrink-0 flex items-center h-full py-1.5">
               <Image
                 src="/images/logo-transparent.png"
                 alt="AutentiZity"
-                width={280}
-                height={84}
-                className="h-full w-auto object-contain"
+                width={340}
+                height={100}
+                className="h-full w-auto object-contain max-h-16 sm:max-h-20 lg:max-h-24"
                 priority
               />
             </Link>

@@ -100,8 +100,9 @@ html {
 }
 
 /* Utilidades editorial */
-.font-serif {
-  font-family: var(--font-serif);
+.font-serif,
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif) !important;
 }
 
 .text-balance {
@@ -126,4 +127,151 @@ html {
 /* Transición suave para links */
 a {
   transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* ============================================
+ * THEME OVERRIDES — Neo-Brutal
+ * ============================================
+ * Bordes gruesos, sombras offset duras,
+ * sin border-radius, tipografía heavy.
+ * ============================================ */
+.theme-neo-brutal {
+  letter-spacing: -0.01em;
+}
+
+.theme-neo-brutal h1,
+.theme-neo-brutal h2,
+.theme-neo-brutal h3 {
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+.theme-neo-brutal .brand-line {
+  height: 4px;
+  width: 32px;
+  background: var(--color-secondary);
+}
+
+/* Hard shadow cards */
+.theme-neo-brutal a[class*="group block"],
+.theme-neo-brutal [class*="bg-white"] {
+  border: 2px solid var(--color-primary) !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 0 var(--color-primary);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.theme-neo-brutal a[class*="group block"]:hover,
+.theme-neo-brutal [class*="bg-white"]:hover {
+  box-shadow: 6px 6px 0 0 var(--color-secondary) !important;
+  transform: translate(-2px, -2px) !important;
+}
+
+/* Buttons: hard, no radius, bold border */
+.theme-neo-brutal a[class*="bg-accent"],
+.theme-neo-brutal a[class*="border border-white"] {
+  border-radius: 0 !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border: 2px solid currentColor;
+}
+
+/* Footer hard style */
+.theme-neo-brutal footer {
+  background: var(--color-primary) !important;
+  border-top: 3px solid var(--color-secondary);
+}
+
+/* Header strong border */
+.theme-neo-brutal header {
+  border-bottom: 2px solid var(--color-primary) !important;
+}
+
+/* Stats section */
+.theme-neo-brutal [class*="font-serif"][class*="text-4xl"],
+.theme-neo-brutal [class*="font-serif"][class*="text-5xl"] {
+  color: var(--color-secondary);
+}
+
+/* ============================================
+ * THEME OVERRIDES — Organic Warm
+ * ============================================
+ * Todo redondeado, sombras suaves y difusas,
+ * colores tierra y pastel, sensación cálida.
+ * ============================================ */
+.theme-organic-warm {
+  letter-spacing: 0.005em;
+}
+
+.theme-organic-warm h1,
+.theme-organic-warm h2,
+.theme-organic-warm h3 {
+  font-weight: 300 !important;
+  letter-spacing: 0.01em;
+}
+
+.theme-organic-warm .brand-line {
+  width: 40px;
+  height: 3px;
+  background: var(--color-secondary);
+  border-radius: 100px;
+}
+
+/* Soft shadow cards */
+.theme-organic-warm a[class*="group block"] {
+  border-radius: 1rem !important;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: 0 4px 24px -4px rgba(45, 74, 62, 0.08);
+}
+.theme-organic-warm a[class*="group block"]:hover {
+  box-shadow: 0 12px 40px -8px rgba(45, 74, 62, 0.15) !important;
+}
+
+/* Rounded images */
+.theme-organic-warm [class*="overflow-hidden"] img {
+  border-radius: 0.75rem;
+}
+
+/* Buttons: pill-shaped */
+.theme-organic-warm a[class*="bg-accent"] {
+  border-radius: 100px !important;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+.theme-organic-warm a[class*="border border-white"] {
+  border-radius: 100px !important;
+}
+
+/* Warm footer */
+.theme-organic-warm footer {
+  background: var(--color-primary) !important;
+  border-top: none;
+}
+
+/* Softer header */
+.theme-organic-warm header {
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Warmer stats */
+.theme-organic-warm [class*="bg-surface-warm"] {
+  background: var(--color-surface-warm) !important;
+}
+
+/* Gentle transitions */
+.theme-organic-warm * {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+ * Smooth theme transition
+ * ============================================ */
+:root {
+  transition: --color-primary 0.5s ease,
+              --color-secondary 0.5s ease,
+              --color-accent 0.5s ease;
+}
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
