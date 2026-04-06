@@ -15,13 +15,15 @@ export default function Footer() {
         {/* Main row: logo | nav | email + socials — all in one line on desktop */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           {/* Logo */}
-          <Image
-            src="/images/logo-transparent.png"
-            alt="AutentiZity"
-            width={130}
-            height={40}
-            className="h-6 w-auto brightness-0 invert"
-          />
+          <div className="shrink-0">
+            <Image
+              src="/images/logo-transparent.png"
+              alt="AutentiZity"
+              width={130}
+              height={40}
+              className="h-6 w-auto max-w-[110px] object-contain brightness-0 invert"
+            />
+          </div>
 
           {/* Nav — inline */}
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-1">
