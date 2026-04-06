@@ -7,7 +7,7 @@
  * identidades visuales muy diferentes.
  * ============================================ */
 
-export type ThemeId = "editorial" | "kinetic" | "organic-warm";
+export type ThemeId = "editorial" | "galeria" | "organic-warm";
 
 export interface ThemeDefinition {
   id: ThemeId;
@@ -58,45 +58,45 @@ export const themes: ThemeDefinition[] = [
     },
   },
 
-  /* ─── 2. CINÉTICO ───
-   * Tipografía display ultra-grande, formas circulares,
-   * transiciones fluidas y dramáticas, layout con mucho
-   * ritmo visual. Misma paleta verde pero con personalidad
-   * de estudio creativo / galería de arte.
-   * Inspirado en Locomotive, Aristide Benoist, Studio Freight.
+  /* ─── 2. GALERÍA ───
+   * Inspirado en webs de museos y galerías de arte.
+   * Fondo crema cálido, tipografía serif en itálica para
+   * títulos, tarjetas flotantes con sombras suaves,
+   * toques de dorado/bronce como accent.
+   * Mismo verde teal de base pero sofisticado de otra forma.
    */
   {
-    id: "kinetic",
-    name: "Cinético",
-    description: "Tipografía display enorme, formas circulares, movimiento dramático.",
-    emoji: "🌀",
-    bodyClass: "theme-kinetic",
+    id: "galeria",
+    name: "Galería",
+    description: "Museo de arte: crema, serif itálica, flotante y sofisticado.",
+    emoji: "🏛️",
+    bodyClass: "theme-galeria",
     vars: {
       "--color-primary": "#013F3F",
-      "--color-primary-light": "#074040",
+      "--color-primary-light": "#0A4F4F",
       "--color-primary-dark": "#012d2d",
-      "--color-secondary": "#965458",
-      "--color-secondary-light": "#D6BEB7",
-      "--color-secondary-dark": "#7a4245",
-      "--color-accent": "#0F9181",
-      "--color-accent-light": "#079585",
-      "--color-accent-dark": "#0a7568",
-      "--color-dark-teal": "#305358",
-      "--color-surface": "#F0F0EC",
-      "--color-surface-alt": "#E6E6E0",
-      "--color-surface-warm": "#F5F0EB",
-      "--color-surface-dark": "#DDDDD7",
-      "--color-border": "#D0CEC6",
-      "--color-border-light": "#E0DED6",
+      "--color-secondary": "#B08968",
+      "--color-secondary-light": "#D4B896",
+      "--color-secondary-dark": "#8B6914",
+      "--color-accent": "#1A7A6D",
+      "--color-accent-light": "#238F80",
+      "--color-accent-dark": "#126058",
+      "--color-dark-teal": "#2A4A4A",
+      "--color-surface": "#FAF7F2",
+      "--color-surface-alt": "#F3EEE6",
+      "--color-surface-warm": "#FFF8F0",
+      "--color-surface-dark": "#EDE7DD",
+      "--color-border": "#E0D8CC",
+      "--color-border-light": "#EDE8DF",
       "--color-text-primary": "#013F3F",
-      "--color-text-body": "#305358",
-      "--color-text-secondary": "#6B7F84",
-      "--color-text-muted": "#9CAAAE",
-      "--color-text-inverse": "#F0F0EC",
-      "--font-serif": '"Chulapa", "Georgia", "Times New Roman", serif',
+      "--color-text-body": "#3A5050",
+      "--color-text-secondary": "#6B7F7F",
+      "--color-text-muted": "#9CAAAA",
+      "--color-text-inverse": "#FAF7F2",
+      "--font-serif": '"Chulapa", "Georgia", "Palatino Linotype", serif',
       "--font-sans": '"Poppins", ui-sans-serif, system-ui, sans-serif',
-      "--radius-card": "1.5rem",
-      "--radius-button": "100px",
+      "--radius-card": "0.75rem",
+      "--radius-button": "0.375rem",
       "--radius-pill": "100px",
     },
   },

@@ -130,139 +130,100 @@ a {
 }
 
 /* ============================================
- * THEME OVERRIDES — Cinético
+ * THEME OVERRIDES — Galería
  * ============================================
- * Tipografía display ultra-grande, formas circulares,
- * transiciones fluidas y dramáticas. Mismo verde pero
- * con personalidad de estudio creativo / galería.
+ * Fondo crema, títulos en itálica serif elegante,
+ * accent dorado/bronce, cards flotantes con sombras
+ * suaves, sensación de museo de arte contemporáneo.
  * ============================================ */
-.theme-kinetic {
-  letter-spacing: 0;
+
+/* Fondo crema base */
+.theme-galeria {
+  background-color: var(--color-surface) !important;
 }
 
-/* Títulos enormes con tracking muy apretado */
-.theme-kinetic h1 {
-  font-size: clamp(3rem, 8vw, 7rem) !important;
+/* Títulos: itálica elegante, lowercase, ligeros */
+.theme-galeria h1 {
+  font-style: italic !important;
   font-weight: 300 !important;
-  letter-spacing: -0.05em !important;
-  line-height: 0.95 !important;
   text-transform: none !important;
+  letter-spacing: 0 !important;
 }
-.theme-kinetic h2 {
-  font-size: clamp(2rem, 5vw, 4rem) !important;
+.theme-galeria h2 {
+  font-style: italic !important;
   font-weight: 300 !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.0 !important;
   text-transform: none !important;
+  letter-spacing: 0 !important;
 }
-.theme-kinetic h3 {
+.theme-galeria h3 {
   font-weight: 400 !important;
-  letter-spacing: -0.02em !important;
 }
 
-/* Línea decorativa → Círculo decorativo */
-.theme-kinetic .brand-line {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--color-accent);
+/* Emphasis dentro de headings: normal (no itálica doble) */
+.theme-galeria h1 em,
+.theme-galeria h2 em {
+  font-style: normal !important;
+  color: var(--color-secondary) !important;
 }
 
-/* Cards: formas grandes y redondeadas con hover dramático */
-.theme-kinetic a[class*="group block"] {
-  border-radius: 1.5rem !important;
-  overflow: hidden;
-  border: none !important;
-  box-shadow: none;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.theme-kinetic a[class*="group block"]:hover {
-  transform: scale(1.02) !important;
-  box-shadow: 0 24px 60px -12px rgba(1, 63, 63, 0.18) !important;
+/* Línea de marca → trazo fino dorado */
+.theme-galeria .brand-line {
+  width: 40px;
+  height: 1px;
+  background: var(--color-secondary);
 }
 
-/* Imágenes dentro de cards: muy redondeadas */
-.theme-kinetic a[class*="group block"] [class*="overflow-hidden"] {
-  border-radius: 1rem;
+/* Cards: sombra suave elevada, borde fino crema */
+.theme-galeria .group.block,
+.theme-galeria a.group {
+  border-radius: 0.75rem !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: 0 2px 20px -4px rgba(1, 63, 63, 0.06);
+  transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+}
+.theme-galeria .group.block:hover,
+.theme-galeria a.group:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 48px -8px rgba(1, 63, 63, 0.12) !important;
 }
 
-/* Botones: píldora grande con hover que crece */
-.theme-kinetic a[class*="bg-accent"] {
-  border-radius: 100px !important;
-  padding: 1rem 2.5rem !important;
-  font-size: 0.8rem !important;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              background 0.3s ease !important;
-}
-.theme-kinetic a[class*="bg-accent"]:hover {
-  transform: scale(1.06);
-}
-.theme-kinetic a[class*="border border-white"] {
-  border-radius: 100px !important;
-  padding: 1rem 2.5rem !important;
-  font-size: 0.8rem !important;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-.theme-kinetic a[class*="border border-white"]:hover {
-  transform: scale(1.06);
+/* Overlines/labels: usar el dorado */
+.theme-galeria .text-accent {
+  color: var(--color-secondary) !important;
 }
 
-/* Header: completamente transparente, sin línea inferior */
-.theme-kinetic header {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
+/* Botones accent: borde fino redondeado, elegante */
+.theme-galeria .bg-accent {
+  background: var(--color-secondary) !important;
+  border-radius: 0.375rem !important;
 }
-.theme-kinetic header > div:last-child {
-  display: none; /* ocultar la línea inferior */
-}
-
-/* Footer: minimalista con espaciado generoso */
-.theme-kinetic footer {
-  background: var(--color-primary) !important;
+.theme-galeria .bg-accent:hover {
+  background: var(--color-secondary-dark) !important;
 }
 
-/* Stats: tipografía gigante */
-.theme-kinetic [class*="font-serif"][class*="text-4xl"],
-.theme-kinetic [class*="font-serif"][class*="text-5xl"] {
-  font-size: clamp(3rem, 6vw, 5rem) !important;
-  font-weight: 200 !important;
-  letter-spacing: -0.04em;
+/* Botón outline del hero */
+.theme-galeria .border-white\/20 {
+  border-color: rgba(255,255,255,0.3) !important;
+  border-radius: 0.375rem !important;
 }
 
-/* Pilares grid: bordes redondeados generosos */
-.theme-kinetic [class*="bg-surface"][class*="p-5"],
-.theme-kinetic [class*="bg-surface"][class*="p-6"],
-.theme-kinetic [class*="bg-surface"][class*="p-8"] {
-  border-radius: 1.25rem;
+/* Footer: verde profundo con toque cálido */
+.theme-galeria footer {
+  background: #012D2D !important;
 }
 
-/* Etiquetas / badges: píldora */
-.theme-kinetic [class*="bg-accent/90"],
-.theme-kinetic [class*="bg-secondary/80"],
-.theme-kinetic [class*="bg-accent/80"] {
-  border-radius: 100px !important;
+/* Header: fondo crema translúcido */
+.theme-galeria header {
+  background: rgba(250, 247, 242, 0.92) !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
 }
 
-/* Suavizado global de transiciones — todo se mueve con ease */
-.theme-kinetic * {
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Círculos decorativos del hero: más presentes */
-.theme-kinetic [class*="rounded-full"][class*="border-white"] {
-  opacity: 0.08 !important;
-  border-width: 2px;
-}
-
-/* Overlines / labels: más grandes y sueltos */
-.theme-kinetic [class*="tracking-\\[0.15em\\]"] {
-  font-size: 0.85rem !important;
-  letter-spacing: 0.2em !important;
-  font-weight: 400 !important;
+/* Badges/tags: borde redondeado suave */
+.theme-galeria .bg-accent\/90,
+.theme-galeria .bg-accent\/80,
+.theme-galeria .bg-secondary\/80 {
+  border-radius: 0.375rem !important;
+  background: var(--color-secondary) !important;
 }
 
 /* ============================================
