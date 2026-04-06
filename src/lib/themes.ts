@@ -7,7 +7,7 @@
  * identidades visuales muy diferentes.
  * ============================================ */
 
-export type ThemeId = "editorial" | "neo-brutal" | "organic-warm";
+export type ThemeId = "editorial" | "kinetic" | "organic-warm";
 
 export interface ThemeDefinition {
   id: ThemeId;
@@ -58,45 +58,46 @@ export const themes: ThemeDefinition[] = [
     },
   },
 
-  /* ─── 2. NEO-BRUTAL ─── 
-   * Tendencia 2025-2026: Brutalismo digital con bordes duros, 
-   * colores muy saturados, tipografía enorme y bold.
-   * Contraste extremo, formas geométricas.
-   * Marcas como Gumroad, Linear, Figma usan esto.
+  /* ─── 2. CINÉTICO ───
+   * Tipografía display ultra-grande, formas circulares,
+   * transiciones fluidas y dramáticas, layout con mucho
+   * ritmo visual. Misma paleta verde pero con personalidad
+   * de estudio creativo / galería de arte.
+   * Inspirado en Locomotive, Aristide Benoist, Studio Freight.
    */
   {
-    id: "neo-brutal",
-    name: "Neo-Brutal",
-    description: "Atrevido, bordes duros, contrastes extremos. Tendencia 2025-2026.",
-    emoji: "⚡",
-    bodyClass: "theme-neo-brutal",
+    id: "kinetic",
+    name: "Cinético",
+    description: "Tipografía display enorme, formas circulares, movimiento dramático.",
+    emoji: "🌀",
+    bodyClass: "theme-kinetic",
     vars: {
-      "--color-primary": "#0A0A0A",
-      "--color-primary-light": "#1A1A1A",
-      "--color-primary-dark": "#000000",
-      "--color-secondary": "#FF3B5C",
-      "--color-secondary-light": "#FF6B88",
-      "--color-secondary-dark": "#CC2E49",
-      "--color-accent": "#00E5A0",
-      "--color-accent-light": "#33FFBE",
-      "--color-accent-dark": "#00B87D",
-      "--color-dark-teal": "#0A0A0A",
-      "--color-surface": "#F5F5F0",
-      "--color-surface-alt": "#EAEAE5",
-      "--color-surface-warm": "#FFFFFF",
-      "--color-surface-dark": "#E0E0DB",
-      "--color-border": "#0A0A0A",
-      "--color-border-light": "#D0D0CB",
-      "--color-text-primary": "#0A0A0A",
-      "--color-text-body": "#1A1A1A",
-      "--color-text-secondary": "#4A4A4A",
-      "--color-text-muted": "#7A7A7A",
-      "--color-text-inverse": "#F5F5F0",
-      "--font-serif": '"Chulapa", "Georgia", "Impact", serif',
+      "--color-primary": "#013F3F",
+      "--color-primary-light": "#074040",
+      "--color-primary-dark": "#012d2d",
+      "--color-secondary": "#965458",
+      "--color-secondary-light": "#D6BEB7",
+      "--color-secondary-dark": "#7a4245",
+      "--color-accent": "#0F9181",
+      "--color-accent-light": "#079585",
+      "--color-accent-dark": "#0a7568",
+      "--color-dark-teal": "#305358",
+      "--color-surface": "#F0F0EC",
+      "--color-surface-alt": "#E6E6E0",
+      "--color-surface-warm": "#F5F0EB",
+      "--color-surface-dark": "#DDDDD7",
+      "--color-border": "#D0CEC6",
+      "--color-border-light": "#E0DED6",
+      "--color-text-primary": "#013F3F",
+      "--color-text-body": "#305358",
+      "--color-text-secondary": "#6B7F84",
+      "--color-text-muted": "#9CAAAE",
+      "--color-text-inverse": "#F0F0EC",
+      "--font-serif": '"Chulapa", "Georgia", "Times New Roman", serif',
       "--font-sans": '"Poppins", ui-sans-serif, system-ui, sans-serif',
-      "--radius-card": "0",
-      "--radius-button": "0",
-      "--radius-pill": "0",
+      "--radius-card": "1.5rem",
+      "--radius-button": "100px",
+      "--radius-pill": "100px",
     },
   },
 

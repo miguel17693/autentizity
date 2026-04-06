@@ -130,67 +130,139 @@ a {
 }
 
 /* ============================================
- * THEME OVERRIDES — Neo-Brutal
+ * THEME OVERRIDES — Cinético
  * ============================================
- * Bordes gruesos, sombras offset duras,
- * sin border-radius, tipografía heavy.
+ * Tipografía display ultra-grande, formas circulares,
+ * transiciones fluidas y dramáticas. Mismo verde pero
+ * con personalidad de estudio creativo / galería.
  * ============================================ */
-.theme-neo-brutal {
-  letter-spacing: -0.01em;
+.theme-kinetic {
+  letter-spacing: 0;
 }
 
-.theme-neo-brutal h1,
-.theme-neo-brutal h2,
-.theme-neo-brutal h3 {
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
+/* Títulos enormes con tracking muy apretado */
+.theme-kinetic h1 {
+  font-size: clamp(3rem, 8vw, 7rem) !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 0.95 !important;
+  text-transform: none !important;
+}
+.theme-kinetic h2 {
+  font-size: clamp(2rem, 5vw, 4rem) !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.0 !important;
+  text-transform: none !important;
+}
+.theme-kinetic h3 {
+  font-weight: 400 !important;
+  letter-spacing: -0.02em !important;
 }
 
-.theme-neo-brutal .brand-line {
-  height: 4px;
-  width: 32px;
-  background: var(--color-secondary);
+/* Línea decorativa → Círculo decorativo */
+.theme-kinetic .brand-line {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
 }
 
-/* Hard shadow cards */
-.theme-neo-brutal a[class*="group block"],
-.theme-neo-brutal [class*="bg-white"] {
-  border: 2px solid var(--color-primary) !important;
-  border-radius: 0 !important;
-  box-shadow: 4px 4px 0 0 var(--color-primary);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+/* Cards: formas grandes y redondeadas con hover dramático */
+.theme-kinetic a[class*="group block"] {
+  border-radius: 1.5rem !important;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
-.theme-neo-brutal a[class*="group block"]:hover,
-.theme-neo-brutal [class*="bg-white"]:hover {
-  box-shadow: 6px 6px 0 0 var(--color-secondary) !important;
-  transform: translate(-2px, -2px) !important;
-}
-
-/* Buttons: hard, no radius, bold border */
-.theme-neo-brutal a[class*="bg-accent"],
-.theme-neo-brutal a[class*="border border-white"] {
-  border-radius: 0 !important;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  border: 2px solid currentColor;
+.theme-kinetic a[class*="group block"]:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 24px 60px -12px rgba(1, 63, 63, 0.18) !important;
 }
 
-/* Footer hard style */
-.theme-neo-brutal footer {
+/* Imágenes dentro de cards: muy redondeadas */
+.theme-kinetic a[class*="group block"] [class*="overflow-hidden"] {
+  border-radius: 1rem;
+}
+
+/* Botones: píldora grande con hover que crece */
+.theme-kinetic a[class*="bg-accent"] {
+  border-radius: 100px !important;
+  padding: 1rem 2.5rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease !important;
+}
+.theme-kinetic a[class*="bg-accent"]:hover {
+  transform: scale(1.06);
+}
+.theme-kinetic a[class*="border border-white"] {
+  border-radius: 100px !important;
+  padding: 1rem 2.5rem !important;
+  font-size: 0.8rem !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.theme-kinetic a[class*="border border-white"]:hover {
+  transform: scale(1.06);
+}
+
+/* Header: completamente transparente, sin línea inferior */
+.theme-kinetic header {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+.theme-kinetic header > div:last-child {
+  display: none; /* ocultar la línea inferior */
+}
+
+/* Footer: minimalista con espaciado generoso */
+.theme-kinetic footer {
   background: var(--color-primary) !important;
-  border-top: 3px solid var(--color-secondary);
 }
 
-/* Header strong border */
-.theme-neo-brutal header {
-  border-bottom: 2px solid var(--color-primary) !important;
+/* Stats: tipografía gigante */
+.theme-kinetic [class*="font-serif"][class*="text-4xl"],
+.theme-kinetic [class*="font-serif"][class*="text-5xl"] {
+  font-size: clamp(3rem, 6vw, 5rem) !important;
+  font-weight: 200 !important;
+  letter-spacing: -0.04em;
 }
 
-/* Stats section */
-.theme-neo-brutal [class*="font-serif"][class*="text-4xl"],
-.theme-neo-brutal [class*="font-serif"][class*="text-5xl"] {
-  color: var(--color-secondary);
+/* Pilares grid: bordes redondeados generosos */
+.theme-kinetic [class*="bg-surface"][class*="p-5"],
+.theme-kinetic [class*="bg-surface"][class*="p-6"],
+.theme-kinetic [class*="bg-surface"][class*="p-8"] {
+  border-radius: 1.25rem;
+}
+
+/* Etiquetas / badges: píldora */
+.theme-kinetic [class*="bg-accent/90"],
+.theme-kinetic [class*="bg-secondary/80"],
+.theme-kinetic [class*="bg-accent/80"] {
+  border-radius: 100px !important;
+}
+
+/* Suavizado global de transiciones — todo se mueve con ease */
+.theme-kinetic * {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Círculos decorativos del hero: más presentes */
+.theme-kinetic [class*="rounded-full"][class*="border-white"] {
+  opacity: 0.08 !important;
+  border-width: 2px;
+}
+
+/* Overlines / labels: más grandes y sueltos */
+.theme-kinetic [class*="tracking-\\[0.15em\\]"] {
+  font-size: 0.85rem !important;
+  letter-spacing: 0.2em !important;
+  font-weight: 400 !important;
 }
 
 /* ============================================
