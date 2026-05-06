@@ -1,38 +1,53 @@
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import type { News, Event } from "@/lib/types";
 import { mockEvents, mockNews } from "@/lib/data/mock";
 
 /*
  * Simple JSON file storage for development.
- * In production, replace with Supabase.
+ * In production (Vercel serverless), filesystem is read-only
+ * so we fall back to mock data for reads and silently fail writes.
  *
  * Data files are stored in /data at project root.
  */
 
 const DATA_DIR = join(process.cwd(), "data");
 
-function ensureDir() {
-  const { mkdirSync } = require("fs");
-  if (!existsSync(DATA_DIR)) {
-    mkdirSync(DATA_DIR, { recursive: true });
+let isWritable: boolean | null = null;
+
+function canWrite(): boolean {
+  if (isWritable !== null) return isWritable;
+  try {
+    if (!existsSync(DATA_DIR)) {
+      mkdirSync(DATA_DIR, { recursive: true });
+    }
+    isWritable = true;
+  } catch {
+    isWritable = false;
   }
+  return isWritable;
 }
 
 // --- Eventos ---
 
 export function getEventos(): Event[] {
-  ensureDir();
+  if (!canWrite()) return mockEvents;
   const file = join(DATA_DIR, "eventos.json");
-  if (!existsSync(file)) {
-    writeFileSync(file, JSON.stringify(mockEvents, null, 2));
+  try {
+    if (!existsSync(file)) {
+      writeFileSync(file, JSON.stringify(mockEvents, null, 2));
+    }
+    return JSON.parse(readFileSync(file, "utf-8"));
+  } catch {
+    return mockEvents;
   }
-  return JSON.parse(readFileSync(file, "utf-8"));
 }
 
 export function saveEventos(eventos: Event[]) {
-  ensureDir();
-  writeFileSync(join(DATA_DIR, "eventos.json"), JSON.stringify(eventos, null, 2));
+  if (!canWrite()) return;
+  try {
+    writeFileSync(join(DATA_DIR, "eventos.json"), JSON.stringify(eventos, null, 2));
+  } catch {}
 }
 
 export function getEvento(id: string): Event | undefined {
@@ -66,17 +81,23 @@ export function deleteEvento(id: string): boolean {
 // --- Noticias ---
 
 export function getNoticias(): News[] {
-  ensureDir();
+  if (!canWrite()) return mockNews;
   const file = join(DATA_DIR, "noticias.json");
-  if (!existsSync(file)) {
-    writeFileSync(file, JSON.stringify(mockNews, null, 2));
+  try {
+    if (!existsSync(file)) {
+      writeFileSync(file, JSON.stringify(mockNews, null, 2));
+    }
+    return JSON.parse(readFileSync(file, "utf-8"));
+  } catch {
+    return mockNews;
   }
-  return JSON.parse(readFileSync(file, "utf-8"));
 }
 
 export function saveNoticias(noticias: News[]) {
-  ensureDir();
-  writeFileSync(join(DATA_DIR, "noticias.json"), JSON.stringify(noticias, null, 2));
+  if (!canWrite()) return;
+  try {
+    writeFileSync(join(DATA_DIR, "noticias.json"), JSON.stringify(noticias, null, 2));
+  } catch {}
 }
 
 export function getNoticia(id: string): News | undefined {
