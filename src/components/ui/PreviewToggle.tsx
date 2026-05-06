@@ -24,6 +24,9 @@ export default function PreviewToggle() {
       if (stored === "on") {
         setPreviewOn(true);
         document.documentElement.classList.add("preview-mode");
+        document.cookie = "preview_mode=on;path=/";
+      } else {
+        document.cookie = "preview_mode=;path=/;max-age=0";
       }
     }
   }, []);
@@ -36,10 +39,14 @@ export default function PreviewToggle() {
     if (next) {
       document.documentElement.classList.add("preview-mode");
       localStorage.setItem("autentizity-preview", "on");
+      document.cookie = "preview_mode=on;path=/";
     } else {
       document.documentElement.classList.remove("preview-mode");
       localStorage.setItem("autentizity-preview", "off");
+      document.cookie = "preview_mode=;path=/;max-age=0";
     }
+    // Reload to reflect server-side changes (drafts, hidden sections)
+    window.location.reload();
   };
 
   return (

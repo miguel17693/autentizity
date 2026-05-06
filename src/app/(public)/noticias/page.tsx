@@ -21,8 +21,9 @@ async function getNoticias(): Promise<News[]> {
 export default async function NoticiasPage() {
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
+  const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
   const noticias = await getNoticias();
-  const items = isAdmin ? noticias : noticias.filter((n) => n.status === "published");
+  const items = isPreview ? noticias : noticias.filter((n) => n.status === "published");
 
   return (
     <>

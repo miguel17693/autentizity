@@ -22,8 +22,9 @@ async function getEventos(): Promise<Event[]> {
 export default async function EventosPage() {
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
+  const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
   const eventos = await getEventos();
-  const items = isAdmin ? eventos : eventos.filter((e) => e.status === "published");
+  const items = isPreview ? eventos : eventos.filter((e) => e.status === "published");
 
   return (
     <>
