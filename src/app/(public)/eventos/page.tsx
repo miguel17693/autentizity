@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import Section from "@/components/ui/Section";
 import type { Event } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -42,6 +43,7 @@ export default async function EventosPage() {
         </div>
       </section>
 
+      <Section id="act-eventos">
       {/* Listing */}
       <section className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -117,7 +119,9 @@ export default async function EventosPage() {
           )}
         </div>
       </section>
+      </Section>
 
+      <Section id="act-movimientos">
       {/* ============== MOVIMIENTOS ============== */}
       <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -170,6 +174,7 @@ export default async function EventosPage() {
           </div>
         </div>
       </section>
+      </Section>
     </>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CountUp from "@/components/ui/CountUp";
+import Section from "@/components/ui/Section";
 import { formatDate } from "@/lib/utils";
 
 /* ============================================
@@ -407,12 +408,12 @@ export default async function HomePage() {
 
   return (
     <div className="snap-container">
-      <Hero />
-      <Introduction />
-      <Events events={events} />
-      <News news={news} />
-      <Stats />
-      <CTA />
+      <Section id="home-hero"><Hero /></Section>
+      <Section id="home-ecosystem"><Introduction /></Section>
+      <Section id="home-events"><Events events={events} /></Section>
+      <Section id="home-news"><News news={news} /></Section>
+      <Section id="home-stats"><Stats /></Section>
+      <Section id="home-cta"><CTA /></Section>
     </div>
   );
 }

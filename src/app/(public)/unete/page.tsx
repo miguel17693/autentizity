@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 
 /* ============================================
  * ÚNETE — Empresas, Organizaciones, Profesionales
@@ -27,6 +28,7 @@ export default function UnetePage() {
       </section>
 
       {/* Empresas */}
+      <Section id="unete-empresas">
       <section className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
@@ -47,8 +49,10 @@ export default function UnetePage() {
           </ScrollReveal>
         </div>
       </section>
+      </Section>
 
       {/* Organizaciones */}
+      <Section id="unete-organizaciones">
       <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
@@ -69,8 +73,10 @@ export default function UnetePage() {
           </ScrollReveal>
         </div>
       </section>
+      </Section>
 
       {/* Profesionales */}
+      <Section id="unete-profesionales">
       <section className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
@@ -91,6 +97,7 @@ export default function UnetePage() {
           </ScrollReveal>
         </div>
       </section>
+      </Section>
     </>
   );
 }

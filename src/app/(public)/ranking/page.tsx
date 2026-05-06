@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 
 /* ============================================
  * RANKING — Authentic Leaders
@@ -82,6 +83,7 @@ export default function RankingPage() {
       </section>
 
       {/* Introduction */}
+      <Section id="rank-intro">
       <section className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
@@ -104,8 +106,10 @@ export default function RankingPage() {
           </div>
         </div>
       </section>
+      </Section>
 
       {/* Categories */}
+      <Section id="rank-categories">
       <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
@@ -140,8 +144,10 @@ export default function RankingPage() {
           </div>
         </div>
       </section>
+      </Section>
 
       {/* Timeline / Process */}
+      <Section id="rank-process">
       <section className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
@@ -174,8 +180,10 @@ export default function RankingPage() {
           </div>
         </div>
       </section>
+      </Section>
 
       {/* CTA */}
+      <Section id="rank-cta">
       <section className="py-12 sm:py-16 lg:py-24 bg-surface-warm">
         <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
           <ScrollReveal>
@@ -207,8 +215,10 @@ export default function RankingPage() {
           </ScrollReveal>
         </div>
       </section>
+      </Section>
 
       {/* ============== DIPLOMA AUTENTIZITY ============== */}
+      <Section id="rank-diploma">
       <section className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
@@ -243,6 +253,7 @@ export default function RankingPage() {
           </ScrollReveal>
         </div>
       </section>
+      </Section>
     </>
   );
 }
