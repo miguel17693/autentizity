@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
 import type { News } from "@/lib/types";
 
@@ -18,8 +19,10 @@ async function getNoticias(): Promise<News[]> {
 }
 
 export default async function NoticiasPage() {
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
   const noticias = await getNoticias();
-  const published = noticias.filter((n) => n.status === "published");
+  const items = isAdmin ? noticias : noticias.filter((n) => n.status === "published");
 
   return (
     <>
@@ -46,18 +49,23 @@ export default async function NoticiasPage() {
       {/* Listing */}
       <section className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-          {published.length === 0 ? (
+          {items.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
               No hay noticias publicadas todavía.
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 sm:gap-8 -mx-5 sm:mx-0">
-              {published.map((item) => (
+              {items.map((item) => (
                 <Link
                   key={item.id}
                   href={`/noticias/${item.slug}`}
-                  className="group block bg-white border border-border-light hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
+                  className={`group block bg-white border hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 ${item.status === "draft" ? "border-secondary border-dashed relative" : "border-border-light"}`}
                 >
+                  {item.status === "draft" && (
+                    <div className="absolute top-4 right-4 z-10 bg-secondary text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
+                      Borrador
+                    </div>
+                  )}
                   <div className="relative h-48 sm:h-52 overflow-hidden">
                     <Image
                       src={item.coverImage}

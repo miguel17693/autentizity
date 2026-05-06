@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
 import Section from "@/components/ui/Section";
 import type { Event } from "@/lib/types";
@@ -19,8 +20,10 @@ async function getEventos(): Promise<Event[]> {
 }
 
 export default async function EventosPage() {
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
   const eventos = await getEventos();
-  const published = eventos.filter((e) => e.status === "published");
+  const items = isAdmin ? eventos : eventos.filter((e) => e.status === "published");
 
   return (
     <>
@@ -47,19 +50,24 @@ export default async function EventosPage() {
       {/* Listing */}
       <section className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-          {published.length === 0 ? (
+          {items.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
               No hay eventos publicados todavía.
             </p>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
-              {published.map((event) => (
+              {items.map((event) => (
                 <Link
                   key={event.id}
                   href={`/eventos/${event.slug}`}
-                  className="group block bg-white border border-border-light overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
+                  className={`group block bg-white border overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 ${event.status === "draft" ? "border-secondary border-dashed" : "border-border-light"}`}
                 >
                   <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
+                    {event.status === "draft" && (
+                      <div className="absolute top-4 right-4 z-10 bg-secondary text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
+                        Borrador
+                      </div>
+                    )}
                     <Image
                       src={event.coverImage}
                       alt={event.title}
