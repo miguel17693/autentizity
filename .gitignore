@@ -45,6 +45,12 @@ yarn-error.log*
 /inbox/*
 !/inbox/README.md
 
+# agent context (notas para IA, no se pushean)
+/.agent/
+
+# client changes tracking (docs del cliente, no se pushean)
+/.changes/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,7 +1,18 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { ThemeProvider } from "@/lib/ThemeContext";
 import StyleSwitcher from "@/components/ui/StyleSwitcher";
 import "./globals.css";
+
+const chulapa = localFont({
+  src: [
+    { path: "../../public/fonts/Chulapa-Light.otf", weight: "300", style: "normal" },
+    { path: "../../public/fonts/Chulapa-Regular.otf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Chulapa-Bold.otf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-chulapa",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -18,12 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" className={chulapa.variable}>
       <head>
-        {/* Preload Chulapa serif fonts for titles */}
-        <link rel="preload" href="/fonts/Chulapa-Light.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/Chulapa-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/Chulapa-Bold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

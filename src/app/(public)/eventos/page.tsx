@@ -34,7 +34,7 @@ export default async function EventosPage() {
             <div className="w-8 h-[1px] bg-accent" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em] uppercase">
-            Eventos
+            Actividad
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
             Descubre los próximos encuentros, foros y experiencias del ecosistema AutentiZity.
@@ -115,6 +115,59 @@ export default async function EventosPage() {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ============== MOVIMIENTOS ============== */}
+      <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="brand-line" />
+            <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+              Movimientos
+            </span>
+          </div>
+          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+            Movimientos
+          </h2>
+          <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+            Líneas de acción del ecosistema AutentiZity.
+          </p>
+
+          {/* NOTA PARA EL CLIENTE: Miguel, necesitamos el copy/descripción de cada movimiento. Por ahora están solo con el título. */}
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              "Foro IAuthentiCity (IA & Uso Humano)",
+              "La Diversidad También es Autenticidad",
+              "Interseccionalidad – Pride in the Zity",
+              "Nuestro Legado como Generación (Bullying)",
+              "Héroes Sin Capa (Prevención del Suicidio)",
+              "De Philadelphia a Madrid (VIH)",
+              "¡Sé tú! Liderazgo Auténtico",
+              "Espacios Seguros para el Error",
+              "Keep the Calm & Less Burnout",
+              "Mujeres Increíbles y Aliados",
+            ].map((mov) => (
+              <div
+                key={mov}
+                className="bg-white border border-border-light p-6 hover:shadow-md transition-shadow"
+              >
+                <h3 className="font-serif text-lg text-primary font-normal">
+                  {mov}
+                </h3>
+                <p className="mt-2 text-text-muted text-sm font-light">
+                  NECESITAMOS TEXTO PARA ESTA SECCIÓN.
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pregunta visible para el cliente en dev */}
+          <div className="mt-8 p-4 border-2 border-dashed border-secondary/40 bg-secondary-light/10 rounded">
+            <p className="text-secondary-dark text-sm font-medium">
+              📝 Miguel: ¿Nos puedes ir pasando el copy de cada movimiento? Los vamos rellenando según los tengamos.
+            </p>
+          </div>
         </div>
       </section>
     </>

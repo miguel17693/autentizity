@@ -2,10 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 const links = [
+  { label: "Aceleradora", href: "/" },
+  { label: "Ecosistema", href: "/ecosistema" },
+  { label: "Actividad", href: "/eventos" },
+  { label: "Reconocimiento", href: "/ranking" },
   { label: "Noticias", href: "/noticias" },
-  { label: "Eventos", href: "/eventos" },
-  { label: "Ranking", href: "/ranking" },
-  { label: "Sobre Nosotros", href: "/about" },
+  { label: "Únete", href: "/unete" },
 ];
 
 export default function Footer() {

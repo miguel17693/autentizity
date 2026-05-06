@@ -11,28 +11,7 @@
  * ============================================
  */
 
-/* --- Fuente local Chulapa (fallback serif para RoxboroughCF) --- */
-@font-face {
-  font-family: "Chulapa";
-  src: url("/fonts/Chulapa-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Chulapa";
-  src: url("/fonts/Chulapa-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Chulapa";
-  src: url("/fonts/Chulapa-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+/* --- Fuente Chulapa: cargada via next/font/local en layout.tsx --- */
 
 @theme {
   /* --- Colores de marca --- */
@@ -50,7 +29,7 @@
 
   --color-dark-teal: #305358;
 
-  --color-surface: #ffffff;
+  --color-surface: #f8f8f8;
   --color-surface-alt: #FAFAF8;
   --color-surface-warm: #F5F0EB;
   --color-surface-dark: #f1f5f9;
@@ -63,8 +42,8 @@
   --color-text-muted: #9CAAAE;
   --color-text-inverse: #ffffff;
 
-  /* --- Tipografía: serif heading + sans body --- */
-  --font-serif: "Chulapa", "Georgia", "Times New Roman", serif;
+  /* --- Tipografía: Chulapa display (headings) + Poppins (body) --- */
+  --font-serif: var(--font-chulapa), "Chulapa", sans-serif;
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Espaciado editorial --- */
@@ -79,7 +58,7 @@
 
 /* Base */
 body {
-  font-family: var(--font-sans);
+  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
   color: var(--color-text-body);
   background-color: var(--color-surface);
   font-weight: 300;
@@ -99,10 +78,12 @@ html {
   outline-offset: 2px;
 }
 
-/* Utilidades editorial */
+/* Utilidades editorial — Chulapa (sans-serif display, callejero de Madrid) */
+.font-chulapa,
 .font-serif,
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif) !important;
+  font-family: var(--font-chulapa), "Chulapa", sans-serif !important;
+  font-feature-settings: "salt" 1, "ss01" 1, "ss02" 1, "ss03" 1, "liga" 1, "calt" 1 !important;
 }
 
 .text-balance {
@@ -295,6 +276,40 @@ a {
 /* Gentle transitions */
 .theme-organic-warm * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+ * PREVIEW MODE — Admin preview toggle
+ * ============================================
+ * When .preview-mode is on <html>, hidden sections
+ * become visible with a dashed border + label.
+ * ============================================ */
+
+[data-hidden="true"] {
+  display: none;
+}
+
+.preview-mode [data-hidden="true"] {
+  display: block;
+  position: relative;
+  opacity: 0.6;
+  border: 2px dashed var(--color-secondary);
+}
+
+.preview-mode [data-hidden="true"]::before {
+  content: "OCULTO";
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  background: var(--color-secondary);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
 }
 
 /* ============================================

@@ -50,33 +50,32 @@ function Hero() {
 
         {/* Headline */}
         <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto uppercase">
-          Donde la autenticidad{" "}
-          <em className="font-normal text-secondary-light">transforma</em>{" "}
-          la cultura empresarial
+          Autenticidad en el trabajo que ayuda a la{" "}
+          <span className="font-normal text-secondary-light">transformación de las empresas</span>
         </h1>
 
         {/* Subtext */}
         <p className="mt-4 sm:mt-6 text-white/55 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
-          Conectamos empresas, instituciones y sociedad civil para impulsar
-          entornos de trabajo donde las personas pueden ser quienes realmente son.
+          Conectamos empresas, instituciones, asociaciones y profesionales en un
+          ecosistema que promueve la «autenticidad»: poder ser tú, en tu lugar de trabajo.
         </p>
 
         {/* CTAs */}
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <Link
-            href="/eventos"
+            href="/ecosistema"
             className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
           >
-            Próximos eventos
+            Descubre el ecosistema
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
           <Link
-            href="/about"
+            href="/eventos"
             className="inline-flex items-center justify-center gap-3 px-8 py-3.5 text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
           >
-            Descubre el ecosistema
+            Próximos eventos
           </Link>
         </div>
       </div>
@@ -104,8 +103,8 @@ function Introduction() {
               </span>
             </div>
             <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] tracking-[-0.01em] uppercase">
-              Un espacio único de{" "}
-              <em className="font-normal">valores compartidos</em>
+              Un espacio compartido de{" "}
+              <span className="font-normal">valores y autenticidad</span>
             </h2>
             <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
               AutentiZity es el punto de encuentro entre los valores de la
@@ -114,8 +113,9 @@ function Introduction() {
               nos hace únicos y nos posiciona en el mundo.
             </p>
             <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light">
-              El potencial de «ser tú» es clave de éxito tanto para las
-              empresas como para los profesionales.
+              El potencial de «ser tú» define la identidad de personas y
+              organizaciones. En este camino, las acompañamos junto a
+              asociaciones e instituciones que impulsan su desarrollo.
             </p>
           </ScrollReveal>
 
@@ -124,9 +124,9 @@ function Introduction() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-[1px] bg-border">
               {[
                 { title: "Autenticidad", desc: "Espacios donde las personas y empresas pueden ser fieles a sus valores" },
-                { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones y ONG" },
-                { title: "Cultura", desc: "Transformar la cultura corporativa hacia el bienestar y la diversidad" },
-                { title: "Reconocimiento", desc: "Ranking Authentic Leaders y Diploma Empresa AutentiZity" },
+                { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones, asociaciones y profesionales con valores" },
+                { title: "Cultura", desc: "Transformar la cultura corporativa para impulsar el bienestar que genera poder ser tú en tu lugar de trabajo" },
+                { title: "Reconocimiento", desc: "Ranking Authentic Leaders\nDiploma Empresa AutentiZity" },
               ].map((pillar) => (
                 <div
                   key={pillar.title}
@@ -166,7 +166,7 @@ function Events({ events }: { events: any[] }) {
                 </span>
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
-                Próximos eventos
+                Próximos eventos y actividades
               </h2>
             </div>
             <Link
@@ -362,22 +362,22 @@ function CTA() {
       <div className="relative max-w-3xl mx-auto px-6 text-center">
         <ScrollReveal>
           <h2 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] text-balance uppercase">
-            ¿Quieres ser parte del{" "}
-            <em className="font-normal text-secondary-light">cambio</em>?
+            ¿Quieres que tu empresa lidere el{" "}
+            <span className="font-normal text-secondary-light">cambio</span> hacia una cultura más auténtica?
           </h2>
           <p className="mt-5 text-white/45 text-base lg:text-lg leading-relaxed font-light max-w-lg mx-auto">
-            Únete al ecosistema AutentiZity y lidera la transformación
-            hacia una cultura corporativa auténtica.
+            Forma parte de AutentiZity y accede a los recursos y la comunidad
+            que redefine la cultura empresarial.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:comunidad@autentizity.org"
+            <Link
+              href="/unete"
               className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
             >
-              Contactar
-            </a>
+              Únete
+            </Link>
             <Link
-              href="/about"
+              href="/ecosistema"
               className="inline-flex items-center justify-center px-8 py-3.5 text-white/55 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/40 hover:text-white transition-all"
             >
               Conocer más

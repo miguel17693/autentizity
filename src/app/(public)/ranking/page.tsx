@@ -1,4 +1,3 @@
-import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 /* ============================================
@@ -8,19 +7,9 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const categories = [
   {
-    title: "Diversidad e Inclusión",
+    title: "Bienestar Integral",
     description:
-      "Empresas que fomentan la diversidad en todas sus formas y crean entornos verdaderamente inclusivos.",
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Bienestar Laboral",
-    description:
-      "Organizaciones que priorizan la salud mental, la conciliación y el bienestar integral de sus equipos.",
+      "Impulsan iniciativas que mejoran el bienestar físico, emocional y motivacional de las personas, creando entornos donde el equipo puede rendir mejor y sentirse mejor",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
@@ -28,19 +17,29 @@ const categories = [
     ),
   },
   {
-    title: "Liderazgo Auténtico",
+    title: "Cultura de Salud Mental",
     description:
-      "Líderes que inspiran desde la transparencia, la vulnerabilidad y la coherencia entre valores y acción.",
+      "Promueven activamente el cuidado de la salud mental en la organización, generando espacios seguros, previniendo el burnout y normalizando el bienestar psicológico en el día a día",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
       </svg>
     ),
   },
   {
-    title: "Impacto Social",
+    title: "Diversidad, Equidad e Inclusión",
     description:
-      "Empresas con propósito que generan valor más allá del negocio, contribuyendo activamente a la sociedad.",
+      "Desarrollan culturas verdaderamente inclusivas donde la diversidad se valora, se integra y se traduce en oportunidades reales para todas las personas",
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Liderazgo Auténtico",
+    description:
+      "Lideran desde la coherencia, la transparencia y el propósito, generando confianza y construyendo culturas que impactan positivamente tanto dentro como fuera de la empresa",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
@@ -50,10 +49,10 @@ const categories = [
 ];
 
 const timeline = [
-  { step: "01", title: "Convocatoria", desc: "Apertura de candidaturas y nominaciones por parte de empresas y profesionales." },
-  { step: "02", title: "Evaluación", desc: "Un comité de expertos analiza cada candidatura en base a criterios objetivos de autenticidad." },
-  { step: "03", title: "Selección", desc: "Los 100 líderes más auténticos de España son seleccionados y notificados." },
-  { step: "04", title: "Reconocimiento", desc: "Ceremonia de entrega en la Gala AutentiZity junto al Diploma Empresa AutentiZity." },
+  { step: "01", title: "Convocatoria", desc: "La convocatoria 2026 ya está abierta. Es el momento de dar visibilidad a tu liderazgo" },
+  { step: "02", title: "Evaluación", desc: "Un comité independiente de expertos del ámbito corporativo y la sociedad civil evalúa cada candidatura con criterios rigurosos en las cuatro categorías" },
+  { step: "03", title: "Selección", desc: "Se seleccionan los 100 líderes más auténticos de España, que serán reconocidos por su impacto y coherencia" },
+  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Ranking Authentic Leaders' junto a ManpowerGroup" },
 ];
 
 export default function RankingPage() {
@@ -77,7 +76,7 @@ export default function RankingPage() {
             de trabajo donde las personas pueden ser auténticas.
           </p>
           <p className="mt-2 text-secondary-light text-sm font-light">
-            En colaboración con ManpowerGroup
+            Organiza AutentiZity &amp; ManpowerGroup
           </p>
         </div>
       </section>
@@ -92,15 +91,14 @@ export default function RankingPage() {
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
                 El <strong className="font-medium">Ranking Authentic Leaders</strong> es una
-                iniciativa de AutentiZity en colaboración con ManpowerGroup que identifica y
-                reconoce a los 100 profesionales más auténticos de España. Líderes que, desde
-                su posición, impulsan culturas corporativas donde cada persona puede ser
-                quien realmente es.
+                iniciativa de AutentiZity y ManpowerGroup que identifica y
+                reconoce a los 100 profesionales que promueven la autenticidad
+                en España. Líderes que, desde su posición, impulsan culturas
+                corporativas donde cada persona puede ser quien realmente es.
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
-                Además, las empresas cuyos líderes sean seleccionados podrán optar al{" "}
-                <strong className="font-medium">Diploma Empresa AutentiZity</strong>, un
-                reconocimiento a su compromiso con la autenticidad corporativa.
+                Estas acciones están enmarcadas en cuatro líneas de actuación:
+                salud mental, bienestar, diversidad y liderazgo inclusivo.
               </p>
             </ScrollReveal>
           </div>
@@ -185,22 +183,62 @@ export default function RankingPage() {
               ¿Quieres participar?
             </h2>
             <p className="mt-5 text-text-secondary text-base leading-relaxed font-light">
-              Si conoces un líder auténtico o tu empresa quiere ser parte de este
-              reconocimiento, contáctanos para conocer los próximos pasos.
+              ¿Quieres formar parte del ranking Authentic Leaders de AutentiZity
+              y ManpowerGroup o nominar a alguien de tu organización?
+            </p>
+            <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light">
+              Presenta tu candidatura o ayúdanos a compartir este link con la
+              persona que está transformando la cultura empresarial.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:comunidad@autentizity.org"
                 className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
               >
-                Nominar un líder
+                Participa
               </a>
-              <Link
-                href="/about"
+              <a
+                href="mailto:comunidad@autentizity.org?subject=Nominar%20l%C3%ADder"
                 className="inline-flex items-center justify-center px-8 py-3.5 text-text-body text-[13px] font-medium tracking-[0.08em] uppercase border border-border hover:border-primary hover:text-primary transition-all"
               >
-                Más sobre AutentiZity
-              </Link>
+                Comparte
+              </a>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ============== DIPLOMA AUTENTIZITY ============== */}
+      <section className="py-12 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+          <ScrollReveal>
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="flex items-center gap-4 mb-4 justify-center">
+                <div className="brand-line" />
+                <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+                  Reconocimiento
+                </span>
+                <div className="brand-line" />
+              </div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+                Diploma AutentiZity
+              </h2>
+              <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
+                En colaboración con instituciones públicas, reconocemos a las
+                organizaciones que están redefiniendo la forma de hacer empresa
+              </p>
+              <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
+                El Diploma AutentiZity distingue a aquellas compañías que impulsan
+                culturas auténticas, coherentes y con impacto real en la sociedad
+              </p>
+              <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
+                Un reconocimiento respaldado por acciones integradas en el Estado
+                de Información No Financiera (EINF), el Plan de Igualdad, el Plan
+                de Inclusión de Personas con Discapacidad y el Plan LGTBI+
+              </p>
+              <p className="mt-6 text-text-body text-base font-medium">
+                Porque el verdadero liderazgo no se declara: se demuestra
+              </p>
             </div>
           </ScrollReveal>
         </div>
