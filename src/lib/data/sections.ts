@@ -52,11 +52,15 @@ function ensureDir() {
 }
 
 export function getSections(): SectionConfig[] {
-  ensureDir();
-  if (!existsSync(CONFIG_FILE)) {
-    writeFileSync(CONFIG_FILE, JSON.stringify(DEFAULT_SECTIONS, null, 2));
+  try {
+    ensureDir();
+    if (!existsSync(CONFIG_FILE)) {
+      writeFileSync(CONFIG_FILE, JSON.stringify(DEFAULT_SECTIONS, null, 2));
+    }
+    return JSON.parse(readFileSync(CONFIG_FILE, "utf-8"));
+  } catch {
+    return DEFAULT_SECTIONS;
   }
-  return JSON.parse(readFileSync(CONFIG_FILE, "utf-8"));
 }
 
 export function saveSections(sections: SectionConfig[]) {

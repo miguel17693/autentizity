@@ -13,9 +13,15 @@ export default function Section({
   children: React.ReactNode;
   className?: string;
 }) {
-  const sections = getSections();
-  const config = sections.find((s) => s.id === id);
-  const hidden = config ? !config.visible : false;
+  let hidden = false;
+  try {
+    const sections = getSections();
+    const config = sections.find((s) => s.id === id);
+    hidden = config ? !config.visible : false;
+  } catch {
+    // Filesystem not available (e.g. Vercel edge) — default to visible
+    hidden = false;
+  }
 
   return (
     <div data-hidden={hidden ? "true" : undefined} data-section-id={id} className={className}>
