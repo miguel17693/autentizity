@@ -1,13 +1,9 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
-import { join } from "path";
+import { getSQL } from "@/lib/data/db";
 
 /*
- * Section visibility configuration.
- * Stores which sections are visible on the public site.
+ * Section visibility configuration backed by Neon Postgres.
+ * Falls back to defaults when DATABASE_URL is not set.
  */
-
-const DATA_DIR = join(process.cwd(), "data");
-const CONFIG_FILE = join(DATA_DIR, "sections.json");
 
 export interface SectionConfig {
   id: string;
@@ -45,34 +41,66 @@ const DEFAULT_SECTIONS: SectionConfig[] = [
   { id: "unete-profesionales", label: "Profesionales", page: "Únete", visible: true },
 ];
 
-function ensureDir() {
-  if (!existsSync(DATA_DIR)) {
-    mkdirSync(DATA_DIR, { recursive: true });
-  }
+function hasDB(): boolean {
+  return !!process.env.DATABASE_URL;
 }
 
-export function getSections(): SectionConfig[] {
+export async function getSections(): Promise<SectionConfig[]> {
+  if (!hasDB()) return DEFAULT_SECTIONS;
   try {
-    ensureDir();
-    if (!existsSync(CONFIG_FILE)) {
-      writeFileSync(CONFIG_FILE, JSON.stringify(DEFAULT_SECTIONS, null, 2));
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM sections ORDER BY page, id`;
+    if (rows.length === 0) {
+      // Seed defaults
+      await seedSections();
+      return DEFAULT_SECTIONS;
     }
-    return JSON.parse(readFileSync(CONFIG_FILE, "utf-8"));
-  } catch {
+    return rows.map((r) => ({
+      id: r.id as string,
+      label: r.label as string,
+      page: r.page as string,
+      visible: r.visible as boolean,
+    }));
+  } catch (e) {
+    console.error("getSections error:", e);
     return DEFAULT_SECTIONS;
   }
 }
 
-export function saveSections(sections: SectionConfig[]) {
-  ensureDir();
-  writeFileSync(CONFIG_FILE, JSON.stringify(sections, null, 2));
+export async function saveSections(sections: SectionConfig[]): Promise<void> {
+  if (!hasDB()) return;
+  const sql = getSQL();
+  // Upsert all sections
+  for (const s of sections) {
+    await sql`
+      INSERT INTO sections (id, label, page, visible)
+      VALUES (${s.id}, ${s.label}, ${s.page}, ${s.visible})
+      ON CONFLICT (id) DO UPDATE SET
+        label = EXCLUDED.label,
+        page = EXCLUDED.page,
+        visible = EXCLUDED.visible
+    `;
+  }
 }
 
-export function toggleSection(id: string, visible: boolean): SectionConfig | null {
-  const sections = getSections();
-  const idx = sections.findIndex((s) => s.id === id);
-  if (idx === -1) return null;
-  sections[idx].visible = visible;
-  saveSections(sections);
-  return sections[idx];
+export async function toggleSection(id: string, visible: boolean): Promise<SectionConfig | null> {
+  if (!hasDB()) return null;
+  const sql = getSQL();
+  const rows = await sql`
+    UPDATE sections SET visible = ${visible} WHERE id = ${id} RETURNING *
+  `;
+  if (rows.length === 0) return null;
+  const r = rows[0];
+  return { id: r.id as string, label: r.label as string, page: r.page as string, visible: r.visible as boolean };
+}
+
+async function seedSections(): Promise<void> {
+  const sql = getSQL();
+  for (const s of DEFAULT_SECTIONS) {
+    await sql`
+      INSERT INTO sections (id, label, page, visible)
+      VALUES (${s.id}, ${s.label}, ${s.page}, ${s.visible})
+      ON CONFLICT (id) DO NOTHING
+    `;
+  }
 }

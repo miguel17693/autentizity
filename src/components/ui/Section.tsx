@@ -4,7 +4,7 @@ import { getSections } from "@/lib/data/sections";
  * Server component wrapper that reads section visibility config
  * and applies data-hidden attribute for the preview system.
  */
-export default function Section({
+export default async function Section({
   id,
   children,
   className = "",
@@ -15,11 +15,11 @@ export default function Section({
 }) {
   let hidden = false;
   try {
-    const sections = getSections();
+    const sections = await getSections();
     const config = sections.find((s) => s.id === id);
     hidden = config ? !config.visible : false;
   } catch {
-    // Filesystem not available (e.g. Vercel edge) — default to visible
+    // DB not available — default to visible
     hidden = false;
   }
 

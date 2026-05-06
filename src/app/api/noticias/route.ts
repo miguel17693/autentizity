@@ -3,7 +3,7 @@ import { getNoticias, createNoticia } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
 export async function GET() {
-  return NextResponse.json(getNoticias());
+  return NextResponse.json(await getNoticias());
 }
 
 export async function POST(request: NextRequest) {
@@ -28,6 +28,6 @@ export async function POST(request: NextRequest) {
     status: body.status ?? "draft",
   };
 
-  createNoticia(noticia);
+  await createNoticia(noticia);
   return NextResponse.json(noticia, { status: 201 });
 }

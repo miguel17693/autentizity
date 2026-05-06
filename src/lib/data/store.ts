@@ -1,129 +1,187 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
-import { join } from "path";
 import type { News, Event } from "@/lib/types";
+import { getSQL } from "@/lib/data/db";
 import { mockEvents, mockNews } from "@/lib/data/mock";
 
 /*
- * Simple JSON file storage for development.
- * In production (Vercel serverless), filesystem is read-only
- * so we fall back to mock data for reads and silently fail writes.
- *
- * Data files are stored in /data at project root.
+ * Data store backed by Neon Postgres (via Vercel Storage).
+ * Falls back to mock data when DATABASE_URL is not configured (local dev without DB).
  */
 
-const DATA_DIR = join(process.cwd(), "data");
-
-let isWritable: boolean | null = null;
-
-function canWrite(): boolean {
-  if (isWritable !== null) return isWritable;
-  try {
-    if (!existsSync(DATA_DIR)) {
-      mkdirSync(DATA_DIR, { recursive: true });
-    }
-    isWritable = true;
-  } catch {
-    isWritable = false;
-  }
-  return isWritable;
+function hasDB(): boolean {
+  return !!process.env.DATABASE_URL;
 }
 
 // --- Eventos ---
 
-export function getEventos(): Event[] {
-  if (!canWrite()) return mockEvents;
-  const file = join(DATA_DIR, "eventos.json");
+export async function getEventos(): Promise<Event[]> {
+  if (!hasDB()) return mockEvents;
   try {
-    if (!existsSync(file)) {
-      writeFileSync(file, JSON.stringify(mockEvents, null, 2));
-    }
-    return JSON.parse(readFileSync(file, "utf-8"));
-  } catch {
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM eventos ORDER BY start_date DESC`;
+    return rows.map(rowToEvent);
+  } catch (e) {
+    console.error("getEventos error:", e);
     return mockEvents;
   }
 }
 
-export function saveEventos(eventos: Event[]) {
-  if (!canWrite()) return;
+export async function saveEvento(evento: Event): Promise<void> {
+  if (!hasDB()) return;
+  const sql = getSQL();
+  await sql`
+    INSERT INTO eventos (id, slug, title, description, content, cover_image, start_date, end_date, location, type, tags, organizer, registration_url, featured, status, updated_at)
+    VALUES (${evento.id}, ${evento.slug}, ${evento.title}, ${evento.description}, ${evento.content}, ${evento.coverImage}, ${evento.startDate}, ${evento.endDate}, ${evento.location}, ${evento.type}, ${JSON.stringify(evento.tags)}, ${evento.organizer}, ${evento.registrationUrl}, ${evento.featured}, ${evento.status}, NOW())
+    ON CONFLICT (id) DO UPDATE SET
+      slug = EXCLUDED.slug,
+      title = EXCLUDED.title,
+      description = EXCLUDED.description,
+      content = EXCLUDED.content,
+      cover_image = EXCLUDED.cover_image,
+      start_date = EXCLUDED.start_date,
+      end_date = EXCLUDED.end_date,
+      location = EXCLUDED.location,
+      type = EXCLUDED.type,
+      tags = EXCLUDED.tags,
+      organizer = EXCLUDED.organizer,
+      registration_url = EXCLUDED.registration_url,
+      featured = EXCLUDED.featured,
+      status = EXCLUDED.status,
+      updated_at = NOW()
+  `;
+}
+
+export async function getEvento(id: string): Promise<Event | undefined> {
+  if (!hasDB()) return mockEvents.find((e) => e.id === id);
   try {
-    writeFileSync(join(DATA_DIR, "eventos.json"), JSON.stringify(eventos, null, 2));
-  } catch {}
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM eventos WHERE id = ${id} LIMIT 1`;
+    return rows.length ? rowToEvent(rows[0]) : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
-export function getEvento(id: string): Event | undefined {
-  return getEventos().find((e) => e.id === id);
-}
-
-export function createEvento(evento: Event): Event {
-  const eventos = getEventos();
-  eventos.push(evento);
-  saveEventos(eventos);
+export async function createEvento(evento: Event): Promise<Event> {
+  await saveEvento(evento);
   return evento;
 }
 
-export function updateEvento(id: string, updates: Partial<Event>): Event | null {
-  const eventos = getEventos();
-  const idx = eventos.findIndex((e) => e.id === id);
-  if (idx === -1) return null;
-  eventos[idx] = { ...eventos[idx], ...updates };
-  saveEventos(eventos);
-  return eventos[idx];
+export async function updateEvento(id: string, updates: Partial<Event>): Promise<Event | null> {
+  const existing = await getEvento(id);
+  if (!existing) return null;
+  const updated = { ...existing, ...updates };
+  await saveEvento(updated);
+  return updated;
 }
 
-export function deleteEvento(id: string): boolean {
-  const eventos = getEventos();
-  const filtered = eventos.filter((e) => e.id !== id);
-  if (filtered.length === eventos.length) return false;
-  saveEventos(filtered);
-  return true;
+export async function deleteEvento(id: string): Promise<boolean> {
+  if (!hasDB()) return false;
+  const sql = getSQL();
+  const result = await sql`DELETE FROM eventos WHERE id = ${id}`;
+  return (result as unknown as { count?: number }).count !== 0;
 }
 
 // --- Noticias ---
 
-export function getNoticias(): News[] {
-  if (!canWrite()) return mockNews;
-  const file = join(DATA_DIR, "noticias.json");
+export async function getNoticias(): Promise<News[]> {
+  if (!hasDB()) return mockNews;
   try {
-    if (!existsSync(file)) {
-      writeFileSync(file, JSON.stringify(mockNews, null, 2));
-    }
-    return JSON.parse(readFileSync(file, "utf-8"));
-  } catch {
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM noticias ORDER BY published_at DESC`;
+    return rows.map(rowToNews);
+  } catch (e) {
+    console.error("getNoticias error:", e);
     return mockNews;
   }
 }
 
-export function saveNoticias(noticias: News[]) {
-  if (!canWrite()) return;
+export async function saveNoticia(noticia: News): Promise<void> {
+  if (!hasDB()) return;
+  const sql = getSQL();
+  await sql`
+    INSERT INTO noticias (id, slug, title, excerpt, content, cover_image, tags, author, published_at, updated_at, featured, status)
+    VALUES (${noticia.id}, ${noticia.slug}, ${noticia.title}, ${noticia.excerpt}, ${noticia.content}, ${noticia.coverImage}, ${JSON.stringify(noticia.tags)}, ${noticia.author}, ${noticia.publishedAt}, ${noticia.updatedAt}, ${noticia.featured}, ${noticia.status})
+    ON CONFLICT (id) DO UPDATE SET
+      slug = EXCLUDED.slug,
+      title = EXCLUDED.title,
+      excerpt = EXCLUDED.excerpt,
+      content = EXCLUDED.content,
+      cover_image = EXCLUDED.cover_image,
+      tags = EXCLUDED.tags,
+      author = EXCLUDED.author,
+      published_at = EXCLUDED.published_at,
+      updated_at = EXCLUDED.updated_at,
+      featured = EXCLUDED.featured,
+      status = EXCLUDED.status
+  `;
+}
+
+export async function getNoticia(id: string): Promise<News | undefined> {
+  if (!hasDB()) return mockNews.find((n) => n.id === id);
   try {
-    writeFileSync(join(DATA_DIR, "noticias.json"), JSON.stringify(noticias, null, 2));
-  } catch {}
+    const sql = getSQL();
+    const rows = await sql`SELECT * FROM noticias WHERE id = ${id} LIMIT 1`;
+    return rows.length ? rowToNews(rows[0]) : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
-export function getNoticia(id: string): News | undefined {
-  return getNoticias().find((n) => n.id === id);
-}
-
-export function createNoticia(noticia: News): News {
-  const noticias = getNoticias();
-  noticias.push(noticia);
-  saveNoticias(noticias);
+export async function createNoticia(noticia: News): Promise<News> {
+  await saveNoticia(noticia);
   return noticia;
 }
 
-export function updateNoticia(id: string, updates: Partial<News>): News | null {
-  const noticias = getNoticias();
-  const idx = noticias.findIndex((n) => n.id === id);
-  if (idx === -1) return null;
-  noticias[idx] = { ...noticias[idx], ...updates };
-  saveNoticias(noticias);
-  return noticias[idx];
+export async function updateNoticia(id: string, updates: Partial<News>): Promise<News | null> {
+  const existing = await getNoticia(id);
+  if (!existing) return null;
+  const updated = { ...existing, ...updates };
+  await saveNoticia(updated);
+  return updated;
 }
 
-export function deleteNoticia(id: string): boolean {
-  const noticias = getNoticias();
-  const filtered = noticias.filter((n) => n.id !== id);
-  if (filtered.length === noticias.length) return false;
-  saveNoticias(filtered);
-  return true;
+export async function deleteNoticia(id: string): Promise<boolean> {
+  if (!hasDB()) return false;
+  const sql = getSQL();
+  const result = await sql`DELETE FROM noticias WHERE id = ${id}`;
+  return (result as unknown as { count?: number }).count !== 0;
+}
+
+// --- Row mappers ---
+
+function rowToEvent(row: Record<string, unknown>): Event {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    title: row.title as string,
+    description: (row.description as string) || "",
+    content: (row.content as string) || "",
+    coverImage: (row.cover_image as string) || "",
+    startDate: (row.start_date as string) || "",
+    endDate: (row.end_date as string) || "",
+    location: (row.location as string) || "",
+    type: (row.type as Event["type"]) || "presencial",
+    tags: (row.tags as string[]) || [],
+    organizer: (row.organizer as string) || "",
+    registrationUrl: (row.registration_url as string) || "",
+    featured: row.featured as boolean,
+    status: (row.status as Event["status"]) || "draft",
+  };
+}
+
+function rowToNews(row: Record<string, unknown>): News {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    title: row.title as string,
+    excerpt: (row.excerpt as string) || "",
+    content: (row.content as string) || "",
+    coverImage: (row.cover_image as string) || "",
+    tags: (row.tags as string[]) || [],
+    author: (row.author as string) || "",
+    publishedAt: (row.published_at as string) || "",
+    updatedAt: (row.updated_at as string) || "",
+    featured: row.featured as boolean,
+    status: (row.status as News["status"]) || "draft",
+  };
 }

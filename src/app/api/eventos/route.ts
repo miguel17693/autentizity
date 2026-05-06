@@ -3,13 +3,12 @@ import { getEventos, createEvento } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
 export async function GET() {
-  return NextResponse.json(getEventos());
+  return NextResponse.json(await getEventos());
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  const eventos = getEventos();
   const id = String(Date.now());
   const slug = body.slug || slugify(body.title);
 
@@ -31,6 +30,6 @@ export async function POST(request: NextRequest) {
     status: body.status ?? "draft",
   };
 
-  createEvento(evento);
+  await createEvento(evento);
   return NextResponse.json(evento, { status: 201 });
 }

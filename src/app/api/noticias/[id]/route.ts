@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const noticia = getNoticia(id);
+  const noticia = await getNoticia(id);
   if (!noticia) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(noticia);
 }
@@ -18,7 +18,7 @@ export async function PUT(
   const { id } = await params;
   const body = await request.json();
   body.updatedAt = new Date().toISOString();
-  const updated = updateNoticia(id, body);
+  const updated = await updateNoticia(id, body);
   if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(updated);
 }
@@ -28,7 +28,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const ok = deleteNoticia(id);
+  const ok = await deleteNoticia(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ ok: true });
 }
