@@ -42,7 +42,7 @@ export default async function NoticiasPage() {
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
             Toda la actualidad del ecosistema AutentiZity, organizaciones y
-            personas que impulsan la autenticidad en sus lugares de trabajo.
+            personas que impulsan la autenticidad en sus lugares de trabajo
           </p>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default async function NoticiasPage() {
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           {items.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
-              No hay noticias publicadas todavía.
+              No hay noticias publicadas todavía
             </p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 sm:gap-8 -mx-5 sm:mx-0">

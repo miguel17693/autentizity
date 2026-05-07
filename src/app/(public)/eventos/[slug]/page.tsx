@@ -92,7 +92,7 @@ export default async function EventoDetailPage({
               {!evento.content && (
                 <div className="mt-12 p-8 bg-surface-alt text-center">
                   <p className="text-text-secondary font-light">
-                    Más información sobre este evento estará disponible próximamente.
+                    Más información sobre este evento estará disponible próximamente
                   </p>
                 </div>
               )}

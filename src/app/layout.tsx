@@ -1,18 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { ThemeProvider } from "@/lib/ThemeContext";
-import StyleSwitcher from "@/components/ui/StyleSwitcher";
 import "./globals.css";
-
-const chulapa = localFont({
-  src: [
-    { path: "../../public/fonts/Chulapa-Light.otf", weight: "300", style: "normal" },
-    { path: "../../public/fonts/Chulapa-Regular.otf", weight: "400", style: "normal" },
-    { path: "../../public/fonts/Chulapa-Bold.otf", weight: "700", style: "normal" },
-  ],
-  variable: "--font-chulapa",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -29,20 +16,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={chulapa.variable}>
+    <html lang="es">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* P22 Mackinac Pro: self-hosted — add .woff2 files to /public/fonts/ */}
       </head>
       <body className="min-h-screen flex flex-col font-sans">
-        <ThemeProvider>
-          {children}
-          <StyleSwitcher />
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );

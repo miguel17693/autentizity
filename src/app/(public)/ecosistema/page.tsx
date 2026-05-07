@@ -52,7 +52,7 @@ export default function EcosistemaPage() {
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Empresas</span></div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Empresas</h2>
-              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren. Organizaciones que entienden que el cambio real empieza dentro… y se proyecta fuera.</p>
+              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren. Organizaciones que entienden que el cambio real empieza dentro… y se proyecta fuera</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {empresas.map((e) => <LogoPlaceholder key={e.id} />)}
@@ -67,8 +67,8 @@ export default function EcosistemaPage() {
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Asociaciones</span></div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Asociaciones</h2>
-              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos. Porque somos personas en todos los ámbitos de nuestra vida, también en nuestros lugares de trabajo.</p>
-              <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light max-w-3xl">Sus mensajes nos ayudan a potenciar el talento, evitar situaciones de discriminación, mejorar nuestra salud mental, bienestar, y por supuesto que los lugares de trabajo sean un reflejo de la sociedad.</p>
+              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos. Porque somos personas en todos los ámbitos de nuestra vida, también en nuestros lugares de trabajo</p>
+              <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light max-w-3xl">Sus mensajes nos ayudan a potenciar el talento, evitar situaciones de discriminación, mejorar nuestra salud mental, bienestar, y por supuesto que los lugares de trabajo sean un reflejo de la sociedad</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {asociaciones.map((a) => <LogoPlaceholder key={a.id} />)}
@@ -83,7 +83,7 @@ export default function EcosistemaPage() {
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Instituciones</span></div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Instituciones</h2>
-              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica. Aquí es donde nacen los cambios que transforman empresas, ciudades y formas de vivir el trabajo.</p>
+              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica. Aquí es donde nacen los cambios que transforman empresas, ciudades y formas de vivir el trabajo</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {instituciones.map((i) => <LogoPlaceholder key={i.id} />)}
@@ -98,7 +98,7 @@ export default function EcosistemaPage() {
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Embajadores</span></div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Embajadores</h2>
-              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Voces que inspiran desde su propia identidad y experiencia, llevando una forma más auténtica de entender el trabajo a las organizaciones. Profesionales que, desde sus ámbitos, impulsan el cambio y generan impacto.</p>
+              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Voces que inspiran desde su propia identidad y experiencia, llevando una forma más auténtica de entender el trabajo a las organizaciones. Profesionales que, desde sus ámbitos, impulsan el cambio y generan impacto</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {embajadores.map((e) => <AvatarPlaceholder key={e.id} name={e.name} />)}

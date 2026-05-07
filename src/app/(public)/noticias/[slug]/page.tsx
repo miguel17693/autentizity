@@ -81,7 +81,7 @@ export default async function NoticiaDetailPage({
           {!noticia.content && (
             <div className="mt-12 p-8 bg-surface-alt text-center">
               <p className="text-text-secondary font-light">
-                El contenido completo de esta noticia estará disponible próximamente.
+                El contenido completo de esta noticia estará disponible próximamente
               </p>
             </div>
           )}

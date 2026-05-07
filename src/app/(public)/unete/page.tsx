@@ -22,7 +22,7 @@ export default function UnetePage() {
             Únete
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
-            Forma parte del ecosistema AutentiZity.
+            Forma parte del ecosistema AutentiZity
           </p>
         </div>
       </section>

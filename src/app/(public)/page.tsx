@@ -58,7 +58,7 @@ function Hero() {
         {/* Subtext */}
         <p className="mt-4 sm:mt-6 text-white/55 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
           Conectamos empresas, instituciones, asociaciones y profesionales en un
-          ecosistema que promueve la «autenticidad»: poder ser tú, en tu lugar de trabajo.
+          ecosistema que promueve la «autenticidad»: poder ser tú, en tu lugar de trabajo
         </p>
 
         {/* CTAs */}
@@ -111,12 +111,12 @@ function Introduction() {
               AutentiZity es el punto de encuentro entre los valores de la
               sociedad y la cultura de las empresas. Impulsa una cultura
               empresarial basada en lo que nos une: aquello que nos identifica,
-              nos hace únicos y nos posiciona en el mundo.
+              nos hace únicos y nos posiciona en el mundo
             </p>
             <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light">
               El potencial de «ser tú» define la identidad de personas y
               organizaciones. En este camino, las acompañamos junto a
-              asociaciones e instituciones que impulsan su desarrollo.
+              asociaciones e instituciones que impulsan su desarrollo
             </p>
           </ScrollReveal>
 
@@ -368,7 +368,7 @@ function CTA() {
           </h2>
           <p className="mt-5 text-white/45 text-base lg:text-lg leading-relaxed font-light max-w-lg mx-auto">
             Forma parte de AutentiZity y accede a los recursos y la comunidad
-            que redefine la cultura empresarial.
+            que redefine la cultura empresarial
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link

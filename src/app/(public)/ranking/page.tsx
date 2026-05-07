@@ -74,7 +74,7 @@ export default function RankingPage() {
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
             Reconocemos a 100 líderes en España que inspiran por promover espacios
-            de trabajo donde las personas pueden ser auténticas.
+            de trabajo donde las personas pueden ser auténticas
           </p>
           <p className="mt-2 text-secondary-light text-sm font-light">
             Organiza AutentiZity &amp; ManpowerGroup
@@ -96,11 +96,11 @@ export default function RankingPage() {
                 iniciativa de AutentiZity y ManpowerGroup que identifica y
                 reconoce a los 100 profesionales que promueven la autenticidad
                 en España. Líderes que, desde su posición, impulsan culturas
-                corporativas donde cada persona puede ser quien realmente es.
+                corporativas donde cada persona puede ser quien realmente es
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
                 Estas acciones están enmarcadas en cuatro líneas de actuación:
-                salud mental, bienestar, diversidad y liderazgo inclusivo.
+                salud mental, bienestar, diversidad y liderazgo inclusivo
               </p>
             </ScrollReveal>
           </div>
@@ -196,7 +196,7 @@ export default function RankingPage() {
             </p>
             <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light">
               Presenta tu candidatura o ayúdanos a compartir este link con la
-              persona que está transformando la cultura empresarial.
+              persona que está transformando la cultura empresarial
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a

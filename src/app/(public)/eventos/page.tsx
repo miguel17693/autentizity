@@ -42,7 +42,7 @@ export default async function EventosPage() {
             Actividad
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
-            Descubre los próximos encuentros, foros y experiencias del ecosistema AutentiZity.
+            Descubre los próximos encuentros, foros y experiencias del ecosistema AutentiZity
           </p>
         </div>
       </section>
@@ -53,7 +53,7 @@ export default async function EventosPage() {
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           {items.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
-              No hay eventos publicados todavía.
+              No hay eventos publicados todavía
             </p>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
@@ -144,7 +144,7 @@ export default async function EventosPage() {
             Movimientos
           </h2>
           <p className="mt-4 text-text-body text-base font-light max-w-3xl">
-            Líneas de acción del ecosistema AutentiZity.
+            Líneas de acción del ecosistema AutentiZity
           </p>
 
           {/* NOTA PARA EL CLIENTE: Miguel, necesitamos el copy/descripción de cada movimiento. Por ahora están solo con el título. */}
