@@ -49,7 +49,7 @@ export default async function EventosPage() {
 
       <Section id="act-eventos">
       {/* Listing */}
-      <section className="py-10 sm:py-16 lg:py-24">
+      <section id="eventos" className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           {items.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
@@ -132,7 +132,7 @@ export default async function EventosPage() {
 
       <Section id="act-movimientos">
       {/* ============== MOVIMIENTOS ============== */}
-      <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+      <section id="movimientos" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="flex items-center gap-4 mb-4">
             <div className="brand-line" />

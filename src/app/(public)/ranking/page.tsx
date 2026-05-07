@@ -84,7 +84,7 @@ export default function RankingPage() {
 
       {/* Introduction */}
       <Section id="rank-intro">
-      <section className="py-12 sm:py-16 lg:py-24">
+      <section id="ranking" className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <ScrollReveal>
@@ -155,6 +155,9 @@ export default function RankingPage() {
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
                 Proceso de Selección
               </h2>
+              <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-2xl mx-auto">
+                Un reconocimiento a las personas que, día a día, estáis transformando la cultura empresarial en España
+              </p>
             </div>
           </ScrollReveal>
 
@@ -219,7 +222,7 @@ export default function RankingPage() {
 
       {/* ============== DIPLOMA AUTENTIZITY ============== */}
       <Section id="rank-diploma">
-      <section className="py-12 sm:py-16 lg:py-24">
+      <section id="diploma" className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
             <div className="max-w-3xl mx-auto text-center">

@@ -47,7 +47,7 @@ export default function EcosistemaPage() {
       </section>
 
       <Section id="eco-empresas">
-        <section className="py-12 sm:py-16 lg:py-24">
+        <section id="empresas" className="py-12 sm:py-16 lg:py-24">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Empresas</span></div>
@@ -62,7 +62,7 @@ export default function EcosistemaPage() {
       </Section>
 
       <Section id="eco-asociaciones">
-        <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+        <section id="asociaciones" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Asociaciones</span></div>
@@ -78,7 +78,7 @@ export default function EcosistemaPage() {
       </Section>
 
       <Section id="eco-instituciones">
-        <section className="py-12 sm:py-16 lg:py-24">
+        <section id="instituciones" className="py-12 sm:py-16 lg:py-24">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Instituciones</span></div>
@@ -93,7 +93,7 @@ export default function EcosistemaPage() {
       </Section>
 
       <Section id="eco-embajadores">
-        <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+        <section id="embajadores" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
               <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Embajadores</span></div>

@@ -40,7 +40,7 @@
   --color-text-inverse: #ffffff;
 
   /* --- Tipografía --- */
-  --font-serif: "P22 Mackinac Pro", "P22Mackinac", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
   --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Espaciado editorial --- */
@@ -78,7 +78,7 @@ html {
 /* Utilidades editorial — P22 Mackinac Pro para headings */
 .font-serif,
 h1, h2, h3, h4, h5, h6 {
-  font-family: "P22 Mackinac Pro", "P22Mackinac", Georgia, serif !important;
+  font-family: "Fraunces", Georgia, serif !important;
 }
 
 .text-balance {

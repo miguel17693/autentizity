@@ -6,9 +6,32 @@ import Image from "next/image";
 
 const navItems = [
   { label: "Aceleradora", href: "/" },
-  { label: "Ecosistema", href: "/ecosistema" },
-  { label: "Actividad", href: "/eventos" },
-  { label: "Reconocimiento", href: "/ranking" },
+  {
+    label: "Ecosistema",
+    href: "/ecosistema",
+    children: [
+      { label: "Empresas", href: "/ecosistema#empresas" },
+      { label: "Asociaciones", href: "/ecosistema#asociaciones" },
+      { label: "Instituciones", href: "/ecosistema#instituciones" },
+      { label: "Embajadores", href: "/ecosistema#embajadores" },
+    ],
+  },
+  {
+    label: "Actividad",
+    href: "/eventos",
+    children: [
+      { label: "Eventos", href: "/eventos#eventos" },
+      { label: "Movimientos", href: "/eventos#movimientos" },
+    ],
+  },
+  {
+    label: "Reconocimiento",
+    href: "/ranking",
+    children: [
+      { label: "Ranking Authentic Leaders", href: "/ranking#ranking" },
+      { label: "Diploma AutentiZity", href: "/ranking#diploma" },
+    ],
+  },
   { label: "Noticias", href: "/noticias" },
   { label: "Únete", href: "/unete" },
 ];
@@ -66,17 +89,38 @@ export default function Header() {
               />
             </Link>
 
-            {/* Nav desktop — with animated underlines */}
+            {/* Nav desktop — with dropdowns */}
             <nav className="hidden lg:flex items-center gap-10">
               {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="group relative text-[13px] font-medium tracking-[0.08em] uppercase text-text-body hover:text-primary transition-colors py-2"
-                >
-                  {item.label}
-                  <span className="absolute left-0 -bottom-0.5 h-[1.5px] w-0 bg-accent group-hover:w-full transition-all duration-300 ease-out" />
-                </Link>
+                <div key={item.href} className="relative group">
+                  <Link
+                    href={item.href}
+                    className="relative text-[13px] font-medium tracking-[0.08em] uppercase text-text-body hover:text-primary transition-colors py-2"
+                  >
+                    {item.label}
+                    {item.children && (
+                      <svg className="inline-block w-3 h-3 ml-1 -mt-0.5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    )}
+                    <span className="absolute left-0 -bottom-0.5 h-[1.5px] w-0 bg-accent group-hover:w-full transition-all duration-300 ease-out" />
+                  </Link>
+                  {item.children && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                      <div className="bg-white border border-border-light shadow-lg shadow-black/5 py-2 min-w-[200px]">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="block px-5 py-2 text-[12px] font-medium tracking-[0.04em] text-text-body hover:text-primary hover:bg-surface-alt transition-colors"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
 
@@ -134,14 +178,29 @@ export default function Header() {
       >
         <nav className="flex flex-col px-5 sm:px-6 pt-6 pb-8">
           {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileOpen(false)}
-              className="font-serif text-[1.25rem] sm:text-[1.35rem] font-light text-primary py-4 border-b border-border-light active:text-accent active:pl-1 transition-all duration-150"
-            >
-              {item.label}
-            </Link>
+            <div key={item.href}>
+              <Link
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="font-serif text-[1.25rem] sm:text-[1.35rem] font-light text-primary py-4 border-b border-border-light active:text-accent active:pl-1 transition-all duration-150 block"
+              >
+                {item.label}
+              </Link>
+              {item.children && (
+                <div className="pl-4 border-b border-border-light">
+                  {item.children.map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="block text-[0.95rem] font-light text-text-secondary py-2.5 active:text-accent transition-colors"
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
           <a
             href="mailto:comunidad@autentizity.org"
