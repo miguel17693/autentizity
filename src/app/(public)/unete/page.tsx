@@ -43,7 +43,12 @@ export default function UnetePage() {
                 Empresas
               </h2>
               <p className="mt-4 text-text-muted text-sm font-light border border-dashed border-border p-4">
-                NECESITAMOS EL TEXTO DE ESTA SECCIÓN.
+                Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave:
+ ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal?
+  
+La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente “tecnológicos”, carentes del componente humano, lo que puede generar distancia y pérdida de interés.
+
+A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente.
               </p>
             </div>
           </ScrollReveal>
@@ -67,7 +72,12 @@ export default function UnetePage() {
                 Organizaciones
               </h2>
               <p className="mt-4 text-text-muted text-sm font-light border border-dashed border-border p-4">
-                NECESITAMOS EL TEXTO DE ESTA SECCIÓN.
+                Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave:
+ ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal?
+  
+La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente “tecnológicos”, carentes del componente humano, lo que puede generar distancia y pérdida de interés.
+
+A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente.
               </p>
             </div>
           </ScrollReveal>
@@ -91,7 +101,12 @@ export default function UnetePage() {
                 Profesionales
               </h2>
               <p className="mt-4 text-text-muted text-sm font-light border border-dashed border-border p-4">
-                NECESITAMOS EL TEXTO DE ESTA SECCIÓN.
+                Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave:
+ ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal?
+  
+La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente “tecnológicos”, carentes del componente humano, lo que puede generar distancia y pérdida de interés.
+
+A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente.
               </p>
             </div>
           </ScrollReveal>
