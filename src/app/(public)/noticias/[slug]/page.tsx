@@ -20,7 +20,21 @@ export default async function NoticiaDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const noticia = await getNoticiaBySlug(slug);
+  let noticia: News | undefined;
+  try {
+    noticia = await getNoticiaBySlug(slug);
+  } catch (e) {
+    console.error("NoticiaDetailPage fetch error:", e);
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center px-4">
+          <h1 className="font-serif text-3xl text-primary font-light mb-4">Error de conexión</h1>
+          <p className="text-text-secondary">No se pudo cargar la noticia. La base de datos no está disponible.</p>
+          <Link href="/noticias" className="mt-6 inline-block text-accent text-sm font-medium hover:underline">← Volver a noticias</Link>
+        </div>
+      </div>
+    );
+  }
 
   if (!noticia) return notFound();
 

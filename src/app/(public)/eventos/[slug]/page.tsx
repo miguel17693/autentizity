@@ -33,7 +33,21 @@ export default async function EventoDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const evento = await getEventoBySlug(slug);
+  let evento: Event | undefined;
+  try {
+    evento = await getEventoBySlug(slug);
+  } catch (e) {
+    console.error("EventoDetailPage fetch error:", e);
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center px-4">
+          <h1 className="font-serif text-3xl text-primary font-light mb-4">Error de conexión</h1>
+          <p className="text-text-secondary">No se pudo cargar el evento. La base de datos no está disponible.</p>
+          <Link href="/eventos" className="mt-6 inline-block text-accent text-sm font-medium hover:underline">← Volver a eventos</Link>
+        </div>
+      </div>
+    );
+  }
 
   if (!evento) return notFound();
 

@@ -392,10 +392,24 @@ function CTA() {
 
 /* ============== PAGE ============== */
 export default async function HomePage() {
-  const [events, news] = await Promise.all([getEvents(), getNews()]);
+  let events: any[] = [];
+  let news: any[] = [];
+  let dataError = false;
+
+  try {
+    [events, news] = await Promise.all([getEvents(), getNews()]);
+  } catch (e) {
+    console.error("HomePage data fetch error:", e);
+    dataError = true;
+  }
 
   return (
     <div className="snap-container">
+      {dataError && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-sm text-center py-2 px-4">
+          ⚠️ Error conectando con la base de datos. Los eventos y noticias no están disponibles temporalmente.
+        </div>
+      )}
       <Section id="home-hero"><Hero /></Section>
       <Section id="home-ecosystem"><Introduction /></Section>
       <Section id="home-events"><Events events={events} /></Section>

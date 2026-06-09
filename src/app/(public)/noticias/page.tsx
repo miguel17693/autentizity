@@ -17,11 +17,23 @@ export default async function NoticiasPage() {
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
   const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
-  const noticias = await getNoticias();
+  let noticias: News[] = [];
+  let dataError = false;
+  try {
+    noticias = await getNoticias();
+  } catch (e) {
+    console.error("NoticiasPage data fetch error:", e);
+    dataError = true;
+  }
   const items = isPreview ? noticias : noticias.filter((n) => n.status === "published");
 
   return (
     <>
+      {dataError && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-sm text-center py-2 px-4">
+          ⚠️ Error conectando con la base de datos. Las noticias no están disponibles temporalmente.
+        </div>
+      )}
       {/* Hero banner */}
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">

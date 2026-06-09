@@ -18,11 +18,23 @@ export default async function EventosPage() {
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
   const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
-  const eventos = await getEventos();
+  let eventos: Event[] = [];
+  let dataError = false;
+  try {
+    eventos = await getEventos();
+  } catch (e) {
+    console.error("EventosPage data fetch error:", e);
+    dataError = true;
+  }
   const items = isPreview ? eventos : eventos.filter((e) => e.status === "published");
 
   return (
     <>
+      {dataError && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-sm text-center py-2 px-4">
+          ⚠️ Error conectando con la base de datos. Los eventos no están disponibles temporalmente.
+        </div>
+      )}
       {/* Hero banner */}
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
