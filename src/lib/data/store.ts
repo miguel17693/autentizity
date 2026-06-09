@@ -1,32 +1,30 @@
 import type { News, Event } from "@/lib/types";
 import { getSQL } from "@/lib/data/db";
-import { mockEvents, mockNews } from "@/lib/data/mock";
 
 /*
  * Data store backed by Neon Postgres (via Vercel Storage).
- * Falls back to mock data when DATABASE_URL is not configured (local dev without DB).
+ * Requires DATABASE_URL to be set.
  */
 
-function hasDB(): boolean {
-  return !!process.env.DATABASE_URL;
+function requireDB() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error(
+      "DATABASE_URL is not set. Create a Neon database in Vercel Storage and link it to this project."
+    );
+  }
 }
 
 // --- Eventos ---
 
 export async function getEventos(): Promise<Event[]> {
-  if (!hasDB()) return mockEvents;
-  try {
-    const sql = getSQL();
-    const rows = await sql`SELECT * FROM eventos ORDER BY start_date DESC`;
-    return rows.map(rowToEvent);
-  } catch (e) {
-    console.error("getEventos error:", e);
-    return mockEvents;
-  }
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM eventos ORDER BY start_date DESC`;
+  return rows.map(rowToEvent);
 }
 
 export async function saveEvento(evento: Event): Promise<void> {
-  if (!hasDB()) return;
+  requireDB();
   const sql = getSQL();
   await sql`
     INSERT INTO eventos (id, slug, title, description, content, cover_image, start_date, end_date, location, type, tags, organizer, registration_url, featured, status, updated_at)
@@ -51,14 +49,10 @@ export async function saveEvento(evento: Event): Promise<void> {
 }
 
 export async function getEvento(id: string): Promise<Event | undefined> {
-  if (!hasDB()) return mockEvents.find((e) => e.id === id);
-  try {
-    const sql = getSQL();
-    const rows = await sql`SELECT * FROM eventos WHERE id = ${id} LIMIT 1`;
-    return rows.length ? rowToEvent(rows[0]) : undefined;
-  } catch {
-    return undefined;
-  }
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM eventos WHERE id = ${id} LIMIT 1`;
+  return rows.length ? rowToEvent(rows[0]) : undefined;
 }
 
 export async function createEvento(evento: Event): Promise<Event> {
@@ -75,7 +69,7 @@ export async function updateEvento(id: string, updates: Partial<Event>): Promise
 }
 
 export async function deleteEvento(id: string): Promise<boolean> {
-  if (!hasDB()) return false;
+  requireDB();
   const sql = getSQL();
   const result = await sql`DELETE FROM eventos WHERE id = ${id}`;
   return (result as unknown as { count?: number }).count !== 0;
@@ -84,19 +78,14 @@ export async function deleteEvento(id: string): Promise<boolean> {
 // --- Noticias ---
 
 export async function getNoticias(): Promise<News[]> {
-  if (!hasDB()) return mockNews;
-  try {
-    const sql = getSQL();
-    const rows = await sql`SELECT * FROM noticias ORDER BY published_at DESC`;
-    return rows.map(rowToNews);
-  } catch (e) {
-    console.error("getNoticias error:", e);
-    return mockNews;
-  }
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM noticias ORDER BY published_at DESC`;
+  return rows.map(rowToNews);
 }
 
 export async function saveNoticia(noticia: News): Promise<void> {
-  if (!hasDB()) return;
+  requireDB();
   const sql = getSQL();
   await sql`
     INSERT INTO noticias (id, slug, title, excerpt, content, cover_image, tags, author, published_at, updated_at, featured, status)
@@ -117,14 +106,10 @@ export async function saveNoticia(noticia: News): Promise<void> {
 }
 
 export async function getNoticia(id: string): Promise<News | undefined> {
-  if (!hasDB()) return mockNews.find((n) => n.id === id);
-  try {
-    const sql = getSQL();
-    const rows = await sql`SELECT * FROM noticias WHERE id = ${id} LIMIT 1`;
-    return rows.length ? rowToNews(rows[0]) : undefined;
-  } catch {
-    return undefined;
-  }
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM noticias WHERE id = ${id} LIMIT 1`;
+  return rows.length ? rowToNews(rows[0]) : undefined;
 }
 
 export async function createNoticia(noticia: News): Promise<News> {
@@ -141,7 +126,7 @@ export async function updateNoticia(id: string, updates: Partial<News>): Promise
 }
 
 export async function deleteNoticia(id: string): Promise<boolean> {
-  if (!hasDB()) return false;
+  requireDB();
   const sql = getSQL();
   const result = await sql`DELETE FROM noticias WHERE id = ${id}`;
   return (result as unknown as { count?: number }).count !== 0;

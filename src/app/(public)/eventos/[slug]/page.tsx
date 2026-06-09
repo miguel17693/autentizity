@@ -8,15 +8,10 @@ export const dynamic = "force-dynamic";
 
 async function getEventoBySlug(slug: string): Promise<Event | undefined> {
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  try {
-    const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
-    if (!res.ok) throw new Error("fetch failed");
-    const eventos: Event[] = await res.json();
-    return eventos.find((e) => e.slug === slug);
-  } catch {
-    const { mockEvents } = await import("@/lib/data/mock");
-    return mockEvents.find((e) => e.slug === slug);
-  }
+  const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch eventos: ${res.status}`);
+  const eventos: Event[] = await res.json();
+  return eventos.find((e) => e.slug === slug);
 }
 
 function getRegistrationLabel(type: string) {

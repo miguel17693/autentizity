@@ -9,14 +9,9 @@ export const dynamic = "force-dynamic";
 
 async function getEventos(): Promise<Event[]> {
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  try {
-    const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
-    if (!res.ok) throw new Error("fetch failed");
-    return res.json();
-  } catch {
-    const { mockEvents } = await import("@/lib/data/mock");
-    return mockEvents;
-  }
+  const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch eventos: ${res.status}`);
+  return res.json();
 }
 
 export default async function EventosPage() {

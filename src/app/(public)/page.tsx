@@ -392,19 +392,7 @@ function CTA() {
 
 /* ============== PAGE ============== */
 export default async function HomePage() {
-  let events, news;
-  try {
-    events = await getEvents();
-  } catch {
-    const { mockEvents } = await import("@/lib/data/mock");
-    events = mockEvents;
-  }
-  try {
-    news = await getNews();
-  } catch {
-    const { mockNews } = await import("@/lib/data/mock");
-    news = mockNews;
-  }
+  const [events, news] = await Promise.all([getEvents(), getNews()]);
 
   return (
     <div className="snap-container">

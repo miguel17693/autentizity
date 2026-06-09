@@ -8,14 +8,9 @@ export const dynamic = "force-dynamic";
 
 async function getNoticias(): Promise<News[]> {
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  try {
-    const res = await fetch(`${base}/api/noticias`, { cache: "no-store" });
-    if (!res.ok) throw new Error("fetch failed");
-    return res.json();
-  } catch {
-    const { mockNews } = await import("@/lib/data/mock");
-    return mockNews;
-  }
+  const res = await fetch(`${base}/api/noticias`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch noticias: ${res.status}`);
+  return res.json();
 }
 
 export default async function NoticiasPage() {
