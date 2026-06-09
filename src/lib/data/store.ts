@@ -55,6 +55,13 @@ export async function getEvento(id: string): Promise<Event | undefined> {
   return rows.length ? rowToEvent(rows[0]) : undefined;
 }
 
+export async function getEventoBySlug(slug: string): Promise<Event | undefined> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM eventos WHERE slug = ${slug} LIMIT 1`;
+  return rows.length ? rowToEvent(rows[0]) : undefined;
+}
+
 export async function createEvento(evento: Event): Promise<Event> {
   await saveEvento(evento);
   return evento;
@@ -109,6 +116,13 @@ export async function getNoticia(id: string): Promise<News | undefined> {
   requireDB();
   const sql = getSQL();
   const rows = await sql`SELECT * FROM noticias WHERE id = ${id} LIMIT 1`;
+  return rows.length ? rowToNews(rows[0]) : undefined;
+}
+
+export async function getNoticiaBySlug(slug: string): Promise<News | undefined> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM noticias WHERE slug = ${slug} LIMIT 1`;
   return rows.length ? rowToNews(rows[0]) : undefined;
 }
 

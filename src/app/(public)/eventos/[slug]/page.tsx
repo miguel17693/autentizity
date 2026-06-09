@@ -3,17 +3,9 @@ import Image from "next/image";
 import { formatDate, formatDateTime } from "@/lib/utils";
 import type { Event } from "@/lib/types";
 import { notFound } from "next/navigation";
+import { getEventoBySlug } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
-
-async function getEventoBySlug(slug: string): Promise<Event | undefined> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch eventos: ${res.status}`);
-  const eventos: Event[] = await res.json();
-  return eventos.find((e) => e.slug === slug);
-}
-
 function getRegistrationLabel(type: string) {
   switch (type) {
     case "virtual":

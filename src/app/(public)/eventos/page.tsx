@@ -4,15 +4,9 @@ import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
 import Section from "@/components/ui/Section";
 import type { Event } from "@/lib/types";
+import { getEventos } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
-
-async function getEventos(): Promise<Event[]> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch eventos: ${res.status}`);
-  return res.json();
-}
 
 export default async function EventosPage() {
   const cookieStore = await cookies();

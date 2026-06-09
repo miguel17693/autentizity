@@ -3,15 +3,9 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
 import type { News } from "@/lib/types";
+import { getNoticias } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
-
-async function getNoticias(): Promise<News[]> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/noticias`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch noticias: ${res.status}`);
-  return res.json();
-}
 
 export default async function NoticiasPage() {
   const cookieStore = await cookies();

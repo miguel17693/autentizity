@@ -4,25 +4,22 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import CountUp from "@/components/ui/CountUp";
 import Section from "@/components/ui/Section";
 import { formatDate } from "@/lib/utils";
+import { getEventos, getNoticias } from "@/lib/data/store";
 
 /* ============================================
  * HOME — AutentiZity
  * Editorial premium · Scroll animations
  * ============================================ */
 
-/* ------- Data fetching (API routes) ------- */
+/* ------- Data fetching (direct DB) ------- */
 async function getEvents() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/eventos`, { cache: "no-store" });
-  if (!res.ok) throw new Error("fetch failed");
-  return res.json();
+  const eventos = await getEventos();
+  return eventos.filter((e) => e.status === "published" && e.featured);
 }
 
 async function getNews() {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/noticias`, { cache: "no-store" });
-  if (!res.ok) throw new Error("fetch failed");
-  return res.json();
+  const noticias = await getNoticias();
+  return noticias.filter((n) => n.status === "published" && n.featured);
 }
 
 /* ============== HERO ============== */

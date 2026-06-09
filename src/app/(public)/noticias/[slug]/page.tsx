@@ -3,17 +3,9 @@ import Image from "next/image";
 import { formatDate } from "@/lib/utils";
 import type { News } from "@/lib/types";
 import { notFound } from "next/navigation";
+import { getNoticiaBySlug } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
-
-async function getNoticiaBySlug(slug: string): Promise<News | undefined> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/noticias`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch noticias: ${res.status}`);
-  const noticias: News[] = await res.json();
-  return noticias.find((n) => n.slug === slug);
-}
-
 export default async function NoticiaDetailPage({
   params,
 }: {
