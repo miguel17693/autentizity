@@ -1,19 +1,35 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
+import Image from "next/image";
 
 /* ============================================
- * ECOSISTEMA — Empresas, Asociaciones, Instituciones, Embajadores
+ * ECOSISTEMA — Empresas, Entidades Colaboradoras, Instituciones, Embajadores
  * ============================================ */
 
-const empresas = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: `Empresa ${i + 1}` }));
-const asociaciones = Array.from({ length: 6 }, (_, i) => ({ id: i + 1, name: `Asociación ${i + 1}` }));
+const empresasReales = [
+  { id: "manpower", name: "ManpowerGroup", logo: "/logos/manpower.png" },
+  { id: "corteingles", name: "El Corte Inglés", logo: "/logos/corteingles.png" },
+  { id: "msd", name: "MSD", logo: "/logos/msd.png" },
+  { id: "helion", name: "Helion", logo: "/logos/helion.png" },
+];
+
+const empresas = Array.from({ length: 4 }, (_, i) => ({ id: `emp${i + 1}`, name: `Empresa ${i + 1}` }));
+const entidades = Array.from({ length: 6 }, (_, i) => ({ id: i + 1, name: `Entidad ${i + 1}` }));
 const instituciones = Array.from({ length: 4 }, (_, i) => ({ id: i + 1, name: `Institución ${i + 1}` }));
 const embajadores = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: `Embajador/a ${i + 1}` }));
 
-function LogoPlaceholder() {
+function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
+  const hasLogo = logo != null;
+
   return (
     <div className="flex items-center justify-center h-20 bg-white border border-border-light px-6">
-      <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase">LOGO</span>
+      {hasLogo ? (
+        <Image src={logo} alt={name ?? ""} width={120} height={48} className="object-contain max-h-12 max-w-[120px]" />
+      ) : (
+        <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase">
+          {name ?? "LOGO"}
+        </span>
+      )}
     </div>
   );
 }
@@ -55,23 +71,24 @@ export default function EcosistemaPage() {
               <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren. Organizaciones que entienden que el cambio real empieza dentro… y se proyecta fuera</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {empresas.map((e) => <LogoPlaceholder key={e.id} />)}
+              {empresasReales.map((e) => <LogoPlaceholder key={e.id} name={e.name} logo={e.logo} />)}
+              {empresas.map((e) => <LogoPlaceholder key={e.id} name={e.name} />)}
             </div>
           </div>
         </section>
       </Section>
 
-      <Section id="eco-asociaciones">
-        <section id="asociaciones" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+      <Section id="eco-entidades">
+        <section id="entidades" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
-              <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Asociaciones</span></div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Asociaciones</h2>
+              <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Entidades Colaboradoras</span></div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Entidades Colaboradoras</h2>
               <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos. Porque somos personas en todos los ámbitos de nuestra vida, también en nuestros lugares de trabajo</p>
               <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light max-w-3xl">Sus mensajes nos ayudan a potenciar el talento, evitar situaciones de discriminación, mejorar nuestra salud mental, bienestar, y por supuesto que los lugares de trabajo sean un reflejo de la sociedad</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {asociaciones.map((a) => <LogoPlaceholder key={a.id} />)}
+              {entidades.map((a) => <LogoPlaceholder key={a.id} />)}
             </div>
           </div>
         </section>
@@ -81,8 +98,8 @@ export default function EcosistemaPage() {
         <section id="instituciones" className="py-12 sm:py-16 lg:py-24">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
-              <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Instituciones</span></div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Instituciones</h2>
+              <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Instituciones, Cámaras de Comercio y Asociaciones Corporativas</span></div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Instituciones, Cámaras de Comercio y Asociaciones Corporativas</h2>
               <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica. Aquí es donde nacen los cambios que transforman empresas, ciudades y formas de vivir el trabajo</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">

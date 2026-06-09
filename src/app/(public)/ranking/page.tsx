@@ -53,7 +53,7 @@ const timeline = [
   { step: "01", title: "Convocatoria", desc: "La convocatoria 2026 ya está abierta. Es el momento de dar visibilidad a tu liderazgo" },
   { step: "02", title: "Evaluación", desc: "Un comité independiente de expertos del ámbito corporativo y la sociedad civil evalúa cada candidatura con criterios rigurosos en las cuatro categorías" },
   { step: "03", title: "Selección", desc: "Se seleccionan los 100 líderes más auténticos de España, que serán reconocidos por su impacto y coherencia" },
-  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Ranking Authentic Leaders' junto a ManpowerGroup" },
+  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Ranking líderes de la autenticidad' junto a ManpowerGroup" },
 ];
 
 export default function RankingPage() {
@@ -70,11 +70,10 @@ export default function RankingPage() {
             <div className="w-8 h-[1px] bg-accent" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em] uppercase">
-            Ranking Authentic Leaders
+            Ranking líderes de la autenticidad
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
-            Reconocemos a 100 líderes en España que inspiran por promover espacios
-            de trabajo donde las personas pueden ser auténticas
+            Los líderes que están redefiniendo la cultura empresarial en España
           </p>
           <p className="mt-2 text-secondary-light text-sm font-light">
             Organiza AutentiZity &amp; ManpowerGroup
@@ -92,15 +91,11 @@ export default function RankingPage() {
                 ¿Qué es el Ranking?
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
-                El <strong className="font-medium">Ranking Authentic Leaders</strong> es una
-                iniciativa de AutentiZity y ManpowerGroup que identifica y
-                reconoce a los 100 profesionales que promueven la autenticidad
-                en España. Líderes que, desde su posición, impulsan culturas
-                corporativas donde cada persona puede ser quien realmente es
+                El <strong className="font-medium">Ranking Líderes de la Autenticidad</strong> es una
+                iniciativa de AutentiZity y ManpowerGroup que reconoce a los 100 profesionales que más contribuyen a impulsar la autenticidad en España. Personas que, desde organizaciones, entidades sociales o proyectos propios, promueven entornos donde cada individuo puede desarrollar su potencial sin renunciar a quién es
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
-                Estas acciones están enmarcadas en cuatro líneas de actuación:
-                salud mental, bienestar, diversidad y liderazgo inclusivo
+                Su impacto se articula en cuatro ámbitos clave: Bienestar Integral, Salud Mental, Diversidad, Equidad e Inclusión (DEI) y Liderazgo Auténtico
               </p>
             </ScrollReveal>
           </div>
@@ -194,12 +189,11 @@ export default function RankingPage() {
               ¿Quieres participar?
             </h2>
             <p className="mt-5 text-text-secondary text-base leading-relaxed font-light">
-              ¿Quieres formar parte del ranking Authentic Leaders de AutentiZity
+              ¿Quieres formar parte del ranking líderes de la autenticidad de AutentiZity
               y ManpowerGroup o nominar a alguien de tu organización?
             </p>
             <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light">
-              Presenta tu candidatura o ayúdanos a compartir este link con la
-              persona que está transformando la cultura empresarial
+              Presenta tu candidatura o comparte este enlace con esa persona que inspira a otros a ser auténticos y que está impulsando un cambio positivo en su organización o en la sociedad
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -250,7 +244,7 @@ export default function RankingPage() {
                 de Inclusión de Personas con Discapacidad y el Plan LGTBI+
               </p>
               <p className="mt-6 text-text-body text-base font-medium">
-                Porque el verdadero liderazgo no se declara: se demuestra
+                Cuando mejoramos la cultura corporativa de una empresa, también estamos impactando en positivo en la sociedad
               </p>
             </div>
           </ScrollReveal>

@@ -4,7 +4,7 @@
  * ============================================
  * AUTENTIZITY — Design System
  * ============================================
- * Tipografía: P22 Mackinac Pro (títulos) + Source Sans Pro (cuerpo)
+ * Tipografía: Fraunces (títulos) + Poppins (cuerpo) [pendiente: CHULAPA para uppercase]
  * Paleta: Verde profundo + Rosa antiguo + Teal
  * Estilo: Editorial, premium, mucho whitespace
  * ============================================
@@ -41,7 +41,7 @@
 
   /* --- Tipografía --- */
   --font-serif: "Fraunces", Georgia, serif;
-  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Espaciado editorial --- */
   --spacing-section: 8rem;
@@ -55,7 +55,7 @@
 
 /* Base */
 body {
-  font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
   color: var(--color-text-body);
   background-color: var(--color-surface);
   font-weight: 400;

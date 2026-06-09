@@ -3,14 +3,14 @@ import type { News, Event } from "@/lib/types";
 /* ============================================
  * Mock data para desarrollo
  * Se reemplazará por datos reales del CMS/backend
- * Basado en contenido real del PPTX de AutentiZity
+ * Actualizado con nombres de la revisión del cliente
  * ============================================ */
 
 export const mockEvents: Event[] = [
   {
     id: "1",
-    slug: "nuestro-legado-como-generacion",
-    title: "Nuestro Legado como Generación",
+    slug: "nuestro-legado-siguientes-generaciones",
+    title: "Nuestro Legado a las Siguientes Generaciones",
     description:
       "Sensibilización contra el bullying y acoso escolar. Un evento para reflexionar sobre el impacto que dejamos como generación.",
     content: "",
@@ -45,10 +45,10 @@ export const mockEvents: Event[] = [
   },
   {
     id: "3",
-    slug: "foro-iauthenticity",
-    title: "Foro IAuthenticity: IA desde el Humanismo",
+    slug: "foro-authentizity",
+    title: "AuthentiZity",
     description:
-      "Uso de la Inteligencia Artificial desde los valores del humanismo. Para profesionales de Innovación, Cultura, Ética y Tech.",
+      "IA y tecnología al servicio de las personas. Para profesionales de Innovación, Cultura, Ética y Tech.",
     content: "",
     coverImage: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=640&q=80",
     startDate: "2026-09-25T09:30:00",
@@ -57,25 +57,25 @@ export const mockEvents: Event[] = [
     type: "híbrido",
     tags: ["IA", "Ética", "Humanismo", "Tech"],
     organizer: "AutentiZity",
-    registrationUrl: "https://zoom.us/j/foro-iauthenticity",
+    registrationUrl: "https://zoom.us/j/foro-authentizity",
     featured: false,
     status: "published",
   },
   {
     id: "4",
-    slug: "esta-historia-va-contigo-vih",
-    title: "Esta Historia va Contigo — 45 años del VIH",
+    slug: "de-philadelphia-a-madrid",
+    title: "De Philadelphia a Madrid",
     description:
-      "De Philadelphia a Madrid. Campaña de sensibilización y no discriminación hacia personas con VIH en los lugares de trabajo.",
+      "Campaña de sensibilización y no discriminación hacia personas con VIH en los lugares de trabajo. Indetectable = Intransmisible.",
     content: "",
     coverImage: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=640&q=80",
     startDate: "2026-11-18T10:00:00",
     endDate: "2026-11-18T14:00:00",
-    location: "Madrid",
+    location: "Ilustre Colegio de la Abogacía de Madrid",
     type: "presencial",
     tags: ["VIH", "No discriminación", "Salud"],
     organizer: "AutentiZity",
-    registrationUrl: "https://www.eventbrite.es/e/esta-historia-va-contigo",
+    registrationUrl: "https://www.eventbrite.es/e/de-philadelphia-a-madrid",
     featured: false,
     status: "published",
   },
@@ -99,8 +99,8 @@ export const mockNews: News[] = [
   },
   {
     id: "2",
-    slug: "ranking-authentic-leaders-manpowergroup",
-    title: "Ranking Authentic Leaders con ManpowerGroup",
+    slug: "ranking-lideres-autenticidad-manpowergroup",
+    title: "Ranking líderes de la autenticidad con ManpowerGroup",
     excerpt:
       "Reconocemos a 100 líderes en España que inspiran por promover espacios de trabajo donde las personas pueden ser auténticas.",
     content: "",

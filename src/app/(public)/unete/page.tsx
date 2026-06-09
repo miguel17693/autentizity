@@ -40,15 +40,13 @@ export default function UnetePage() {
                 </span>
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
-                Empresas
+                Empresas que quieren liderar el cambio
               </h2>
-              <p className="mt-4 text-text-muted text-sm font-light border border-dashed border-border p-4">
-                Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave:
- ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal?
-  
-La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente “tecnológicos”, carentes del componente humano, lo que puede generar distancia y pérdida de interés.
-
-A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente.
+              <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
+                Las organizaciones tienen hoy una oportunidad única: demostrar que el éxito empresarial y el impacto positivo pueden avanzar juntos. Al adherirse a AutentiZity, las empresas pasan a formar parte de un ecosistema que impulsa, visibiliza y reconoce las buenas prácticas en diversidad, igualdad, inclusión, bienestar, sostenibilidad y liderazgo responsable.
+              </p>
+              <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
+                Una comunidad donde compartir iniciativas, generar alianzas estratégicas y dar visibilidad al compromiso real que impulsa una nueva forma de hacer empresa. Porque la cultura corporativa no solo transforma organizaciones. También transforma la sociedad.
               </p>
             </div>
           </ScrollReveal>
@@ -69,15 +67,13 @@ A este escenario se suman importantes retos éticos y morales. De la mano de exp
                 </span>
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
-                Organizaciones
+                Organizaciones que generan impacto
               </h2>
-              <p className="mt-4 text-text-muted text-sm font-light border border-dashed border-border p-4">
-                Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave:
- ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal?
-  
-La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente “tecnológicos”, carentes del componente humano, lo que puede generar distancia y pérdida de interés.
-
-A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente.
+              <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
+                AutentiZity conecta a organizaciones que trabajan cada día para construir una sociedad más inclusiva, diversa y sostenible. Queremos crear puentes entre el ámbito social, institucional y empresarial para que las buenas prácticas tengan mayor alcance y capacidad de transformación.
+              </p>
+              <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
+                Al adherirte, podrás colaborar con empresas comprometidas, participar en proyectos conjuntos y dar visibilidad, así convertir causas en movimientos corporativos. Fundaciones, asociaciones, entidades sociales e instituciones tienen aquí su espacio.
               </p>
             </div>
           </ScrollReveal>
@@ -85,7 +81,7 @@ A este escenario se suman importantes retos éticos y morales. De la mano de exp
       </section>
       </Section>
 
-      {/* Profesionales */}
+      {/* Profesionales / Embajadores */}
       <Section id="unete-profesionales">
       <section className="py-12 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -98,15 +94,13 @@ A este escenario se suman importantes retos éticos y morales. De la mano de exp
                 </span>
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
-                Profesionales
+                Profesionales que inspiran
               </h2>
-              <p className="mt-4 text-text-muted text-sm font-light border border-dashed border-border p-4">
-                Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave:
- ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal?
-  
-La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente “tecnológicos”, carentes del componente humano, lo que puede generar distancia y pérdida de interés.
-
-A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente.
+              <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
+                El programa de embajadores de AutentiZity reúne a profesionales que impulsan transformación en: Bienestar Integral, Salud Mental, Diversidad, Equidad e Inclusión (DEI) y Liderazgo Auténtico. A través de movimientos corporativos enmarcados en una estrategia de un año natural.
+              </p>
+              <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
+                En este 2026 están en activo los movimientos: AuthentiZity, Nuestro Legado a las Siguientes Generaciones, La Diversidad También es Autenticidad, Autenticos Héroes Sin Capa, Sé tú! Liderazgo Auténtico, De Philadelphia a Madrid, Espacios Seguros para el Error, Keep the Calm & Less Burnout, Mujeres Increíbles y Aliados.
               </p>
             </div>
           </ScrollReveal>

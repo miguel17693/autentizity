@@ -150,36 +150,28 @@ export default async function EventosPage() {
           {/* NOTA PARA EL CLIENTE: Miguel, necesitamos el copy/descripción de cada movimiento. Por ahora están solo con el título. */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              "Foro IAuthentiCity (IA & Uso Humano)",
-              "La Diversidad También es Autenticidad",
-              "Interseccionalidad – Pride in the Zity",
-              "Nuestro Legado como Generación (Bullying)",
-              "Héroes Sin Capa (Prevención del Suicidio)",
-              "De Philadelphia a Madrid (VIH)",
-              "¡Sé tú! Liderazgo Auténtico",
-              "Espacios Seguros para el Error",
-              "Keep the Calm & Less Burnout",
-              "Mujeres Increíbles y Aliados",
+              { title: "AuthentiZity", desc: "Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave: ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal? La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente \"tecnológicos\" carentes del componente humano, lo que puede generar distancia y pérdida de interés. A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente." },
+              { title: "Nuestro Legado a las Siguientes Generaciones", desc: "AutentiZity, en colaboración con It Gets Better España, impulsa este movimiento corporativo centrado en uno de los retos sociales más importantes de nuestro tiempo: frenar el bullying. Y queremos contar contigo partiendo de una pregunta sencilla, pero poderosa: ¿Qué legado queremos dejar a las siguientes generaciones? El objetivo de esta iniciativa es sensibilizar sobre el bullying (acoso escolar) desde los entornos laborales, corporativos y universitarios. Muchas situaciones de acoso nacen de prejuicios, sesgos y comportamientos normalizados entre las personas adultas. Si no existe una verdadera concienciación, estos patrones terminan trasladándose a las nuevas generaciones. Por ello, te invitamos a participar en el concurso creativo y campaña de concienciación: ¡Esta historia MEJORA contigo! Un concurso de relato corto, fotografía o vídeo que invita a reflexionar y actuar para eliminar prejuicios y discriminaciones. Además, podrás ganar increíbles premios, como un vuelo para dos personas a Canadá, cortesía de Air Canada, o selecciones exclusivas de artículos de LVMH. Sumarte a #EstaHistoriaMejoraContigo es contribuir a mejorar tu entorno laboral y generar un impacto positivo más allá de la organización, ayudando a construir una sociedad más respetuosa, inclusiva y libre de acoso." },
+              { title: "La Diversidad También es Autenticidad", desc: "Ponemos en valor la interseccionalidad de las diversidades, entendida como el encuentro y la interacción de diferentes realidades y experiencias, propias y compartidas, que nos ayudan a comprender mejor las vivencias de las personas con las que trabajamos, al tiempo que favorecen un mayor conocimiento de nosotros mismos y de nuestro entorno. A través de esta campaña se trabajarán las principales dimensiones de la diversidad: interseccional, intergeneracional, neurodiversidad, orientación sexual e identidad de género, género, diversidad cultural y étnica, discapacidad y diversidad cognitiva." },
+              { title: "Autenticos Héroes Sin Capa", desc: "Nos centramos en la prevención del suicidio, abordando esta realidad desde la información, la sensibilización y la responsabilidad compartida. Existe la creencia de que el suicidio es un tema del que no se debe hablar. Sin embargo, los estudios demuestran que el enfoque adecuado es precisamente el contrario: darle visibilidad, aprender a identificar situaciones de riesgo y saber cómo actuar en momentos en los que es fundamental ofrecer apoyo a un compañero o compañera de trabajo. El objetivo es proporcionar herramientas claras y procedimientos adecuados que permitan acompañar, orientar y actuar de manera responsable y efectiva." },
+              { title: "De Philadelphia a Madrid", desc: "Desde la película Philadelphia, esta historia ha cambiado mucho! Queremos dar la vuelta a los prejuicios de una forma cercana, participativa y entretenida. Para ello, contaremos con testimonios en primera persona de personas VIHsibles y profesionales expertos que ayudarán a desmontar mitos y a acercar la realidad actual del VIH a la sociedad. Porque hoy sabemos algo fundamental: Indetectable = Intransmisible (I=I). Una persona que vive con VIH, al estar tratada, no puede transmitir el virus. El movimiento corporativo \"De Philadelphia a Madrid\" se presentará en un evento en el Ilustre Colegio de la Abogacía de Madrid. La comparación entre Philadelphia y Madrid nos invita a imaginar una nueva historia. Porque esta vez, el final de la película podemos escribirlo entre todos." },
+              { title: "¡Sé tú! Liderazgo Auténtico", desc: "¿Es posible ser uno mismo en el trabajo? De la mano de líderes empresariales, reflexionaremos sobre cómo construir culturas corporativas que permitan a las personas desarrollar todo su potencial desde la autenticidad, encontrando el equilibrio entre la identidad individual y los valores compartidos de la organización. Exploraremos cómo liderar poniendo a las personas en el centro, entendiendo que los entornos donde las personas pueden mostrarse tal y como son generan mayor compromiso, bienestar, innovación y mejores resultados para el negocio. Porque humanizar los lugares de trabajo no es solo una cuestión de cultura; es también una apuesta estratégica para construir organizaciones más sostenibles, diversas y exitosas." },
+              { title: "Espacios Seguros para el Error", desc: "Aceptar que equivocarse forma parte del proceso crea entornos más honestos, seguros y libres de máscaras. ¿Te atreverías a crear un Currículum de Fracasos? Exploraremos las claves para impulsar espacios de trabajo en los que sea posible compartir ideas sin miedo, fomentando el pensamiento creativo y la participación." },
+              { title: "Keep the Calm & Less Burnout", desc: "Se estima que afecta a 7 de cada 10 personas trabajadoras, y que un 55% de los profesionales declara sentirse en un estado de agotamiento total. Exploraremos buenas prácticas en las organizaciones y compartiremos herramientas concretas para prevenir el burnout y promover entornos de trabajo más saludables y sostenibles." },
+              { title: "Mujeres Increíbles y Aliados", desc: "Desde el ecosistema AutentiZity impulsamos acciones que conectan el talento de mujeres que destacan por su autenticidad, su capacidad de liderazgo. Ofrecemos herramientas y espacios de reflexión para hombres que entienden que las iniciativas de igualdad de género representan una oportunidad para impulsar un liderazgo más inclusivo. AutentiZity identifica y visibiliza también a hombres que destacan como \"Aliados\"." },
             ].map((mov) => (
               <div
-                key={mov}
+                key={mov.title}
                 className="bg-white border border-border-light p-6 hover:shadow-md transition-shadow"
               >
                 <h3 className="font-serif text-lg text-primary font-normal">
-                  {mov}
+                  {mov.title}
                 </h3>
-                <p className="mt-2 text-text-muted text-sm font-light">
-                  NECESITAMOS TEXTO PARA ESTA SECCIÓN.
+                <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
+                  {mov.desc}
                 </p>
               </div>
             ))}
-          </div>
-
-          {/* Pregunta visible para el cliente en dev */}
-          <div className="mt-8 p-4 border-2 border-dashed border-secondary/40 bg-secondary-light/10 rounded">
-            <p className="text-secondary-dark text-sm font-medium">
-              📝 Miguel: ¿Nos puedes ir pasando el copy de cada movimiento? Los vamos rellenando según los tengamos.
-            </p>
           </div>
         </div>
       </section>

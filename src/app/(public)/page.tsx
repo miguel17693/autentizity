@@ -58,7 +58,7 @@ function Hero() {
         {/* Subtext */}
         <p className="mt-4 sm:mt-6 text-white/55 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
           Conectamos empresas, instituciones, asociaciones y profesionales en un
-          ecosistema que promueve la «autenticidad»: poder ser tú, en tu lugar de trabajo
+          ecosistema que promueve la <strong className="font-semibold text-white/75">«autenticidad»</strong>: poder ser tú, en tu lugar de trabajo
         </p>
 
         {/* CTAs */}
