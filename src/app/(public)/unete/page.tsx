@@ -90,17 +90,17 @@ export default function UnetePage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="brand-line" />
                 <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
-                  Profesionales
+                  Embajadores
                 </span>
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
-                Profesionales que inspiran
+                Embajadores que inspiran
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
                 El programa de embajadores de AutentiZity reúne a profesionales que impulsan transformación en: Bienestar Integral, Salud Mental, Diversidad, Equidad e Inclusión (DEI) y Liderazgo Auténtico. A través de movimientos corporativos enmarcados en una estrategia de un año natural.
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
-                En este 2026 están en activo los movimientos: AuthentiZity, Nuestro Legado a las Siguientes Generaciones, La Diversidad También es Autenticidad, Autenticos Héroes Sin Capa, Sé tú! Liderazgo Auténtico, De Philadelphia a Madrid, Espacios Seguros para el Error, Keep the Calm & Less Burnout, Mujeres Increíbles y Aliados.
+                En este 2026 están en activo los movimientos: IAuthentiZity, Nuestro Legado a las Siguientes Generaciones, La Diversidad También es Autenticidad, Autenticos Héroes Sin Capa, Sé tú! Liderazgo Auténtico, De Philadelphia a Madrid, Espacios Seguros para el Error, Keep the Calm & Less Burnout, Mujeres Increíbles y Aliados.
               </p>
             </div>
           </ScrollReveal>

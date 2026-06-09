@@ -124,7 +124,7 @@ function Introduction() {
                 { title: "Autenticidad", desc: "Espacios donde las personas y empresas pueden ser fieles a sus valores" },
                 { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones, asociaciones y profesionales con valores" },
                 { title: "Cultura", desc: "Transformar la cultura corporativa para impulsar el bienestar que genera poder ser tú en tu lugar de trabajo" },
-                { title: "Reconocimiento", desc: "Ranking Authentic Leaders\nDiploma Empresa AutentiZity" },
+                { title: "Reconocimiento", desc: "Ranking Líderes de la Autenticidad\nDiploma Empresa AutentiZity" },
               ].map((pillar) => (
                 <div
                   key={pillar.title}

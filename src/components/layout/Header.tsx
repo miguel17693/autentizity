@@ -11,8 +11,8 @@ const navItems = [
     href: "/ecosistema",
     children: [
       { label: "Empresas", href: "/ecosistema#empresas" },
-      { label: "Asociaciones", href: "/ecosistema#asociaciones" },
-      { label: "Instituciones", href: "/ecosistema#instituciones" },
+      { label: "Entidades Colaboradoras", href: "/ecosistema#asociaciones" },
+      { label: "Instituciones, Cámaras de Comercio y Asociaciones Corporativas", href: "/ecosistema#instituciones" },
       { label: "Embajadores", href: "/ecosistema#embajadores" },
     ],
   },
@@ -28,7 +28,7 @@ const navItems = [
     label: "Reconocimiento",
     href: "/ranking",
     children: [
-      { label: "Ranking Authentic Leaders", href: "/ranking#ranking" },
+      { label: "Ranking Líderes de la Autenticidad", href: "/ranking#ranking" },
       { label: "Diploma AutentiZity", href: "/ranking#diploma" },
     ],
   },
