@@ -6,6 +6,8 @@ import Section from "@/components/ui/Section";
 import { formatDate } from "@/lib/utils";
 import { getEventos, getNoticias } from "@/lib/data/store";
 
+export const dynamic = "force-dynamic";
+
 /* ============================================
  * HOME — AutentiZity
  * Editorial premium · Scroll animations

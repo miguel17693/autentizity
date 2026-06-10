@@ -1,6 +1,8 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
 
+export const dynamic = "force-dynamic";
+
 /* ============================================
  * ÚNETE — Empresas, Organizaciones, Profesionales
  * ============================================ */
