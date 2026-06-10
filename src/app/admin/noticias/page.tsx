@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { News } from "@/lib/types";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 const emptyNoticia: Partial<News> = {
   title: "",
@@ -113,17 +114,10 @@ export default function AdminNoticiasPage() {
                 className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               />
             </div>
-            <div>
-              <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
-                Imagen de portada (URL)
-              </label>
-              <input
-                value={editing.coverImage ?? ""}
-                onChange={(e) => setEditing({ ...editing, coverImage: e.target.value })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-                placeholder="https://images.unsplash.com/..."
-              />
-            </div>
+            <ImageUpload
+              value={editing.coverImage ?? ""}
+              onChange={(url) => setEditing({ ...editing, coverImage: url })}
+            />
           </div>
 
           <div>

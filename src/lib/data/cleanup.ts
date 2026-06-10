@@ -1,0 +1,34 @@
+import { del } from "@vercel/blob";
+import { getSQL } from "./db";
+
+/**
+ * If the given URL is a Vercel Blob URL and is no longer referenced
+ * by any evento or noticia, delete it from blob storage.
+ */
+export async function cleanupOrphanImage(imageUrl: string): Promise<void> {
+  if (!imageUrl) return;
+
+  // Only clean up Vercel Blob URLs (avoid deleting external images)
+  if (!imageUrl.includes("public.blob.vercel-storage.com")) return;
+
+  try {
+    const sql = getSQL();
+
+    // Check if any evento or noticia still uses this URL
+    const eventRows = await sql`
+      SELECT id FROM eventos WHERE cover_image = ${imageUrl} LIMIT 1
+    `;
+    if ((eventRows as unknown[]).length > 0) return;
+
+    const newsRows = await sql`
+      SELECT id FROM noticias WHERE cover_image = ${imageUrl} LIMIT 1
+    `;
+    if ((newsRows as unknown[]).length > 0) return;
+
+    // Orphaned — delete from blob
+    await del(imageUrl);
+  } catch (error) {
+    // Don't fail the main operation if cleanup fails
+    console.error("Failed to clean up orphan image:", error);
+  }
+}
