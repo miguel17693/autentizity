@@ -9,9 +9,9 @@ export const dynamic = "force-dynamic";
  * ============================================ */
 
 const empresasReales = [
-  { id: "manpower", name: "ManpowerGroup", logo: "/logos/manpower.png" },
-  { id: "corteingles", name: "El Corte Inglés", logo: "/logos/corteingles.png" },
-  { id: "msd", name: "MSD", logo: "/logos/msd.png" },
+  { id: "manpower", name: "ManpowerGroup", logo: "/logos/manpower.svg" },
+  { id: "corteingles", name: "El Corte Inglés", logo: "/logos/corteingles.svg" },
+  { id: "msd", name: "MSD", logo: "/logos/msd.svg" },
   { id: "helion", name: "Helion", logo: "/logos/helion.png" },
 ];
 
