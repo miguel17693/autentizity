@@ -5,19 +5,37 @@ import Image from "next/image";
 export const dynamic = "force-dynamic";
 
 /* ============================================
- * ECOSISTEMA — Empresas, Entidades Colaboradoras, Instituciones, Embajadores
+ * ECOSISTEMA — Empresas Impulsoras, Entidades Colaboradoras,
+ * Instituciones y Embajadores
  * ============================================ */
 
-const empresasReales = [
+const empresasImpulsoras = [
   { id: "manpower", name: "ManpowerGroup", logo: "/logos/manpower.svg" },
   { id: "corteingles", name: "El Corte Inglés", logo: "/logos/corteingles.svg" },
   { id: "msd", name: "MSD", logo: "/logos/msd.svg" },
-  { id: "helion", name: "Helion", logo: "/logos/helion.png" },
+  { id: "haleon", name: "Haleon", logo: "/logos/haleon.svg" },
+  { id: "legalitas", name: "Legálitas Fundación", logo: "/logos/legalitas.svg" },
 ];
 
-const empresas = Array.from({ length: 4 }, (_, i) => ({ id: `emp${i + 1}`, name: `Empresa ${i + 1}` }));
-const entidades = Array.from({ length: 6 }, (_, i) => ({ id: i + 1, name: `Entidad ${i + 1}` }));
-const instituciones = Array.from({ length: 4 }, (_, i) => ({ id: i + 1, name: `Institución ${i + 1}` }));
+const entidadesColaboradoras = [
+  { id: "papageno", name: "PAPAGENO", logo: "/logos/papageno.png" },
+  { id: "fundaciononce", name: "Fundación ONCE", logo: "/logos/fundaciononce.png" },
+  { id: "itgetsbetter", name: "It Gets Better España", logo: "/logos/itgetsbetter.png" },
+];
+
+const entidadesPendientes = [
+  { name: "Mano verde + lazo" },
+  { name: "Apoyo" },
+  { name: "Imagina_" },
+  { name: "Artpath" },
+];
+
+const instituciones = [
+  { id: "aytomadrid", name: "Ayuntamiento de Madrid\n(Área de Familias, Igualdad y Bienestar Social)", logo: "/logos/aytomadrid.png" },
+  { id: "icam", name: "Ilustre Colegio de la Abogacía de Madrid", logo: "/logos/icam.png" },
+  { id: "ccce", name: "Cámara de Comercio Canadá España", logo: "/logos/ccce.png" },
+];
+
 const embajadores = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: `Embajador/a ${i + 1}` }));
 
 function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
@@ -28,7 +46,7 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
       {hasLogo ? (
         <Image src={logo} alt={name ?? ""} width={120} height={48} className="object-contain max-h-12 max-w-[120px]" />
       ) : (
-        <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase">
+        <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase text-center leading-tight">
           {name ?? "LOGO"}
         </span>
       )}
@@ -64,22 +82,23 @@ export default function EcosistemaPage() {
         </div>
       </section>
 
+      {/* Empresas Impulsoras */}
       <Section id="eco-empresas">
         <section id="empresas" className="py-12 sm:py-16 lg:py-24">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <ScrollReveal>
-              <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Empresas</span></div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Empresas</h2>
+              <div className="flex items-center gap-4 mb-4"><div className="brand-line" /><span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Empresas Impulsoras</span></div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Empresas Impulsoras</h2>
               <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren. Organizaciones que entienden que el cambio real empieza dentro… y se proyecta fuera</p>
             </ScrollReveal>
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {empresasReales.map((e) => <LogoPlaceholder key={e.id} name={e.name} logo={e.logo} />)}
-              {empresas.map((e) => <LogoPlaceholder key={e.id} name={e.name} />)}
+            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+              {empresasImpulsoras.map((e) => <LogoPlaceholder key={e.id} name={e.name} logo={e.logo} />)}
             </div>
           </div>
         </section>
       </Section>
 
+      {/* Entidades Colaboradoras */}
       <Section id="eco-entidades">
         <section id="entidades" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -90,12 +109,14 @@ export default function EcosistemaPage() {
               <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light max-w-3xl">Sus mensajes nos ayudan a potenciar el talento, evitar situaciones de discriminación, mejorar nuestra salud mental, bienestar, y por supuesto que los lugares de trabajo sean un reflejo de la sociedad</p>
             </ScrollReveal>
             <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {entidades.map((a) => <LogoPlaceholder key={a.id} />)}
+              {entidadesColaboradoras.map((a) => <LogoPlaceholder key={a.id} name={a.name} logo={a.logo} />)}
+              {entidadesPendientes.map((a) => <LogoPlaceholder key={a.name} name={a.name} />)}
             </div>
           </div>
         </section>
       </Section>
 
+      {/* Instituciones */}
       <Section id="eco-instituciones">
         <section id="instituciones" className="py-12 sm:py-16 lg:py-24">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -104,13 +125,14 @@ export default function EcosistemaPage() {
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">Instituciones, Cámaras de Comercio y Asociaciones Corporativas</h2>
               <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica. Aquí es donde nacen los cambios que transforman empresas, ciudades y formas de vivir el trabajo</p>
             </ScrollReveal>
-            <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {instituciones.map((i) => <LogoPlaceholder key={i.id} />)}
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {instituciones.map((i) => <LogoPlaceholder key={i.id} name={i.name} logo={i.logo} />)}
             </div>
           </div>
         </section>
       </Section>
 
+      {/* Embajadores */}
       <Section id="eco-embajadores">
         <section id="embajadores" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
