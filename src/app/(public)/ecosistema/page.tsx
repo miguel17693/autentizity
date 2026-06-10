@@ -40,11 +40,12 @@ const embajadores = Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: `Emb
 
 function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   const hasLogo = logo != null;
+  const isPng = logo?.endsWith(".png");
 
   return (
     <div className="flex items-center justify-center h-20 bg-white border border-border-light px-6">
       {hasLogo ? (
-        <Image src={logo} alt={name ?? ""} width={120} height={48} className="object-contain max-h-12 max-w-[120px]" />
+        <Image src={logo} alt={name ?? ""} width={120} height={48} unoptimized={isPng} className="object-contain max-h-12 max-w-[120px]" />
       ) : (
         <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase text-center leading-tight">
           {name ?? "LOGO"}
