@@ -1,5 +1,6 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
