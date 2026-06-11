@@ -22,7 +22,12 @@ export async function POST(request: NextRequest) {
     if (!body.id || !body.name || !body.slug) {
       return NextResponse.json({ error: "Faltan campos obligatorios (id, name, slug)" }, { status: 400 });
     }
-    await saveEcosistemaSection(body);
+    await saveEcosistemaSection({
+      ...body,
+      active: body.active ?? true,
+      sort_order: body.sort_order ?? 0,
+      description: body.description ?? "",
+    });
     return NextResponse.json(body);
   } catch (e) {
     console.error("POST /api/ecosistema/secciones error:", e);
@@ -36,7 +41,12 @@ export async function PUT(request: NextRequest) {
     if (!body.id) {
       return NextResponse.json({ error: "Se requiere id" }, { status: 400 });
     }
-    await saveEcosistemaSection(body);
+    await saveEcosistemaSection({
+      ...body,
+      active: body.active ?? true,
+      sort_order: body.sort_order ?? 0,
+      description: body.description ?? "",
+    });
     return NextResponse.json(body);
   } catch (e) {
     console.error("PUT /api/ecosistema/secciones error:", e);
