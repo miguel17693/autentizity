@@ -56,5 +56,29 @@ export async function initSchema() {
     )
   `;
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS ecosistema_secciones (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      slug TEXT UNIQUE NOT NULL,
+      description TEXT DEFAULT '',
+      sort_order INTEGER DEFAULT 0,
+      active BOOLEAN DEFAULT true
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS ecosistema_entidades (
+      id TEXT PRIMARY KEY,
+      section_id TEXT NOT NULL REFERENCES ecosistema_secciones(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      logo_url TEXT DEFAULT '',
+      description TEXT DEFAULT '',
+      sort_order INTEGER DEFAULT 0,
+      active BOOLEAN DEFAULT true,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+
   return { success: true };
 }

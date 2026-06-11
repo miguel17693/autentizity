@@ -57,3 +57,23 @@ export interface AdminUser {
   name: string;
   role: "admin" | "editor";
 }
+
+// --- Ecosistema (dinámico desde admin) ---
+export interface EcosistemaSection {
+  id: string;
+  name: string;         // "Empresas Impulsoras", "Entidades Colaboradoras"...
+  slug: string;          // "empresas-impulsoras"
+  description: string;   // Texto explicativo debajo del título
+  sort_order: number;
+  active: boolean;
+}
+
+export interface EcosistemaEntity {
+  id: string;
+  section_id: string;
+  name: string;          // "ManpowerGroup", "Trabajando en Positivo"...
+  logo_url: string;      // URL (Vercel Blob) o path relativo
+  description: string;   // Metatexto opcional
+  sort_order: number;
+  active: boolean;
+}

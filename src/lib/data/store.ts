@@ -1,4 +1,4 @@
-import type { News, Event } from "@/lib/types";
+import type { News, Event, EcosistemaSection, EcosistemaEntity } from "@/lib/types";
 import { getSQL } from "@/lib/data/db";
 
 /*
@@ -146,6 +146,90 @@ export async function deleteNoticia(id: string): Promise<boolean> {
   return (result as unknown as { count?: number }).count !== 0;
 }
 
+// --- Ecosistema Secciones ---
+
+export async function getEcosistemaSections(): Promise<EcosistemaSection[]> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM ecosistema_secciones WHERE active = true ORDER BY sort_order`;
+  return rows.map(rowToEcosistemaSection);
+}
+
+export async function getAllEcosistemaSections(): Promise<EcosistemaSection[]> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM ecosistema_secciones ORDER BY sort_order`;
+  return rows.map(rowToEcosistemaSection);
+}
+
+export async function getEcosistemaSection(id: string): Promise<EcosistemaSection | null> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM ecosistema_secciones WHERE id = ${id} LIMIT 1`;
+  return rows.length ? rowToEcosistemaSection(rows[0]) : null;
+}
+
+export async function saveEcosistemaSection(section: EcosistemaSection): Promise<void> {
+  requireDB();
+  const sql = getSQL();
+  await sql`
+    INSERT INTO ecosistema_secciones (id, name, slug, description, sort_order, active)
+    VALUES (${section.id}, ${section.name}, ${section.slug}, ${section.description}, ${section.sort_order}, ${section.active})
+    ON CONFLICT (id) DO UPDATE SET
+      name = EXCLUDED.name,
+      slug = EXCLUDED.slug,
+      description = EXCLUDED.description,
+      sort_order = EXCLUDED.sort_order,
+      active = EXCLUDED.active
+  `;
+}
+
+export async function deleteEcosistemaSection(id: string): Promise<boolean> {
+  requireDB();
+  const sql = getSQL();
+  const result = await sql`DELETE FROM ecosistema_secciones WHERE id = ${id}`;
+  return (result as unknown as { count?: number }).count !== 0;
+}
+
+// --- Ecosistema Entidades ---
+
+export async function getEcosistemaEntities(sectionId: string): Promise<EcosistemaEntity[]> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM ecosistema_entidades WHERE section_id = ${sectionId} AND active = true ORDER BY sort_order`;
+  return rows.map(rowToEcosistemaEntity);
+}
+
+export async function getAllEcosistemaEntities(): Promise<EcosistemaEntity[]> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`SELECT * FROM ecosistema_entidades ORDER BY sort_order`;
+  return rows.map(rowToEcosistemaEntity);
+}
+
+export async function saveEcosistemaEntity(entity: EcosistemaEntity): Promise<void> {
+  requireDB();
+  const sql = getSQL();
+  await sql`
+    INSERT INTO ecosistema_entidades (id, section_id, name, logo_url, description, sort_order, active)
+    VALUES (${entity.id}, ${entity.section_id}, ${entity.name}, ${entity.logo_url}, ${entity.description}, ${entity.sort_order}, ${entity.active})
+    ON CONFLICT (id) DO UPDATE SET
+      section_id = EXCLUDED.section_id,
+      name = EXCLUDED.name,
+      logo_url = EXCLUDED.logo_url,
+      description = EXCLUDED.description,
+      sort_order = EXCLUDED.sort_order,
+      active = EXCLUDED.active
+  `;
+}
+
+export async function deleteEcosistemaEntity(id: string): Promise<boolean> {
+  requireDB();
+  const sql = getSQL();
+  const result = await sql`DELETE FROM ecosistema_entidades WHERE id = ${id}`;
+  return (result as unknown as { count?: number }).count !== 0;
+}
+
 // --- Row mappers ---
 
 function rowToEvent(row: Record<string, unknown>): Event {
@@ -182,5 +266,28 @@ function rowToNews(row: Record<string, unknown>): News {
     updatedAt: (row.updated_at as string) || "",
     featured: row.featured as boolean,
     status: (row.status as News["status"]) || "draft",
+  };
+}
+
+function rowToEcosistemaSection(row: Record<string, unknown>): EcosistemaSection {
+  return {
+    id: row.id as string,
+    name: row.name as string,
+    slug: row.slug as string,
+    description: (row.description as string) || "",
+    sort_order: (row.sort_order as number) || 0,
+    active: row.active as boolean,
+  };
+}
+
+function rowToEcosistemaEntity(row: Record<string, unknown>): EcosistemaEntity {
+  return {
+    id: row.id as string,
+    section_id: row.section_id as string,
+    name: row.name as string,
+    logo_url: (row.logo_url as string) || "",
+    description: (row.description as string) || "",
+    sort_order: (row.sort_order as number) || 0,
+    active: row.active as boolean,
   };
 }
