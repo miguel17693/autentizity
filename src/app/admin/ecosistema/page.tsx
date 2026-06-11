@@ -34,7 +34,6 @@ export default function AdminEcosistemaPage() {
   const [savingSection, setSavingSection] = useState(false);
 
   // Entity form state
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [entities, setEntities] = useState<Record<string, EcosistemaEntity[]>>({});
   const [loadingEntities, setLoadingEntities] = useState(false);
   const [editingEntity, setEditingEntity] = useState<Partial<EcosistemaEntity> | null>(null);
@@ -47,6 +46,10 @@ export default function AdminEcosistemaPage() {
     const data = await res.json();
     setSections(data);
     setLoading(false);
+    // Load entities for all sections
+    for (const s of data) {
+      loadEntities(s.id);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,19 +65,7 @@ export default function AdminEcosistemaPage() {
     setLoadingEntities(false);
   }, []);
 
-  // Toggle section expansion
-  function toggleSection(sectionId: string) {
-    if (expandedSection === sectionId) {
-      setExpandedSection(null);
-    } else {
-      setExpandedSection(sectionId);
-      if (!entities[sectionId]) {
-        loadEntities(sectionId);
-      }
-    }
-  }
-
-  // --- Section CRUD ---
+  // --- Entity CRUD ---
   function startCreateSection() {
     const lastOrder = sections.length > 0 ? Math.max(...sections.map((s) => s.sort_order)) : 0;
     setEditingSection({ ...emptySection, sort_order: lastOrder + 1 });
@@ -118,7 +109,6 @@ export default function AdminEcosistemaPage() {
       body: JSON.stringify({ id }),
     });
     loadSections();
-    setExpandedSection(null);
   }
 
   // --- Entity CRUD ---
@@ -215,26 +205,24 @@ export default function AdminEcosistemaPage() {
           </button>
         </div>
 
-        <div className="bg-white border border-border divide-y divide-border">
+        <div className="space-y-6">
           {sections.length === 0 && (
-            <div className="px-5 py-8 text-center text-text-muted text-sm">
+            <div className="bg-white border border-border px-5 py-8 text-center text-text-muted text-sm">
               No hay secciones. Crea la primera.
             </div>
           )}
           {sections.map((section) => (
-            <div key={section.id}>
-              <div className="flex items-center justify-between px-5 py-3.5">
-                <button
-                  onClick={() => toggleSection(section.id)}
-                  className="flex items-center gap-3 text-left flex-1"
-                >
+            <div key={section.id} className="bg-white border border-border">
+              {/* Section header */}
+              <div className="flex items-center justify-between px-5 py-3.5 bg-surface-alt border-b border-border">
+                <div className="flex items-center gap-3">
                   <span className={`w-2 h-2 rounded-full ${section.active ? "bg-accent" : "bg-text-muted"}`} />
-                  <span className="text-sm text-text-body font-light">{section.name}</span>
-                  <span className="text-xs text-text-muted">{section.slug}</span>
+                  <span className="text-sm text-primary font-medium">{section.name}</span>
+                  <span className="text-[11px] text-text-muted font-mono">{section.slug}</span>
                   {!section.active && (
                     <span className="text-[10px] px-2 py-0.5 bg-text-muted/10 text-text-muted uppercase">Inactiva</span>
                   )}
-                </button>
+                </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => startEditSection(section)}
@@ -251,67 +239,74 @@ export default function AdminEcosistemaPage() {
                 </div>
               </div>
 
-              {/* Expanded: entities */}
-              {expandedSection === section.id && (
-                <div className="border-t border-border bg-surface-alt px-5 py-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-primary">Entidades — {section.name}</h3>
-                    <button
-                      onClick={() => startCreateEntity(section.id)}
-                      className="px-3 py-1.5 bg-primary text-white text-[11px] font-medium hover:bg-primary/90 transition-colors"
-                    >
-                      + Nueva entidad
-                    </button>
-                  </div>
-
-                  {loadingEntities ? (
-                    <div className="text-sm text-text-muted animate-pulse">Cargando...</div>
-                  ) : (
-                    <div className="space-y-2">
-                      {(entities[section.id] || []).length === 0 && (
-                        <div className="text-sm text-text-muted py-3">No hay entidades en esta sección.</div>
-                      )}
-                      {(entities[section.id] || []).map((entity) => (
-                        <div
-                          key={entity.id}
-                          className="flex items-center gap-3 bg-white border border-border px-3 py-2"
-                        >
-                          {entity.logo_url ? (
-                            <img
-                              src={entity.logo_url}
-                              alt={entity.name}
-                              className="w-10 h-6 object-contain"
-                            />
-                          ) : (
-                            <div className="w-10 h-6 bg-surface-alt border border-border" />
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm text-text-body truncate">{entity.name}</p>
-                            {entity.description && (
-                              <p className="text-xs text-text-muted truncate">{entity.description}</p>
-                            )}
-                          </div>
-                          {!entity.active && (
-                            <span className="text-[10px] px-2 py-0.5 bg-text-muted/10 text-text-muted">Inactiva</span>
-                          )}
-                          <button
-                            onClick={() => startEditEntity(entity)}
-                            className="text-xs text-text-muted hover:text-primary px-2 py-1 shrink-0"
-                          >
-                            Editar
-                          </button>
-                          <button
-                            onClick={() => deleteEntity(entity.id, section.id)}
-                            className="text-xs text-red-500 hover:text-red-700 px-2 py-1 shrink-0"
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+              {/* Entities */}
+              <div className="px-5 py-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xs font-medium tracking-[0.1em] uppercase text-text-muted">
+                    Logos y entidades
+                    {entities[section.id] && entities[section.id].length > 0 && (
+                      <span className="ml-2 text-text-muted/50">({entities[section.id].length})</span>
+                    )}
+                  </h3>
+                  <button
+                    onClick={() => startCreateEntity(section.id)}
+                    className="px-3 py-1.5 bg-primary text-white text-[11px] font-medium hover:bg-primary/90 transition-colors flex items-center gap-1"
+                  >
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Añadir logo
+                  </button>
                 </div>
-              )}
+
+                {!entities[section.id] && (
+                  <div className="text-sm text-text-muted animate-pulse py-2">Cargando...</div>
+                )}
+                {(entities[section.id] || []).length === 0 && !loadingEntities && (
+                  <div className="text-sm text-text-muted py-3">No hay logos en esta sección.</div>
+                )}
+                <div className="space-y-1.5">
+                  {(entities[section.id] || []).map((entity) => (
+                    <div
+                      key={entity.id}
+                      className="flex items-center gap-3 border border-border/50 px-3 py-2 hover:bg-surface-alt/50 transition-colors"
+                    >
+                      {entity.logo_url ? (
+                        <img
+                          src={entity.logo_url}
+                          alt={entity.name}
+                          className="w-12 h-7 object-contain border border-border"
+                        />
+                      ) : (
+                        <div className="w-12 h-7 bg-surface-alt border border-border flex items-center justify-center">
+                          <span className="text-[9px] text-text-muted">SIN LOGO</span>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-text-body">{entity.name}</p>
+                        {entity.description && (
+                          <p className="text-xs text-text-muted truncate">{entity.description}</p>
+                        )}
+                      </div>
+                      {!entity.active && (
+                        <span className="text-[10px] px-2 py-0.5 bg-text-muted/10 text-text-muted">Inactiva</span>
+                      )}
+                      <button
+                        onClick={() => startEditEntity(entity)}
+                        className="text-xs text-text-muted hover:text-primary px-2 py-1 shrink-0"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => deleteEntity(entity.id, section.id)}
+                        className="text-xs text-red-500 hover:text-red-700 px-2 py-1 shrink-0"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
