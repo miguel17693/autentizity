@@ -21,10 +21,10 @@ const entidadesColaboradoras = [
   { id: "papageno", name: "PAPAGENO", logo: "/logos/papageno.png" },
   { id: "fundaciononce", name: "Fundación ONCE", logo: "/logos/fundaciononce.png" },
   { id: "itgetsbetter", name: "It Gets Better España", logo: "/logos/itgetsbetter.png" },
+  { id: "trabajandoenpositivo", name: "Trabajando en Positivo", logo: "/logos/trabajandoenpositivo.png" },
 ];
 
 const entidadesPendientes = [
-  { name: "Mano verde + lazo" },
   { name: "Apoyo" },
   { name: "Imagina_" },
   { name: "Artpath" },
