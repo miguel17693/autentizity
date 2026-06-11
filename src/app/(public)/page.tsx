@@ -16,16 +16,12 @@ export const dynamic = "force-dynamic";
 /* ------- Data fetching (direct DB) ------- */
 async function getEvents() {
   const eventos = await getEventos();
-  return eventos
-    .filter((e) => e.status === "published")
-    .slice(0, 4); // últimas 4 para la home (grid 2 cols)
+  return eventos.filter((e) => e.status === "published" && e.featured);
 }
 
 async function getNews() {
   const noticias = await getNoticias();
-  return noticias
-    .filter((n) => n.status === "published")
-    .slice(0, 3); // últimas 3 para la home (grid 3 cols)
+  return noticias.filter((n) => n.status === "published" && n.featured);
 }
 
 /* ============== HERO ============== */
@@ -154,6 +150,8 @@ function Introduction() {
 
 /* ============== EVENTS ============== */
 function Events({ events }: { events: any[] }) {
+  const featured = events.filter((e: any) => e.featured);
+
   return (
     <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
       <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -187,7 +185,7 @@ function Events({ events }: { events: any[] }) {
         {/* Events grid — full-bleed on mobile */}
       <div className="max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-6">
-          {events.map((event: any, i: number) => (
+          {featured.map((event: any, i: number) => (
             <ScrollReveal key={event.id} delay={i * 0.1}>
               <Link
                 href={`/eventos/${event.slug}`}
