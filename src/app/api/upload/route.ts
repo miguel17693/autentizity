@@ -33,8 +33,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ url: blob.url });
   } catch (error) {
     console.error("Upload error:", error);
+    const message = error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
-      { error: "Error al subir la imagen" },
+      { error: `Error al subir la imagen: ${message}` },
       { status: 500 }
     );
   }
