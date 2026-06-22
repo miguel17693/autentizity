@@ -39,7 +39,7 @@ export default async function EventoDetailPage({
         <div className="text-center px-4">
           <h1 className="font-serif text-3xl text-primary font-light mb-4">Error de conexión</h1>
           <p className="text-text-secondary">No se pudo cargar el evento. La base de datos no está disponible.</p>
-          <Link href="/eventos" className="mt-6 inline-block text-gold text-sm font-medium hover:underline">← Volver a eventos</Link>
+          <Link href="/eventos" className="mt-6 inline-block text-rose text-sm font-medium hover:underline">← Volver a eventos</Link>
         </div>
       </div>
     );
@@ -69,7 +69,7 @@ export default async function EventoDetailPage({
             </Link>
           )}
           <div className="flex gap-3 mb-4">
-            <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-gold/90 backdrop-blur-sm px-3 py-1.5">
+            <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-rose/90 backdrop-blur-sm px-3 py-1.5">
               {evento.type}
             </span>
             {evento.status === "cancelled" && (
@@ -145,7 +145,7 @@ export default async function EventoDetailPage({
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gold mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <svg className="w-5 h-5 text-rose mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                     </svg>
                     <div>
@@ -155,7 +155,7 @@ export default async function EventoDetailPage({
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gold mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <svg className="w-5 h-5 text-rose mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
                     </svg>
@@ -166,7 +166,7 @@ export default async function EventoDetailPage({
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gold mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <svg className="w-5 h-5 text-rose mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                     </svg>
                     <div>
@@ -176,7 +176,7 @@ export default async function EventoDetailPage({
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-gold mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <svg className="w-5 h-5 text-rose mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
                     </svg>
@@ -193,7 +193,7 @@ export default async function EventoDetailPage({
                     href={evento.registrationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full text-center px-6 py-3.5 bg-gold text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-gold-light transition-all"
+                    className="block w-full text-center px-6 py-3.5 bg-rose text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-rose-light transition-all"
                   >
                     {getRegistrationLabel(evento.type)}
                   </a>

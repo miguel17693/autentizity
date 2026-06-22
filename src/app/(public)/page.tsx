@@ -39,17 +39,17 @@ function Hero() {
       <div className="relative max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 py-12 sm:py-20 w-full text-center">
         {/* Overline */}
         <div className="flex items-center justify-center gap-3 sm:gap-4 mb-5 sm:mb-6">
-          <div className="w-8 h-[1px] bg-rose" />
-          <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
+          <div className="w-8 h-[1px] bg-gold" />
+          <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
             Aceleradora de Impacto Social
           </span>
-          <div className="w-8 h-[1px] bg-rose" />
+          <div className="w-8 h-[1px] bg-gold" />
         </div>
 
         {/* Headline */}
         <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto">
           Autenticidad en el trabajo que ayuda a la{" "}
-          <span className="font-normal text-gold-light">transformación de las empresas</span>
+          <span className="font-normal text-rose-light">transformación de las empresas</span>
         </h1>
 
         {/* Subtext */}
@@ -62,7 +62,7 @@ function Hero() {
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <Link
             href="/ecosistema"
-            className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-gold text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-gold-light transition-all"
+            className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-rose text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-rose-light transition-all"
           >
             Descubre el ecosistema
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ function Introduction() {
           <ScrollReveal direction="left">
             <div className="flex items-center gap-4 mb-5">
               <div className="brand-line" />
-              <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
+              <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
                 El ecosistema
               </span>
             </div>
@@ -130,7 +130,7 @@ function Introduction() {
                   key={pillar.title}
                   className="bg-surface p-5 sm:p-6 lg:p-8 group hover:bg-surface-alt transition-colors duration-300"
                 >
-                  <h3 className="font-serif text-lg text-primary font-normal mb-2 group-hover:text-gold transition-colors">
+                  <h3 className="font-serif text-lg text-primary font-normal mb-2 group-hover:text-rose transition-colors">
                     {pillar.title}
                   </h3>
                   <p className="text-text-secondary text-sm leading-relaxed font-light">
@@ -159,7 +159,7 @@ function Events({ events }: { events: any[] }) {
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="brand-line" />
-                <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
+                <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
                   Agenda
                 </span>
               </div>
@@ -199,7 +199,7 @@ function Events({ events }: { events: any[] }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                   <div className="absolute top-5 left-5">
-                    <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-gold/90 backdrop-blur-sm px-3 py-1.5">
+                    <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-rose/90 backdrop-blur-sm px-3 py-1.5">
                       {event.type}
                     </span>
                   </div>
@@ -210,7 +210,7 @@ function Events({ events }: { events: any[] }) {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="font-serif text-xl text-primary font-normal group-hover:text-gold transition-colors">
+                  <h3 className="font-serif text-xl text-primary font-normal group-hover:text-rose transition-colors">
                     {event.title}
                   </h3>
                   <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light line-clamp-2">
@@ -244,7 +244,7 @@ function News({ news }: { news: any[] }) {
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <div className="brand-line" />
-                <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
+                <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
                   Actualidad
                 </span>
               </div>
@@ -291,7 +291,7 @@ function News({ news }: { news: any[] }) {
                         </span>
                       ))}
                     </div>
-                    <h3 className={`font-serif text-white font-normal leading-tight group-hover:text-gold-light transition-colors ${i === 0 ? "text-2xl lg:text-3xl" : "text-lg"}`}>
+                    <h3 className={`font-serif text-white font-normal leading-tight group-hover:text-rose-light transition-colors ${i === 0 ? "text-2xl lg:text-3xl" : "text-lg"}`}>
                       {item.title}
                     </h3>
                     {i === 0 && (
@@ -361,7 +361,7 @@ function CTA() {
         <ScrollReveal>
           <h2 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] text-balance">
             ¿Quieres que tu empresa lidere el{" "}
-            <span className="font-normal text-gold-light">cambio</span> hacia una cultura más auténtica?
+            <span className="font-normal text-rose-light">cambio</span> hacia una cultura más auténtica?
           </h2>
           <p className="mt-5 text-white/45 text-base lg:text-lg leading-relaxed font-light max-w-lg mx-auto">
             Forma parte de AutentiZity y accede a los recursos y la comunidad
@@ -370,7 +370,7 @@ function CTA() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/unete"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-gold text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-gold-light transition-all"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-rose text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-rose-light transition-all"
             >
               Únete
             </Link>

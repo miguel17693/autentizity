@@ -160,9 +160,9 @@ export default async function EcosistemaPage() {
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="w-8 h-[1px] bg-rose" />
-            <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">Ecosistema</span>
-            <div className="w-8 h-[1px] bg-rose" />
+            <div className="w-8 h-[1px] bg-gold" />
+            <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">Ecosistema</span>
+            <div className="w-8 h-[1px] bg-gold" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">Ecosistema</h1>
         </div>
@@ -179,7 +179,7 @@ export default async function EcosistemaPage() {
               <ScrollReveal>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="brand-line" />
-                  <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
+                  <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
                     {sec.name}
                   </span>
                 </div>
@@ -213,7 +213,7 @@ export default async function EcosistemaPage() {
               <ScrollReveal>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="brand-line" />
-                  <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
+                  <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
                     Embajadores
                   </span>
                 </div>

@@ -26,7 +26,7 @@ export default async function NoticiaDetailPage({
         <div className="text-center px-4">
           <h1 className="font-serif text-3xl text-primary font-light mb-4">Error de conexión</h1>
           <p className="text-text-secondary">No se pudo cargar la noticia. La base de datos no está disponible.</p>
-          <Link href="/noticias" className="mt-6 inline-block text-gold text-sm font-medium hover:underline">← Volver a noticias</Link>
+          <Link href="/noticias" className="mt-6 inline-block text-rose text-sm font-medium hover:underline">← Volver a noticias</Link>
         </div>
       </div>
     );
@@ -59,7 +59,7 @@ export default async function NoticiaDetailPage({
             {noticia.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-gold/80 backdrop-blur-sm px-2.5 py-1"
+                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-rose/80 backdrop-blur-sm px-2.5 py-1"
               >
                 {tag}
               </span>

@@ -212,7 +212,7 @@ export default function AdminNoticiasPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 bg-gold text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-gold-light transition-colors disabled:opacity-50"
+              className="px-6 py-2.5 bg-rose text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-rose-light transition-colors disabled:opacity-50"
             >
               {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
             </button>
@@ -242,14 +242,14 @@ export default function AdminNoticiasPage() {
                 <span
                   className={`shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 ${
                     n.status === "published"
-                      ? "bg-accent/10 text-gold"
+                      ? "bg-accent/10 text-rose"
                       : "bg-surface-alt text-text-muted"
                   }`}
                 >
                   {n.status === "published" ? "Publicada" : "Borrador"}
                 </span>
                 {n.featured && (
-                  <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-gold/10 text-secondary">
+                  <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-rose/10 text-secondary">
                     Destacada
                   </span>
                 )}
