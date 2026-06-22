@@ -40,6 +40,7 @@ const navItems = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [darkBehind, setDarkBehind] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const [headerH, setHeaderH] = useState(81);
 
@@ -48,6 +49,25 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Intersection Observer: detect if a dark (bg-primary) section is behind the header
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const anyDark = entries.some((e) => e.isIntersecting);
+        setDarkBehind(anyDark);
+      },
+      {
+        rootMargin: `-${headerH}px 0px 0px 0px`,
+        threshold: 0,
+      }
+    );
+
+    const darkSections = document.querySelectorAll(".bg-primary");
+    darkSections.forEach((s) => observer.observe(s));
+
+    return () => observer.disconnect();
+  }, [headerH]);
 
   // Measure actual header height for mobile menu offset
   useEffect(() => {
@@ -66,12 +86,14 @@ export default function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
+  const headerLight = scrolled && darkBehind;
+
   return (
     <>
       <header
         ref={headerRef}
         className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled
+          headerLight
             ? "bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.04)]"
             : "bg-primary"
         }`}
@@ -85,7 +107,7 @@ export default function Header() {
                 alt="AutentiZity"
                 width={340}
                 height={100}
-                className={`h-full w-auto object-contain max-h-10 sm:max-h-12 lg:max-h-14 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
+                className={`h-full w-auto object-contain max-h-10 sm:max-h-12 lg:max-h-14 transition-all duration-300 ${headerLight ? "" : "brightness-0 invert"}`}
                 priority
               />
             </Link>
@@ -97,18 +119,18 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`relative text-[13px] font-medium tracking-[0.08em] uppercase py-2 transition-colors ${
-                      scrolled
+                      headerLight
                         ? "text-text-body hover:text-primary"
                         : "text-white/85 hover:text-white"
                     }`}
                   >
                     {item.label}
                     {item.children && (
-                      <svg className={`inline-block w-3 h-3 ml-1 -mt-0.5 transition-colors ${scrolled ? "opacity-40" : "opacity-60"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <svg className={`inline-block w-3 h-3 ml-1 -mt-0.5 transition-colors ${headerLight ? "opacity-40" : "opacity-60"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
                     )}
-                    <span className={`absolute left-0 -bottom-0.5 h-[1.5px] w-0 group-hover:w-full transition-all duration-300 ease-out ${scrolled ? "bg-accent" : "bg-white/60"}`} />
+                    <span className={`absolute left-0 -bottom-0.5 h-[1.5px] w-0 group-hover:w-full transition-all duration-300 ease-out ${headerLight ? "bg-accent" : "bg-white/60"}`} />
                   </Link>
                   {item.children && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
@@ -138,17 +160,17 @@ export default function Header() {
               <div className="w-[22px] flex flex-col gap-[5px]">
                 <span
                   className={`block h-[2px] rounded-full transition-all duration-300 origin-center ${
-                    scrolled ? "bg-primary" : "bg-white"
+                    headerLight ? "bg-primary" : "bg-white"
                   } ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`}
                 />
                 <span
                   className={`block h-[2px] rounded-full transition-all duration-300 ${
-                    scrolled ? "bg-primary" : "bg-white"
+                    headerLight ? "bg-primary" : "bg-white"
                   } ${mobileOpen ? "opacity-0 scale-x-0" : ""}`}
                 />
                 <span
                   className={`block h-[2px] rounded-full transition-all duration-300 origin-center ${
-                    scrolled ? "bg-primary" : "bg-white"
+                    headerLight ? "bg-primary" : "bg-white"
                   } ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
                 />
               </div>
@@ -159,7 +181,7 @@ export default function Header() {
         {/* Bottom line — only when scrolled */}
         <div
           className={`h-[1px] transition-all duration-300 ${
-            scrolled ? "bg-border-light opacity-100" : "opacity-0"
+            headerLight ? "bg-border-light opacity-100" : "opacity-0"
           }`}
         />
       </header>
