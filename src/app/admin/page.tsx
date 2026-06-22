@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ noticias: 0, eventos: 0 });
+  const [stats, setStats] = useState({ noticias: 0, eventos: 0, movimientos: 0 });
 
   useEffect(() => {
     Promise.all([
       fetch("/api/noticias").then((r) => r.json()),
       fetch("/api/eventos").then((r) => r.json()),
-    ]).then(([noticias, eventos]) => {
-      setStats({ noticias: noticias.length, eventos: eventos.length });
+      fetch("/api/movimientos").then((r) => r.json()),
+    ]).then(([noticias, eventos, movimientos]) => {
+      setStats({ noticias: noticias.length, eventos: eventos.length, movimientos: movimientos.length });
     });
   }, []);
 
@@ -25,7 +26,7 @@ export default function AdminDashboard() {
       </p>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
         <Link
           href="/admin/noticias"
           className="group bg-white border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
@@ -67,6 +68,28 @@ export default function AdminDashboard() {
           </div>
           <p className="mt-3 text-xs text-accent opacity-0 group-hover:opacity-100 transition-opacity">
             Gestionar eventos →
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/movimientos"
+          className="group bg-white border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted">
+                Movimientos
+              </p>
+              <p className="font-serif text-4xl text-primary font-light mt-1">
+                {stats.movimientos}
+              </p>
+            </div>
+            <svg className="w-8 h-8 text-text-muted group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+            </svg>
+          </div>
+          <p className="mt-3 text-xs text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+            Gestionar movimientos →
           </p>
         </Link>
       </div>

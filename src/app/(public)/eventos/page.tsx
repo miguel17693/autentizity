@@ -3,8 +3,8 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
 import Section from "@/components/ui/Section";
-import type { Event } from "@/lib/types";
-import { getEventos } from "@/lib/data/store";
+import type { Event, Movement } from "@/lib/types";
+import { getEventos, getMovimientos } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
 
@@ -13,20 +13,25 @@ export default async function EventosPage() {
   const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
   const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
   let eventos: Event[] = [];
+  let movimientos: Movement[] = [];
   let dataError = false;
   try {
-    eventos = await getEventos();
+    [eventos, movimientos] = await Promise.all([
+      getEventos(),
+      getMovimientos(),
+    ]);
   } catch (e) {
     console.error("EventosPage data fetch error:", e);
     dataError = true;
   }
   const items = isPreview ? eventos : eventos.filter((e) => e.status === "published");
+  const movItems = isPreview ? movimientos : movimientos.filter((m) => m.status === "published");
 
   return (
     <>
       {dataError && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-sm text-center py-2 px-4">
-          ⚠️ Error conectando con la base de datos. Los eventos no están disponibles temporalmente.
+          ⚠️ Error conectando con la base de datos. Los datos no están disponibles temporalmente.
         </div>
       )}
       {/* Hero banner */}
@@ -148,31 +153,52 @@ export default async function EventosPage() {
             Líneas de acción del ecosistema AutentiZity
           </p>
 
-          {/* NOTA PARA EL CLIENTE: Miguel, necesitamos el copy/descripción de cada movimiento. Por ahora están solo con el título. */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { title: "IAuthentiZity", desc: "Estamos viviendo una de las grandes revoluciones de nuestro tiempo: una revolución tecnológica impulsada por la inteligencia artificial. Pero surgen preguntas clave: ¿cómo pueden las aplicaciones y la IA convertirse en una herramienta para potenciar nuestra dimensión más humana? y ¿Cómo conseguir potenciar el uso de la IA en el propio personal? La generación de contenidos mediante IA ha acelerado la producción de materiales de trabajo. Sin embargo, en muchos casos estos se perciben como productos excesivamente \"tecnológicos\" carentes del componente humano, lo que puede generar distancia y pérdida de interés. A este escenario se suman importantes retos éticos y morales. De la mano de expertos en inteligencia artificial, abordaremos estos desafíos y exploraremos cómo afrontarlos de forma responsable, integrando la tecnología al servicio de las personas y de una cultura organizativa más consciente." },
-              { title: "Nuestro Legado a las Siguientes Generaciones", desc: "AutentiZity, en colaboración con It Gets Better España, impulsa este movimiento corporativo centrado en uno de los retos sociales más importantes de nuestro tiempo: frenar el bullying. Y queremos contar contigo partiendo de una pregunta sencilla, pero poderosa: ¿Qué legado queremos dejar a las siguientes generaciones? El objetivo de esta iniciativa es sensibilizar sobre el bullying (acoso escolar) desde los entornos laborales, corporativos y universitarios. Muchas situaciones de acoso nacen de prejuicios, sesgos y comportamientos normalizados entre las personas adultas. Si no existe una verdadera concienciación, estos patrones terminan trasladándose a las nuevas generaciones. Por ello, te invitamos a participar en el concurso creativo y campaña de concienciación: ¡Esta historia MEJORA contigo! Un concurso de relato corto, fotografía o vídeo que invita a reflexionar y actuar para eliminar prejuicios y discriminaciones. Además, podrás ganar increíbles premios, como un vuelo para dos personas a Canadá, cortesía de Air Canada, o selecciones exclusivas de artículos de LVMH. Sumarte a #EstaHistoriaMejoraContigo es contribuir a mejorar tu entorno laboral y generar un impacto positivo más allá de la organización, ayudando a construir una sociedad más respetuosa, inclusiva y libre de acoso." },
-              { title: "La Diversidad También es Autenticidad", desc: "Ponemos en valor la interseccionalidad de las diversidades, entendida como el encuentro y la interacción de diferentes realidades y experiencias, propias y compartidas, que nos ayudan a comprender mejor las vivencias de las personas con las que trabajamos, al tiempo que favorecen un mayor conocimiento de nosotros mismos y de nuestro entorno. A través de esta campaña se trabajarán las principales dimensiones de la diversidad: interseccional, intergeneracional, neurodiversidad, orientación sexual e identidad de género, género, diversidad cultural y étnica, discapacidad y diversidad cognitiva." },
-              { title: "Autenticos Héroes Sin Capa", desc: "Nos centramos en la prevención del suicidio, abordando esta realidad desde la información, la sensibilización y la responsabilidad compartida. Existe la creencia de que el suicidio es un tema del que no se debe hablar. Sin embargo, los estudios demuestran que el enfoque adecuado es precisamente el contrario: darle visibilidad, aprender a identificar situaciones de riesgo y saber cómo actuar en momentos en los que es fundamental ofrecer apoyo a un compañero o compañera de trabajo. El objetivo es proporcionar herramientas claras y procedimientos adecuados que permitan acompañar, orientar y actuar de manera responsable y efectiva." },
-              { title: "De Philadelphia a Madrid", desc: "Desde la película Philadelphia, esta historia ha cambiado mucho! Queremos dar la vuelta a los prejuicios de una forma cercana, participativa y entretenida. Para ello, contaremos con testimonios en primera persona de personas VIHsibles y profesionales expertos que ayudarán a desmontar mitos y a acercar la realidad actual del VIH a la sociedad. Porque hoy sabemos algo fundamental: Indetectable = Intransmisible (I=I). Una persona que vive con VIH, al estar tratada, no puede transmitir el virus. El movimiento corporativo \"De Philadelphia a Madrid\" se presentará en un evento en el Ilustre Colegio de la Abogacía de Madrid. La comparación entre Philadelphia y Madrid nos invita a imaginar una nueva historia. Porque esta vez, el final de la película podemos escribirlo entre todos." },
-              { title: "¡Sé tú! Liderazgo Auténtico", desc: "¿Es posible ser uno mismo en el trabajo? De la mano de líderes empresariales, reflexionaremos sobre cómo construir culturas corporativas que permitan a las personas desarrollar todo su potencial desde la autenticidad, encontrando el equilibrio entre la identidad individual y los valores compartidos de la organización. Exploraremos cómo liderar poniendo a las personas en el centro, entendiendo que los entornos donde las personas pueden mostrarse tal y como son generan mayor compromiso, bienestar, innovación y mejores resultados para el negocio. Porque humanizar los lugares de trabajo no es solo una cuestión de cultura; es también una apuesta estratégica para construir organizaciones más sostenibles, diversas y exitosas." },
-              { title: "Espacios Seguros para el Error", desc: "Aceptar que equivocarse forma parte del proceso crea entornos más honestos, seguros y libres de máscaras. ¿Te atreverías a crear un Currículum de Fracasos? Exploraremos las claves para impulsar espacios de trabajo en los que sea posible compartir ideas sin miedo, fomentando el pensamiento creativo y la participación." },
-              { title: "Keep the Calm & Less Burnout", desc: "Se estima que afecta a 7 de cada 10 personas trabajadoras, y que un 55% de los profesionales declara sentirse en un estado de agotamiento total. Exploraremos buenas prácticas en las organizaciones y compartiremos herramientas concretas para prevenir el burnout y promover entornos de trabajo más saludables y sostenibles." },
-              { title: "Mujeres Increíbles y Aliados", desc: "Desde el ecosistema AutentiZity impulsamos acciones que conectan el talento de mujeres que destacan por su autenticidad, su capacidad de liderazgo. Ofrecemos herramientas y espacios de reflexión para hombres que entienden que las iniciativas de igualdad de género representan una oportunidad para impulsar un liderazgo más inclusivo. AutentiZity identifica y visibiliza también a hombres que destacan como \"Aliados\"." },
-            ].map((mov) => (
-              <div
-                key={mov.title}
-                className="bg-white border border-border-light p-6 hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-serif text-lg text-primary font-normal">
-                  {mov.title}
-                </h3>
-                <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
-                  {mov.desc}
-                </p>
-              </div>
-            ))}
+            {movItems.length > 0 ? (
+              movItems.map((mov) => (
+                <Link
+                  key={mov.id}
+                  href={`/movimientos/${mov.slug}`}
+                  className="group bg-white border border-border-light p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  {mov.coverImage && (
+                    <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6">
+                      <Image
+                        src={mov.coverImage}
+                        alt={mov.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      />
+                    </div>
+                  )}
+                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-accent transition-colors">
+                    {mov.title}
+                  </h3>
+                  <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
+                    {mov.description}
+                  </p>
+                  {mov.tags.length > 0 && (
+                    <div className="mt-4 flex items-center gap-2 flex-wrap">
+                      {mov.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-2 py-0.5">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-accent text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                    Ver movimiento
+                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p className="text-text-secondary col-span-full text-center py-10 font-light">
+                No hay movimientos publicados todavía
+              </p>
+            )}
           </div>
         </div>
       </section>

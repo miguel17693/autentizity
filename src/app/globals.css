@@ -48,8 +48,8 @@
   --spacing-section-sm: 5rem;
 
   /* --- Bordes --- */
-  --radius-card: 0.25rem;
-  --radius-button: 0.25rem;
+  --radius-card: 0.75rem;
+  --radius-button: 2rem;
   --radius-pill: 100px;
 }
 
@@ -134,4 +134,24 @@ a {
   text-transform: uppercase;
   padding: 2px 8px;
   border-radius: 2px;
+}
+
+/* ============================================
+ * GLOBAL ROUNDED CORNERS — 3ª revisión diseño
+ * ============================================ */
+
+@layer base {
+  input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    border-radius: 0.75rem;
+  }
+
+  button:not(.rounded-full):not([class*="rounded"]) {
+    border-radius: 2rem;
+  }
+
+  img[class*="object-cover"] {
+    border-radius: 0.75rem;
+  }
 }

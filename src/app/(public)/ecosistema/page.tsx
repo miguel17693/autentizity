@@ -18,6 +18,7 @@ interface Entity {
   name: string;
   logo_url: string;
   description: string;
+  tags: string[];
   sort_order: number;
 }
 
@@ -36,7 +37,7 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   const isPng = logo?.endsWith(".png");
 
   return (
-    <div className="flex items-center justify-center h-20 bg-white border border-border-light px-6">
+    <div className="flex items-center justify-center h-20 px-6">
       {hasLogo ? (
         <Image src={logo} alt={name ?? ""} width={120} height={48} unoptimized={isPng} className="object-contain max-h-12 max-w-[120px]" />
       ) : (
@@ -48,15 +49,23 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   );
 }
 
-function AvatarPlaceholder({ name }: { name: string }) {
+function AvatarPlaceholder({ name, logo, tags }: { name: string; logo?: string; tags?: string[] }) {
+  const hasPhoto = logo != null && logo !== "";
   return (
     <div className="text-center">
-      <div className="w-24 h-24 mx-auto rounded-full bg-surface-alt border border-border-light flex items-center justify-center mb-3">
-        <svg className="w-10 h-10 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-        </svg>
+      <div className="w-24 h-24 mx-auto rounded-full bg-surface-alt border border-border flex items-center justify-center mb-3 overflow-hidden">
+        {hasPhoto ? (
+          <Image src={logo} alt={name} width={96} height={96} className="object-cover w-full h-full" />
+        ) : (
+          <svg className="w-10 h-10 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+        )}
       </div>
       <p className="text-text-secondary text-sm font-light">{name}</p>
+      {tags && tags.length > 0 && (
+        <p className="text-text-muted text-xs font-light mt-1">{tags.slice(0, 3).join(", ")}</p>
+      )}
     </div>
   );
 }
@@ -70,11 +79,11 @@ const FALLBACK_SECTIONS: SectionData[] = [
     description: "Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren. Organizaciones que entienden que el cambio real empieza dentro… y se proyecta fuera",
     sort_order: 1,
     entities: [
-      { id: "manpower", name: "ManpowerGroup", logo_url: "/logos/manpower.svg", description: "", sort_order: 1 },
-      { id: "corteingles", name: "El Corte Inglés", logo_url: "/logos/corteingles.svg", description: "", sort_order: 2 },
-      { id: "msd", name: "MSD", logo_url: "/logos/msd.svg", description: "", sort_order: 3 },
-      { id: "haleon", name: "Haleon", logo_url: "/logos/haleon.svg", description: "", sort_order: 4 },
-      { id: "legalitas", name: "Legálitas Fundación", logo_url: "/logos/legalitas.svg", description: "", sort_order: 5 },
+      { id: "manpower", name: "ManpowerGroup", logo_url: "/logos/manpower.svg", description: "", tags: [], sort_order: 1 },
+      { id: "corteingles", name: "El Corte Inglés", logo_url: "/logos/corteingles.svg", description: "", tags: [], sort_order: 2 },
+      { id: "msd", name: "MSD", logo_url: "/logos/msd.svg", description: "", tags: [], sort_order: 3 },
+      { id: "haleon", name: "Haleon", logo_url: "/logos/haleon.svg", description: "", tags: [], sort_order: 4 },
+      { id: "legalitas", name: "Legálitas Fundación", logo_url: "/logos/legalitas.svg", description: "", tags: [], sort_order: 5 },
     ],
   },
   {
@@ -84,10 +93,10 @@ const FALLBACK_SECTIONS: SectionData[] = [
     description: "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos. Porque somos personas en todos los ámbitos de nuestra vida, también en nuestros lugares de trabajo",
     sort_order: 2,
     entities: [
-      { id: "papageno", name: "PAPAGENO", logo_url: "/logos/papageno.png", description: "", sort_order: 1 },
-      { id: "fundaciononce", name: "Fundación ONCE", logo_url: "/logos/fundaciononce.png", description: "", sort_order: 2 },
-      { id: "itgetsbetter", name: "It Gets Better España", logo_url: "/logos/itgetsbetter.png", description: "", sort_order: 3 },
-      { id: "trabajandoenpositivo", name: "Trabajando en Positivo", logo_url: "/logos/trabajandoenpositivo.png", description: "", sort_order: 4 },
+      { id: "papageno", name: "PAPAGENO", logo_url: "/logos/papageno.png", description: "", tags: [], sort_order: 1 },
+      { id: "fundaciononce", name: "Fundación ONCE", logo_url: "/logos/fundaciononce.png", description: "", tags: [], sort_order: 2 },
+      { id: "itgetsbetter", name: "It Gets Better España", logo_url: "/logos/itgetsbetter.png", description: "", tags: [], sort_order: 3 },
+      { id: "trabajandoenpositivo", name: "Trabajando en Positivo", logo_url: "/logos/trabajandoenpositivo.png", description: "", tags: [], sort_order: 4 },
     ],
   },
   {
@@ -97,9 +106,9 @@ const FALLBACK_SECTIONS: SectionData[] = [
     description: "Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica. Aquí es donde nacen los cambios que transforman empresas, ciudades y formas de vivir el trabajo",
     sort_order: 3,
     entities: [
-      { id: "aytomadrid", name: "Ayuntamiento de Madrid\n(Área de Familias, Igualdad y Bienestar Social)", logo_url: "/logos/aytomadrid.png", description: "", sort_order: 1 },
-      { id: "icam", name: "Ilustre Colegio de la Abogacía de Madrid", logo_url: "/logos/icam.png", description: "", sort_order: 2 },
-      { id: "ccce", name: "Cámara de Comercio Canadá España", logo_url: "/logos/ccce.png", description: "", sort_order: 3 },
+      { id: "aytomadrid", name: "Ayuntamiento de Madrid\n(Área de Familias, Igualdad y Bienestar Social)", logo_url: "/logos/aytomadrid.png", description: "", tags: [], sort_order: 1 },
+      { id: "icam", name: "Ilustre Colegio de la Abogacía de Madrid", logo_url: "/logos/icam.png", description: "", tags: [], sort_order: 2 },
+      { id: "ccce", name: "Cámara de Comercio Canadá España", logo_url: "/logos/ccce.png", description: "", tags: [], sort_order: 3 },
     ],
   },
 ];
@@ -122,6 +131,7 @@ export default async function EcosistemaPage() {
           name: e.name,
           logo_url: e.logo_url,
           description: e.description,
+          tags: e.tags || [],
           sort_order: e.sort_order,
         });
       }
@@ -223,10 +233,11 @@ export default async function EcosistemaPage() {
                       name: `Embajador/a ${i + 1}`,
                       logo_url: "",
                       description: "",
+                      tags: [] as string[],
                       sort_order: i,
                     }))
                 ).map((e) => (
-                  <AvatarPlaceholder key={e.id} name={e.name} />
+                  <AvatarPlaceholder key={e.id} name={e.name} logo={e.logo_url} tags={e.tags} />
                 ))}
               </div>
             </div>

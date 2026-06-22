@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Event } from "@/lib/types";
+import type { Event, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 
 const emptyEvento: Partial<Event> = {
@@ -18,21 +18,29 @@ const emptyEvento: Partial<Event> = {
   registrationUrl: "",
   featured: false,
   status: "draft",
+  movimientoId: "",
 };
 
 export default function AdminEventosPage() {
   const [eventos, setEventos] = useState<Event[]>([]);
+  const [movimientos, setMovimientos] = useState<Movement[]>([]);
   const [editing, setEditing] = useState<Partial<Event> | null>(null);
   const [tagsInput, setTagsInput] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     loadEventos();
+    loadMovimientos();
   }, []);
 
   async function loadEventos() {
     const res = await fetch("/api/eventos");
     setEventos(await res.json());
+  }
+
+  async function loadMovimientos() {
+    const res = await fetch("/api/movimientos");
+    setMovimientos(await res.json());
   }
 
   function startCreate() {
@@ -47,6 +55,17 @@ export default function AdminEventosPage() {
       endDate: ev.endDate?.slice(0, 16),
     });
     setTagsInput(ev.tags.join(", "));
+  }
+
+  function handleStartDateChange(value: string) {
+    const updates: Partial<Event> = { startDate: value };
+    if (value && !editing?.id) {
+      const start = new Date(value);
+      const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
+      const pad = (n: number) => String(n).padStart(2, "0");
+      updates.endDate = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}T${pad(end.getHours())}:${pad(end.getMinutes())}`;
+    }
+    setEditing({ ...editing, ...updates });
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -141,6 +160,24 @@ export default function AdminEventosPage() {
             />
           </div>
 
+          <div>
+            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
+              Movimiento
+            </label>
+            <select
+              value={editing.movimientoId ?? ""}
+              onChange={(e) => setEditing({ ...editing, movimientoId: e.target.value })}
+              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+            >
+              <option value="">Sin movimiento</option>
+              {movimientos.map((mov) => (
+                <option key={mov.id} value={mov.id}>
+                  {mov.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
@@ -150,7 +187,7 @@ export default function AdminEventosPage() {
                 required
                 type="datetime-local"
                 value={editing.startDate ?? ""}
-                onChange={(e) => setEditing({ ...editing, startDate: e.target.value })}
+                onChange={(e) => handleStartDateChange(e.target.value)}
                 className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               />
             </div>

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate, formatDateTime } from "@/lib/utils";
-import type { Event } from "@/lib/types";
+import type { Event, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
-import { getEventoBySlug } from "@/lib/data/store";
+import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
 function getRegistrationLabel(type: string) {
@@ -26,8 +26,12 @@ export default async function EventoDetailPage({
 }) {
   const { slug } = await params;
   let evento: Event | undefined;
+  let movimiento: Movement | undefined;
   try {
     evento = await getEventoBySlug(slug);
+    if (evento?.movimientoId) {
+      movimiento = await getMovimiento(evento.movimientoId);
+    }
   } catch (e) {
     console.error("EventoDetailPage fetch error:", e);
     return (
@@ -56,6 +60,14 @@ export default async function EventoDetailPage({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
+          {movimiento && (
+            <Link
+              href={`/movimientos/${movimiento.slug}`}
+              className="inline-block text-[11px] font-medium tracking-[0.1em] uppercase text-white/80 bg-white/10 backdrop-blur-sm px-3 py-1.5 mb-3 hover:bg-white/20 transition-colors"
+            >
+              Movimiento: {movimiento.title}
+            </Link>
+          )}
           <div className="flex gap-3 mb-4">
             <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-accent/90 backdrop-blur-sm px-3 py-1.5">
               {evento.type}

@@ -1,37 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { News, Movement } from "@/lib/types";
+import type { Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 
-const emptyNoticia: Partial<News> = {
+const emptyMovimiento: Partial<Movement> = {
   title: "",
-  excerpt: "",
+  description: "",
   content: "",
   coverImage: "",
   tags: [],
-  author: "AutentiZity",
-  featured: false,
   status: "draft",
-  movimientoId: "",
+  featured: false,
 };
 
-export default function AdminNoticiasPage() {
-  const [noticias, setNoticias] = useState<News[]>([]);
+export default function AdminMovimientosPage() {
   const [movimientos, setMovimientos] = useState<Movement[]>([]);
-  const [editing, setEditing] = useState<Partial<News> | null>(null);
+  const [editing, setEditing] = useState<Partial<Movement> | null>(null);
   const [tagsInput, setTagsInput] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    loadNoticias();
     loadMovimientos();
   }, []);
-
-  async function loadNoticias() {
-    const res = await fetch("/api/noticias");
-    setNoticias(await res.json());
-  }
 
   async function loadMovimientos() {
     const res = await fetch("/api/movimientos");
@@ -39,13 +30,13 @@ export default function AdminNoticiasPage() {
   }
 
   function startCreate() {
-    setEditing({ ...emptyNoticia });
+    setEditing({ ...emptyMovimiento });
     setTagsInput("");
   }
 
-  function startEdit(n: News) {
-    setEditing({ ...n });
-    setTagsInput(n.tags.join(", "));
+  function startEdit(mov: Movement) {
+    setEditing({ ...mov });
+    setTagsInput(mov.tags.join(", "));
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -59,13 +50,13 @@ export default function AdminNoticiasPage() {
     };
 
     if (editing.id) {
-      await fetch(`/api/noticias/${editing.id}`, {
+      await fetch(`/api/movimientos/${editing.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
     } else {
-      await fetch("/api/noticias", {
+      await fetch("/api/movimientos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -74,40 +65,39 @@ export default function AdminNoticiasPage() {
 
     setEditing(null);
     setSaving(false);
-    loadNoticias();
+    loadMovimientos();
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("¿Eliminar esta noticia?")) return;
-    await fetch(`/api/noticias/${id}`, { method: "DELETE" });
-    loadNoticias();
+    if (!confirm("¿Eliminar este movimiento?")) return;
+    await fetch(`/api/movimientos/${id}`, { method: "DELETE" });
+    loadMovimientos();
   }
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-serif text-3xl text-primary font-light">Noticias</h1>
+          <h1 className="font-serif text-3xl text-primary font-light">Movimientos</h1>
           <p className="text-text-secondary text-sm font-light mt-1">
-            {noticias.length} noticias
+            {movimientos.length} movimientos
           </p>
         </div>
         <button
           onClick={startCreate}
           className="px-5 py-2.5 bg-primary text-white text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-primary-light transition-colors"
         >
-          + Nueva noticia
+          + Nuevo movimiento
         </button>
       </div>
 
-      {/* Edit / Create form */}
       {editing && (
         <form
           onSubmit={handleSave}
           className="bg-white border border-border p-6 mb-8 space-y-4"
         >
           <h2 className="font-serif text-xl text-primary font-light mb-4">
-            {editing.id ? "Editar noticia" : "Nueva noticia"}
+            {editing.id ? "Editar movimiento" : "Nuevo movimiento"}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -130,47 +120,29 @@ export default function AdminNoticiasPage() {
 
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
-              Movimiento
-            </label>
-            <select
-              value={editing.movimientoId ?? ""}
-              onChange={(e) => setEditing({ ...editing, movimientoId: e.target.value })}
-              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-            >
-              <option value="">Sin movimiento</option>
-              {movimientos.map((mov) => (
-                <option key={mov.id} value={mov.id}>
-                  {mov.title}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
-              Extracto
+              Descripción
             </label>
             <textarea
               rows={2}
-              value={editing.excerpt ?? ""}
-              onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })}
+              value={editing.description ?? ""}
+              onChange={(e) => setEditing({ ...editing, description: e.target.value })}
               className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
             />
           </div>
 
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
-              Contenido
+              Contenido detallado
             </label>
             <textarea
-              rows={6}
+              rows={5}
               value={editing.content ?? ""}
               onChange={(e) => setEditing({ ...editing, content: e.target.value })}
               className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
                 Tags (separadas por coma)
@@ -188,24 +160,25 @@ export default function AdminNoticiasPage() {
               </label>
               <select
                 value={editing.status ?? "draft"}
-                onChange={(e) => setEditing({ ...editing, status: e.target.value as "draft" | "published" })}
+                onChange={(e) => setEditing({ ...editing, status: e.target.value as Movement["status"] })}
                 className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               >
                 <option value="draft">Borrador</option>
-                <option value="published">Publicada</option>
+                <option value="published">Publicado</option>
               </select>
             </div>
-            <div className="flex items-end">
-              <label className="flex items-center gap-2 pb-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={editing.featured ?? false}
-                  onChange={(e) => setEditing({ ...editing, featured: e.target.checked })}
-                  className="accent-accent w-4 h-4"
-                />
-                <span className="text-sm text-text-body">Destacada</span>
-              </label>
-            </div>
+          </div>
+
+          <div className="flex items-end">
+            <label className="flex items-center gap-2 pb-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={editing.featured ?? false}
+                onChange={(e) => setEditing({ ...editing, featured: e.target.checked })}
+                className="accent-accent w-4 h-4"
+              />
+              <span className="text-sm text-text-body">Destacado</span>
+            </label>
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -227,46 +200,45 @@ export default function AdminNoticiasPage() {
         </form>
       )}
 
-      {/* List */}
       <div className="space-y-2">
-        {noticias.map((n) => (
+        {movimientos.map((mov) => (
           <div
-            key={n.id}
+            key={mov.id}
             className="bg-white border border-border p-4 flex items-center justify-between gap-4 hover:border-border-light transition-colors"
           >
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-normal text-primary truncate">
-                  {n.title}
+                  {mov.title}
                 </h3>
                 <span
                   className={`shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 ${
-                    n.status === "published"
+                    mov.status === "published"
                       ? "bg-accent/10 text-accent"
                       : "bg-surface-alt text-text-muted"
                   }`}
                 >
-                  {n.status === "published" ? "Publicada" : "Borrador"}
+                  {mov.status === "published" ? "Publicado" : "Borrador"}
                 </span>
-                {n.featured && (
+                {mov.featured && (
                   <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-secondary/10 text-secondary">
-                    Destacada
+                    Destacado
                   </span>
                 )}
               </div>
               <p className="text-xs text-text-muted mt-0.5 truncate">
-                {n.excerpt}
+                {mov.description}
               </p>
             </div>
             <div className="flex gap-2 shrink-0">
               <button
-                onClick={() => startEdit(n)}
+                onClick={() => startEdit(mov)}
                 className="px-3 py-1.5 text-[11px] text-text-secondary border border-border hover:border-accent hover:text-accent transition-colors"
               >
                 Editar
               </button>
               <button
-                onClick={() => handleDelete(n.id)}
+                onClick={() => handleDelete(mov.id)}
                 className="px-3 py-1.5 text-[11px] text-red-400 border border-border hover:border-red-300 hover:text-red-600 transition-colors"
               >
                 Eliminar

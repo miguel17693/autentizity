@@ -21,10 +21,12 @@ export default function ImageUpload({
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const originalUrlRef = useRef<string>("");
 
   const uploadFile = useCallback(
-    async (file: File) => {
+    async (file: File): Promise<string> => {
       setUploading(true);
       setError("");
 
@@ -43,19 +45,20 @@ export default function ImageUpload({
         }
 
         const { url } = await res.json();
-        onChange(url);
+        setUploading(false);
+        return url;
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Error al subir la imagen"
         );
-      } finally {
         setUploading(false);
+        return "";
       }
     },
-    [onChange]
+    []
   );
 
-  const readAndCrop = useCallback((file: File) => {
+  const readAndCrop = useCallback(async (file: File) => {
     if (!file.type.startsWith("image/")) {
       setError("Solo se permiten imágenes");
       return;
@@ -67,23 +70,31 @@ export default function ImageUpload({
 
     setError("");
     const reader = new FileReader();
-    reader.onload = () => {
-      setCropSrc(reader.result as string);
+    reader.onload = async () => {
+      const dataUrl = reader.result as string;
+      // Upload original first, then open crop
+      const originalUrl = await uploadFile(file);
+      if (originalUrl) {
+        originalUrlRef.current = originalUrl;
+      }
+      setCropSrc(dataUrl);
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [uploadFile]);
 
   const handleCropConfirm = useCallback(
-    (croppedFile: File) => {
+    async (croppedFile: File) => {
       setCropSrc(null);
-      uploadFile(croppedFile);
+      const croppedUrl = await uploadFile(croppedFile);
+      if (croppedUrl) {
+        onChange(croppedUrl);
+      }
     },
-    [uploadFile]
+    [uploadFile, onChange]
   );
 
   const handleCropCancel = useCallback(() => {
     setCropSrc(null);
-    // Reset file input
     if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
@@ -99,7 +110,20 @@ export default function ImageUpload({
 
   const handleRemove = () => {
     onChange("");
+    originalUrlRef.current = "";
     setShowUrlInput(false);
+    setPreviewSrc(null);
+  };
+
+  const handleRecrop = () => {
+    const src = originalUrlRef.current || value;
+    if (src) {
+      setCropSrc(src);
+    }
+  };
+
+  const handlePreview = () => {
+    setPreviewSrc(value);
   };
 
   return (
@@ -123,6 +147,20 @@ export default function ImageUpload({
                 className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Cambiar
+              </button>
+              <button
+                type="button"
+                onClick={handleRecrop}
+                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+              >
+                Recortar
+              </button>
+              <button
+                type="button"
+                onClick={handlePreview}
+                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+              >
+                Vista previa
               </button>
               <button
                 type="button"
@@ -229,6 +267,29 @@ export default function ImageUpload({
           onConfirm={handleCropConfirm}
           onCancel={handleCropCancel}
         />
+      )}
+
+      {/* Preview modal */}
+      {previewSrc && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          onClick={() => setPreviewSrc(null)}
+        >
+          <div className="relative max-w-2xl w-full max-h-[80vh] bg-white p-2">
+            <button
+              type="button"
+              onClick={() => setPreviewSrc(null)}
+              className="absolute -top-3 -right-3 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-text-muted hover:text-text-body z-10"
+            >
+              ×
+            </button>
+            <img
+              src={previewSrc}
+              alt="Vista previa"
+              className="w-full max-h-[75vh] object-contain"
+            />
+          </div>
+        </div>
       )}
     </>
   );

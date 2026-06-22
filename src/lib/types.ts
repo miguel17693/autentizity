@@ -16,6 +16,7 @@ export interface News {
   updatedAt: string;
   featured: boolean;
   status: "draft" | "published";
+  movimientoId: string;
 }
 
 // --- Eventos ---
@@ -41,6 +42,33 @@ export interface Event {
   registrationUrl: string;
   featured: boolean;
   status: "draft" | "published" | "cancelled";
+  movimientoId: string;
+}
+
+// --- Movimientos ---
+export interface Movement {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  coverImage: string;
+  tags: string[];
+  status: "draft" | "published";
+  featured: boolean;
+}
+
+// --- Actividades ---
+export interface Activity {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  coverImage: string;
+  tags: string[];
+  status: "draft" | "published";
+  featured: boolean;
 }
 
 // --- Navegación ---
@@ -74,6 +102,7 @@ export interface EcosistemaEntity {
   name: string;          // "ManpowerGroup", "Trabajando en Positivo"...
   logo_url: string;      // URL (Vercel Blob) o path relativo
   description: string;   // Metatexto opcional
+  tags: string[];
   sort_order: number;
   active: boolean;
 }

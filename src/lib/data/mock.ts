@@ -24,6 +24,7 @@ export const mockEvents: Event[] = [
     registrationUrl: "https://www.eventbrite.es/e/nuestro-legado",
     featured: true,
     status: "published",
+    movimientoId: "",
   },
   {
     id: "2",
@@ -42,6 +43,7 @@ export const mockEvents: Event[] = [
     registrationUrl: "https://www.eventbrite.es/e/puesta-de-largo-autentizity",
     featured: true,
     status: "published",
+    movimientoId: "",
   },
   {
     id: "3",
@@ -60,6 +62,7 @@ export const mockEvents: Event[] = [
     registrationUrl: "https://zoom.us/j/foro-authentizity",
     featured: false,
     status: "published",
+    movimientoId: "",
   },
   {
     id: "4",
@@ -78,6 +81,7 @@ export const mockEvents: Event[] = [
     registrationUrl: "https://www.eventbrite.es/e/de-philadelphia-a-madrid",
     featured: false,
     status: "published",
+    movimientoId: "",
   },
 ];
 
@@ -96,6 +100,7 @@ export const mockNews: News[] = [
     updatedAt: "2026-04-01T10:00:00",
     featured: true,
     status: "published",
+    movimientoId: "",
   },
   {
     id: "2",
@@ -111,6 +116,7 @@ export const mockNews: News[] = [
     updatedAt: "2026-03-28T09:00:00",
     featured: true,
     status: "published",
+    movimientoId: "",
   },
   {
     id: "3",
@@ -126,5 +132,6 @@ export const mockNews: News[] = [
     updatedAt: "2026-03-20T12:00:00",
     featured: false,
     status: "published",
+    movimientoId: "",
   },
 ];

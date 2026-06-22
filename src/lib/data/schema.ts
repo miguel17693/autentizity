@@ -24,6 +24,7 @@ export async function initSchema() {
       registration_url TEXT DEFAULT '',
       featured BOOLEAN DEFAULT false,
       status TEXT DEFAULT 'draft',
+      movimiento_id TEXT,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )
@@ -43,7 +44,58 @@ export async function initSchema() {
       updated_at TEXT DEFAULT '',
       featured BOOLEAN DEFAULT false,
       status TEXT DEFAULT 'draft',
+      movimiento_id TEXT,
       created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS movimientos (
+      id TEXT PRIMARY KEY,
+      slug TEXT UNIQUE NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT DEFAULT '',
+      content TEXT DEFAULT '',
+      cover_image TEXT DEFAULT '',
+      tags JSONB DEFAULT '[]',
+      status TEXT DEFAULT 'draft',
+      featured BOOLEAN DEFAULT false,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS actividades (
+      id TEXT PRIMARY KEY,
+      slug TEXT UNIQUE NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT DEFAULT '',
+      content TEXT DEFAULT '',
+      cover_image TEXT DEFAULT '',
+      tags JSONB DEFAULT '[]',
+      status TEXT DEFAULT 'draft',
+      featured BOOLEAN DEFAULT false,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS movimiento_embajadores (
+      id TEXT PRIMARY KEY,
+      movimiento_id TEXT NOT NULL REFERENCES movimientos(id) ON DELETE CASCADE,
+      entidad_id TEXT NOT NULL REFERENCES ecosistema_entidades(id) ON DELETE CASCADE,
+      UNIQUE(movimiento_id, entidad_id)
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS movimiento_actividades (
+      id TEXT PRIMARY KEY,
+      movimiento_id TEXT NOT NULL REFERENCES movimientos(id) ON DELETE CASCADE,
+      actividad_id TEXT NOT NULL REFERENCES actividades(id) ON DELETE CASCADE,
+      UNIQUE(movimiento_id, actividad_id)
     )
   `;
 
@@ -74,6 +126,7 @@ export async function initSchema() {
       name TEXT NOT NULL,
       logo_url TEXT DEFAULT '',
       description TEXT DEFAULT '',
+      tags JSONB DEFAULT '[]',
       sort_order INTEGER DEFAULT 0,
       active BOOLEAN DEFAULT true,
       created_at TIMESTAMP DEFAULT NOW()

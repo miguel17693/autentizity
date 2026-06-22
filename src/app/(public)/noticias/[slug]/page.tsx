@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
-import type { News } from "@/lib/types";
+import type { News, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
-import { getNoticiaBySlug } from "@/lib/data/store";
+import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
 export default async function NoticiaDetailPage({
@@ -13,8 +13,12 @@ export default async function NoticiaDetailPage({
 }) {
   const { slug } = await params;
   let noticia: News | undefined;
+  let movimiento: Movement | undefined;
   try {
     noticia = await getNoticiaBySlug(slug);
+    if (noticia?.movimientoId) {
+      movimiento = await getMovimiento(noticia.movimientoId);
+    }
   } catch (e) {
     console.error("NoticiaDetailPage fetch error:", e);
     return (
@@ -43,6 +47,14 @@ export default async function NoticiaDetailPage({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
+          {movimiento && (
+            <Link
+              href={`/movimientos/${movimiento.slug}`}
+              className="inline-block text-[11px] font-medium tracking-[0.1em] uppercase text-white/80 bg-white/10 backdrop-blur-sm px-3 py-1.5 mb-3 hover:bg-white/20 transition-colors"
+            >
+              Movimiento: {movimiento.title}
+            </Link>
+          )}
           <div className="flex gap-3 mb-4">
             {noticia.tags.map((tag) => (
               <span

@@ -72,7 +72,7 @@ export default function Header() {
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
             ? "bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.04)]"
-            : "bg-white/90 backdrop-blur-md"
+            : "bg-primary/95 backdrop-blur-md"
         }`}
       >
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -84,7 +84,7 @@ export default function Header() {
                 alt="AutentiZity"
                 width={340}
                 height={100}
-                className="h-full w-auto object-contain max-h-16 sm:max-h-20 lg:max-h-24"
+                className={`h-full w-auto object-contain max-h-16 sm:max-h-20 lg:max-h-24 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
                 priority
               />
             </Link>
@@ -95,15 +95,19 @@ export default function Header() {
                 <div key={item.href} className="relative group">
                   <Link
                     href={item.href}
-                    className="relative text-[13px] font-medium tracking-[0.08em] uppercase text-text-body hover:text-primary transition-colors py-2"
+                    className={`relative text-[13px] font-medium tracking-[0.08em] uppercase py-2 transition-colors ${
+                      scrolled
+                        ? "text-text-body hover:text-primary"
+                        : "text-white/85 hover:text-white"
+                    }`}
                   >
                     {item.label}
                     {item.children && (
-                      <svg className="inline-block w-3 h-3 ml-1 -mt-0.5 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <svg className={`inline-block w-3 h-3 ml-1 -mt-0.5 transition-colors ${scrolled ? "opacity-40" : "opacity-60"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
                     )}
-                    <span className="absolute left-0 -bottom-0.5 h-[1.5px] w-0 bg-accent group-hover:w-full transition-all duration-300 ease-out" />
+                    <span className={`absolute left-0 -bottom-0.5 h-[1.5px] w-0 group-hover:w-full transition-all duration-300 ease-out ${scrolled ? "bg-accent" : "bg-white/60"}`} />
                   </Link>
                   {item.children && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
@@ -132,19 +136,19 @@ export default function Header() {
             >
               <div className="w-[22px] flex flex-col gap-[5px]">
                 <span
-                  className={`block h-[2px] bg-primary rounded-full transition-all duration-300 origin-center ${
-                    mobileOpen ? "rotate-45 translate-y-[7px]" : ""
-                  }`}
+                  className={`block h-[2px] rounded-full transition-all duration-300 origin-center ${
+                    scrolled ? "bg-primary" : "bg-white"
+                  } ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`}
                 />
                 <span
-                  className={`block h-[2px] bg-primary rounded-full transition-all duration-300 ${
-                    mobileOpen ? "opacity-0 scale-x-0" : ""
-                  }`}
+                  className={`block h-[2px] rounded-full transition-all duration-300 ${
+                    scrolled ? "bg-primary" : "bg-white"
+                  } ${mobileOpen ? "opacity-0 scale-x-0" : ""}`}
                 />
                 <span
-                  className={`block h-[2px] bg-primary rounded-full transition-all duration-300 origin-center ${
-                    mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""
-                  }`}
+                  className={`block h-[2px] rounded-full transition-all duration-300 origin-center ${
+                    scrolled ? "bg-primary" : "bg-white"
+                  } ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
                 />
               </div>
             </button>
@@ -153,8 +157,8 @@ export default function Header() {
 
         {/* Bottom line — fades on scroll */}
         <div
-          className={`h-[1px] transition-opacity duration-300 ${
-            scrolled ? "opacity-0" : "bg-border-light opacity-100"
+          className={`h-[1px] transition-all duration-300 ${
+            scrolled ? "opacity-0" : "bg-white/15"
           }`}
         />
       </header>

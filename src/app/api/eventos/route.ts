@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     registrationUrl: body.registrationUrl ?? "",
     featured: body.featured ?? false,
     status: body.status ?? "draft",
+    movimientoId: body.movimientoId ?? "",
   };
 
   await createEvento(evento);

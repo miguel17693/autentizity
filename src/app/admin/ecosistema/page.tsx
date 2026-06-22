@@ -35,6 +35,7 @@ const emptyEntity: Partial<EcosistemaEntity> = {
   name: "",
   logo_url: "",
   description: "",
+  tags: [],
   sort_order: 0,
   active: true,
 };
@@ -362,6 +363,16 @@ function EntityFormModal({
               className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           </div>
+          <div>
+            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Expertise / Tags (separadas por coma)</label>
+            <input
+              type="text"
+              value={(editing.tags as string[] || []).join(", ")}
+              onChange={(e) => onChange({ tags: e.target.value.split(",").map((t: string) => t.trim()).filter(Boolean) })}
+              placeholder="Liderazgo, Diversidad, Tech"
+              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+            />
+          </div>
           <ImageUpload
             label="Logo"
             value={editing.logo_url || ""}
@@ -539,6 +550,7 @@ export default function AdminEcosistemaPage() {
       name: editingEntity.name || "",
       logo_url: editingEntity.logo_url || "",
       description: editingEntity.description || "",
+      tags: editingEntity.tags || [],
       sort_order: editingEntity.sort_order || 0,
       active: editingEntity.active ?? true,
     };

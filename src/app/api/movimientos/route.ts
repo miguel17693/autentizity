@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getNoticias, createNoticia } from "@/lib/data/store";
+import { getMovimientos, createMovimiento } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
 export async function GET() {
-  return NextResponse.json(await getNoticias());
+  return NextResponse.json(await getMovimientos());
 }
 
 export async function POST(request: NextRequest) {
@@ -11,24 +11,19 @@ export async function POST(request: NextRequest) {
 
   const id = String(Date.now());
   const slug = body.slug || slugify(body.title);
-  const now = new Date().toISOString();
 
-  const noticia = {
+  const movimiento = {
     id,
     slug,
     title: body.title ?? "",
-    excerpt: body.excerpt ?? "",
+    description: body.description ?? "",
     content: body.content ?? "",
     coverImage: body.coverImage ?? "",
     tags: body.tags ?? [],
-    author: body.author ?? "AutentiZity",
-    publishedAt: body.publishedAt ?? now,
-    updatedAt: now,
-    featured: body.featured ?? false,
     status: body.status ?? "draft",
-    movimientoId: body.movimientoId ?? "",
+    featured: body.featured ?? false,
   };
 
-  await createNoticia(noticia);
-  return NextResponse.json(noticia, { status: 201 });
+  await createMovimiento(movimiento);
+  return NextResponse.json(movimiento, { status: 201 });
 }
