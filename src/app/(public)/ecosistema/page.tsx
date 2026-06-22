@@ -37,7 +37,7 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   const isPng = logo?.endsWith(".png");
 
   return (
-    <div className="flex items-center justify-center h-20 px-6">
+    <div className="flex items-center justify-center h-20 bg-white rounded-2xl border border-border-light px-6">
       {hasLogo ? (
         <Image src={logo} alt={name ?? ""} width={120} height={48} unoptimized={isPng} className="object-contain max-h-12 max-w-[120px]" />
       ) : (
@@ -49,13 +49,14 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   );
 }
 
-function AvatarPlaceholder({ name, logo, tags }: { name: string; logo?: string; tags?: string[] }) {
+function AvatarPlaceholder({ name, logo, description }: { name: string; logo?: string; description?: string }) {
   const hasPhoto = logo != null && logo !== "";
+  const isPng = logo?.endsWith(".png");
   return (
     <div className="text-center">
       <div className="w-24 h-24 mx-auto rounded-full bg-surface-alt border border-border flex items-center justify-center mb-3 overflow-hidden">
         {hasPhoto ? (
-          <Image src={logo} alt={name} width={96} height={96} className="object-cover w-full h-full" />
+          <Image src={logo} alt={name} width={96} height={96} unoptimized={isPng} className="object-cover w-full h-full" />
         ) : (
           <svg className="w-10 h-10 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -63,8 +64,8 @@ function AvatarPlaceholder({ name, logo, tags }: { name: string; logo?: string; 
         )}
       </div>
       <p className="text-text-secondary text-sm font-light">{name}</p>
-      {tags && tags.length > 0 && (
-        <p className="text-text-muted text-xs font-light mt-1">{tags.slice(0, 3).join(", ")}</p>
+      {description && (
+        <p className="text-text-muted text-[11px] font-light mt-0.5 italic leading-tight max-w-[120px] mx-auto">{description}</p>
       )}
     </div>
   );
@@ -237,7 +238,7 @@ export default async function EcosistemaPage() {
                       sort_order: i,
                     }))
                 ).map((e) => (
-                  <AvatarPlaceholder key={e.id} name={e.name} logo={e.logo_url} tags={e.tags} />
+                  <AvatarPlaceholder key={e.id} name={e.name} logo={e.logo_url} description={e.description || (e.tags && e.tags.length > 0 ? e.tags.slice(0, 3).join(", ") : undefined)} />
                 ))}
               </div>
             </div>

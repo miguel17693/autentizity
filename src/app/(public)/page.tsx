@@ -27,9 +27,7 @@ async function getNews() {
 /* ============== HERO ============== */
 function Hero() {
   return (
-    <section className="relative min-h-[calc(100dvh-65px)] sm:min-h-[calc(100dvh-81px)] lg:min-h-[calc(100dvh-97px)] flex items-center justify-center bg-primary overflow-hidden">
-      {/* Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-primary" />
+    <section className="relative min-h-[calc(100dvh-57px)] sm:min-h-[calc(100dvh-65px)] lg:min-h-[calc(100dvh-73px)] flex items-center justify-center bg-primary overflow-hidden">
 
       {/* Decorative circles — centred */}
       <div className="absolute inset-0 overflow-hidden opacity-[0.04]">

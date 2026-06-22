@@ -22,6 +22,7 @@ const navItems = [
     children: [
       { label: "Eventos", href: "/eventos#eventos" },
       { label: "Movimientos", href: "/eventos#movimientos" },
+      { label: "Actividades", href: "/eventos#actividades" },
     ],
   },
   {
@@ -72,19 +73,19 @@ export default function Header() {
         className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled
             ? "bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.04)]"
-            : "bg-primary/95 backdrop-blur-md"
+            : "bg-primary"
         }`}
       >
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-          <div className="flex items-center justify-between h-20 sm:h-24 lg:h-28">
+          <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20">
             {/* Logo */}
-            <Link href="/" className="shrink-0 flex items-center h-full py-1.5">
+            <Link href="/" className="shrink-0 flex items-center h-full py-1">
               <Image
                 src="/images/logo-transparent.png"
                 alt="AutentiZity"
                 width={340}
                 height={100}
-                className={`h-full w-auto object-contain max-h-16 sm:max-h-20 lg:max-h-24 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
+                className={`h-full w-auto object-contain max-h-10 sm:max-h-12 lg:max-h-14 transition-all duration-300 ${scrolled ? "" : "brightness-0 invert"}`}
                 priority
               />
             </Link>
@@ -155,10 +156,10 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Bottom line — fades on scroll */}
+        {/* Bottom line — only when scrolled */}
         <div
           className={`h-[1px] transition-all duration-300 ${
-            scrolled ? "opacity-0" : "bg-white/15"
+            scrolled ? "bg-border-light opacity-100" : "opacity-0"
           }`}
         />
       </header>

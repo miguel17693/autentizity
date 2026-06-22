@@ -175,9 +175,9 @@ export default async function MovimientoDetailPage({
                           <p className="text-xs text-text-secondary mt-1 font-light max-w-[64px] truncate">
                             {emb.name}
                           </p>
-                          {emb.tags && emb.tags.length > 0 && (
-                            <p className="text-[9px] text-text-muted mt-0.5 max-w-[64px] truncate">
-                              {emb.tags[0]}
+                          {emb.description && (
+                            <p className="text-[9px] text-text-muted mt-0.5 max-w-[64px] truncate italic">
+                              {emb.description}
                             </p>
                           )}
                         </div>
@@ -203,7 +203,7 @@ export default async function MovimientoDetailPage({
                       <Link
                         key={ev.id}
                         href={`/eventos/${ev.slug}`}
-                        className="group block bg-white border border-border-light overflow-hidden hover:shadow-md transition-shadow"
+                        className="group block bg-white border border-border-light overflow-hidden hover:shadow-md transition-shadow rounded-2xl"
                       >
                         <div className="relative h-40 overflow-hidden">
                           <Image src={ev.coverImage} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
@@ -230,7 +230,7 @@ export default async function MovimientoDetailPage({
                       <Link
                         key={n.id}
                         href={`/noticias/${n.slug}`}
-                        className="group block bg-white border border-border-light overflow-hidden hover:shadow-md transition-shadow"
+                        className="group block bg-white border border-border-light overflow-hidden hover:shadow-md transition-shadow rounded-2xl"
                       >
                         <div className="relative h-40 overflow-hidden">
                           <Image src={n.coverImage} alt={n.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />

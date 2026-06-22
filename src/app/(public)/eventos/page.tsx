@@ -3,8 +3,8 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { formatDate } from "@/lib/utils";
 import Section from "@/components/ui/Section";
-import type { Event, Movement } from "@/lib/types";
-import { getEventos, getMovimientos } from "@/lib/data/store";
+import type { Event, Movement, Activity } from "@/lib/types";
+import { getEventos, getMovimientos, getActividades } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
 
@@ -14,18 +14,27 @@ export default async function EventosPage() {
   const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
   let eventos: Event[] = [];
   let movimientos: Movement[] = [];
+  let actividades: Activity[] = [];
   let dataError = false;
   try {
-    [eventos, movimientos] = await Promise.all([
-      getEventos(),
-      getMovimientos(),
-    ]);
+    eventos = await getEventos();
   } catch (e) {
     console.error("EventosPage data fetch error:", e);
     dataError = true;
   }
+  try {
+    movimientos = await getMovimientos();
+  } catch {
+    // Movimientos table may not exist yet — fail silently
+  }
+  try {
+    actividades = await getActividades();
+  } catch {
+    // Actividades table may not exist yet — fail silently
+  }
   const items = isPreview ? eventos : eventos.filter((e) => e.status === "published");
   const movItems = isPreview ? movimientos : movimientos.filter((m) => m.status === "published");
+  const actItems = isPreview ? actividades : actividades.filter((a) => a.status === "published");
 
   return (
     <>
@@ -159,7 +168,7 @@ export default async function EventosPage() {
                 <Link
                   key={mov.id}
                   href={`/movimientos/${mov.slug}`}
-                  className="group bg-white border border-border-light p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+                  className="group bg-white border border-border-light p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 rounded-2xl"
                 >
                   {mov.coverImage && (
                     <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6">
@@ -197,6 +206,74 @@ export default async function EventosPage() {
             ) : (
               <p className="text-text-secondary col-span-full text-center py-10 font-light">
                 No hay movimientos publicados todavía
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+      </Section>
+
+      <Section id="act-actividades">
+      {/* ============== ACTIVIDADES ============== */}
+      <section id="actividades" className="py-12 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="brand-line" />
+            <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+              Actividades
+            </span>
+          </div>
+          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+            Actividades
+          </h2>
+          <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+            Otras actividades del ecosistema
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {actItems.length > 0 ? (
+              actItems.map((act) => (
+                <Link
+                  key={act.id}
+                  href={`/actividades/${act.slug}`}
+                  className="group bg-white border border-border-light p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 rounded-2xl"
+                >
+                  {act.coverImage && (
+                    <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6 rounded-t-2xl">
+                      <Image
+                        src={act.coverImage}
+                        alt={act.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      />
+                    </div>
+                  )}
+                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-accent transition-colors">
+                    {act.title}
+                  </h3>
+                  <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
+                    {act.description}
+                  </p>
+                  {act.tags.length > 0 && (
+                    <div className="mt-4 flex items-center gap-2 flex-wrap">
+                      {act.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-2 py-0.5 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-accent text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                    Ver actividad
+                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p className="text-text-secondary col-span-full text-center py-10 font-light">
+                No hay actividades publicadas todavía
               </p>
             )}
           </div>
