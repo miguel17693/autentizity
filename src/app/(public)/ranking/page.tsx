@@ -71,7 +71,7 @@ export default function RankingPage() {
             </span>
             <div className="w-8 h-[1px] bg-accent" />
           </div>
-          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em] uppercase">
+          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Ranking líderes de la autenticidad
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
@@ -89,7 +89,7 @@ export default function RankingPage() {
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <ScrollReveal>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
                 ¿Qué es el Ranking?
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
@@ -117,7 +117,7 @@ export default function RankingPage() {
               </span>
               <div className="brand-line" />
             </div>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] text-center uppercase">
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] text-center">
               Categorías
             </h2>
           </ScrollReveal>
@@ -149,7 +149,7 @@ export default function RankingPage() {
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <ScrollReveal>
             <div className="text-center mb-10 sm:mb-12">
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
                 Proceso de Selección
               </h2>
               <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-2xl mx-auto">
@@ -187,7 +187,7 @@ export default function RankingPage() {
       <section className="py-12 sm:py-16 lg:py-24 bg-surface-warm">
         <div className="max-w-3xl mx-auto px-5 sm:px-6 text-center">
           <ScrollReveal>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
               ¿Quieres participar?
             </h2>
             <p className="mt-5 text-text-secondary text-base leading-relaxed font-light">
@@ -229,7 +229,7 @@ export default function RankingPage() {
                 </span>
                 <div className="brand-line" />
               </div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
                 Diploma AutentiZity
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">

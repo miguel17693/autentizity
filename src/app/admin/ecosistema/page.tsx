@@ -112,7 +112,7 @@ function SortableSection({
       {/* Entities */}
       <div className="px-5 py-4">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-medium tracking-[0.1em] uppercase text-text-muted">
+          <h3 className="text-xs font-medium tracking-[0.1em] text-text-muted">
             Logos y entidades
             {entities.length > 0 && (
               <span className="ml-2 text-text-muted/50">({entities.length})</span>

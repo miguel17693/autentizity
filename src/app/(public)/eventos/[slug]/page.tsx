@@ -78,7 +78,7 @@ export default async function EventoDetailPage({
               </span>
             )}
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">
             {evento.title}
           </h1>
         </div>
@@ -139,7 +139,7 @@ export default async function EventoDetailPage({
             {/* Sidebar — event details */}
             <aside className="lg:col-span-1 order-1 lg:order-2">
               <div className="lg:sticky lg:top-28 bg-surface-alt p-6 sm:p-8 space-y-5 sm:space-y-6">
-                <h3 className="font-serif text-lg text-primary font-normal uppercase tracking-[0.04em]">
+                <h3 className="font-serif text-lg text-primary font-normal tracking-[0.04em]">
                   Detalles
                 </h3>
 

@@ -38,7 +38,7 @@ export default async function NoticiasPage() {
             </span>
             <div className="w-8 h-[1px] bg-accent" />
           </div>
-          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em] uppercase">
+          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Noticias
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">

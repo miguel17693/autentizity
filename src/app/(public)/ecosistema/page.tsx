@@ -164,7 +164,7 @@ export default async function EcosistemaPage() {
             <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Ecosistema</span>
             <div className="w-8 h-[1px] bg-accent" />
           </div>
-          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em] uppercase">Ecosistema</h1>
+          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">Ecosistema</h1>
         </div>
       </section>
 
@@ -183,7 +183,7 @@ export default async function EcosistemaPage() {
                     {sec.name}
                   </span>
                 </div>
-                <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">
+                <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">
                   {sec.name}
                 </h2>
                 {sec.description && (
@@ -217,7 +217,7 @@ export default async function EcosistemaPage() {
                     Embajadores
                   </span>
                 </div>
-                <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase max-w-3xl">
+                <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">
                   Embajadores
                 </h2>
                 {embajadoresSection.description && (

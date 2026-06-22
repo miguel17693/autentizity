@@ -47,7 +47,7 @@ function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto uppercase">
+        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto">
           Autenticidad en el trabajo que ayuda a la{" "}
           <span className="font-normal text-secondary-light">transformación de las empresas</span>
         </h1>
@@ -100,7 +100,7 @@ function Introduction() {
                 El ecosistema
               </span>
             </div>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] tracking-[-0.01em] uppercase">
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] tracking-[-0.01em]">
               Un espacio compartido de{" "}
               <span className="font-normal">valores y autenticidad</span>
             </h2>
@@ -163,7 +163,7 @@ function Events({ events }: { events: any[] }) {
                   Agenda
                 </span>
               </div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
                 Próximos eventos y actividades
               </h2>
             </div>
@@ -248,7 +248,7 @@ function News({ news }: { news: any[] }) {
                   Actualidad
                 </span>
               </div>
-              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
                 Últimas noticias
               </h2>
             </div>
@@ -359,7 +359,7 @@ function CTA() {
 
       <div className="relative max-w-3xl mx-auto px-6 text-center">
         <ScrollReveal>
-          <h2 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] text-balance uppercase">
+          <h2 className="font-serif text-3xl lg:text-5xl text-white font-light leading-[1.1] text-balance">
             ¿Quieres que tu empresa lidere el{" "}
             <span className="font-normal text-secondary-light">cambio</span> hacia una cultura más auténtica?
           </h2>

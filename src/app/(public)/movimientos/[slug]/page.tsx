@@ -79,7 +79,7 @@ export default async function MovimientoDetailPage({
               </span>
             ))}
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">
             {movimiento.title}
           </h1>
         </div>
@@ -134,7 +134,7 @@ export default async function MovimientoDetailPage({
               <div className="lg:sticky lg:top-28 space-y-5 sm:space-y-6">
                 {/* Contact */}
                 <div className="bg-surface-alt p-6 sm:p-8 space-y-5 sm:space-y-6">
-                  <h3 className="font-serif text-lg text-primary font-normal uppercase tracking-[0.04em]">
+                  <h3 className="font-serif text-lg text-primary font-normal tracking-[0.04em]">
                     ¿Quieres participar?
                   </h3>
                   <p className="text-text-secondary text-sm font-light">
@@ -151,7 +151,7 @@ export default async function MovimientoDetailPage({
                 {/* Related sections */}
                 {embajadores.length > 0 && (
                   <div className="bg-white border border-border-light p-6 sm:p-8">
-                    <h3 className="font-serif text-sm text-primary font-normal uppercase tracking-[0.04em] mb-4">
+                    <h3 className="font-serif text-sm text-primary font-normal tracking-[0.04em] mb-4">
                       Embajadores
                     </h3>
                     <div className="flex flex-wrap gap-3">

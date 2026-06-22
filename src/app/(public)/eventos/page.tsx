@@ -53,7 +53,7 @@ export default async function EventosPage() {
             </span>
             <div className="w-8 h-[1px] bg-accent" />
           </div>
-          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em] uppercase">
+          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Actividad
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
@@ -155,7 +155,7 @@ export default async function EventosPage() {
               Movimientos
             </span>
           </div>
-          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
             Movimientos
           </h2>
           <p className="mt-4 text-text-body text-base font-light max-w-3xl">
@@ -223,7 +223,7 @@ export default async function EventosPage() {
               Actividades
             </span>
           </div>
-          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] uppercase">
+          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
             Actividades
           </h2>
           <p className="mt-4 text-text-body text-base font-light max-w-3xl">

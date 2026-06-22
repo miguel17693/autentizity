@@ -48,7 +48,7 @@ export default async function ActividadDetailPage({
               <span key={tag} className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-accent/80 backdrop-blur-sm px-2.5 py-1 rounded-full">{tag}</span>
             ))}
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">{actividad.title}</h1>
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">{actividad.title}</h1>
         </div>
       </section>
 

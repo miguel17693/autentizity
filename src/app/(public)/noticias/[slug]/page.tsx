@@ -65,7 +65,7 @@ export default async function NoticiaDetailPage({
               </span>
             ))}
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl uppercase">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">
             {noticia.title}
           </h1>
           <div className="mt-4 flex items-center gap-4 text-white/50 text-sm font-light">
