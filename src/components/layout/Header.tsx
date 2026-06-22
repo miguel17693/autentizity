@@ -64,16 +64,24 @@ export default function Header() {
       }
     );
 
-    // Small delay to ensure DOM has rendered bg-primary sections
-    const timer = setTimeout(() => {
+    const observeSections = () => {
       const darkSections = document.querySelectorAll(".bg-primary");
-      darkSections.forEach((s) => observer.observe(s));
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
+      if (darkSections.length > 0) {
+        darkSections.forEach((s) => observer.observe(s));
+        return true;
+      }
+      return false;
     };
+
+    if (!observeSections()) {
+      const timer = setTimeout(observeSections, 200);
+      return () => {
+        clearTimeout(timer);
+        observer.disconnect();
+      };
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   // Measure actual header height for mobile menu offset
