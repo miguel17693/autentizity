@@ -29,7 +29,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
         <Link
           href="/admin/noticias"
-          className="group bg-white border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
+          className="group bg-white border border-border rounded-2xl p-6 hover:border-accent hover:shadow-sm transition-all"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -51,7 +51,7 @@ export default function AdminDashboard() {
 
         <Link
           href="/admin/eventos"
-          className="group bg-white border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
+          className="group bg-white border border-border rounded-2xl p-6 hover:border-accent hover:shadow-sm transition-all"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
 
         <Link
           href="/admin/movimientos"
-          className="group bg-white border border-border p-6 hover:border-accent hover:shadow-sm transition-all"
+          className="group bg-white border border-border rounded-2xl p-6 hover:border-accent hover:shadow-sm transition-all"
         >
           <div className="flex items-center justify-between">
             <div>

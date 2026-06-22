@@ -76,7 +76,7 @@ export default async function EventosPage() {
                 <Link
                   key={event.id}
                   href={`/eventos/${event.slug}`}
-                  className={`group block bg-white border overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 ${event.status === "draft" ? "border-secondary border-dashed" : "border-border-light"}`}
+                  className={`group block bg-white border overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 rounded-2xl ${event.status === "draft" ? "border-secondary border-dashed" : "border-border-light"}`}
                 >
                   <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     {event.status === "draft" && (
@@ -168,7 +168,7 @@ export default async function EventosPage() {
                 <Link
                   key={mov.id}
                   href={`/movimientos/${mov.slug}`}
-                  className="group bg-white border border-border-light p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 rounded-2xl"
+                  className="group bg-white border border-border-light rounded-2xl p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
                 >
                   {mov.coverImage && (
                     <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6">
@@ -236,7 +236,7 @@ export default async function EventosPage() {
                 <Link
                   key={act.id}
                   href={`/actividades/${act.slug}`}
-                  className="group bg-white border border-border-light p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 rounded-2xl"
+                  className="group bg-white border border-border-light rounded-2xl p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
                 >
                   {act.coverImage && (
                     <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6 rounded-t-2xl">

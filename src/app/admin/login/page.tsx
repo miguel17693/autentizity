@@ -86,7 +86,7 @@ function LoginForm() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoComplete="username"
-                className="w-full px-4 py-3 text-sm font-light border border-border bg-surface-alt focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-full text-sm font-light border border-border bg-surface-alt focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
                 placeholder="admin"
               />
             </div>
@@ -105,13 +105,13 @@ function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="w-full px-4 py-3 text-sm font-light border border-border bg-surface-alt focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-full text-sm font-light border border-border bg-surface-alt focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors"
                 placeholder="••••••••"
               />
             </div>
 
             {error && (
-              <div className="text-sm text-red-600 bg-red-50 px-4 py-2.5 border border-red-100">
+              <div className="text-sm text-red-600 bg-red-50 px-4 py-2.5 rounded-full border border-red-100">
                 {error}
               </div>
             )}

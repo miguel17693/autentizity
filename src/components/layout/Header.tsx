@@ -134,7 +134,7 @@ export default function Header() {
                   </Link>
                   {item.children && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                      <div className="bg-white border border-border-light shadow-lg shadow-black/5 py-2 min-w-[200px]">
+                      <div className="bg-white border border-border-light rounded-2xl shadow-lg shadow-black/5 py-2 min-w-[200px]">
                         {item.children.map((child) => (
                           <Link
                             key={child.href}

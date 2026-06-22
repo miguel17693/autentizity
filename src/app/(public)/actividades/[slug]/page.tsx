@@ -76,7 +76,7 @@ export default async function ActividadDetailPage({
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {publishedMovimientos.map((mov) => (
-                  <Link key={mov.id} href={`/movimientos/${mov.slug}`} className="group block bg-white border border-border-light p-5 hover:shadow-md transition-shadow rounded-2xl">
+                  <Link key={mov.id} href={`/movimientos/${mov.slug}`} className="group block bg-white border border-border-light rounded-2xl p-5 hover:shadow-md transition-shadow">
                     <h3 className="font-serif text-lg text-primary font-normal group-hover:text-accent transition-colors">{mov.title}</h3>
                     <p className="text-text-secondary text-sm mt-2 line-clamp-2">{mov.description}</p>
                   </Link>

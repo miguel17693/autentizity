@@ -85,7 +85,7 @@ export default function AdminMovimientosPage() {
         </div>
         <button
           onClick={startCreate}
-          className="px-5 py-2.5 bg-primary text-white text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-primary-light transition-colors"
+          className="px-5 py-2.5 bg-primary text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-primary-light transition-colors"
         >
           + Nuevo movimiento
         </button>
@@ -94,7 +94,7 @@ export default function AdminMovimientosPage() {
       {editing && (
         <form
           onSubmit={handleSave}
-          className="bg-white border border-border p-6 mb-8 space-y-4"
+          className="bg-white border border-border rounded-2xl p-6 mb-8 space-y-4"
         >
           <h2 className="font-serif text-xl text-primary font-light mb-4">
             {editing.id ? "Editar movimiento" : "Nuevo movimiento"}
@@ -109,7 +109,7 @@ export default function AdminMovimientosPage() {
                 required
                 value={editing.title ?? ""}
                 onChange={(e) => setEditing({ ...editing, title: e.target.value })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               />
             </div>
             <ImageUpload
@@ -126,7 +126,7 @@ export default function AdminMovimientosPage() {
               rows={2}
               value={editing.description ?? ""}
               onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
+              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
             />
           </div>
 
@@ -138,7 +138,7 @@ export default function AdminMovimientosPage() {
               rows={5}
               value={editing.content ?? ""}
               onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
+              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function AdminMovimientosPage() {
               <input
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
                 placeholder="Liderazgo, Impacto Social"
               />
             </div>
@@ -161,7 +161,7 @@ export default function AdminMovimientosPage() {
               <select
                 value={editing.status ?? "draft"}
                 onChange={(e) => setEditing({ ...editing, status: e.target.value as Movement["status"] })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               >
                 <option value="draft">Borrador</option>
                 <option value="published">Publicado</option>
@@ -185,14 +185,14 @@ export default function AdminMovimientosPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 bg-accent text-white text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-accent-light transition-colors disabled:opacity-50"
+              className="px-6 py-2.5 bg-accent text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-accent-light transition-colors disabled:opacity-50"
             >
               {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(null)}
-              className="px-6 py-2.5 text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors"
+              className="px-6 py-2.5 rounded-full text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors"
             >
               Cancelar
             </button>
@@ -204,7 +204,7 @@ export default function AdminMovimientosPage() {
         {movimientos.map((mov) => (
           <div
             key={mov.id}
-            className="bg-white border border-border p-4 flex items-center justify-between gap-4 hover:border-border-light transition-colors"
+            className="bg-white border border-border rounded-2xl p-4 flex items-center justify-between gap-4 hover:border-border-light transition-colors"
           >
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
@@ -233,13 +233,13 @@ export default function AdminMovimientosPage() {
             <div className="flex gap-2 shrink-0">
               <button
                 onClick={() => startEdit(mov)}
-                className="px-3 py-1.5 text-[11px] text-text-secondary border border-border hover:border-accent hover:text-accent transition-colors"
+                className="px-3 py-1.5 rounded-full text-[11px] text-text-secondary rounded-full border border-border hover:border-accent hover:text-accent transition-colors"
               >
                 Editar
               </button>
               <button
                 onClick={() => handleDelete(mov.id)}
-                className="px-3 py-1.5 text-[11px] text-red-400 border border-border hover:border-red-300 hover:text-red-600 transition-colors"
+                className="px-3 py-1.5 rounded-full text-[11px] text-red-400 border border-border hover:border-red-300 hover:text-red-600 transition-colors"
               >
                 Eliminar
               </button>

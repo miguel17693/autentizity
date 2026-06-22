@@ -95,7 +95,7 @@ export default function AdminLayout({
       {/* Sidebar */}
       <aside className="w-56 bg-white border-r border-border flex flex-col">
         {/* Logo area */}
-        <div className="px-5 py-5 border-b border-border">
+        <div className="px-5 py-5 rounded-full border-b border-border">
           <Image
             src="/images/logo-transparent.png"
             alt="AutentiZity"
@@ -133,7 +133,7 @@ export default function AdminLayout({
         </nav>
 
         {/* Footer */}
-        <div className="px-3 py-4 border-t border-border">
+        <div className="px-3 py-4 rounded-full border-t border-border">
           <Link
             href="/"
             className="flex items-center gap-2 px-3 py-2 text-xs text-text-muted hover:text-primary transition-colors"

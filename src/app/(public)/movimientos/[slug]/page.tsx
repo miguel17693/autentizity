@@ -142,7 +142,7 @@ export default async function MovimientoDetailPage({
                   </p>
                   <a
                     href="mailto:comunidad@autentizity.org"
-                    className="block w-full text-center px-6 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+                    className="block w-full text-center px-6 py-3.5 bg-accent text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
                   >
                     Enviar email
                   </a>
@@ -150,7 +150,7 @@ export default async function MovimientoDetailPage({
 
                 {/* Related sections */}
                 {embajadores.length > 0 && (
-                  <div className="bg-white border border-border-light p-6 sm:p-8">
+                  <div className="bg-white border border-border-light rounded-2xl p-6 sm:p-8">
                     <h3 className="font-serif text-sm text-primary font-normal tracking-[0.04em] mb-4">
                       Embajadores
                     </h3>
@@ -203,7 +203,7 @@ export default async function MovimientoDetailPage({
                       <Link
                         key={ev.id}
                         href={`/eventos/${ev.slug}`}
-                        className="group block bg-white border border-border-light overflow-hidden hover:shadow-md transition-shadow rounded-2xl"
+                        className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                       >
                         <div className="relative h-40 overflow-hidden">
                           <Image src={ev.coverImage} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
@@ -230,7 +230,7 @@ export default async function MovimientoDetailPage({
                       <Link
                         key={n.id}
                         href={`/noticias/${n.slug}`}
-                        className="group block bg-white border border-border-light overflow-hidden hover:shadow-md transition-shadow rounded-2xl"
+                        className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                       >
                         <div className="relative h-40 overflow-hidden">
                           <Image src={n.coverImage} alt={n.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
@@ -254,7 +254,7 @@ export default async function MovimientoDetailPage({
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {publishedActividades.slice(0, 4).map((act) => (
-                      <div key={act.id} className="bg-white border border-border-light overflow-hidden">
+                      <div key={act.id} className="bg-white border border-border-light rounded-2xl overflow-hidden">
                         {act.coverImage && (
                           <div className="relative h-40 overflow-hidden">
                             <Image src={act.coverImage} alt={act.title} fill className="object-cover" />

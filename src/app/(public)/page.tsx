@@ -62,7 +62,7 @@ function Hero() {
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <Link
             href="/ecosistema"
-            className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+            className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-accent text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
           >
             Descubre el ecosistema
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,7 +71,7 @@ function Hero() {
           </Link>
           <Link
             href="/eventos"
-            className="inline-flex items-center justify-center gap-3 px-8 py-3.5 text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
+            className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
           >
             Próximos eventos
           </Link>
@@ -187,7 +187,7 @@ function Events({ events }: { events: any[] }) {
             <ScrollReveal key={event.id} delay={i * 0.1}>
               <Link
                 href={`/eventos/${event.slug}`}
-                className="group block bg-white overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
+                className="group block bg-white overflow-hidden hover:shadow-xl rounded-2xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
               >
                 <div className="relative h-48 sm:h-52 lg:h-60 overflow-hidden">
                   <Image
@@ -370,13 +370,13 @@ function CTA() {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/unete"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
             >
               Únete
             </Link>
             <Link
               href="/ecosistema"
-              className="inline-flex items-center justify-center px-8 py-3.5 text-white/55 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/40 hover:text-white transition-all"
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full text-white/55 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/40 hover:text-white transition-all"
             >
               Conocer más
             </Link>

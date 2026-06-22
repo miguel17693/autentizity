@@ -144,21 +144,21 @@ export default function ImageUpload({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+                className="px-3 py-1.5 rounded-full bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Cambiar
               </button>
               <button
                 type="button"
                 onClick={handleRecrop}
-                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+                className="px-3 py-1.5 rounded-full bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Recortar
               </button>
               <button
                 type="button"
                 onClick={handlePreview}
-                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+                className="px-3 py-1.5 rounded-full bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Vista previa
               </button>
@@ -253,7 +253,7 @@ export default function ImageUpload({
               value={value}
               onChange={(e) => onChange(e.target.value)}
               placeholder="https://..."
-              className="w-full mt-1 px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full mt-1 px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           )}
         </div>

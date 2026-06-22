@@ -114,7 +114,7 @@ export default function AdminEventosPage() {
         </div>
         <button
           onClick={startCreate}
-          className="px-5 py-2.5 bg-primary text-white text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-primary-light transition-colors"
+          className="px-5 py-2.5 bg-primary text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-primary-light transition-colors"
         >
           + Nuevo evento
         </button>
@@ -124,7 +124,7 @@ export default function AdminEventosPage() {
       {editing && (
         <form
           onSubmit={handleSave}
-          className="bg-white border border-border p-6 mb-8 space-y-4"
+          className="bg-white border border-border rounded-2xl p-6 mb-8 space-y-4"
         >
           <h2 className="font-serif text-xl text-primary font-light mb-4">
             {editing.id ? "Editar evento" : "Nuevo evento"}
@@ -139,7 +139,7 @@ export default function AdminEventosPage() {
                 required
                 value={editing.title ?? ""}
                 onChange={(e) => setEditing({ ...editing, title: e.target.value })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               />
             </div>
             <ImageUpload
@@ -156,7 +156,7 @@ export default function AdminEventosPage() {
               rows={2}
               value={editing.description ?? ""}
               onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
+              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
             />
           </div>
 
@@ -167,7 +167,7 @@ export default function AdminEventosPage() {
             <select
               value={editing.movimientoId ?? ""}
               onChange={(e) => setEditing({ ...editing, movimientoId: e.target.value })}
-              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             >
               <option value="">Sin movimiento</option>
               {movimientos.map((mov) => (
@@ -188,7 +188,7 @@ export default function AdminEventosPage() {
                 type="datetime-local"
                 value={editing.startDate ?? ""}
                 onChange={(e) => handleStartDateChange(e.target.value)}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               />
             </div>
             <div>
@@ -199,7 +199,7 @@ export default function AdminEventosPage() {
                 type="datetime-local"
                 value={editing.endDate ?? ""}
                 onChange={(e) => setEditing({ ...editing, endDate: e.target.value })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               />
             </div>
             <div>
@@ -209,7 +209,7 @@ export default function AdminEventosPage() {
               <input
                 value={editing.location ?? ""}
                 onChange={(e) => setEditing({ ...editing, location: e.target.value })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
                 placeholder="Madrid / Online"
               />
             </div>
@@ -223,7 +223,7 @@ export default function AdminEventosPage() {
               <select
                 value={editing.type ?? "presencial"}
                 onChange={(e) => setEditing({ ...editing, type: e.target.value as Event["type"] })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               >
                 <option value="presencial">Presencial</option>
                 <option value="virtual">Virtual</option>
@@ -237,7 +237,7 @@ export default function AdminEventosPage() {
               <input
                 value={editing.registrationUrl ?? ""}
                 onChange={(e) => setEditing({ ...editing, registrationUrl: e.target.value })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
                 placeholder="https://eventbrite.es/..."
               />
             </div>
@@ -248,7 +248,7 @@ export default function AdminEventosPage() {
               <input
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
                 placeholder="Networking, Impacto Social"
               />
             </div>
@@ -262,7 +262,7 @@ export default function AdminEventosPage() {
               <select
                 value={editing.status ?? "draft"}
                 onChange={(e) => setEditing({ ...editing, status: e.target.value as Event["status"] })}
-                className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+                className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               >
                 <option value="draft">Borrador</option>
                 <option value="published">Publicado</option>
@@ -290,7 +290,7 @@ export default function AdminEventosPage() {
               rows={5}
               value={editing.content ?? ""}
               onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-              className="w-full px-3 py-2.5 text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
+              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
             />
           </div>
 
@@ -298,14 +298,14 @@ export default function AdminEventosPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 bg-accent text-white text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-accent-light transition-colors disabled:opacity-50"
+              className="px-6 py-2.5 bg-accent text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-accent-light transition-colors disabled:opacity-50"
             >
               {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
             </button>
             <button
               type="button"
               onClick={() => setEditing(null)}
-              className="px-6 py-2.5 text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors"
+              className="px-6 py-2.5 rounded-full text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors"
             >
               Cancelar
             </button>
@@ -318,7 +318,7 @@ export default function AdminEventosPage() {
         {eventos.map((ev) => (
           <div
             key={ev.id}
-            className="bg-white border border-border p-4 flex items-center justify-between gap-4 hover:border-border-light transition-colors"
+            className="bg-white border border-border rounded-2xl p-4 flex items-center justify-between gap-4 hover:border-border-light transition-colors"
           >
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
@@ -352,13 +352,13 @@ export default function AdminEventosPage() {
             <div className="flex gap-2 shrink-0">
               <button
                 onClick={() => startEdit(ev)}
-                className="px-3 py-1.5 text-[11px] text-text-secondary border border-border hover:border-accent hover:text-accent transition-colors"
+                className="px-3 py-1.5 rounded-full text-[11px] text-text-secondary rounded-full border border-border hover:border-accent hover:text-accent transition-colors"
               >
                 Editar
               </button>
               <button
                 onClick={() => handleDelete(ev.id)}
-                className="px-3 py-1.5 text-[11px] text-red-400 border border-border hover:border-red-300 hover:text-red-600 transition-colors"
+                className="px-3 py-1.5 rounded-full text-[11px] text-red-400 border border-border hover:border-red-300 hover:text-red-600 transition-colors"
               >
                 Eliminar
               </button>

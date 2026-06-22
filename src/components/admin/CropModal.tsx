@@ -45,7 +45,7 @@ export default function CropModal({
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-lg flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+        <div className="px-4 py-3 rounded-full border-b border-border flex items-center justify-between">
           <h3 className="text-sm font-medium text-primary">Recortar imagen</h3>
           <button
             type="button"
@@ -70,7 +70,7 @@ export default function CropModal({
         </div>
 
         {/* Zoom control */}
-        <div className="px-4 py-3 border-b border-border flex items-center gap-3">
+        <div className="px-4 py-3 rounded-full border-b border-border flex items-center gap-3">
           <span className="text-xs text-text-muted shrink-0">Zoom</span>
           <input
             type="range"
@@ -88,7 +88,7 @@ export default function CropModal({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-xs text-text-secondary border border-border hover:bg-surface-alt transition-colors"
+            className="px-4 py-2 rounded-full text-xs text-text-secondary border border-border hover:bg-surface-alt transition-colors"
           >
             Cancelar
           </button>

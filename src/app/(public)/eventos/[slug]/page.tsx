@@ -193,7 +193,7 @@ export default async function EventoDetailPage({
                     href={evento.registrationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full text-center px-6 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+                    className="block w-full text-center px-6 py-3.5 bg-accent text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
                   >
                     {getRegistrationLabel(evento.type)}
                   </a>

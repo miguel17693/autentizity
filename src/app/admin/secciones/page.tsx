@@ -74,7 +74,7 @@ export default function AdminSecciones() {
             <h2 className="font-serif text-lg text-primary font-normal mb-3">
               {page}
             </h2>
-            <div className="bg-white border border-border divide-y divide-border">
+            <div className="bg-white border border-border rounded-2xl divide-y divide-border">
               {items.map((section) => (
                 <div
                   key={section.id}

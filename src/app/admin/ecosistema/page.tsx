@@ -78,9 +78,9 @@ function SortableSection({
   const entityIds = entities.map((e) => `ent-${e.id}`);
 
   return (
-    <div ref={setNodeRef} style={style} className="bg-white border border-border">
+    <div ref={setNodeRef} style={style} className="bg-white border border-border rounded-2xl">
       {/* Section header */}
-      <div className="flex items-center justify-between px-5 py-3.5 bg-surface-alt border-b border-border">
+      <div className="flex items-center justify-between px-5 py-3.5 rounded-full bg-surface-alt border-b border-border">
         <div className="flex items-center gap-3">
           {/* Drag handle */}
           <button
@@ -120,7 +120,7 @@ function SortableSection({
           </h3>
           <button
             onClick={() => onAddEntity(section.id)}
-            className="px-3 py-1.5 bg-primary text-white text-[11px] font-medium hover:bg-primary/90 transition-colors flex items-center gap-1"
+            className="px-3 py-1.5 bg-primary text-white rounded-full text-[11px] font-medium hover:bg-primary/90 transition-colors flex items-center gap-1"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -245,7 +245,7 @@ function SectionFormModal({
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
       <div className="bg-white shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+        <div className="px-6 py-4 rounded-full border-b border-border flex items-center justify-between">
           <h3 className="font-serif text-lg text-primary font-normal">
             {editing.id ? "Editar sección" : "Nueva sección"}
           </h3>
@@ -265,7 +265,7 @@ function SectionFormModal({
                 const name = e.target.value;
                 onChange({ name, slug: slugify(name) });
               }}
-              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               required
             />
           </div>
@@ -275,7 +275,7 @@ function SectionFormModal({
               type="text"
               value={editing.slug || ""}
               onChange={(e) => onChange({ slug: e.target.value })}
-              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none font-mono text-xs"
+              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none font-mono text-xs"
               required
             />
           </div>
@@ -285,7 +285,7 @@ function SectionFormModal({
               value={editing.description || ""}
               onChange={(e) => onChange({ description: e.target.value })}
               rows={3}
-              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           </div>
           <div className="flex items-center gap-3">
@@ -300,10 +300,10 @@ function SectionFormModal({
             </label>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onCancel} className="px-4 py-2 text-sm text-text-secondary border border-border hover:bg-surface-alt transition-colors">
+            <button type="button" onClick={onCancel} className="px-4 py-2 rounded-full text-sm text-text-secondary border border-border hover:bg-surface-alt transition-colors">
               Cancelar
             </button>
-            <button type="submit" disabled={saving} className="px-4 py-2 bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
+            <button type="submit" disabled={saving} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
               {saving ? "Guardando..." : "Guardar"}
             </button>
           </div>
@@ -332,7 +332,7 @@ function EntityFormModal({
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
       <div className="bg-white shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+        <div className="px-6 py-4 rounded-full border-b border-border flex items-center justify-between">
           <h3 className="font-serif text-lg text-primary font-normal">
             {editing.id ? "Editar entidad" : "Nueva entidad"}
           </h3>
@@ -349,7 +349,7 @@ function EntityFormModal({
               type="text"
               value={editing.name || ""}
               onChange={(e) => onChange({ name: e.target.value })}
-              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               required
             />
           </div>
@@ -360,7 +360,7 @@ function EntityFormModal({
               value={editing.description || ""}
               onChange={(e) => onChange({ description: e.target.value })}
               placeholder="Opcional: texto secundario"
-              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           </div>
           <div>
@@ -370,7 +370,7 @@ function EntityFormModal({
               value={(editing.tags as string[] || []).join(", ")}
               onChange={(e) => onChange({ tags: e.target.value.split(",").map((t: string) => t.trim()).filter(Boolean) })}
               placeholder="Liderazgo, Diversidad, Tech"
-              className="w-full px-3 py-2 text-sm border border-border bg-surface-alt focus:border-accent outline-none"
+              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           </div>
           <ImageUpload
@@ -391,10 +391,10 @@ function EntityFormModal({
             </label>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onCancel} className="px-4 py-2 text-sm text-text-secondary border border-border hover:bg-surface-alt transition-colors">
+            <button type="button" onClick={onCancel} className="px-4 py-2 rounded-full text-sm text-text-secondary border border-border hover:bg-surface-alt transition-colors">
               Cancelar
             </button>
-            <button type="submit" disabled={saving} className="px-4 py-2 bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
+            <button type="submit" disabled={saving} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
               {saving ? "Guardando..." : "Guardar"}
             </button>
           </div>
@@ -597,13 +597,13 @@ export default function AdminEcosistemaPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-serif text-lg text-primary font-normal">Secciones</h2>
-          <button onClick={startCreateSection} className="px-4 py-2 bg-primary text-white text-xs font-medium hover:bg-primary/90 transition-colors">
+          <button onClick={startCreateSection} className="px-4 py-2 bg-primary text-white rounded-full text-xs font-medium hover:bg-primary/90 transition-colors">
             + Nueva sección
           </button>
         </div>
 
         {sections.length === 0 ? (
-          <div className="bg-white border border-border px-5 py-8 text-center text-text-muted text-sm">
+          <div className="bg-white border border-border rounded-2xl px-5 py-8 text-center text-text-muted text-sm">
             No hay secciones. Crea la primera.
           </div>
         ) : (

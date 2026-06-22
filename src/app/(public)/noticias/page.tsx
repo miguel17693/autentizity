@@ -61,7 +61,7 @@ export default async function NoticiasPage() {
                 <Link
                   key={item.id}
                   href={`/noticias/${item.slug}`}
-                  className={`group block bg-white border hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 ${item.status === "draft" ? "border-secondary border-dashed relative" : "border-border-light"}`}
+                  className={`group block bg-white border hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 rounded-2xl ${item.status === "draft" ? "border-secondary border-dashed relative" : "border-border-light"}`}
                 >
                   {item.status === "draft" && (
                     <div className="absolute top-4 right-4 z-10 bg-secondary text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">

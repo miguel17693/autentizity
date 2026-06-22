@@ -200,13 +200,13 @@ export default function RankingPage() {
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:comunidad@autentizity.org"
-                className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+                className="inline-flex items-center justify-center px-8 py-3.5 bg-accent text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
               >
                 Participa
               </a>
               <a
                 href="mailto:comunidad@autentizity.org?subject=Nominar%20l%C3%ADder"
-                className="inline-flex items-center justify-center px-8 py-3.5 text-text-body text-[13px] font-medium tracking-[0.08em] uppercase border border-border hover:border-primary hover:text-primary transition-all"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full text-text-body text-[13px] font-medium tracking-[0.08em] uppercase border border-border hover:border-primary hover:text-primary transition-all"
               >
                 Comparte
               </a>
