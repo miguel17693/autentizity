@@ -96,7 +96,7 @@ export default function CropModal({
             type="button"
             onClick={handleConfirm}
             disabled={cropping}
-            className="px-4 py-2 text-xs bg-accent text-white hover:bg-accent-light transition-colors disabled:opacity-50"
+            className="px-4 py-2 text-xs bg-rose text-white hover:bg-rose-light transition-colors disabled:opacity-50"
           >
             {cropping ? "Recortando..." : "Aceptar"}
           </button>

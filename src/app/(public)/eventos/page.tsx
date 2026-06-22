@@ -47,11 +47,11 @@ export default async function EventosPage() {
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="w-8 h-[1px] bg-accent" />
-            <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+            <div className="w-8 h-[1px] bg-gold" />
+            <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
               Agenda
             </span>
-            <div className="w-8 h-[1px] bg-accent" />
+            <div className="w-8 h-[1px] bg-gold" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Actividad
@@ -76,11 +76,11 @@ export default async function EventosPage() {
                 <Link
                   key={event.id}
                   href={`/eventos/${event.slug}`}
-                  className={`group block bg-white border overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 rounded-2xl ${event.status === "draft" ? "border-secondary border-dashed" : "border-border-light"}`}
+                  className={`group block bg-white border overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 rounded-2xl ${event.status === "draft" ? "border-rose border-dashed" : "border-border-light"}`}
                 >
                   <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden">
                     {event.status === "draft" && (
-                      <div className="absolute top-4 right-4 z-10 bg-secondary text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
+                      <div className="absolute top-4 right-4 z-10 bg-rose text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
                         Borrador
                       </div>
                     )}
@@ -93,11 +93,11 @@ export default async function EventosPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                     <div className="absolute top-4 left-4 flex gap-2">
-                      <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-accent/90 backdrop-blur-sm px-3 py-1.5">
+                      <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-rose/90 backdrop-blur-sm px-3 py-1.5">
                         {event.type}
                       </span>
                       {event.featured && (
-                        <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-3 py-1.5">
+                        <span className="text-[11px] font-medium tracking-[0.1em] uppercase text-white bg-rose/80 backdrop-blur-sm px-3 py-1.5">
                           Destacado
                         </span>
                       )}
@@ -120,7 +120,7 @@ export default async function EventosPage() {
                         {event.location}
                       </span>
                     </div>
-                    <h2 className="font-serif text-xl lg:text-2xl text-primary font-normal leading-tight group-hover:text-accent transition-colors">
+                    <h2 className="font-serif text-xl lg:text-2xl text-primary font-normal leading-tight group-hover:text-rose transition-colors">
                       {event.title}
                     </h2>
                     <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-2">
@@ -151,7 +151,7 @@ export default async function EventosPage() {
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="flex items-center gap-4 mb-4">
             <div className="brand-line" />
-            <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+            <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
               Movimientos
             </span>
           </div>
@@ -180,7 +180,7 @@ export default async function EventosPage() {
                       />
                     </div>
                   )}
-                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-accent transition-colors">
+                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-rose transition-colors">
                     {mov.title}
                   </h3>
                   <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
@@ -195,7 +195,7 @@ export default async function EventosPage() {
                       ))}
                     </div>
                   )}
-                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-accent text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-rose text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
                     Ver movimiento
                     <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -219,7 +219,7 @@ export default async function EventosPage() {
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="flex items-center gap-4 mb-4">
             <div className="brand-line" />
-            <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+            <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
               Actividades
             </span>
           </div>
@@ -248,7 +248,7 @@ export default async function EventosPage() {
                       />
                     </div>
                   )}
-                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-accent transition-colors">
+                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-rose transition-colors">
                     {act.title}
                   </h3>
                   <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
@@ -263,7 +263,7 @@ export default async function EventosPage() {
                       ))}
                     </div>
                   )}
-                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-accent text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-rose text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
                     Ver actividad
                     <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />

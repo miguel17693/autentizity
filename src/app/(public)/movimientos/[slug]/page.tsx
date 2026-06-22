@@ -33,7 +33,7 @@ export default async function MovimientoDetailPage({
         <div className="text-center px-4">
           <h1 className="font-serif text-3xl text-primary font-light mb-4">Error de conexión</h1>
           <p className="text-text-secondary">No se pudo cargar el movimiento. La base de datos no está disponible.</p>
-          <Link href="/eventos" className="mt-6 inline-block text-accent text-sm font-medium hover:underline">← Volver a actividad</Link>
+          <Link href="/eventos" className="mt-6 inline-block text-rose text-sm font-medium hover:underline">← Volver a actividad</Link>
         </div>
       </div>
     );
@@ -73,7 +73,7 @@ export default async function MovimientoDetailPage({
             {movimiento.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-accent/80 backdrop-blur-sm px-2.5 py-1"
+                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-rose/80 backdrop-blur-sm px-2.5 py-1"
               >
                 {tag}
               </span>
@@ -142,7 +142,7 @@ export default async function MovimientoDetailPage({
                   </p>
                   <a
                     href="mailto:comunidad@autentizity.org"
-                    className="block w-full text-center px-6 py-3.5 bg-accent text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-accent-light transition-all"
+                    className="block w-full text-center px-6 py-3.5 bg-rose text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-rose-light transition-all"
                   >
                     Enviar email
                   </a>
@@ -196,7 +196,7 @@ export default async function MovimientoDetailPage({
                 <div>
                   <div className="flex items-center gap-4 mb-6">
                     <div className="brand-line" />
-                    <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Eventos</span>
+                    <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">Eventos</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {publishedEventos.slice(0, 4).map((ev) => (
@@ -209,7 +209,7 @@ export default async function MovimientoDetailPage({
                           <Image src={ev.coverImage} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                         </div>
                         <div className="p-4">
-                          <h4 className="font-serif text-base text-primary font-normal group-hover:text-accent transition-colors">
+                          <h4 className="font-serif text-base text-primary font-normal group-hover:text-rose transition-colors">
                             {ev.title}
                           </h4>
                         </div>
@@ -223,7 +223,7 @@ export default async function MovimientoDetailPage({
                 <div>
                   <div className="flex items-center gap-4 mb-6">
                     <div className="brand-line" />
-                    <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Noticias</span>
+                    <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">Noticias</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {publishedNoticias.slice(0, 4).map((n) => (
@@ -236,7 +236,7 @@ export default async function MovimientoDetailPage({
                           <Image src={n.coverImage} alt={n.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                         </div>
                         <div className="p-4">
-                          <h4 className="font-serif text-base text-primary font-normal group-hover:text-accent transition-colors">
+                          <h4 className="font-serif text-base text-primary font-normal group-hover:text-rose transition-colors">
                             {n.title}
                           </h4>
                         </div>
@@ -250,7 +250,7 @@ export default async function MovimientoDetailPage({
                 <div>
                   <div className="flex items-center gap-4 mb-6">
                     <div className="brand-line" />
-                    <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">Actividades</span>
+                    <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">Actividades</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {publishedActividades.slice(0, 4).map((act) => (

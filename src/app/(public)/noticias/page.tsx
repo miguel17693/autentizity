@@ -32,11 +32,11 @@ export default async function NoticiasPage() {
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="w-8 h-[1px] bg-accent" />
-            <span className="text-accent text-[12px] font-medium tracking-[0.15em] uppercase">
+            <div className="w-8 h-[1px] bg-gold" />
+            <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
               Actualidad
             </span>
-            <div className="w-8 h-[1px] bg-accent" />
+            <div className="w-8 h-[1px] bg-gold" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Noticias
@@ -61,10 +61,10 @@ export default async function NoticiasPage() {
                 <Link
                   key={item.id}
                   href={`/noticias/${item.slug}`}
-                  className={`group block bg-white border hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 rounded-2xl ${item.status === "draft" ? "border-secondary border-dashed relative" : "border-border-light"}`}
+                  className={`group block bg-white border hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500 rounded-2xl ${item.status === "draft" ? "border-rose border-dashed relative" : "border-border-light"}`}
                 >
                   {item.status === "draft" && (
-                    <div className="absolute top-4 right-4 z-10 bg-secondary text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
+                    <div className="absolute top-4 right-4 z-10 bg-rose text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
                       Borrador
                     </div>
                   )}
@@ -81,7 +81,7 @@ export default async function NoticiasPage() {
                       {item.tags.slice(0, 2).map((tag) => (
                         <span
                           key={tag}
-                          className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-accent/80 backdrop-blur-sm px-2.5 py-1"
+                          className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-rose/80 backdrop-blur-sm px-2.5 py-1"
                         >
                           {tag}
                         </span>
@@ -92,13 +92,13 @@ export default async function NoticiasPage() {
                     <p className="text-text-muted text-xs font-light mb-2">
                       {formatDate(item.publishedAt)}
                     </p>
-                    <h2 className="font-serif text-xl text-primary font-normal leading-tight group-hover:text-accent transition-colors">
+                    <h2 className="font-serif text-xl text-primary font-normal leading-tight group-hover:text-rose transition-colors">
                       {item.title}
                     </h2>
                     <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-3">
                       {item.excerpt}
                     </p>
-                    <div className="mt-4 flex items-center gap-2 text-accent text-[12px] font-medium tracking-[0.06em] uppercase">
+                    <div className="mt-4 flex items-center gap-2 text-rose text-[12px] font-medium tracking-[0.06em] uppercase">
                       Leer más
                       <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />

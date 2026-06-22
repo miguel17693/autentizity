@@ -298,7 +298,7 @@ export default function AdminEventosPage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 bg-accent text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-accent-light transition-colors disabled:opacity-50"
+              className="px-6 py-2.5 bg-rose text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-rose-light transition-colors disabled:opacity-50"
             >
               {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
             </button>
@@ -331,7 +331,7 @@ export default function AdminEventosPage() {
                 <span
                   className={`shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 ${
                     ev.status === "published"
-                      ? "bg-accent/10 text-accent"
+                      ? "bg-accent/10 text-rose"
                       : ev.status === "cancelled"
                         ? "bg-red-50 text-red-500"
                         : "bg-surface-alt text-text-muted"
@@ -340,7 +340,7 @@ export default function AdminEventosPage() {
                   {ev.status === "published" ? "Publicado" : ev.status === "cancelled" ? "Cancelado" : "Borrador"}
                 </span>
                 {ev.featured && (
-                  <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-secondary/10 text-secondary">
+                  <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-rose/10 text-secondary">
                     Destacado
                   </span>
                 )}

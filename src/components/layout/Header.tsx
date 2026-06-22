@@ -137,7 +137,7 @@ export default function Header() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
                     )}
-                    <span className={`absolute left-0 -bottom-0.5 h-[1.5px] w-0 group-hover:w-full transition-all duration-300 ease-out ${headerLight ? "bg-accent" : "bg-white/60"}`} />
+                    <span className={`absolute left-0 -bottom-0.5 h-[1.5px] w-0 group-hover:w-full transition-all duration-300 ease-out ${headerLight ? "bg-gold" : "bg-white/60"}`} />
                   </Link>
                   {item.children && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
@@ -216,7 +216,7 @@ export default function Header() {
               <Link
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="font-serif text-[1.25rem] sm:text-[1.35rem] font-light text-primary py-4 border-b border-border-light active:text-accent active:pl-1 transition-all duration-150 block"
+                className="font-serif text-[1.25rem] sm:text-[1.35rem] font-light text-primary py-4 border-b border-border-light active:text-rose active:pl-1 transition-all duration-150 block"
               >
                 {item.label}
               </Link>
@@ -227,7 +227,7 @@ export default function Header() {
                       key={child.href}
                       href={child.href}
                       onClick={() => setMobileOpen(false)}
-                      className="block text-[0.95rem] font-light text-text-secondary py-2.5 active:text-accent transition-colors"
+                      className="block text-[0.95rem] font-light text-text-secondary py-2.5 active:text-rose transition-colors"
                     >
                       {child.label}
                     </Link>
