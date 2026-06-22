@@ -52,22 +52,29 @@ export default function Header() {
 
   // Intersection Observer: detect if a dark (bg-primary) section is behind the header
   useEffect(() => {
+    const h = headerRef.current?.offsetHeight || 80;
     const observer = new IntersectionObserver(
       (entries) => {
         const anyDark = entries.some((e) => e.isIntersecting);
         setDarkBehind(anyDark);
       },
       {
-        rootMargin: `-${headerH}px 0px 0px 0px`,
+        rootMargin: `-${h}px 0px 0px 0px`,
         threshold: 0,
       }
     );
 
-    const darkSections = document.querySelectorAll(".bg-primary");
-    darkSections.forEach((s) => observer.observe(s));
+    // Small delay to ensure DOM has rendered bg-primary sections
+    const timer = setTimeout(() => {
+      const darkSections = document.querySelectorAll(".bg-primary");
+      darkSections.forEach((s) => observer.observe(s));
+    }, 100);
 
-    return () => observer.disconnect();
-  }, [headerH]);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   // Measure actual header height for mobile menu offset
   useEffect(() => {
