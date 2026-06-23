@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     excerpt: body.excerpt ?? "",
     content: body.content ?? "",
     coverImage: body.coverImage ?? "",
+    coverImageOriginal: body.coverImageOriginal ?? "",
     tags: body.tags ?? [],
     author: body.author ?? "AutentiZity",
     publishedAt: body.publishedAt ?? now,

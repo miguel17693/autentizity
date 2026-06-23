@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getActividades, createActividad } from "@/lib/data/store";
+import { getActividades, createActividad, setActividadMovimientos } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
 export async function GET() {
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
       description: body.description ?? "",
       content: body.content ?? "",
       coverImage: body.coverImage ?? "",
+    coverImageOriginal: body.coverImageOriginal ?? "",
       tags: body.tags ?? [],
       status: body.status ?? "draft",
       featured: body.featured ?? false,
@@ -35,6 +36,11 @@ export async function POST(request: NextRequest) {
     };
 
     await createActividad(actividad);
+
+    if (body.movimientoIds !== undefined) {
+      await setActividadMovimientos(id, body.movimientoIds);
+    }
+
     return NextResponse.json(actividad, { status: 201 });
   } catch (err) {
     console.error("[POST /api/actividades]", err);

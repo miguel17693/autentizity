@@ -14,6 +14,7 @@ export const mockEvents: Event[] = [
     description:
       "Sensibilización contra el bullying y acoso escolar. Un evento para reflexionar sobre el impacto que dejamos como generación.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=640&q=80",
     startDate: "2026-05-15T10:00:00",
     endDate: "2026-05-15T13:00:00",
@@ -33,6 +34,7 @@ export const mockEvents: Event[] = [
     description:
       "Presentación oficial de la primera Aceleradora de Impacto Social en España. Conoce la Ruta AutentiZity 2026–2027.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=640&q=80",
     startDate: "2026-06-20T18:00:00",
     endDate: "2026-06-20T21:00:00",
@@ -52,6 +54,7 @@ export const mockEvents: Event[] = [
     description:
       "IA y tecnología al servicio de las personas. Para profesionales de Innovación, Cultura, Ética y Tech.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=640&q=80",
     startDate: "2026-09-25T09:30:00",
     endDate: "2026-09-25T14:00:00",
@@ -71,6 +74,7 @@ export const mockEvents: Event[] = [
     description:
       "Campaña de sensibilización y no discriminación hacia personas con VIH en los lugares de trabajo. Indetectable = Intransmisible.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=640&q=80",
     startDate: "2026-11-18T10:00:00",
     endDate: "2026-11-18T14:00:00",
@@ -93,6 +97,7 @@ export const mockNews: News[] = [
     excerpt:
       "La primera Aceleradora de Impacto Social en España anuncia su programa de actividades con más de 12 líneas de actuación orientadas a transformar la cultura empresarial.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=640&q=80",
     tags: ["AutentiZity", "Impacto Social", "Lanzamiento"],
     author: "AutentiZity",
@@ -109,6 +114,7 @@ export const mockNews: News[] = [
     excerpt:
       "Reconocemos a 100 líderes en España que inspiran por promover espacios de trabajo donde las personas pueden ser auténticas.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=640&q=80",
     tags: ["Ranking", "Liderazgo", "ManpowerGroup"],
     author: "AutentiZity",
@@ -125,6 +131,7 @@ export const mockNews: News[] = [
     excerpt:
       "Abrimos las puertas de nuestra academia para fomentar el pensamiento creativo y las habilidades blandas en el entorno corporativo.",
     content: "",
+    coverImageOriginal: "",
     coverImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=640&q=80",
     tags: ["Formación", "Soft Skills", "Creatividad"],
     author: "AutentiZity",

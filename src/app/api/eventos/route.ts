@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     description: body.description ?? "",
     content: body.content ?? "",
     coverImage: body.coverImage ?? "",
+    coverImageOriginal: body.coverImageOriginal ?? "",
     startDate: body.startDate ?? new Date().toISOString(),
     endDate: body.endDate ?? body.startDate ?? new Date().toISOString(),
     location: body.location ?? "",

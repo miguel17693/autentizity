@@ -41,6 +41,7 @@ export async function PUT(
   if (body.description !== undefined) updates.description = body.description;
   if (body.content !== undefined) updates.content = body.content;
   if (body.coverImage !== undefined) updates.coverImage = body.coverImage;
+  if (body.coverImageOriginal !== undefined) updates.coverImageOriginal = body.coverImageOriginal;
   if (body.tags !== undefined) updates.tags = body.tags;
   if (body.status !== undefined) updates.status = body.status;
   if (body.featured !== undefined) updates.featured = body.featured;

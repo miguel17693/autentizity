@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import CropModal from "./CropModal";
 
 interface ImageUploadProps {
   value: string;
-  onChange: (url: string) => void;
+  originalValue?: string;
+  onChange: (url: string, originalUrl?: string) => void;
   label?: string;
   aspect?: number;
 }
 
 export default function ImageUpload({
   value,
+  originalValue = "",
   onChange,
   label = "Imagen de portada",
   aspect = 16 / 9,
@@ -24,6 +26,12 @@ export default function ImageUpload({
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
+
+  useEffect(() => {
+    if (originalValue) {
+      originalUrlRef.current = originalValue;
+    }
+  }, [originalValue]);
 
   const uploadFile = useCallback(
     async (file: File): Promise<string> => {
@@ -87,7 +95,7 @@ export default function ImageUpload({
       setCropSrc(null);
       const croppedUrl = await uploadFile(croppedFile);
       if (croppedUrl) {
-        onChange(croppedUrl);
+        onChange(croppedUrl, originalUrlRef.current);
       }
     },
     [uploadFile, onChange]
@@ -109,7 +117,7 @@ export default function ImageUpload({
   );
 
   const handleRemove = () => {
-    onChange("");
+    onChange("", "");
     originalUrlRef.current = "";
     setShowUrlInput(false);
     setPreviewSrc(null);

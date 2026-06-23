@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Movement } from "@/lib/types";
+import type { Movement, Activity, EcosistemaEntity } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
+import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 
 const emptyMovimiento: Partial<Movement> = {
   title: "",
   description: "",
   content: "",
   coverImage: "",
+  coverImageOriginal: "",
   tags: [],
   status: "draft",
   featured: false,
@@ -20,8 +22,14 @@ export default function AdminMovimientosPage() {
   const [tagsInput, setTagsInput] = useState("");
   const [saving, setSaving] = useState(false);
 
+  const [actividadesDisp, setActividadesDisp] = useState<Activity[]>([]);
+  const [embajadoresDisp, setEmbajadoresDisp] = useState<EcosistemaEntity[]>([]);
+  const [selectedActividadIds, setSelectedActividadIds] = useState<string[]>([]);
+  const [selectedEmbajadorIds, setSelectedEmbajadorIds] = useState<string[]>([]);
+
   useEffect(() => {
     loadMovimientos();
+    loadOptions();
   }, []);
 
   async function loadMovimientos() {
@@ -29,14 +37,37 @@ export default function AdminMovimientosPage() {
     setMovimientos(await res.json());
   }
 
+  async function loadOptions() {
+    const [actRes, entRes] = await Promise.all([
+      fetch("/api/actividades"),
+      fetch("/api/ecosistema/entidades"),
+    ]);
+    const [actividades, entidades] = await Promise.all([actRes.json(), entRes.json()]);
+    setActividadesDisp(actividades);
+    setEmbajadoresDisp(entidades);
+  }
+
   function startCreate() {
     setEditing({ ...emptyMovimiento });
     setTagsInput("");
+    setSelectedActividadIds([]);
+    setSelectedEmbajadorIds([]);
   }
 
-  function startEdit(mov: Movement) {
+  async function startEdit(mov: Movement) {
     setEditing({ ...mov });
     setTagsInput(mov.tags.join(", "));
+
+    const res = await fetch(`/api/movimientos/${mov.id}`);
+    if (res.ok) {
+      const data = await res.json();
+      setSelectedActividadIds(
+        (data.actividades as { id: string }[] | undefined)?.map((a) => a.id) || []
+      );
+      setSelectedEmbajadorIds(
+        (data.embajadores as { id: string }[] | undefined)?.map((e) => e.id) || []
+      );
+    }
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -47,6 +78,8 @@ export default function AdminMovimientosPage() {
     const payload = {
       ...editing,
       tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean),
+      embajadorIds: selectedEmbajadorIds,
+      actividadIds: selectedActividadIds,
     };
 
     if (editing.id) {
@@ -73,6 +106,13 @@ export default function AdminMovimientosPage() {
     await fetch(`/api/movimientos/${id}`, { method: "DELETE" });
     loadMovimientos();
   }
+
+  const actividadesItems = actividadesDisp
+    .filter((a) => a.status === "published")
+    .map((a) => ({ id: a.id, label: a.title }));
+  const embajadoresItems = embajadoresDisp
+    .filter((e) => e.active)
+    .map((e) => ({ id: e.id, label: e.name }));
 
   return (
     <div>
@@ -114,7 +154,8 @@ export default function AdminMovimientosPage() {
             </div>
             <ImageUpload
               value={editing.coverImage ?? ""}
-              onChange={(url) => setEditing({ ...editing, coverImage: url })}
+              originalValue={editing.coverImageOriginal ?? ""}
+              onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })}
             />
           </div>
 
@@ -139,6 +180,21 @@ export default function AdminMovimientosPage() {
               value={editing.content ?? ""}
               onChange={(e) => setEditing({ ...editing, content: e.target.value })}
               className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <MultiSelectCheckbox
+              label="Actividades"
+              items={actividadesItems}
+              selectedIds={selectedActividadIds}
+              onChange={setSelectedActividadIds}
+            />
+            <MultiSelectCheckbox
+              label="Embajadores"
+              items={embajadoresItems}
+              selectedIds={selectedEmbajadorIds}
+              onChange={setSelectedEmbajadorIds}
             />
           </div>
 

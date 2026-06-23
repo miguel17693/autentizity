@@ -14,16 +14,26 @@ export async function cleanupOrphanImage(imageUrl: string): Promise<void> {
   try {
     const sql = getSQL();
 
-    // Check if any evento or noticia still uses this URL
+    // Check if any evento, noticia, movimiento, or actividad still uses this URL
     const eventRows = await sql`
-      SELECT id FROM eventos WHERE cover_image = ${imageUrl} LIMIT 1
+      SELECT id FROM eventos WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} LIMIT 1
     `;
     if ((eventRows as unknown[]).length > 0) return;
 
     const newsRows = await sql`
-      SELECT id FROM noticias WHERE cover_image = ${imageUrl} LIMIT 1
+      SELECT id FROM noticias WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} LIMIT 1
     `;
     if ((newsRows as unknown[]).length > 0) return;
+
+    const movRows = await sql`
+      SELECT id FROM movimientos WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} LIMIT 1
+    `;
+    if ((movRows as unknown[]).length > 0) return;
+
+    const actRows = await sql`
+      SELECT id FROM actividades WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} LIMIT 1
+    `;
+    if ((actRows as unknown[]).length > 0) return;
 
     // Orphaned — delete from blob
     await del(imageUrl);

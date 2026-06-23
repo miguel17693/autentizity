@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMovimientos, createMovimiento } from "@/lib/data/store";
+import {
+  getMovimientos,
+  createMovimiento,
+  setMovimientoEmbajadores,
+  setMovimientoActividades,
+} from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
 export async function GET() {
@@ -19,11 +24,20 @@ export async function POST(request: NextRequest) {
     description: body.description ?? "",
     content: body.content ?? "",
     coverImage: body.coverImage ?? "",
+    coverImageOriginal: body.coverImageOriginal ?? "",
     tags: body.tags ?? [],
     status: body.status ?? "draft",
     featured: body.featured ?? false,
   };
 
   await createMovimiento(movimiento);
+
+  if (body.embajadorIds !== undefined) {
+    await setMovimientoEmbajadores(id, body.embajadorIds);
+  }
+  if (body.actividadIds !== undefined) {
+    await setMovimientoActividades(id, body.actividadIds);
+  }
+
   return NextResponse.json(movimiento, { status: 201 });
 }

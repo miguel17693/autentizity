@@ -9,6 +9,7 @@ const emptyNoticia: Partial<News> = {
   excerpt: "",
   content: "",
   coverImage: "",
+  coverImageOriginal: "",
   tags: [],
   author: "AutentiZity",
   featured: false,
@@ -124,7 +125,8 @@ export default function AdminNoticiasPage() {
             </div>
             <ImageUpload
               value={editing.coverImage ?? ""}
-              onChange={(url) => setEditing({ ...editing, coverImage: url })}
+              originalValue={editing.coverImageOriginal ?? ""}
+              onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })}
             />
           </div>
 

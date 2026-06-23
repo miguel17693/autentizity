@@ -34,14 +34,15 @@ export async function saveEvento(evento: Event): Promise<void> {
   requireDB();
   const sql = getSQL();
   await sql`
-    INSERT INTO eventos (id, slug, title, description, content, cover_image, start_date, end_date, location, type, tags, organizer, registration_url, featured, status, movimiento_id, updated_at)
-    VALUES (${evento.id}, ${evento.slug}, ${evento.title}, ${evento.description}, ${evento.content}, ${evento.coverImage}, ${evento.startDate}, ${evento.endDate}, ${evento.location}, ${evento.type}, ${JSON.stringify(evento.tags)}, ${evento.organizer}, ${evento.registrationUrl}, ${evento.featured}, ${evento.status}, ${evento.movimientoId || null}, NOW())
+    INSERT INTO eventos (id, slug, title, description, content, cover_image, cover_image_original, start_date, end_date, location, type, tags, organizer, registration_url, featured, status, movimiento_id, updated_at)
+    VALUES (${evento.id}, ${evento.slug}, ${evento.title}, ${evento.description}, ${evento.content}, ${evento.coverImage}, ${evento.coverImageOriginal || ''}, ${evento.startDate}, ${evento.endDate}, ${evento.location}, ${evento.type}, ${JSON.stringify(evento.tags)}, ${evento.organizer}, ${evento.registrationUrl}, ${evento.featured}, ${evento.status}, ${evento.movimientoId || null}, NOW())
     ON CONFLICT (id) DO UPDATE SET
       slug = EXCLUDED.slug,
       title = EXCLUDED.title,
       description = EXCLUDED.description,
       content = EXCLUDED.content,
       cover_image = EXCLUDED.cover_image,
+      cover_image_original = EXCLUDED.cover_image_original,
       start_date = EXCLUDED.start_date,
       end_date = EXCLUDED.end_date,
       location = EXCLUDED.location,
@@ -110,14 +111,15 @@ export async function saveNoticia(noticia: News): Promise<void> {
   requireDB();
   const sql = getSQL();
   await sql`
-    INSERT INTO noticias (id, slug, title, excerpt, content, cover_image, tags, author, published_at, updated_at, featured, status, movimiento_id)
-    VALUES (${noticia.id}, ${noticia.slug}, ${noticia.title}, ${noticia.excerpt}, ${noticia.content}, ${noticia.coverImage}, ${JSON.stringify(noticia.tags)}, ${noticia.author}, ${noticia.publishedAt}, ${noticia.updatedAt}, ${noticia.featured}, ${noticia.status}, ${noticia.movimientoId || null})
+    INSERT INTO noticias (id, slug, title, excerpt, content, cover_image, cover_image_original, tags, author, published_at, updated_at, featured, status, movimiento_id)
+    VALUES (${noticia.id}, ${noticia.slug}, ${noticia.title}, ${noticia.excerpt}, ${noticia.content}, ${noticia.coverImage}, ${noticia.coverImageOriginal || ''}, ${JSON.stringify(noticia.tags)}, ${noticia.author}, ${noticia.publishedAt}, ${noticia.updatedAt}, ${noticia.featured}, ${noticia.status}, ${noticia.movimientoId || null})
     ON CONFLICT (id) DO UPDATE SET
       slug = EXCLUDED.slug,
       title = EXCLUDED.title,
       excerpt = EXCLUDED.excerpt,
       content = EXCLUDED.content,
       cover_image = EXCLUDED.cover_image,
+      cover_image_original = EXCLUDED.cover_image_original,
       tags = EXCLUDED.tags,
       author = EXCLUDED.author,
       published_at = EXCLUDED.published_at,
@@ -175,14 +177,15 @@ export async function saveMovimiento(mov: Movement): Promise<void> {
   requireDB();
   const sql = getSQL();
   await sql`
-    INSERT INTO movimientos (id, slug, title, description, content, cover_image, tags, status, featured, updated_at)
-    VALUES (${mov.id}, ${mov.slug}, ${mov.title}, ${mov.description}, ${mov.content}, ${mov.coverImage}, ${JSON.stringify(mov.tags)}, ${mov.status}, ${mov.featured}, NOW())
+    INSERT INTO movimientos (id, slug, title, description, content, cover_image, cover_image_original, tags, status, featured, updated_at)
+    VALUES (${mov.id}, ${mov.slug}, ${mov.title}, ${mov.description}, ${mov.content}, ${mov.coverImage}, ${mov.coverImageOriginal || ''}, ${JSON.stringify(mov.tags)}, ${mov.status}, ${mov.featured}, NOW())
     ON CONFLICT (id) DO UPDATE SET
       slug = EXCLUDED.slug,
       title = EXCLUDED.title,
       description = EXCLUDED.description,
       content = EXCLUDED.content,
       cover_image = EXCLUDED.cover_image,
+      cover_image_original = EXCLUDED.cover_image_original,
       tags = EXCLUDED.tags,
       status = EXCLUDED.status,
       featured = EXCLUDED.featured,
@@ -249,14 +252,15 @@ export async function saveActividad(act: Activity): Promise<void> {
   requireDB();
   const sql = getSQL();
   await sql`
-    INSERT INTO actividades (id, slug, title, description, content, cover_image, tags, status, featured, button_text, button_url, updated_at)
-    VALUES (${act.id}, ${act.slug}, ${act.title}, ${act.description}, ${act.content}, ${act.coverImage}, ${JSON.stringify(act.tags)}, ${act.status}, ${act.featured}, ${act.buttonText}, ${act.buttonUrl}, NOW())
+    INSERT INTO actividades (id, slug, title, description, content, cover_image, cover_image_original, tags, status, featured, button_text, button_url, updated_at)
+    VALUES (${act.id}, ${act.slug}, ${act.title}, ${act.description}, ${act.content}, ${act.coverImage}, ${act.coverImageOriginal || ''}, ${JSON.stringify(act.tags)}, ${act.status}, ${act.featured}, ${act.buttonText}, ${act.buttonUrl}, NOW())
     ON CONFLICT (id) DO UPDATE SET
       slug = EXCLUDED.slug,
       title = EXCLUDED.title,
       description = EXCLUDED.description,
       content = EXCLUDED.content,
       cover_image = EXCLUDED.cover_image,
+      cover_image_original = EXCLUDED.cover_image_original,
       tags = EXCLUDED.tags,
       status = EXCLUDED.status,
       featured = EXCLUDED.featured,
@@ -360,6 +364,26 @@ export async function getMovimientosByEmbajador(entidadId: string): Promise<Move
   return rows.map(rowToMovement);
 }
 
+export async function setActividadMovimientos(actividadId: string, movimientoIds: string[]): Promise<void> {
+  requireDB();
+  const sql = getSQL();
+  await sql`DELETE FROM movimiento_actividades WHERE actividad_id = ${actividadId}`;
+  for (const movimientoId of movimientoIds) {
+    const id = "ma_" + Math.random().toString(36).slice(2, 10);
+    await sql`INSERT INTO movimiento_actividades (id, movimiento_id, actividad_id) VALUES (${id}, ${movimientoId}, ${actividadId})`;
+  }
+}
+
+export async function setEntidadMovimientos(entidadId: string, movimientoIds: string[]): Promise<void> {
+  requireDB();
+  const sql = getSQL();
+  await sql`DELETE FROM movimiento_embajadores WHERE entidad_id = ${entidadId}`;
+  for (const movimientoId of movimientoIds) {
+    const id = "me_" + Math.random().toString(36).slice(2, 10);
+    await sql`INSERT INTO movimiento_embajadores (id, movimiento_id, entidad_id) VALUES (${id}, ${movimientoId}, ${entidadId})`;
+  }
+}
+
 // --- Ecosistema Secciones ---
 
 export async function getEcosistemaSections(): Promise<EcosistemaSection[]> {
@@ -455,6 +479,7 @@ function rowToEvent(row: Record<string, unknown>): Event {
     description: (row.description as string) || "",
     content: (row.content as string) || "",
     coverImage: (row.cover_image as string) || "",
+    coverImageOriginal: (row.cover_image_original as string) || "",
     startDate: (row.start_date as string) || "",
     endDate: (row.end_date as string) || "",
     location: (row.location as string) || "",
@@ -476,6 +501,7 @@ function rowToNews(row: Record<string, unknown>): News {
     excerpt: (row.excerpt as string) || "",
     content: (row.content as string) || "",
     coverImage: (row.cover_image as string) || "",
+    coverImageOriginal: (row.cover_image_original as string) || "",
     tags: (row.tags as string[]) || [],
     author: (row.author as string) || "",
     publishedAt: (row.published_at as string) || "",
@@ -494,6 +520,7 @@ function rowToMovement(row: Record<string, unknown>): Movement {
     description: (row.description as string) || "",
     content: (row.content as string) || "",
     coverImage: (row.cover_image as string) || "",
+    coverImageOriginal: (row.cover_image_original as string) || "",
     tags: (row.tags as string[]) || [],
     status: (row.status as Movement["status"]) || "draft",
     featured: row.featured as boolean,
@@ -508,6 +535,7 @@ function rowToActivity(row: Record<string, unknown>): Activity {
     description: (row.description as string) || "",
     content: (row.content as string) || "",
     coverImage: (row.cover_image as string) || "",
+    coverImageOriginal: (row.cover_image_original as string) || "",
     tags: (row.tags as string[]) || [],
     status: (row.status as Activity["status"]) || "draft",
     featured: row.featured as boolean,

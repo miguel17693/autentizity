@@ -9,6 +9,7 @@ const emptyEvento: Partial<Event> = {
   description: "",
   content: "",
   coverImage: "",
+  coverImageOriginal: "",
   startDate: "",
   endDate: "",
   location: "",
@@ -144,7 +145,8 @@ export default function AdminEventosPage() {
             </div>
             <ImageUpload
               value={editing.coverImage ?? ""}
-              onChange={(url) => setEditing({ ...editing, coverImage: url })}
+              originalValue={editing.coverImageOriginal ?? ""}
+              onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })}
             />
           </div>
 

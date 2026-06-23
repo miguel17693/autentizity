@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Activity } from "@/lib/types";
+import type { Activity, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
+import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 
 const emptyActividad: Partial<Activity> = {
   title: "",
   description: "",
   content: "",
   coverImage: "",
+  coverImageOriginal: "",
   tags: [],
   status: "draft",
   featured: false,
@@ -22,28 +24,49 @@ export default function AdminActividadesPage() {
   const [tagsInput, setTagsInput] = useState("");
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { loadActividades(); }, []);
+  const [movimientosDisp, setMovimientosDisp] = useState<Movement[]>([]);
+  const [selectedMovimientoIds, setSelectedMovimientoIds] = useState<string[]>([]);
+
+  useEffect(() => { loadActividades(); loadMovimientos(); }, []);
 
   async function loadActividades() {
     const res = await fetch("/api/actividades");
     setActividades(await res.json());
   }
 
+  async function loadMovimientos() {
+    const res = await fetch("/api/movimientos");
+    setMovimientosDisp(await res.json());
+  }
+
   function startCreate() {
     setEditing({ ...emptyActividad });
     setTagsInput("");
+    setSelectedMovimientoIds([]);
   }
 
-  function startEdit(a: Activity) {
+  async function startEdit(a: Activity) {
     setEditing({ ...a });
     setTagsInput(a.tags.join(", "));
+
+    const res = await fetch(`/api/actividades/${a.id}`);
+    if (res.ok) {
+      const data = await res.json();
+      setSelectedMovimientoIds(
+        (data.movimientos as { id: string }[] | undefined)?.map((m) => m.id) || []
+      );
+    }
   }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!editing) return;
     setSaving(true);
-    const payload = { ...editing, tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean) };
+    const payload = {
+      ...editing,
+      tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean),
+      movimientoIds: selectedMovimientoIds,
+    };
     try {
       if (editing.id) {
         const res = await fetch(`/api/actividades/${editing.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
@@ -67,6 +90,10 @@ export default function AdminActividadesPage() {
     loadActividades();
   }
 
+  const movimientosItems = movimientosDisp
+    .filter((m) => m.status === "published")
+    .map((m) => ({ id: m.id, label: m.title }));
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -88,7 +115,7 @@ export default function AdminActividadesPage() {
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Título *</label>
               <input required value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none" />
             </div>
-            <ImageUpload value={editing.coverImage ?? ""} onChange={(url) => setEditing({ ...editing, coverImage: url })} />
+            <ImageUpload value={editing.coverImage ?? ""} originalValue={editing.coverImageOriginal ?? ""} onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })} />
           </div>
 
           <div>
@@ -99,6 +126,15 @@ export default function AdminActividadesPage() {
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Contenido detallado</label>
             <textarea rows={5} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs" />
+          </div>
+
+          <div>
+            <MultiSelectCheckbox
+              label="Movimientos"
+              items={movimientosItems}
+              selectedIds={selectedMovimientoIds}
+              onChange={setSelectedMovimientoIds}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

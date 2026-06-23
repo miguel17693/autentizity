@@ -25,13 +25,20 @@ export async function PUT(
   const updated = await updateNoticia(id, body);
   if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  // Cleanup old image if coverImage changed
+  // Cleanup old images if changed
   if (
     body.coverImage !== undefined &&
     existing.coverImage &&
     existing.coverImage !== updated.coverImage
   ) {
     await cleanupOrphanImage(existing.coverImage);
+  }
+  if (
+    body.coverImageOriginal !== undefined &&
+    existing.coverImageOriginal &&
+    existing.coverImageOriginal !== updated.coverImageOriginal
+  ) {
+    await cleanupOrphanImage(existing.coverImageOriginal);
   }
 
   return NextResponse.json(updated);
@@ -43,16 +50,20 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  // Get image URL before deleting
+  // Get image URLs before deleting
   const noticia = await getNoticia(id);
   const imageUrl = noticia?.coverImage;
+  const originalImageUrl = noticia?.coverImageOriginal;
 
   const ok = await deleteNoticia(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  // Cleanup orphan image
+  // Cleanup orphan images
   if (imageUrl) {
     await cleanupOrphanImage(imageUrl);
+  }
+  if (originalImageUrl) {
+    await cleanupOrphanImage(originalImageUrl);
   }
 
   return NextResponse.json({ ok: true });
