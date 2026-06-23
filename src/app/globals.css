@@ -48,7 +48,7 @@
   --color-text-inverse: #ffffff;
 
   /* --- Tipografía --- */
-  --font-serif: "Fraunces", Georgia, serif;
+  --font-serif: "Montserrat", Georgia, serif;
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Espaciado editorial --- */
@@ -88,7 +88,7 @@ html {
 /* Utilidades editorial — P22 Mackinac Pro para headings */
 .font-serif,
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Fraunces", Georgia, serif !important;
+  font-family: "Montserrat", Georgia, serif !important;
 }
 
 .text-balance {

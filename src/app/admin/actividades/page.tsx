@@ -12,6 +12,8 @@ const emptyActividad: Partial<Activity> = {
   tags: [],
   status: "draft",
   featured: false,
+  buttonText: "",
+  buttonUrl: "",
 };
 
 export default function AdminActividadesPage() {
@@ -96,6 +98,17 @@ export default function AdminActividadesPage() {
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Contenido detallado</label>
             <textarea rows={5} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Texto del botón</label>
+              <input value={editing.buttonText ?? ""} onChange={(e) => setEditing({ ...editing, buttonText: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none" placeholder="Ej: Inscribirse" />
+            </div>
+            <div>
+              <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">URL del botón</label>
+              <input value={editing.buttonUrl ?? ""} onChange={(e) => setEditing({ ...editing, buttonUrl: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none" placeholder="Ej: https://..." />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

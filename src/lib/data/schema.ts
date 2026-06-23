@@ -76,6 +76,8 @@ export async function initSchema() {
       tags JSONB DEFAULT '[]',
       status TEXT DEFAULT 'draft',
       featured BOOLEAN DEFAULT false,
+      button_text TEXT DEFAULT '',
+      button_url TEXT DEFAULT '',
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )

@@ -21,6 +21,8 @@ export async function POST(request: NextRequest) {
     tags: body.tags ?? [],
     status: body.status ?? "draft",
     featured: body.featured ?? false,
+    buttonText: body.buttonText ?? "",
+    buttonUrl: body.buttonUrl ?? "",
   };
 
   await createActividad(actividad);

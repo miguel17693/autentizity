@@ -62,6 +62,19 @@ export default async function ActividadDetailPage({
             </div>
           )}
 
+          {actividad.buttonText && actividad.buttonUrl && (
+            <div className="mt-10">
+              <a
+                href={actividad.buttonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gold text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-gold-light transition-all"
+              >
+                {actividad.buttonText}
+              </a>
+            </div>
+          )}
+
           <div className="mt-10 flex items-center gap-3 flex-wrap">
             {actividad.tags.map((tag) => (
               <span key={tag} className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-3 py-1.5 rounded-full">{tag}</span>

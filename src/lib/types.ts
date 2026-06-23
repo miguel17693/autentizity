@@ -69,6 +69,8 @@ export interface Activity {
   tags: string[];
   status: "draft" | "published";
   featured: boolean;
+  buttonText: string;
+  buttonUrl: string;
 }
 
 // --- Navegación ---

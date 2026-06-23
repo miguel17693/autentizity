@@ -249,8 +249,8 @@ export async function saveActividad(act: Activity): Promise<void> {
   requireDB();
   const sql = getSQL();
   await sql`
-    INSERT INTO actividades (id, slug, title, description, content, cover_image, tags, status, featured, updated_at)
-    VALUES (${act.id}, ${act.slug}, ${act.title}, ${act.description}, ${act.content}, ${act.coverImage}, ${JSON.stringify(act.tags)}, ${act.status}, ${act.featured}, NOW())
+    INSERT INTO actividades (id, slug, title, description, content, cover_image, tags, status, featured, button_text, button_url, updated_at)
+    VALUES (${act.id}, ${act.slug}, ${act.title}, ${act.description}, ${act.content}, ${act.coverImage}, ${JSON.stringify(act.tags)}, ${act.status}, ${act.featured}, ${act.buttonText}, ${act.buttonUrl}, NOW())
     ON CONFLICT (id) DO UPDATE SET
       slug = EXCLUDED.slug,
       title = EXCLUDED.title,
@@ -260,6 +260,8 @@ export async function saveActividad(act: Activity): Promise<void> {
       tags = EXCLUDED.tags,
       status = EXCLUDED.status,
       featured = EXCLUDED.featured,
+      button_text = EXCLUDED.button_text,
+      button_url = EXCLUDED.button_url,
       updated_at = NOW()
   `;
 }
@@ -509,6 +511,8 @@ function rowToActivity(row: Record<string, unknown>): Activity {
     tags: (row.tags as string[]) || [],
     status: (row.status as Activity["status"]) || "draft",
     featured: row.featured as boolean,
+    buttonText: (row.button_text as string) || "",
+    buttonUrl: (row.button_url as string) || "",
   };
 }
 
