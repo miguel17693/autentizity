@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import type { EcosistemaSection, EcosistemaEntity } from "@/lib/types";
+import type { EcosistemaSection, EcosistemaEntity, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
+import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 import {
   DndContext,
   closestCenter,
@@ -322,12 +323,18 @@ function EntityFormModal({
   onSave,
   onCancel,
   onChange,
+  movimientosItems,
+  selectedMovimientoIds,
+  onMovimientosChange,
 }: {
   editing: Partial<EcosistemaEntity>;
   saving: boolean;
   onSave: (e: React.FormEvent) => void;
   onCancel: () => void;
   onChange: (updates: Partial<EcosistemaEntity>) => void;
+  movimientosItems: { id: string; label: string }[];
+  selectedMovimientoIds: string[];
+  onMovimientosChange: (ids: string[]) => void;
 }) {
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
@@ -373,6 +380,14 @@ function EntityFormModal({
               className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           </div>
+          <div>
+            <MultiSelectCheckbox
+              label="Movimientos"
+              items={movimientosItems}
+              selectedIds={selectedMovimientoIds}
+              onChange={onMovimientosChange}
+            />
+          </div>
           <ImageUpload
             label="Logo"
             value={editing.logo_url || ""}
@@ -416,6 +431,9 @@ export default function AdminEcosistemaPage() {
   const [editingEntity, setEditingEntity] = useState<Partial<EcosistemaEntity> | null>(null);
   const [savingEntity, setSavingEntity] = useState(false);
 
+  const [movimientosDisp, setMovimientosDisp] = useState<Movement[]>([]);
+  const [selectedMovimientoIds, setSelectedMovimientoIds] = useState<string[]>([]);
+
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
   // --- Data loading ---
@@ -436,7 +454,12 @@ export default function AdminEcosistemaPage() {
     }
   }, [loadEntities]);
 
-  useEffect(() => { loadSections(); }, [loadSections]);
+  useEffect(() => { loadSections(); loadMovimientos(); }, [loadSections]);
+
+  async function loadMovimientos() {
+    const res = await fetch("/api/movimientos");
+    setMovimientosDisp(await res.json());
+  }
 
   // --- Drag & Drop ---
   async function handleDragEnd(event: DragEndEvent) {
@@ -538,13 +561,23 @@ export default function AdminEcosistemaPage() {
     const sectionEntities = entities[sectionId] || [];
     const lastOrder = sectionEntities.length > 0 ? Math.max(...sectionEntities.map((e) => e.sort_order)) : 0;
     setEditingEntity({ ...emptyEntity, section_id: sectionId, sort_order: lastOrder + 1 });
+    setSelectedMovimientoIds([]);
+  }
+
+  async function startEditEntity(entity: EcosistemaEntity) {
+    setEditingEntity({ ...entity });
+    const res = await fetch(`/api/ecosistema/entidades?entity_id=${entity.id}&section_id=${entity.section_id}`);
+    if (res.ok) {
+      const data = await res.json();
+      setSelectedMovimientoIds(data.movimientoIds || []);
+    }
   }
 
   async function saveEntity(e: React.FormEvent) {
     e.preventDefault();
     if (!editingEntity) return;
     setSavingEntity(true);
-    const payload: EcosistemaEntity = {
+    const payload = {
       id: editingEntity.id || generateId(),
       section_id: editingEntity.section_id || "",
       name: editingEntity.name || "",
@@ -553,6 +586,7 @@ export default function AdminEcosistemaPage() {
       tags: editingEntity.tags || [],
       sort_order: editingEntity.sort_order || 0,
       active: editingEntity.active ?? true,
+      movimientoIds: selectedMovimientoIds,
     };
     const method = editingEntity.id ? "PUT" : "POST";
     await fetch("/api/ecosistema/entidades", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
@@ -618,7 +652,7 @@ export default function AdminEcosistemaPage() {
                     onDelete={deleteSection}
                     onAddEntity={startCreateEntity}
                     entities={entities[section.id] || []}
-                    onEditEntity={setEditingEntity}
+                    onEditEntity={startEditEntity}
                     onDeleteEntity={deleteEntity}
                   />
                 ))}
@@ -647,6 +681,11 @@ export default function AdminEcosistemaPage() {
           onSave={saveEntity}
           onCancel={() => setEditingEntity(null)}
           onChange={(updates) => setEditingEntity((prev) => ({ ...prev, ...updates }))}
+          movimientosItems={movimientosDisp
+            .filter((m) => m.status === "published")
+            .map((m) => ({ id: m.id, label: m.title }))}
+          selectedMovimientoIds={selectedMovimientoIds}
+          onMovimientosChange={setSelectedMovimientoIds}
         />
       )}
     </div>

@@ -62,10 +62,90 @@ export default async function EventosPage() {
         </div>
       </section>
 
-      <Section id="act-eventos">
-      {/* Listing */}
-      <section id="eventos" className="py-10 sm:py-16 lg:py-24">
+      <Section id="act-movimientos">
+      {/* ============== MOVIMIENTOS ============== */}
+      <section id="movimientos" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="brand-line" />
+            <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+              Movimientos
+            </span>
+          </div>
+          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+            Movimientos
+          </h2>
+          <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+            Líneas de acción del ecosistema AutentiZity
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {movItems.length > 0 ? (
+              movItems.map((mov) => (
+                <Link
+                  key={mov.id}
+                  href={`/movimientos/${mov.slug}`}
+                  className="group bg-white border border-border-light rounded-2xl p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  {mov.coverImage && (
+                    <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6">
+                      <Image
+                        src={mov.coverImage}
+                        alt={mov.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      />
+                    </div>
+                  )}
+                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-secondary transition-colors">
+                    {mov.title}
+                  </h3>
+                  <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
+                    {mov.description}
+                  </p>
+                  {mov.tags.length > 0 && (
+                    <div className="mt-4 flex items-center gap-2 flex-wrap">
+                      {mov.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-2 py-0.5">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-secondary text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                    Ver movimiento
+                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p className="text-text-secondary col-span-full text-center py-10 font-light">
+                No hay movimientos publicados todavía
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+      </Section>
+
+      <Section id="act-eventos">
+      {/* ============== EVENTOS ============== */}
+      <section id="eventos" className="py-12 sm:py-16 lg:py-24">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="brand-line" />
+            <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+              Eventos
+            </span>
+          </div>
+          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+            Eventos
+          </h2>
+          <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+            Encuentros, foros y experiencias del ecosistema
+          </p>
           {items.length === 0 ? (
             <p className="text-text-secondary text-center py-20 font-light">
               No hay eventos publicados todavía
@@ -141,74 +221,6 @@ export default async function EventosPage() {
               ))}
             </div>
           )}
-        </div>
-      </section>
-      </Section>
-
-      <Section id="act-movimientos">
-      {/* ============== MOVIMIENTOS ============== */}
-      <section id="movimientos" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="brand-line" />
-            <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-              Movimientos
-            </span>
-          </div>
-          <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
-            Movimientos
-          </h2>
-          <p className="mt-4 text-text-body text-base font-light max-w-3xl">
-            Líneas de acción del ecosistema AutentiZity
-          </p>
-
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {movItems.length > 0 ? (
-              movItems.map((mov) => (
-                <Link
-                  key={mov.id}
-                  href={`/movimientos/${mov.slug}`}
-                  className="group bg-white border border-border-light rounded-2xl p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  {mov.coverImage && (
-                    <div className="relative h-32 mb-4 overflow-hidden -mx-6 -mt-6">
-                      <Image
-                        src={mov.coverImage}
-                        alt={mov.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                    </div>
-                  )}
-                  <h3 className="font-serif text-lg text-primary font-normal group-hover:text-secondary transition-colors">
-                    {mov.title}
-                  </h3>
-                  <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-5">
-                    {mov.description}
-                  </p>
-                  {mov.tags.length > 0 && (
-                    <div className="mt-4 flex items-center gap-2 flex-wrap">
-                      {mov.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-2 py-0.5">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <div className="mt-4 pt-4 border-t border-border-light flex items-center gap-2 text-secondary text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
-                    Ver movimiento
-                    <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
-                </Link>
-              ))
-            ) : (
-              <p className="text-text-secondary col-span-full text-center py-10 font-light">
-                No hay movimientos publicados todavía
-              </p>
-            )}
-          </div>
         </div>
       </section>
       </Section>
