@@ -83,6 +83,12 @@ export async function initSchema() {
     )
   `;
 
+  // Migrations: add columns that may be missing from previously-created tables
+  await sql`ALTER TABLE eventos ADD COLUMN IF NOT EXISTS movimiento_id TEXT`;
+  await sql`ALTER TABLE noticias ADD COLUMN IF NOT EXISTS movimiento_id TEXT`;
+  await sql`ALTER TABLE actividades ADD COLUMN IF NOT EXISTS button_text TEXT DEFAULT ''`;
+  await sql`ALTER TABLE actividades ADD COLUMN IF NOT EXISTS button_url TEXT DEFAULT ''`;
+
   await sql`
     CREATE TABLE IF NOT EXISTS movimiento_embajadores (
       id TEXT PRIMARY KEY,
