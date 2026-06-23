@@ -42,14 +42,20 @@ export default function AdminActividadesPage() {
     if (!editing) return;
     setSaving(true);
     const payload = { ...editing, tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean) };
-    if (editing.id) {
-      await fetch(`/api/actividades/${editing.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    } else {
-      await fetch("/api/actividades", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    try {
+      if (editing.id) {
+        const res = await fetch(`/api/actividades/${editing.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        if (!res.ok) throw new Error("Error al actualizar");
+      } else {
+        const res = await fetch("/api/actividades", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        if (!res.ok) throw new Error("Error al crear");
+      }
+      setEditing(null);
+      loadActividades();
+    } catch (err) {
+      alert("Error al guardar: " + (err instanceof Error ? err.message : "desconocido"));
+      setSaving(false);
     }
-    setEditing(null);
-    setSaving(false);
-    loadActividades();
   }
 
   async function handleDelete(id: string) {
@@ -77,29 +83,29 @@ export default function AdminActividadesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Título *</label>
-              <input required value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none rounded-xl" />
+              <input required value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none" />
             </div>
             <ImageUpload value={editing.coverImage ?? ""} onChange={(url) => setEditing({ ...editing, coverImage: url })} />
           </div>
 
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Descripción</label>
-            <textarea rows={2} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none rounded-xl" />
+            <textarea rows={2} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none" />
           </div>
 
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Contenido detallado</label>
-            <textarea rows={5} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs rounded-xl" />
+            <textarea rows={5} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Tags (separadas por coma)</label>
-              <input value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none rounded-xl" placeholder="Formación, Impacto Social" />
+              <input value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none" placeholder="Formación, Impacto Social" />
             </div>
             <div>
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Estado</label>
-              <select value={editing.status ?? "draft"} onChange={(e) => setEditing({ ...editing, status: e.target.value as Activity["status"] })} className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none rounded-xl">
+              <select value={editing.status ?? "draft"} onChange={(e) => setEditing({ ...editing, status: e.target.value as Activity["status"] })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none">
                 <option value="draft">Borrador</option>
                 <option value="published">Publicada</option>
               </select>
