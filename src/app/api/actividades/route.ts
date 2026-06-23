@@ -3,28 +3,44 @@ import { getActividades, createActividad } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
 export async function GET() {
-  return NextResponse.json(await getActividades());
+  try {
+    return NextResponse.json(await getActividades());
+  } catch (err) {
+    console.error("[GET /api/actividades]", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const id = String(Date.now());
-  const slug = body.slug || slugify(body.title);
+  try {
+    const body = await request.json();
+    const id = String(Date.now());
+    const slug = body.slug || slugify(body.title);
 
-  const actividad = {
-    id,
-    slug,
-    title: body.title ?? "",
-    description: body.description ?? "",
-    content: body.content ?? "",
-    coverImage: body.coverImage ?? "",
-    tags: body.tags ?? [],
-    status: body.status ?? "draft",
-    featured: body.featured ?? false,
-    buttonText: body.buttonText ?? "",
-    buttonUrl: body.buttonUrl ?? "",
-  };
+    const actividad = {
+      id,
+      slug,
+      title: body.title ?? "",
+      description: body.description ?? "",
+      content: body.content ?? "",
+      coverImage: body.coverImage ?? "",
+      tags: body.tags ?? [],
+      status: body.status ?? "draft",
+      featured: body.featured ?? false,
+      buttonText: body.buttonText ?? "",
+      buttonUrl: body.buttonUrl ?? "",
+    };
 
-  await createActividad(actividad);
-  return NextResponse.json(actividad, { status: 201 });
+    await createActividad(actividad);
+    return NextResponse.json(actividad, { status: 201 });
+  } catch (err) {
+    console.error("[POST /api/actividades]", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

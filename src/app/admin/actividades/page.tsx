@@ -56,6 +56,7 @@ export default function AdminActividadesPage() {
       loadActividades();
     } catch (err) {
       alert("Error al guardar: " + (err instanceof Error ? err.message : "desconocido"));
+    } finally {
       setSaving(false);
     }
   }
@@ -133,7 +134,7 @@ export default function AdminActividadesPage() {
           </div>
 
           <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={saving} className="px-6 py-2.5 bg-gold text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-gold-light transition-colors disabled:opacity-50">
+            <button type="submit" disabled={saving} className="px-6 py-2.5 bg-secondary text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-secondary-light transition-colors disabled:opacity-50">
               {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
             </button>
             <button type="button" onClick={() => setEditing(null)} className="px-6 py-2.5 rounded-full text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors rounded-full">
@@ -149,10 +150,10 @@ export default function AdminActividadesPage() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-normal text-primary truncate">{a.title}</h3>
-                <span className={`shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 rounded-full ${a.status === "published" ? "bg-accent/10 text-gold" : "bg-surface-alt text-text-muted"}`}>
+                <span className={`shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 rounded-full ${a.status === "published" ? "bg-accent/10 text-secondary" : "bg-surface-alt text-text-muted"}`}>
                   {a.status === "published" ? "Publicada" : "Borrador"}
                 </span>
-                {a.featured && <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-gold/10 text-secondary rounded-full">Destacada</span>}
+                {a.featured && <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-secondary/10 text-secondary rounded-full">Destacada</span>}
               </div>
               <p className="text-xs text-text-muted mt-0.5 truncate">{a.description}</p>
             </div>
