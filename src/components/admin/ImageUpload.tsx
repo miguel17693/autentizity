@@ -16,7 +16,7 @@ export default function ImageUpload({
   originalValue = "",
   onChange,
   label = "Imagen de portada",
-  aspect = 16 / 9,
+  aspect = 16 / 10,
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");

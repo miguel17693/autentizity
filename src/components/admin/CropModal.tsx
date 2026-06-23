@@ -13,7 +13,7 @@ interface CropModalProps {
 
 export default function CropModal({
   imageSrc,
-  aspect = 16 / 9,
+  aspect = 16 / 10,
   onConfirm,
   onCancel,
 }: CropModalProps) {
