@@ -65,11 +65,11 @@ export default function RankingPage() {
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
           <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="w-8 h-[1px] bg-gold" />
-            <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
+            <div className="w-8 h-[1px] bg-rose" />
+            <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
               Reconocimiento
             </span>
-            <div className="w-8 h-[1px] bg-gold" />
+            <div className="w-8 h-[1px] bg-rose" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Ranking líderes de la autenticidad
@@ -77,7 +77,7 @@ export default function RankingPage() {
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
             Los líderes que están redefiniendo la cultura empresarial en España
           </p>
-          <p className="mt-2 text-rose-light text-sm font-light">
+          <p className="mt-2 text-gold-light text-sm font-light">
             Organiza AutentiZity &amp; ManpowerGroup
           </p>
         </div>
@@ -112,7 +112,7 @@ export default function RankingPage() {
           <ScrollReveal>
             <div className="flex items-center gap-4 mb-4 justify-center">
               <div className="brand-line" />
-              <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
+              <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
                 Ejes de evaluación
               </span>
               <div className="brand-line" />
@@ -126,7 +126,7 @@ export default function RankingPage() {
             {categories.map((cat, i) => (
               <ScrollReveal key={cat.title} delay={i * 0.1}>
                 <div className="bg-white p-8 h-full group hover:shadow-lg hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500">
-                  <div className="text-rose group-hover:text-rose-dark transition-colors mb-6">
+                  <div className="text-gold group-hover:text-gold-dark transition-colors mb-6">
                     {cat.icon}
                   </div>
                   <h3 className="font-serif text-lg text-primary font-normal mb-3">
@@ -162,7 +162,7 @@ export default function RankingPage() {
             {timeline.map((item, i) => (
               <ScrollReveal key={item.step} delay={i * 0.12}>
                 <div className="relative">
-                  <span className="font-serif text-6xl text-gold/20 font-light leading-none">
+                  <span className="font-serif text-6xl text-rose/20 font-light leading-none">
                     {item.step}
                   </span>
                   <h3 className="font-serif text-xl text-primary font-normal mt-2 mb-2">
@@ -200,7 +200,7 @@ export default function RankingPage() {
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:comunidad@autentizity.org"
-                className="inline-flex items-center justify-center px-8 py-3.5 bg-rose text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-rose-light transition-all"
+                className="inline-flex items-center justify-center px-8 py-3.5 bg-gold text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-gold-light transition-all"
               >
                 Participa
               </a>
@@ -224,7 +224,7 @@ export default function RankingPage() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="flex items-center gap-4 mb-4 justify-center">
                 <div className="brand-line" />
-                <span className="text-gold text-[12px] font-medium tracking-[0.15em] uppercase">
+                <span className="text-rose text-[12px] font-medium tracking-[0.15em] uppercase">
                   Reconocimiento
                 </span>
                 <div className="brand-line" />
