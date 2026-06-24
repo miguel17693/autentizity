@@ -90,7 +90,6 @@ export default function ImageUpload({
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropProcessing, setCropProcessing] = useState(false);
   const [lastMultiAreas, setLastMultiAreas] = useState<CropResult["areas"] | null>(null);
-  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
 
@@ -169,9 +168,8 @@ export default function ImageUpload({
 
   const handleCropCancel = useCallback(() => { setCropSrc(null); setCropProcessing(false); if (fileInputRef.current) fileInputRef.current.value = ""; }, []);
   const handleDrop = useCallback((e: React.DragEvent) => { e.preventDefault(); setDragOver(false); const file = e.dataTransfer.files[0]; if (file) readAndCrop(file); }, [readAndCrop]);
-  const handleRemove = () => { const src = originalUrlRef.current || value; if (src) removeStoredMultiAreas(src); onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setLastMultiAreas(null); setPreviewSrc(null); };
+  const handleRemove = () => { const src = originalUrlRef.current || value; if (src) removeStoredMultiAreas(src); onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setLastMultiAreas(null); };
   const handleRecrop = () => { const src = originalUrlRef.current || value; if (src) { setLastMultiAreas(lastMultiAreas ?? readStoredMultiAreas(src)); setCropSrc(src); } };
-  const handlePreview = () => { setPreviewSrc(value); };
 
   return (
     <>
@@ -183,7 +181,6 @@ export default function ImageUpload({
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
               <button type="button" onClick={() => fileInputRef.current?.click()} className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors">Cambiar</button>
               <button type="button" onClick={handleRecrop} className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors">Recortar</button>
-              <button type="button" onClick={handlePreview} className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors">Vista previa</button>
               <button type="button" onClick={handleRemove} className="px-3 py-1.5 bg-red-500 text-white text-xs hover:bg-red-600 transition-colors">Quitar</button>
             </div>
             <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden"
@@ -226,14 +223,6 @@ export default function ImageUpload({
       )}
       {cropSrc && !multiContext && (
         <CropModal imageSrc={cropSrc} processing={cropProcessing} aspect={aspect} onConfirm={handleSingleCropConfirm} onCancel={handleCropCancel} />
-      )}
-      {previewSrc && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setPreviewSrc(null)}>
-          <div className="relative max-w-2xl w-full max-h-[80vh] bg-white p-2">
-            <button type="button" onClick={() => setPreviewSrc(null)} className="absolute -top-3 -right-3 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-text-muted hover:text-text-body z-10">×</button>
-            <img src={previewSrc} alt="Vista previa" className="w-full max-h-[75vh] object-contain" />
-          </div>
-        </div>
       )}
     </>
   );
