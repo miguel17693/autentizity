@@ -34,9 +34,6 @@ export default function FilterBar({ variant, availableTags }: FilterBarProps) {
   const currentTags = searchParams.get("tags")?.split(",").filter(Boolean) || [];
   const currentFecha = searchParams.get("fecha") || "";
   const currentTipo = searchParams.get("tipo") || "";
-  const currentDesde = searchParams.get("desde") || "";
-  const currentHasta = searchParams.get("hasta") || "";
-
   const [searchInput, setSearchInput] = useState(currentQ);
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -115,39 +112,13 @@ export default function FilterBar({ variant, availableTags }: FilterBarProps) {
     [buildParams, navigate]
   );
 
-  const handleDateFrom = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const params = buildParams();
-      if (e.target.value) {
-        params.set("desde", e.target.value);
-      } else {
-        params.delete("desde");
-      }
-      navigate(params);
-    },
-    [buildParams, navigate]
-  );
-
-  const handleDateTo = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const params = buildParams();
-      if (e.target.value) {
-        params.set("hasta", e.target.value);
-      } else {
-        params.delete("hasta");
-      }
-      navigate(params);
-    },
-    [buildParams, navigate]
-  );
-
   const handleClearAll = useCallback(() => {
     setSearchInput("");
     router.push(pathname, { scroll: false });
   }, [router, pathname]);
 
   const hasFilters =
-    currentQ || currentTags.length > 0 || currentFecha || currentTipo || currentDesde || currentHasta;
+    currentQ || currentTags.length > 0 || currentFecha || currentTipo;
 
   return (
     <div className="space-y-6">
@@ -213,30 +184,6 @@ export default function FilterBar({ variant, availableTags }: FilterBarProps) {
                 {opt.label}
               </button>
             ))}
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="text-xs font-medium tracking-[0.08em] uppercase text-text-muted">
-              Rango:
-            </span>
-            <label className="flex items-center gap-2 text-sm text-text-body font-light">
-              Desde
-              <input
-                type="date"
-                value={currentDesde}
-                onChange={handleDateFrom}
-                className="border border-border-light rounded-xl px-3 py-1.5 text-sm font-light text-text-body focus:outline-none focus:border-primary/30"
-              />
-            </label>
-            <label className="flex items-center gap-2 text-sm text-text-body font-light">
-              Hasta
-              <input
-                type="date"
-                value={currentHasta}
-                onChange={handleDateTo}
-                className="border border-border-light rounded-xl px-3 py-1.5 text-sm font-light text-text-body focus:outline-none focus:border-primary/30"
-              />
-            </label>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">

@@ -61,19 +61,7 @@ export default async function EventosTodosPage({
     });
   }
 
-  const desde = typeof sp.desde === "string" ? sp.desde : "";
-  if (desde) {
-    const desdeDate = new Date(desde);
-    filtered = filtered.filter((e) => new Date(e.startDate) >= desdeDate);
-  }
-
-  const hasta = typeof sp.hasta === "string" ? sp.hasta : "";
-  if (hasta) {
-    const hastaDate = new Date(hasta);
-    filtered = filtered.filter((e) => new Date(e.startDate) <= hastaDate);
-  }
-
-  const hasFilters = !!(q || tagsParam || tipo || fecha || desde || hasta);
+  const hasFilters = !!(q || tagsParam || tipo || fecha);
 
   return (
     <>
