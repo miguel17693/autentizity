@@ -44,6 +44,7 @@ export async function PUT(
   if (body.coverImage !== undefined) updates.coverImage = body.coverImage;
   if (body.coverImageOriginal !== undefined) updates.coverImageOriginal = body.coverImageOriginal;
   if (body.coverImageHero !== undefined) updates.coverImageHero = body.coverImageHero;
+  if (body.coverImageHeroDesktop !== undefined) updates.coverImageHeroDesktop = body.coverImageHeroDesktop;
   if (body.coverImageCard !== undefined) updates.coverImageCard = body.coverImageCard;
   if (body.tags !== undefined) updates.tags = body.tags;
   if (body.status !== undefined) updates.status = body.status;
@@ -78,6 +79,13 @@ export async function PUT(
     await cleanupOrphanImage(existing.coverImageHero);
   }
   if (
+    body.coverImageHeroDesktop !== undefined &&
+    existing.coverImageHeroDesktop &&
+    existing.coverImageHeroDesktop !== updated.coverImageHeroDesktop
+  ) {
+    await cleanupOrphanImage(existing.coverImageHeroDesktop);
+  }
+  if (
     body.coverImageCard !== undefined &&
     existing.coverImageCard &&
     existing.coverImageCard !== updated.coverImageCard
@@ -105,6 +113,7 @@ export async function DELETE(
   const imageUrl = mov?.coverImage;
   const originalImageUrl = mov?.coverImageOriginal;
   const heroImageUrl = mov?.coverImageHero;
+  const heroDesktopImageUrl = mov?.coverImageHeroDesktop;
   const cardImageUrl = mov?.coverImageCard;
 
   const ok = await deleteMovimiento(id);
@@ -113,6 +122,7 @@ export async function DELETE(
   if (imageUrl) await cleanupOrphanImage(imageUrl);
   if (originalImageUrl) await cleanupOrphanImage(originalImageUrl);
   if (heroImageUrl) await cleanupOrphanImage(heroImageUrl);
+  if (heroDesktopImageUrl) await cleanupOrphanImage(heroDesktopImageUrl);
   if (cardImageUrl) await cleanupOrphanImage(cardImageUrl);
 
   return NextResponse.json({ success: true });

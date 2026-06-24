@@ -117,7 +117,7 @@ export default function AdminActividadesPage() {
               <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Título *</label>
               <input required value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none" />
             </div>
-            <ImageUpload value={editing.coverImage ?? ""} originalValue={editing.coverImageOriginal ?? ""} multiContext onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })} onChangeMulti={(urls) => setEditing({ ...editing, ...urls })} />
+            <ImageUpload value={editing.coverImage ?? ""} originalValue={editing.coverImageOriginal ?? ""} heroValue={editing.coverImageHero ?? ""} cardValue={editing.coverImageCard ?? ""} multiContext onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })} onChangeMulti={(urls) => setEditing({ ...editing, ...urls })} />
           </div>
 
           <div>

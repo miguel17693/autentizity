@@ -47,6 +47,9 @@ export async function PUT(
     if (body.coverImageHero !== undefined && existing.coverImageHero && existing.coverImageHero !== updated.coverImageHero) {
       await cleanupOrphanImage(existing.coverImageHero);
     }
+    if (body.coverImageHeroDesktop !== undefined && existing.coverImageHeroDesktop && existing.coverImageHeroDesktop !== updated.coverImageHeroDesktop) {
+      await cleanupOrphanImage(existing.coverImageHeroDesktop);
+    }
     if (body.coverImageCard !== undefined && existing.coverImageCard && existing.coverImageCard !== updated.coverImageCard) {
       await cleanupOrphanImage(existing.coverImageCard);
     }
@@ -76,6 +79,7 @@ export async function DELETE(
     const imageUrl = act?.coverImage;
     const originalImageUrl = act?.coverImageOriginal;
     const heroImageUrl = act?.coverImageHero;
+    const heroDesktopImageUrl = act?.coverImageHeroDesktop;
     const cardImageUrl = act?.coverImageCard;
 
     const ok = await deleteActividad(id);
@@ -84,6 +88,7 @@ export async function DELETE(
     if (imageUrl) await cleanupOrphanImage(imageUrl);
     if (originalImageUrl) await cleanupOrphanImage(originalImageUrl);
     if (heroImageUrl) await cleanupOrphanImage(heroImageUrl);
+    if (heroDesktopImageUrl) await cleanupOrphanImage(heroDesktopImageUrl);
     if (cardImageUrl) await cleanupOrphanImage(cardImageUrl);
 
     return NextResponse.json({ success: true });

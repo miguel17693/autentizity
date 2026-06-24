@@ -41,7 +41,8 @@ export default async function ActividadDetailPage({
   return (
     <>
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
-        <Image src={actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover" />
+        <Image src={actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover sm:hidden" />
+        <Image src={actividad.coverImageHeroDesktop || actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover hidden sm:block" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
           <div className="flex gap-3 mb-4">

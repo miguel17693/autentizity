@@ -100,6 +100,10 @@ export async function initSchema() {
   await sql`ALTER TABLE movimientos ADD COLUMN IF NOT EXISTS cover_image_card TEXT DEFAULT ''`;
   await sql`ALTER TABLE actividades ADD COLUMN IF NOT EXISTS cover_image_hero TEXT DEFAULT ''`;
   await sql`ALTER TABLE actividades ADD COLUMN IF NOT EXISTS cover_image_card TEXT DEFAULT ''`;
+  await sql`ALTER TABLE eventos ADD COLUMN IF NOT EXISTS cover_image_hero_desktop TEXT DEFAULT ''`;
+  await sql`ALTER TABLE noticias ADD COLUMN IF NOT EXISTS cover_image_hero_desktop TEXT DEFAULT ''`;
+  await sql`ALTER TABLE movimientos ADD COLUMN IF NOT EXISTS cover_image_hero_desktop TEXT DEFAULT ''`;
+  await sql`ALTER TABLE actividades ADD COLUMN IF NOT EXISTS cover_image_hero_desktop TEXT DEFAULT ''`;
 
   await sql`
     CREATE TABLE IF NOT EXISTS movimiento_embajadores (

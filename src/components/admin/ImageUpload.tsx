@@ -9,22 +9,27 @@ const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 interface ImageUploadProps {
   value: string;
   originalValue?: string;
+  heroValue?: string;
+  cardValue?: string;
   onChange: (url: string, originalUrl?: string) => void;
   onChangeMulti?: (urls: {
     coverImage: string;
     coverImageOriginal: string;
     coverImageHero: string;
     coverImageCard: string;
+    coverImageHeroDesktop: string;
   }) => void;
   label?: string;
   aspect?: number;
-  /** Enables multi-context crop mode (hero + card) */
+  /** Enables multi-context crop mode (hero + heroDesktop + card) */
   multiContext?: boolean;
 }
 
 export default function ImageUpload({
   value,
   originalValue = "",
+  heroValue = "",
+  cardValue = "",
   onChange,
   onChangeMulti,
   label = "Imagen de portada",
@@ -119,18 +124,28 @@ export default function ImageUpload({
   );
 
   const handleMultiCropConfirm = useCallback(
-    async (files: { hero: File; card: File }) => {
+    async (files: { hero: File; heroDesktop: File; card: File }) => {
       setCropSrc(null);
-      const [heroUrl, cardUrl] = await Promise.all([
+      setError("");
+
+      const [heroUrl, heroDesktopUrl, cardUrl] = await Promise.all([
         uploadFile(files.hero),
+        uploadFile(files.heroDesktop),
         uploadFile(files.card),
       ]);
-      if (heroUrl && cardUrl && onChangeMulti) {
+
+      if (!heroUrl || !heroDesktopUrl || !cardUrl) {
+        setError("Error al subir uno de los crops. Inténtalo de nuevo.");
+        return;
+      }
+
+      if (onChangeMulti) {
         onChangeMulti({
           coverImage: heroUrl,
           coverImageOriginal: originalUrlRef.current,
           coverImageHero: heroUrl,
           coverImageCard: cardUrl,
+          coverImageHeroDesktop: heroDesktopUrl,
         });
         onChange(heroUrl, originalUrlRef.current);
       }
@@ -312,6 +327,11 @@ export default function ImageUpload({
         <MultiContextCropModal
           imageSrc={cropSrc}
           originalFormat={originalFormat}
+          existingUrls={{
+            hero: heroValue || value,
+            heroDesktop: heroValue || value,
+            card: cardValue || value,
+          }}
           onConfirm={handleMultiCropConfirm}
           onCancel={handleCropCancel}
         />

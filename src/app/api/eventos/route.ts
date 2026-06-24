@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     coverImage: body.coverImage ?? "",
     coverImageOriginal: body.coverImageOriginal ?? "",
     coverImageHero: body.coverImageHero ?? "",
+    coverImageHeroDesktop: body.coverImageHeroDesktop ?? "",
     coverImageCard: body.coverImageCard ?? "",
     startDate: body.startDate ?? new Date().toISOString(),
     endDate: body.endDate ?? body.startDate ?? new Date().toISOString(),

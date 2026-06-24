@@ -16,22 +16,22 @@ export async function cleanupOrphanImage(imageUrl: string): Promise<void> {
 
     // Check if any evento, noticia, movimiento, or actividad still uses this URL
     const eventRows = await sql`
-      SELECT id FROM eventos WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
+      SELECT id FROM eventos WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_hero_desktop = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
     `;
     if ((eventRows as unknown[]).length > 0) return;
 
     const newsRows = await sql`
-      SELECT id FROM noticias WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
+      SELECT id FROM noticias WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_hero_desktop = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
     `;
     if ((newsRows as unknown[]).length > 0) return;
 
     const movRows = await sql`
-      SELECT id FROM movimientos WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
+      SELECT id FROM movimientos WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_hero_desktop = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
     `;
     if ((movRows as unknown[]).length > 0) return;
 
     const actRows = await sql`
-      SELECT id FROM actividades WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
+      SELECT id FROM actividades WHERE cover_image = ${imageUrl} OR cover_image_original = ${imageUrl} OR cover_image_hero = ${imageUrl} OR cover_image_hero_desktop = ${imageUrl} OR cover_image_card = ${imageUrl} LIMIT 1
     `;
     if ((actRows as unknown[]).length > 0) return;
 

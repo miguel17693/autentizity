@@ -12,6 +12,7 @@ export interface News {
   coverImage: string;
   coverImageOriginal: string;
   coverImageHero: string;
+  coverImageHeroDesktop: string;
   coverImageCard: string;
   tags: string[];
   author: string;
@@ -32,6 +33,7 @@ export interface Event {
   coverImage: string;
   coverImageOriginal: string;
   coverImageHero: string;
+  coverImageHeroDesktop: string;
   coverImageCard: string;
   startDate: string; // ISO date string
   endDate: string;
@@ -61,6 +63,7 @@ export interface Movement {
   coverImage: string;
   coverImageOriginal: string;
   coverImageHero: string;
+  coverImageHeroDesktop: string;
   coverImageCard: string;
   tags: string[];
   status: "draft" | "published";
@@ -77,6 +80,7 @@ export interface Activity {
   coverImage: string;
   coverImageOriginal: string;
   coverImageHero: string;
+  coverImageHeroDesktop: string;
   coverImageCard: string;
   tags: string[];
   status: "draft" | "published";

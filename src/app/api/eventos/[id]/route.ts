@@ -47,6 +47,13 @@ export async function PUT(
     await cleanupOrphanImage(existing.coverImageHero);
   }
   if (
+    body.coverImageHeroDesktop !== undefined &&
+    existing.coverImageHeroDesktop &&
+    existing.coverImageHeroDesktop !== updated.coverImageHeroDesktop
+  ) {
+    await cleanupOrphanImage(existing.coverImageHeroDesktop);
+  }
+  if (
     body.coverImageCard !== undefined &&
     existing.coverImageCard &&
     existing.coverImageCard !== updated.coverImageCard
@@ -68,6 +75,7 @@ export async function DELETE(
   const imageUrl = evento?.coverImage;
   const originalImageUrl = evento?.coverImageOriginal;
   const heroImageUrl = evento?.coverImageHero;
+  const heroDesktopImageUrl = evento?.coverImageHeroDesktop;
   const cardImageUrl = evento?.coverImageCard;
 
   const ok = await deleteEvento(id);
@@ -82,6 +90,9 @@ export async function DELETE(
   }
   if (heroImageUrl) {
     await cleanupOrphanImage(heroImageUrl);
+  }
+  if (heroDesktopImageUrl) {
+    await cleanupOrphanImage(heroDesktopImageUrl);
   }
   if (cardImageUrl) {
     await cleanupOrphanImage(cardImageUrl);

@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
     coverImage: body.coverImage ?? "",
     coverImageOriginal: body.coverImageOriginal ?? "",
     coverImageHero: body.coverImageHero ?? "",
+    coverImageHeroDesktop: body.coverImageHeroDesktop ?? "",
     coverImageCard: body.coverImageCard ?? "",
     tags: body.tags ?? [],
     status: body.status ?? "draft",

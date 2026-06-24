@@ -157,6 +157,8 @@ export default function AdminMovimientosPage() {
             <ImageUpload
               value={editing.coverImage ?? ""}
               originalValue={editing.coverImageOriginal ?? ""}
+              heroValue={editing.coverImageHero ?? ""}
+              cardValue={editing.coverImageCard ?? ""}
               multiContext
               onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })}
               onChangeMulti={(urls) => setEditing({ ...editing, ...urls })}

@@ -66,7 +66,14 @@ export default async function MovimientoDetailPage({
           alt={movimiento.title}
           fill
           priority
-          className="object-cover"
+          className="object-cover sm:hidden"
+        />
+        <Image
+          src={movimiento.coverImageHeroDesktop || movimiento.coverImageHero || movimiento.coverImage || "/images/logo-transparent.png"}
+          alt={movimiento.title}
+          fill
+          priority
+          className="object-cover hidden sm:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
