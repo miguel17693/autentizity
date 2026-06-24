@@ -92,7 +92,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm max-w-none focus:outline-none min-h-[120px] px-3 py-2.5 text-sm text-text-body font-light leading-relaxed editor-content",
+          "prose prose-sm max-w-none focus:outline-none min-h-[120px] max-h-[50vh] overflow-y-auto px-3 py-2.5 text-sm text-text-body font-light leading-relaxed editor-content",
       },
     },
     immediatelyRender: false,
@@ -299,9 +299,7 @@ export default function RichTextEditor({
           )}
         </div>
 
-        <div className="max-h-[50vh] overflow-y-auto">
-          <EditorContent editor={editor} />
-        </div>
+        <EditorContent editor={editor} />
 
         <input
           ref={fileInputRef}
