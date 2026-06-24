@@ -38,7 +38,7 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   const isPng = logo?.endsWith(".png");
 
   return (
-    <div className="flex items-center justify-center h-20 bg-white rounded-2xl border border-border-light px-6">
+    <div className="flex items-center justify-center h-20 px-6">
       {hasLogo ? (
         <Image src={logo} alt={name ?? ""} width={120} height={48} unoptimized={isPng} className="object-contain max-h-12 max-w-[120px]" />
       ) : (
@@ -182,10 +182,12 @@ export default async function EcosistemaPage() {
                   </p>
                 )}
               </ScrollReveal>
-              <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                {sec.entities.map((e) => (
-                  <LogoPlaceholder key={e.id} name={e.name} logo={e.logo_url} />
-                ))}
+              <div className="mt-10 bg-white rounded-2xl border border-border-light p-6 sm:p-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {sec.entities.map((e) => (
+                    <LogoPlaceholder key={e.id} name={e.name} logo={e.logo_url} />
+                  ))}
+                </div>
               </div>
             </div>
           </section>
