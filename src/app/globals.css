@@ -159,7 +159,16 @@ a {
     border-radius: 100px !important;
   }
 
-  img[class*="object-cover"] {
-    border-radius: 1rem !important;
-  }
-}
+   img[class*="object-cover"] {
+     border-radius: 1rem !important;
+   }
+ }
+
+ /* ============================================
+  * LOGO MARQUEE — Animación continua
+  * ============================================ */
+
+ @keyframes marquee {
+   0% { transform: translateX(0); }
+   100% { transform: translateX(-50%); }
+ }

@@ -1,5 +1,6 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
+import LogoMarquee from "@/components/ui/LogoMarquee";
 import Image from "next/image";
 import { stripHtml } from "@/lib/utils";
 import {
@@ -30,24 +31,6 @@ interface SectionData {
   description: string;
   sort_order: number;
   entities: Entity[];
-}
-
-// --- Helpers ---
-function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
-  const hasLogo = logo != null && logo !== "";
-  const isPng = logo?.endsWith(".png");
-
-  return (
-    <div className="flex items-center justify-center h-20 px-6">
-      {hasLogo ? (
-        <Image src={logo} alt={name ?? ""} width={120} height={48} unoptimized={isPng} className="object-contain max-h-12 max-w-[120px]" />
-      ) : (
-        <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase text-center leading-tight">
-          {name ?? "LOGO"}
-        </span>
-      )}
-    </div>
-  );
 }
 
 function AvatarPlaceholder({ name, logo, description }: { name: string; logo?: string; description?: string }) {
@@ -183,11 +166,11 @@ export default async function EcosistemaPage() {
                 )}
               </ScrollReveal>
               <div className="mt-10 bg-white rounded-2xl border border-border-light p-6 sm:p-8">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {sec.entities.map((e) => (
-                    <LogoPlaceholder key={e.id} name={e.name} logo={e.logo_url} />
-                  ))}
-                </div>
+                <LogoMarquee
+                  logos={sec.entities
+                    .filter((e) => e.logo_url)
+                    .map((e) => ({ url: e.logo_url, name: e.name }))}
+                />
               </div>
             </div>
           </section>
