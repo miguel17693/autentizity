@@ -43,7 +43,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
       }
 
       while (currentX <= -2 * singleWidth) currentX += singleWidth;
-      while (currentX >= singleWidth) currentX -= singleWidth;
+      while (currentX >= 0) currentX -= singleWidth;
 
       x.set(currentX);
       rafRef.current = requestAnimationFrame(loop);
@@ -70,7 +70,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
             const singleWidth = track.scrollWidth / 3;
             let current = x.get();
             while (current <= -2 * singleWidth) current += singleWidth;
-            while (current >= singleWidth) current -= singleWidth;
+            while (current >= 0) current -= singleWidth;
             x.set(current);
           }
           velocityRef.current = info.velocity.x / 60;
