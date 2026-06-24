@@ -132,7 +132,7 @@ export default function AdminActividadesPage() {
 
           <div>
             <MultiSelectCheckbox
-              label="Movimientos"
+              label="Movimientos Corporativos"
               items={movimientosItems}
               selectedIds={selectedMovimientoIds}
               onChange={setSelectedMovimientoIds}

@@ -27,7 +27,7 @@ const DEFAULT_SECTIONS: SectionConfig[] = [
   { id: "eco-embajadores", label: "Embajadores", page: "Ecosistema", visible: true },
   // Actividad
   { id: "act-eventos", label: "Listado de eventos", page: "Actividad", visible: true },
-  { id: "act-movimientos", label: "Movimientos", page: "Actividad", visible: true },
+  { id: "act-movimientos", label: "Movimientos Corporativos", page: "Actividad", visible: true },
   // Reconocimiento
   { id: "rank-intro", label: "¿Qué es el Ranking?", page: "Reconocimiento", visible: true },
   { id: "rank-categories", label: "Categorías", page: "Reconocimiento", visible: true },

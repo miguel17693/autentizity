@@ -74,7 +74,7 @@ export default async function ActividadPage() {
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/movimientos" className="group/header block">
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
-                Movimientos
+                Movimientos Corporativos
                 <svg
                   className="w-5 h-5 lg:w-6 lg:h-6 opacity-0 group-hover/header:opacity-100 group-hover/header:translate-x-1 transition-all duration-300"
                   fill="none"

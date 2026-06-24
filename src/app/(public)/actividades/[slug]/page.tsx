@@ -85,7 +85,7 @@ export default async function ActividadDetailPage({
             <div className="mt-12 pt-8 border-t border-border-light">
               <div className="flex items-center gap-4 mb-6">
                 <div className="brand-line" />
-                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">Movimientos relacionados</span>
+                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">Movimientos Corporativos</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {publishedMovimientos.map((mov) => (

@@ -398,7 +398,7 @@ function EntityFormModal({
           </div>
           <div>
             <MultiSelectCheckbox
-              label="Movimientos"
+              label="Movimientos Corporativos"
               items={movimientosItems}
               selectedIds={selectedMovimientoIds}
               onChange={onMovimientosChange}

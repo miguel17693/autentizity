@@ -21,7 +21,7 @@ const navItems = [
     label: "Actividad",
     href: "/actividad",
     children: [
-      { label: "Movimientos", href: "/actividad/movimientos" },
+      { label: "Movimientos Corporativos", href: "/actividad/movimientos" },
       { label: "Eventos", href: "/actividad/eventos" },
       { label: "Actividades", href: "/actividad/actividades" },
     ],

@@ -78,7 +78,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted">
-                Movimientos
+                Movimientos Corporativos
               </p>
               <p className="font-serif text-4xl text-primary font-light mt-1">
                 {stats.movimientos}

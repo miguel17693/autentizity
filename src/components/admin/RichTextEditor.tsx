@@ -198,12 +198,12 @@ export default function RichTextEditor({
         .editor-content .iframe-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .editor-content p.is-editor-empty:first-child::before { content: attr(data-placeholder); float: left; color: #9ca3af; pointer-events: none; height: 0; }
         .editor-content a { color: var(--color-accent, #3b82f6); text-decoration: underline; cursor: pointer; }
-        .editor-content strong { font-weight: 600; }
+        .editor-content strong { font-weight: 700; }
         .editor-content em { font-style: italic; }
       `}</style>
 
-      <div className="border border-border focus-within:border-accent bg-surface-alt transition-colors rounded-xl overflow-hidden">
-        <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-border bg-white flex-wrap">
+      <div className="border border-border focus-within:border-accent bg-surface-alt transition-colors rounded-xl">
+        <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-border bg-white flex-wrap sticky top-0 z-10 rounded-t-xl">
           <div className="flex items-center gap-0.5">
             <ToolbarBtn
               onClick={() => editor.chain().focus().toggleBold().run()}

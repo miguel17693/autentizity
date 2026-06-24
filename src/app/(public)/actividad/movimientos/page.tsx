@@ -55,7 +55,7 @@ export default async function MovimientosTodosPage({
             <div className="w-8 h-[1px] bg-tertiary" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
-            Movimientos
+            Movimientos Corporativos
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
             Líneas de acción del ecosistema AutentiZity

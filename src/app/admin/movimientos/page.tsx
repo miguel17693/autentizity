@@ -120,7 +120,7 @@ export default function AdminMovimientosPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-serif text-3xl text-primary font-light">Movimientos</h1>
+          <h1 className="font-serif text-3xl text-primary font-light">Movimientos Corporativos</h1>
           <p className="text-text-secondary text-sm font-light mt-1">
             {movimientos.length} movimientos
           </p>
