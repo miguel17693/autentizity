@@ -40,6 +40,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  let movimientoError = "";
   try {
     const body = await request.json();
     const { movimientoIds, ...entityData } = body as EcosistemaEntity & { movimientoIds?: string[] };
@@ -54,9 +55,14 @@ export async function POST(request: NextRequest) {
       description: entityData.description ?? "",
     });
     if (movimientoIds !== undefined) {
-      await setEntidadMovimientos(entityData.id, movimientoIds);
+      try {
+        await setEntidadMovimientos(entityData.id, movimientoIds);
+      } catch (e) {
+        console.error("POST /api/ecosistema/entidades — setEntidadMovimientos error:", e);
+        movimientoError = "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla.";
+      }
     }
-    return NextResponse.json(entityData);
+    return NextResponse.json({ ...entityData, movimientoError: movimientoError || undefined });
   } catch (e) {
     console.error("POST /api/ecosistema/entidades error:", e);
     return NextResponse.json({ error: "Error al crear entidad" }, { status: 500 });
@@ -64,6 +70,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  let movimientoError = "";
   try {
     const body = await request.json();
     const { movimientoIds, ...entityData } = body as EcosistemaEntity & { movimientoIds?: string[] };
@@ -78,9 +85,14 @@ export async function PUT(request: NextRequest) {
       description: entityData.description ?? "",
     });
     if (movimientoIds !== undefined) {
-      await setEntidadMovimientos(entityData.id, movimientoIds);
+      try {
+        await setEntidadMovimientos(entityData.id, movimientoIds);
+      } catch (e) {
+        console.error("PUT /api/ecosistema/entidades — setEntidadMovimientos error:", e);
+        movimientoError = "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla.";
+      }
     }
-    return NextResponse.json(entityData);
+    return NextResponse.json({ ...entityData, movimientoError: movimientoError || undefined });
   } catch (e) {
     console.error("PUT /api/ecosistema/entidades error:", e);
     return NextResponse.json({ error: "Error al actualizar entidad" }, { status: 500 });

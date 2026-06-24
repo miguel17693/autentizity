@@ -615,6 +615,10 @@ export default function AdminEcosistemaPage() {
       setSavingEntity(false);
       return;
     }
+    const data = await res.json();
+    if (data.movimientoError) {
+      alert(data.movimientoError);
+    }
     setEditingEntity(null);
     setSavingEntity(false);
     loadEntities(payload.section_id);

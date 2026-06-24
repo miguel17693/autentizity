@@ -479,7 +479,7 @@ export async function saveEcosistemaEntity(entity: EcosistemaEntity): Promise<vo
   const sql = getSQL();
   await sql`
     INSERT INTO ecosistema_entidades (id, section_id, name, logo_url, description, tags, sort_order, active)
-    VALUES (${entity.id}, ${entity.section_id}, ${entity.name}, ${entity.logo_url}, ${entity.description}, ${JSON.stringify(entity.tags)}, ${entity.sort_order}, ${entity.active})
+    VALUES (${entity.id}, ${entity.section_id}, ${entity.name}, ${entity.logo_url}, ${entity.description}, ${entity.tags}, ${entity.sort_order}, ${entity.active})
     ON CONFLICT (id) DO UPDATE SET
       section_id = EXCLUDED.section_id,
       name = EXCLUDED.name,
@@ -597,13 +597,20 @@ function rowToEcosistemaSection(row: Record<string, unknown>): EcosistemaSection
 }
 
 function rowToEcosistemaEntity(row: Record<string, unknown>): EcosistemaEntity {
+  let tags: string[] = [];
+  const raw = row.tags;
+  if (Array.isArray(raw)) {
+    tags = raw as string[];
+  } else if (typeof raw === "string") {
+    try { tags = JSON.parse(raw) as string[]; } catch { tags = []; }
+  }
   return {
     id: row.id as string,
     section_id: row.section_id as string,
     name: row.name as string,
     logo_url: (row.logo_url as string) || "",
     description: (row.description as string) || "",
-    tags: (row.tags as string[]) || [],
+    tags,
     sort_order: (row.sort_order as number) || 0,
     active: row.active as boolean,
   };
