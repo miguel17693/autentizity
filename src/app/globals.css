@@ -159,8 +159,7 @@ a {
     border-radius: 100px !important;
   }
 
-   img[class*="object-cover"] {
-     border-radius: 1rem !important;
-   }
- }
-
+  img[class*="object-cover"] {
+    border-radius: 1rem !important;
+  }
+}
