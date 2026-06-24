@@ -25,7 +25,7 @@ interface ImageUploadProps {
 }
 
 export default function ImageUpload({
-  value, originalValue = "", heroValue = "", cardValue = "",
+  value, originalValue = "",
   onChange, onChangeMulti, label = "Imagen de portada",
   aspect = 16 / 10, multiContext = false,
 }: ImageUploadProps) {
@@ -60,7 +60,8 @@ export default function ImageUpload({
     reader.onload = async () => {
       const dataUrl = reader.result as string;
       const originalUrl = await uploadFile(file);
-      if (originalUrl) { originalUrlRef.current = originalUrl; }
+      if (!originalUrl) return;
+      originalUrlRef.current = originalUrl;
       setCropSrc(dataUrl);
     };
     reader.readAsDataURL(file);
@@ -99,7 +100,7 @@ export default function ImageUpload({
       setCropSrc(null);
       setCropProcessing(false);
       const payload = { coverImage: heroUrl, coverImageOriginal: imageUrl, coverImageHero: heroUrl, coverImageCard: cardUrl, coverImageHeroDesktop: heroDesktopUrl };
-      if (onChangeMulti) { onChangeMulti(payload); onChange(heroUrl, imageUrl); }
+      if (onChangeMulti) { onChangeMulti(payload); } else { onChange(heroUrl, imageUrl); }
     } catch (err) { setError(err instanceof Error ? err.message : "Error al recortar"); setCropProcessing(false); }
   }, [callCropApi, onChange, onChangeMulti]);
 
@@ -157,7 +158,6 @@ export default function ImageUpload({
       </div>
       {cropSrc && multiContext && (
         <MultiContextCropModal imageSrc={cropSrc} processing={cropProcessing}
-          existingUrls={{ hero: heroValue || value, heroDesktop: heroValue || value, card: cardValue || value }}
           onConfirm={handleMultiCropConfirm} onCancel={handleCropCancel} />
       )}
       {cropSrc && !multiContext && (

@@ -26,13 +26,12 @@ export interface CropResult { areas: Record<ContextKey, CropArea>; }
 
 interface MultiContextCropModalProps {
   imageSrc: string;
-  existingUrls?: Partial<Record<ContextKey, string>>;
   processing?: boolean;
   onConfirm: (result: CropResult) => void;
   onCancel: () => void;
 }
 
-export default function MultiContextCropModal({ imageSrc, existingUrls, processing = false, onConfirm, onCancel }: MultiContextCropModalProps) {
+export default function MultiContextCropModal({ imageSrc, processing = false, onConfirm, onCancel }: MultiContextCropModalProps) {
   const [activeTab, setActiveTab] = useState<ContextKey>("hero");
   const [missingTabs, setMissingTabs] = useState<ContextKey[]>([]);
   const cropperRefs = useRef<Record<ContextKey, CropperRef | null>>({ hero: null, heroDesktop: null, card: null });
@@ -99,11 +98,6 @@ export default function MultiContextCropModal({ imageSrc, existingUrls, processi
                 <div className="relative w-full bg-black/10 overflow-hidden border border-border" style={{ aspectRatio: c.aspect }}>
                   <CropperPreview ref={(el) => { previewRefs.current[c.key] = el; }} className="!absolute inset-0" />
                 </div>
-                {existingUrls?.[c.key] && (
-                  <div className="relative w-full bg-black/10 overflow-hidden border border-border mt-1" style={{ aspectRatio: c.aspect }}>
-                    <img src={existingUrls[c.key]} alt={`${c.label} actual`} className="absolute inset-0 w-full h-full object-cover opacity-60" />
-                  </div>
-                )}
               </div>
             ))}
           </div>

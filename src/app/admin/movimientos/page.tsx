@@ -160,8 +160,8 @@ export default function AdminMovimientosPage() {
               heroValue={editing.coverImageHero ?? ""}
               cardValue={editing.coverImageCard ?? ""}
               multiContext
-              onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })}
-              onChangeMulti={(urls) => setEditing({ ...editing, ...urls })}
+              onChange={(url, originalUrl) => setEditing((current) => current ? { ...current, coverImage: url, coverImageOriginal: originalUrl ?? "" } : current)}
+              onChangeMulti={(urls) => setEditing((current) => current ? { ...current, ...urls } : current)}
             />
           </div>
 

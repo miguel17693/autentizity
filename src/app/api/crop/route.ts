@@ -2,6 +2,8 @@ import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 
+export const runtime = "nodejs";
+
 interface CropArea {
   x: number;
   y: number;
