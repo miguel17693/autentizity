@@ -10,6 +10,7 @@ import {
   setMovimientoEmbajadores,
   setMovimientoActividades,
 } from "@/lib/data/store";
+import { cleanupOrphanImage } from "@/lib/data/cleanup";
 
 export async function GET(
   _request: NextRequest,
@@ -42,12 +43,47 @@ export async function PUT(
   if (body.content !== undefined) updates.content = body.content;
   if (body.coverImage !== undefined) updates.coverImage = body.coverImage;
   if (body.coverImageOriginal !== undefined) updates.coverImageOriginal = body.coverImageOriginal;
+  if (body.coverImageHero !== undefined) updates.coverImageHero = body.coverImageHero;
+  if (body.coverImageCard !== undefined) updates.coverImageCard = body.coverImageCard;
   if (body.tags !== undefined) updates.tags = body.tags;
   if (body.status !== undefined) updates.status = body.status;
   if (body.featured !== undefined) updates.featured = body.featured;
 
+  const existing = await getMovimiento(id);
+  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
   const updated = await updateMovimiento(id, updates as Parameters<typeof updateMovimiento>[1]);
   if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  // Cleanup old images if changed
+  if (
+    body.coverImage !== undefined &&
+    existing.coverImage &&
+    existing.coverImage !== updated.coverImage
+  ) {
+    await cleanupOrphanImage(existing.coverImage);
+  }
+  if (
+    body.coverImageOriginal !== undefined &&
+    existing.coverImageOriginal &&
+    existing.coverImageOriginal !== updated.coverImageOriginal
+  ) {
+    await cleanupOrphanImage(existing.coverImageOriginal);
+  }
+  if (
+    body.coverImageHero !== undefined &&
+    existing.coverImageHero &&
+    existing.coverImageHero !== updated.coverImageHero
+  ) {
+    await cleanupOrphanImage(existing.coverImageHero);
+  }
+  if (
+    body.coverImageCard !== undefined &&
+    existing.coverImageCard &&
+    existing.coverImageCard !== updated.coverImageCard
+  ) {
+    await cleanupOrphanImage(existing.coverImageCard);
+  }
 
   if (body.embajadorIds !== undefined) {
     await setMovimientoEmbajadores(id, body.embajadorIds);
@@ -64,7 +100,20 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+
+  const mov = await getMovimiento(id);
+  const imageUrl = mov?.coverImage;
+  const originalImageUrl = mov?.coverImageOriginal;
+  const heroImageUrl = mov?.coverImageHero;
+  const cardImageUrl = mov?.coverImageCard;
+
   const ok = await deleteMovimiento(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  if (imageUrl) await cleanupOrphanImage(imageUrl);
+  if (originalImageUrl) await cleanupOrphanImage(originalImageUrl);
+  if (heroImageUrl) await cleanupOrphanImage(heroImageUrl);
+  if (cardImageUrl) await cleanupOrphanImage(cardImageUrl);
+
   return NextResponse.json({ success: true });
 }

@@ -81,6 +81,7 @@ export default async function MovimientosTodosPage({
                   key={mov.id}
                   href={`/movimientos/${mov.slug}`}
                   image={mov.coverImage}
+                  cardImage={mov.coverImageCard}
                   title={mov.title}
                   description={mov.description}
                   tags={mov.tags}

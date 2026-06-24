@@ -40,6 +40,20 @@ export async function PUT(
   ) {
     await cleanupOrphanImage(existing.coverImageOriginal);
   }
+  if (
+    body.coverImageHero !== undefined &&
+    existing.coverImageHero &&
+    existing.coverImageHero !== updated.coverImageHero
+  ) {
+    await cleanupOrphanImage(existing.coverImageHero);
+  }
+  if (
+    body.coverImageCard !== undefined &&
+    existing.coverImageCard &&
+    existing.coverImageCard !== updated.coverImageCard
+  ) {
+    await cleanupOrphanImage(existing.coverImageCard);
+  }
 
   return NextResponse.json(updated);
 }
@@ -54,6 +68,8 @@ export async function DELETE(
   const noticia = await getNoticia(id);
   const imageUrl = noticia?.coverImage;
   const originalImageUrl = noticia?.coverImageOriginal;
+  const heroImageUrl = noticia?.coverImageHero;
+  const cardImageUrl = noticia?.coverImageCard;
 
   const ok = await deleteNoticia(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -64,6 +80,12 @@ export async function DELETE(
   }
   if (originalImageUrl) {
     await cleanupOrphanImage(originalImageUrl);
+  }
+  if (heroImageUrl) {
+    await cleanupOrphanImage(heroImageUrl);
+  }
+  if (cardImageUrl) {
+    await cleanupOrphanImage(cardImageUrl);
   }
 
   return NextResponse.json({ ok: true });

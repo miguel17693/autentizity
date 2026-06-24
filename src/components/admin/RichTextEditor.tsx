@@ -21,6 +21,8 @@ import {
   YoutubeIcon,
 } from "lucide-react";
 
+const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+
 interface RichTextEditorProps {
   value: string;
   onChange: (value: string) => void;
@@ -129,6 +131,18 @@ export default function RichTextEditor({
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file || !editor) return;
+
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        alert("Solo se permiten imágenes PNG, JPG o WebP");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        alert("La imagen no puede superar 5MB");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+
       const url = await uploadImage(file);
       if (url) {
         editor.chain().focus().setImage({ src: url }).run();
@@ -290,7 +304,7 @@ export default function RichTextEditor({
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/png,image/jpeg,image/webp"
           className="hidden"
           onChange={handleFileChange}
         />

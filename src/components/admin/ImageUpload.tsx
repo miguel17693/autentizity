@@ -2,27 +2,41 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import CropModal from "./CropModal";
+import MultiContextCropModal from "./MultiContextCropModal";
+
+const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
 interface ImageUploadProps {
   value: string;
   originalValue?: string;
   onChange: (url: string, originalUrl?: string) => void;
+  onChangeMulti?: (urls: {
+    coverImage: string;
+    coverImageOriginal: string;
+    coverImageHero: string;
+    coverImageCard: string;
+  }) => void;
   label?: string;
   aspect?: number;
+  /** Enables multi-context crop mode (hero + card) */
+  multiContext?: boolean;
 }
 
 export default function ImageUpload({
   value,
   originalValue = "",
   onChange,
+  onChangeMulti,
   label = "Imagen de portada",
   aspect = 16 / 10,
+  multiContext = false,
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [originalFormat, setOriginalFormat] = useState<string>("image/jpeg");
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
@@ -66,31 +80,34 @@ export default function ImageUpload({
     []
   );
 
-  const readAndCrop = useCallback(async (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      setError("Solo se permiten imágenes");
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      setError("La imagen no puede superar 5MB");
-      return;
-    }
-
-    setError("");
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const dataUrl = reader.result as string;
-      // Upload original first, then open crop
-      const originalUrl = await uploadFile(file);
-      if (originalUrl) {
-        originalUrlRef.current = originalUrl;
+  const readAndCrop = useCallback(
+    async (file: File) => {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        setError("Solo se permiten imágenes PNG, JPG o WebP");
+        return;
       }
-      setCropSrc(dataUrl);
-    };
-    reader.readAsDataURL(file);
-  }, [uploadFile]);
+      if (file.size > 5 * 1024 * 1024) {
+        setError("La imagen no puede superar 5MB");
+        return;
+      }
 
-  const handleCropConfirm = useCallback(
+      setError("");
+      setOriginalFormat(file.type);
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const dataUrl = reader.result as string;
+        const originalUrl = await uploadFile(file);
+        if (originalUrl) {
+          originalUrlRef.current = originalUrl;
+        }
+        setCropSrc(dataUrl);
+      };
+      reader.readAsDataURL(file);
+    },
+    [uploadFile]
+  );
+
+  const handleSingleCropConfirm = useCallback(
     async (croppedFile: File) => {
       setCropSrc(null);
       const croppedUrl = await uploadFile(croppedFile);
@@ -99,6 +116,26 @@ export default function ImageUpload({
       }
     },
     [uploadFile, onChange]
+  );
+
+  const handleMultiCropConfirm = useCallback(
+    async (files: { hero: File; card: File }) => {
+      setCropSrc(null);
+      const [heroUrl, cardUrl] = await Promise.all([
+        uploadFile(files.hero),
+        uploadFile(files.card),
+      ]);
+      if (heroUrl && cardUrl && onChangeMulti) {
+        onChangeMulti({
+          coverImage: heroUrl,
+          coverImageOriginal: originalUrlRef.current,
+          coverImageHero: heroUrl,
+          coverImageCard: cardUrl,
+        });
+        onChange(heroUrl, originalUrlRef.current);
+      }
+    },
+    [uploadFile, onChange, onChangeMulti]
   );
 
   const handleCropCancel = useCallback(() => {
@@ -152,21 +189,21 @@ export default function ImageUpload({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="px-3 py-1.5 rounded-full bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Cambiar
               </button>
               <button
                 type="button"
                 onClick={handleRecrop}
-                className="px-3 py-1.5 rounded-full bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Recortar
               </button>
               <button
                 type="button"
                 onClick={handlePreview}
-                className="px-3 py-1.5 rounded-full bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
+                className="px-3 py-1.5 bg-white text-text-body text-xs border border-border hover:bg-surface-alt transition-colors"
               >
                 Vista previa
               </button>
@@ -181,7 +218,7 @@ export default function ImageUpload({
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/png,image/jpeg,image/webp"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
@@ -207,7 +244,7 @@ export default function ImageUpload({
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/png,image/jpeg,image/webp"
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files?.[0];
@@ -240,6 +277,9 @@ export default function ImageUpload({
                 <p className="text-xs text-text-muted/60 mt-1">
                   PNG, JPG o WebP · Máx. 5MB
                 </p>
+                <p className="text-xs text-text-muted/50 mt-0.5">
+                  Resolución recomendada: 1920×1200 (16:10)
+                </p>
               </>
             )}
           </div>
@@ -267,12 +307,20 @@ export default function ImageUpload({
         </div>
       </div>
 
-      {/* Crop modal */}
-      {cropSrc && (
+      {/* Crop modal — multi-context or single */}
+      {cropSrc && multiContext && (
+        <MultiContextCropModal
+          imageSrc={cropSrc}
+          originalFormat={originalFormat}
+          onConfirm={handleMultiCropConfirm}
+          onCancel={handleCropCancel}
+        />
+      )}
+      {cropSrc && !multiContext && (
         <CropModal
           imageSrc={cropSrc}
           aspect={aspect}
-          onConfirm={handleCropConfirm}
+          onConfirm={handleSingleCropConfirm}
           onCancel={handleCropCancel}
         />
       )}

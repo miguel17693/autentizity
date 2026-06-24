@@ -70,7 +70,7 @@ export default async function NoticiasPage() {
                   )}
                   <div className="relative h-48 sm:h-52 overflow-hidden">
                     <Image
-                      src={item.coverImage}
+                      src={item.coverImageCard || item.coverImage}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"

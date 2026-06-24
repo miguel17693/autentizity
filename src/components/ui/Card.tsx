@@ -7,6 +7,7 @@ import { formatDate, stripHtml } from "@/lib/utils";
 export interface CardProps {
   href: string;
   image: string;
+  cardImage?: string;
   title: string;
   description: string;
   tags: string[];
@@ -21,6 +22,7 @@ export interface CardProps {
 export default function Card({
   href,
   image,
+  cardImage,
   title,
   description,
   tags,
@@ -46,9 +48,9 @@ export default function Card({
             Borrador
           </div>
         )}
-        {image ? (
+        {(cardImage || image) ? (
           <Image
-            src={image}
+            src={cardImage || image}
             alt={title}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"

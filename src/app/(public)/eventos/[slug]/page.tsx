@@ -52,7 +52,7 @@ export default async function EventoDetailPage({
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
-          src={evento.coverImage}
+          src={evento.coverImageHero || evento.coverImage}
           alt={evento.title}
           fill
           priority

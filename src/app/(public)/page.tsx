@@ -191,7 +191,7 @@ function Events({ events }: { events: any[] }) {
               >
                 <div className="relative h-48 sm:h-52 lg:h-60 overflow-hidden">
                   <Image
-                    src={event.coverImage}
+                    src={event.coverImageCard || event.coverImage}
                     alt={event.title}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -276,7 +276,7 @@ function News({ news }: { news: any[] }) {
               >
                 <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[16rem] sm:min-h-[18rem]" : "min-h-[13rem] sm:min-h-[14rem]"}`}>
                   <Image
-                    src={item.coverImage}
+                    src={item.coverImageCard || item.coverImage}
                     alt={item.title}
                     fill
                     sizes={i === 0 ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 1024px) 100vw, 33vw"}

@@ -1,6 +1,8 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
+const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+
 export async function POST(request: Request): Promise<NextResponse> {
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
@@ -9,15 +11,13 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
-  // Only allow images
-  if (!file.type.startsWith("image/")) {
+  if (!ALLOWED_TYPES.includes(file.type)) {
     return NextResponse.json(
-      { error: "Solo se permiten imágenes" },
+      { error: "Solo se permiten imágenes PNG, JPG o WebP" },
       { status: 400 }
     );
   }
 
-  // Max 5MB
   if (file.size > 5 * 1024 * 1024) {
     return NextResponse.json(
       { error: "La imagen no puede superar 5MB" },

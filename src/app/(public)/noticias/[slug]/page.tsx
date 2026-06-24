@@ -39,7 +39,7 @@ export default async function NoticiaDetailPage({
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
-          src={noticia.coverImage}
+          src={noticia.coverImageHero || noticia.coverImage}
           alt={noticia.title}
           fill
           priority

@@ -11,6 +11,8 @@ export interface News {
   content: string; // Rich text / Markdown
   coverImage: string;
   coverImageOriginal: string;
+  coverImageHero: string;
+  coverImageCard: string;
   tags: string[];
   author: string;
   publishedAt: string; // ISO date string
@@ -29,6 +31,8 @@ export interface Event {
   content: string; // Rich text / Markdown
   coverImage: string;
   coverImageOriginal: string;
+  coverImageHero: string;
+  coverImageCard: string;
   startDate: string; // ISO date string
   endDate: string;
   location: string; // Dirección física o "Online"
@@ -56,6 +60,8 @@ export interface Movement {
   content: string;
   coverImage: string;
   coverImageOriginal: string;
+  coverImageHero: string;
+  coverImageCard: string;
   tags: string[];
   status: "draft" | "published";
   featured: boolean;
@@ -70,6 +76,8 @@ export interface Activity {
   content: string;
   coverImage: string;
   coverImageOriginal: string;
+  coverImageHero: string;
+  coverImageCard: string;
   tags: string[];
   status: "draft" | "published";
   featured: boolean;

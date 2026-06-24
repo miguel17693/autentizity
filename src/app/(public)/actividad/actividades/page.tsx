@@ -81,6 +81,7 @@ export default async function ActividadesTodosPage({
                   key={act.id}
                   href={`/actividades/${act.slug}`}
                   image={act.coverImage}
+                  cardImage={act.coverImageCard}
                   title={act.title}
                   description={act.description}
                   tags={act.tags}

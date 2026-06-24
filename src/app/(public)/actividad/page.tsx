@@ -98,6 +98,7 @@ export default async function ActividadPage() {
                     key={mov.id}
                     href={`/movimientos/${mov.slug}`}
                     image={mov.coverImage}
+                    cardImage={mov.coverImageCard}
                     title={mov.title}
                     description={mov.description}
                     tags={mov.tags}
@@ -157,6 +158,7 @@ export default async function ActividadPage() {
                     key={event.id}
                     href={`/eventos/${event.slug}`}
                     image={event.coverImage}
+                    cardImage={event.coverImageCard}
                     title={event.title}
                     description={event.description}
                     tags={event.tags}
@@ -220,6 +222,7 @@ export default async function ActividadPage() {
                     key={act.id}
                     href={`/actividades/${act.slug}`}
                     image={act.coverImage}
+                    cardImage={act.coverImageCard}
                     title={act.title}
                     description={act.description}
                     tags={act.tags}

@@ -128,7 +128,9 @@ export default function AdminNoticiasPage() {
             <ImageUpload
               value={editing.coverImage ?? ""}
               originalValue={editing.coverImageOriginal ?? ""}
+              multiContext
               onChange={(url, originalUrl) => setEditing({ ...editing, coverImage: url, coverImageOriginal: originalUrl ?? "" })}
+              onChangeMulti={(urls) => setEditing({ ...editing, ...urls })}
             />
           </div>
 

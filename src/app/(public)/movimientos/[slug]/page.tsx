@@ -62,7 +62,7 @@ export default async function MovimientoDetailPage({
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
-          src={movimiento.coverImage || "/images/logo-transparent.png"}
+          src={movimiento.coverImageHero || movimiento.coverImage || "/images/logo-transparent.png"}
           alt={movimiento.title}
           fill
           priority
@@ -208,7 +208,7 @@ export default async function MovimientoDetailPage({
                         className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                       >
                         <div className="relative h-40 overflow-hidden">
-                          <Image src={ev.coverImage} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                          <Image src={ev.coverImageCard || ev.coverImage} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                         </div>
                         <div className="p-4">
                           <h4 className="font-serif text-base text-primary font-normal group-hover:text-secondary transition-colors">
@@ -235,7 +235,7 @@ export default async function MovimientoDetailPage({
                         className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                       >
                         <div className="relative h-40 overflow-hidden">
-                          <Image src={n.coverImage} alt={n.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                          <Image src={n.coverImageCard || n.coverImage} alt={n.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                         </div>
                         <div className="p-4">
                           <h4 className="font-serif text-base text-primary font-normal group-hover:text-secondary transition-colors">
@@ -259,7 +259,7 @@ export default async function MovimientoDetailPage({
                       <div key={act.id} className="bg-white border border-border-light rounded-2xl overflow-hidden">
                         {act.coverImage && (
                           <div className="relative h-40 overflow-hidden">
-                            <Image src={act.coverImage} alt={act.title} fill className="object-cover" />
+                            <Image src={act.coverImageCard || act.coverImage} alt={act.title} fill className="object-cover" />
                           </div>
                         )}
                         <div className="p-4">

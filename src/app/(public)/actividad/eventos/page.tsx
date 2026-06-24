@@ -101,6 +101,7 @@ export default async function EventosTodosPage({
                   key={event.id}
                   href={`/eventos/${event.slug}`}
                   image={event.coverImage}
+                  cardImage={event.coverImageCard}
                   title={event.title}
                   description={event.description}
                   tags={event.tags}
