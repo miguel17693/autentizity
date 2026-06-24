@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import type { Area } from "react-easy-crop";
 
@@ -23,18 +23,19 @@ interface CropState {
   x: number;
   y: number;
   zoom: number;
-  area: Area | null;
 }
 
 type CropCoords = { x: number; y: number; zoom: number };
 
 type CropStates = Record<ContextKey, CropState>;
 
-const defaultCrop = (): CropState => ({ x: 0, y: 0, zoom: 1, area: null });
+const defaultCrop = (): CropState => ({ x: 0, y: 0, zoom: 1 });
+
+const defaultCoords = (): CropCoords => ({ x: 0, y: 0, zoom: 1 });
 
 function makeCrop(initial?: Partial<CropCoords>): CropState {
   if (initial && (initial.x !== 0 || initial.y !== 0 || (initial.zoom && initial.zoom !== 1))) {
-    return { x: initial.x ?? 0, y: initial.y ?? 0, zoom: initial.zoom ?? 1, area: null };
+    return { x: initial.x ?? 0, y: initial.y ?? 0, zoom: initial.zoom ?? 1 };
   }
   return defaultCrop();
 }
@@ -75,24 +76,28 @@ export default function MultiContextCropModal({
   });
   const [processing, setProcessing] = useState(false);
 
+  // Store area in ref IMMEDIATELY (synchronous) — avoids React async race condition
+  const areaRefs = useRef<Record<ContextKey, Area | null>>({
+    hero: null,
+    heroDesktop: null,
+    card: null,
+  });
+
+  const onHeroComplete = useCallback((_: Area, area: Area) => {
+    areaRefs.current.hero = area;
+  }, []);
+  const onHeroDesktopComplete = useCallback((_: Area, area: Area) => {
+    areaRefs.current.heroDesktop = area;
+  }, []);
+  const onCardComplete = useCallback((_: Area, area: Area) => {
+    areaRefs.current.card = area;
+  }, []);
+
   const updateCrop = useCallback(
     (key: ContextKey, patch: Partial<CropState>) => {
       setCrops((prev) => ({ ...prev, [key]: { ...prev[key], ...patch } }));
     },
     []
-  );
-
-  const onHeroComplete = useCallback(
-    (_: Area, area: Area) => updateCrop("hero", { area }),
-    [updateCrop]
-  );
-  const onHeroDesktopComplete = useCallback(
-    (_: Area, area: Area) => updateCrop("heroDesktop", { area }),
-    [updateCrop]
-  );
-  const onCardComplete = useCallback(
-    (_: Area, area: Area) => updateCrop("card", { area }),
-    [updateCrop]
   );
 
   const onCropCompleteMap: Record<ContextKey, (_: Area, area: Area) => void> = {
@@ -104,7 +109,6 @@ export default function MultiContextCropModal({
   const handleTabChange = (newTab: ContextKey) => {
     const current = crops[activeTab];
     const target = crops[newTab];
-    // Inherit position from current tab if target hasn't been moved yet
     if (target.x === 0 && target.y === 0 && (current.x !== 0 || current.y !== 0)) {
       updateCrop(newTab, { x: current.x, y: current.y });
     }
@@ -113,10 +117,11 @@ export default function MultiContextCropModal({
 
   const ctx = CONTEXTS.find((c) => c.key === activeTab)!;
 
-  const handleConfirm = async () => {
-    const hero = crops.hero.area;
-    const heroDesktop = crops.heroDesktop.area;
-    const card = crops.card.area;
+  const handleConfirm = useCallback(async () => {
+    // Read from refs — always current, never stale
+    const hero = areaRefs.current.hero;
+    const heroDesktop = areaRefs.current.heroDesktop;
+    const card = areaRefs.current.card;
     if (!hero || !heroDesktop || !card) return;
 
     setProcessing(true);
@@ -138,7 +143,7 @@ export default function MultiContextCropModal({
     } catch {
       setProcessing(false);
     }
-  };
+  }, [imageSrc, originalFormat, onConfirm, crops]);
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
