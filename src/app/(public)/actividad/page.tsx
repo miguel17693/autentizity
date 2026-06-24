@@ -73,7 +73,6 @@ export default async function ActividadPage() {
         <section id="movimientos" className="py-8 sm:py-12 lg:py-16 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/movimientos" className="group/header block">
-              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mb-4" />
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Movimientos
                 <svg
@@ -85,6 +84,7 @@ export default async function ActividadPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </h2>
+              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mt-4" />
               <p className="mt-4 text-text-body text-base font-light max-w-3xl">
                 Líneas de acción del ecosistema AutentiZity
               </p>
@@ -133,7 +133,6 @@ export default async function ActividadPage() {
         <section id="eventos" className="py-8 sm:py-12 lg:py-16">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/eventos" className="group/header block">
-              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mb-4" />
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Eventos
                 <svg
@@ -145,6 +144,7 @@ export default async function ActividadPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </h2>
+              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mt-4" />
               <p className="mt-4 text-text-body text-base font-light max-w-3xl">
                 Encuentros, foros y experiencias del ecosistema
               </p>
@@ -197,7 +197,6 @@ export default async function ActividadPage() {
         <section id="actividades" className="py-8 sm:py-12 lg:py-16 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/actividades" className="group/header block">
-              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mb-4" />
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Actividades
                 <svg
@@ -209,6 +208,7 @@ export default async function ActividadPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </h2>
+              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mt-4" />
               <p className="mt-4 text-text-body text-base font-light max-w-3xl">
                 Otras actividades del ecosistema
               </p>

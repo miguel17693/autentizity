@@ -161,10 +161,10 @@ export default async function EcosistemaPage() {
           >
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
               <ScrollReveal>
-                <div className="brand-line mb-4" />
                 <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">
                   {sec.name}
                 </h2>
+                <div className="brand-line mt-4" />
                 {sec.description && (
                   <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">
                     {stripHtml(sec.description)}
@@ -190,10 +190,10 @@ export default async function EcosistemaPage() {
           >
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
               <ScrollReveal>
-                <div className="brand-line mb-4" />
                 <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">
                   Embajadores
                 </h2>
+                <div className="brand-line mt-4" />
                 {embajadoresSection.description && (
                   <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">
                     {stripHtml(embajadoresSection.description)}
