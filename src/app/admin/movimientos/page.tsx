@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Movement, Activity, EcosistemaEntity } from "@/lib/types";
+import type { Movement, Activity, EcosistemaEntity, EcosistemaSection } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 import RichTextEditor from "@/components/admin/RichTextEditor";
@@ -26,6 +26,7 @@ export default function AdminMovimientosPage() {
 
   const [actividadesDisp, setActividadesDisp] = useState<Activity[]>([]);
   const [embajadoresDisp, setEmbajadoresDisp] = useState<EcosistemaEntity[]>([]);
+  const [embajadorSectionId, setEmbajadorSectionId] = useState("");
   const [selectedActividadIds, setSelectedActividadIds] = useState<string[]>([]);
   const [selectedEmbajadorIds, setSelectedEmbajadorIds] = useState<string[]>([]);
 
@@ -40,13 +41,20 @@ export default function AdminMovimientosPage() {
   }
 
   async function loadOptions() {
-    const [actRes, entRes] = await Promise.all([
+    const [actRes, entRes, sectionRes] = await Promise.all([
       fetch("/api/actividades"),
       fetch("/api/ecosistema/entidades"),
+      fetch("/api/ecosistema/secciones"),
     ]);
-    const [actividades, entidades] = await Promise.all([actRes.json(), entRes.json()]);
+    const [actividades, entidades, sections] = await Promise.all([
+      actRes.json(),
+      entRes.json(),
+      sectionRes.json(),
+    ]);
+    const embajadoresSection = (sections as EcosistemaSection[]).find((s) => s.slug === "embajadores");
     setActividadesDisp(actividades);
     setEmbajadoresDisp(entidades);
+    setEmbajadorSectionId(embajadoresSection?.id ?? "");
   }
 
   function startCreate() {
@@ -84,18 +92,23 @@ export default function AdminMovimientosPage() {
       actividadIds: selectedActividadIds,
     };
 
-    if (editing.id) {
-      await fetch(`/api/movimientos/${editing.id}`, {
+    const res = editing.id
+      ? await fetch(`/api/movimientos/${editing.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      });
-    } else {
-      await fetch("/api/movimientos", {
+      })
+      : await fetch("/api/movimientos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: "Error desconocido" }));
+      alert("Error al guardar: " + (err.error || res.statusText));
+      setSaving(false);
+      return;
     }
 
     setEditing(null);
@@ -113,7 +126,7 @@ export default function AdminMovimientosPage() {
     .filter((a) => a.status === "published")
     .map((a) => ({ id: a.id, label: a.title }));
   const embajadoresItems = embajadoresDisp
-    .filter((e) => e.active)
+    .filter((e) => e.active && e.section_id === embajadorSectionId)
     .map((e) => ({ id: e.id, label: e.name }));
 
   return (

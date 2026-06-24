@@ -94,6 +94,14 @@ const FALLBACK_SECTIONS: SectionData[] = [
       { id: "ccce", name: "Cámara de Comercio Canadá España", logo_url: "/logos/ccce.png", description: "", tags: [], sort_order: 3 },
     ],
   },
+  {
+    id: "eco-embajadores",
+    name: "Embajadores",
+    slug: "embajadores",
+    description: "Profesionales que impulsan los movimientos corporativos de AutentiZity.",
+    sort_order: 4,
+    entities: [],
+  },
 ];
 
 export default async function EcosistemaPage() {
@@ -109,6 +117,7 @@ export default async function EcosistemaPage() {
       // Group entities by section_id
       const entitiesBySection: Record<string, Entity[]> = {};
       for (const e of dbEntities) {
+        if (!e.active) continue;
         if (!entitiesBySection[e.section_id]) entitiesBySection[e.section_id] = [];
         entitiesBySection[e.section_id].push({
           id: e.id,
@@ -200,14 +209,14 @@ export default async function EcosistemaPage() {
                   </p>
                 )}
               </ScrollReveal>
-              <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {(embajadoresSection.entities.length > 0
                   ? embajadoresSection.entities
                   : Array.from({ length: 8 }, (_, i) => ({
                       id: `emb-${i + 1}`,
                       name: `Embajador/a ${i + 1}`,
                       logo_url: "",
-                      description: "",
+                      description: "Próximamente",
                       tags: [] as string[],
                       sort_order: i,
                     }))
@@ -216,6 +225,7 @@ export default async function EcosistemaPage() {
                     key={e.id}
                     name={e.name}
                     photoUrl={e.logo_url}
+                    description={e.description}
                     tags={e.tags || []}
                     movements={movementsByEntity[e.id] || []}
                   />

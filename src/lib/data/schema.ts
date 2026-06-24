@@ -4,6 +4,41 @@
  */
 import { getSQL } from "./db";
 
+const DEFAULT_ECOSISTEMA_SECTIONS = [
+  {
+    id: "eco-empresas",
+    name: "Empresas Impulsoras",
+    slug: "empresas-impulsoras",
+    description: "Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren.",
+    sort_order: 1,
+    active: true,
+  },
+  {
+    id: "eco-entidades",
+    name: "Entidades Colaboradoras",
+    slug: "entidades-colaboradoras",
+    description: "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos.",
+    sort_order: 2,
+    active: true,
+  },
+  {
+    id: "eco-instituciones",
+    name: "Instituciones, Cámaras de Comercio y Asociaciones Corporativas",
+    slug: "instituciones",
+    description: "Cuando lo público y lo privado avanzan juntos, el impacto se multiplica.",
+    sort_order: 3,
+    active: true,
+  },
+  {
+    id: "eco-embajadores",
+    name: "Embajadores",
+    slug: "embajadores",
+    description: "Profesionales que impulsan los movimientos corporativos de AutentiZity.",
+    sort_order: 4,
+    active: true,
+  },
+];
+
 export async function initSchema() {
   const sql = getSQL();
 
@@ -106,24 +141,6 @@ export async function initSchema() {
   await sql`ALTER TABLE actividades ADD COLUMN IF NOT EXISTS cover_image_hero_desktop TEXT DEFAULT ''`;
 
   await sql`
-    CREATE TABLE IF NOT EXISTS movimiento_embajadores (
-      id TEXT PRIMARY KEY,
-      movimiento_id TEXT NOT NULL REFERENCES movimientos(id) ON DELETE CASCADE,
-      entidad_id TEXT NOT NULL REFERENCES ecosistema_entidades(id) ON DELETE CASCADE,
-      UNIQUE(movimiento_id, entidad_id)
-    )
-  `;
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS movimiento_actividades (
-      id TEXT PRIMARY KEY,
-      movimiento_id TEXT NOT NULL REFERENCES movimientos(id) ON DELETE CASCADE,
-      actividad_id TEXT NOT NULL REFERENCES actividades(id) ON DELETE CASCADE,
-      UNIQUE(movimiento_id, actividad_id)
-    )
-  `;
-
-  await sql`
     CREATE TABLE IF NOT EXISTS sections (
       id TEXT PRIMARY KEY,
       label TEXT NOT NULL,
@@ -154,6 +171,41 @@ export async function initSchema() {
       sort_order INTEGER DEFAULT 0,
       active BOOLEAN DEFAULT true,
       created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+
+  await sql`ALTER TABLE ecosistema_secciones ADD COLUMN IF NOT EXISTS description TEXT DEFAULT ''`;
+  await sql`ALTER TABLE ecosistema_secciones ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0`;
+  await sql`ALTER TABLE ecosistema_secciones ADD COLUMN IF NOT EXISTS active BOOLEAN DEFAULT true`;
+  await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS logo_url TEXT DEFAULT ''`;
+  await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS description TEXT DEFAULT ''`;
+  await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS tags JSONB DEFAULT '[]'`;
+  await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0`;
+  await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS active BOOLEAN DEFAULT true`;
+
+  for (const section of DEFAULT_ECOSISTEMA_SECTIONS) {
+    await sql`
+      INSERT INTO ecosistema_secciones (id, name, slug, description, sort_order, active)
+      VALUES (${section.id}, ${section.name}, ${section.slug}, ${section.description}, ${section.sort_order}, ${section.active})
+      ON CONFLICT (id) DO NOTHING
+    `;
+  }
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS movimiento_embajadores (
+      id TEXT PRIMARY KEY,
+      movimiento_id TEXT NOT NULL REFERENCES movimientos(id) ON DELETE CASCADE,
+      entidad_id TEXT NOT NULL REFERENCES ecosistema_entidades(id) ON DELETE CASCADE,
+      UNIQUE(movimiento_id, entidad_id)
+    )
+  `;
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS movimiento_actividades (
+      id TEXT PRIMARY KEY,
+      movimiento_id TEXT NOT NULL REFERENCES movimientos(id) ON DELETE CASCADE,
+      actividad_id TEXT NOT NULL REFERENCES actividades(id) ON DELETE CASCADE,
+      UNIQUE(movimiento_id, actividad_id)
     )
   `;
 
