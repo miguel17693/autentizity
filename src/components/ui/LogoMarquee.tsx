@@ -1,79 +1,87 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 interface LogoMarqueeProps {
   logos: { url: string; name: string }[];
 }
 
-const MAX_SPEED = 1.2;
-const AUTO_SPEED = 0.35;
+const AUTO_SPEED = 0.3;
+const FRICTION = 0.96;
+const MIN_VELOCITY = 0.1;
 
 export default function LogoMarquee({ logos }: LogoMarqueeProps) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const xRef = useRef(0);
-  const speedRef = useRef(AUTO_SPEED);
-  const mouseInside = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
   const rafRef = useRef<number>(0);
+  const velocityRef = useRef(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
 
   if (logos.length === 0) return null;
 
   const tripled = [...logos, ...logos, ...logos];
-  const viewWidth = logos.length; // proxy — real width measured in raf
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width; // 0 (left) to 1 (right)
-    const direction = (ratio - 0.5) * 2; // -1 to +1
-    speedRef.current = direction * MAX_SPEED;
-  }, []);
-
-  const handleMouseEnter = useCallback(() => {
-    mouseInside.current = true;
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    mouseInside.current = false;
-    speedRef.current = AUTO_SPEED;
-    setHoveredIdx(null);
-  }, []);
 
   useEffect(() => {
     const loop = () => {
-      const container = containerRef.current;
-      if (!container) {
+      const track = trackRef.current;
+      if (!track || isDragging) {
         rafRef.current = requestAnimationFrame(loop);
         return;
       }
 
-      const singleWidth = container.scrollWidth / 3;
+      const singleWidth = track.scrollWidth / 3;
+      let currentX = x.get();
 
-      xRef.current += speedRef.current;
-      if (xRef.current <= -singleWidth) xRef.current += singleWidth;
-      if (xRef.current >= singleWidth) xRef.current -= singleWidth;
+      if (Math.abs(velocityRef.current) > MIN_VELOCITY) {
+        currentX += velocityRef.current;
+        velocityRef.current *= FRICTION;
+      } else {
+        currentX += AUTO_SPEED;
+        velocityRef.current = 0;
+      }
 
-      container.style.transform = `translateX(${xRef.current}px)`;
+      while (currentX <= -2 * singleWidth) currentX += singleWidth;
+      while (currentX >= singleWidth) currentX -= singleWidth;
+
+      x.set(currentX);
       rafRef.current = requestAnimationFrame(loop);
     };
 
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [isDragging, x]);
 
   return (
-    <div className="overflow-hidden" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onMouseMove={handleMouseMove}>
-      <div ref={containerRef} className="flex gap-6 will-change-transform" style={{ width: "max-content" }}>
+    <div className="overflow-hidden">
+      <motion.div
+        ref={trackRef}
+        className="flex gap-6 cursor-grab active:cursor-grabbing will-change-transform"
+        style={{ width: "max-content", x }}
+        drag="x"
+        dragElastic={0}
+        dragMomentum={false}
+        onDragStart={() => setIsDragging(true)}
+        onDragEnd={(_, info) => {
+          setIsDragging(false);
+          const track = trackRef.current;
+          if (track) {
+            const singleWidth = track.scrollWidth / 3;
+            let current = x.get();
+            while (current <= -2 * singleWidth) current += singleWidth;
+            while (current >= singleWidth) current -= singleWidth;
+            x.set(current);
+          }
+          velocityRef.current = info.velocity.x;
+        }}
+      >
         {tripled.map((logo, i) => (
-          <div
+          <motion.div
             key={`${logo.name}-${i}`}
-            className="flex items-center justify-center h-20 shrink-0 transition-transform duration-300 ease-out"
-            style={{ transform: hoveredIdx === i ? "scale(1.35)" : "scale(1)" }}
-            onMouseEnter={() => setHoveredIdx(i)}
-            onMouseLeave={() => setHoveredIdx(null)}
+            className="flex items-center justify-center h-20 shrink-0"
+            whileHover={isDragging ? undefined : { scale: 1.35 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
             <Image
               src={logo.url}
@@ -83,9 +91,9 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
               unoptimized={logo.url.endsWith(".png")}
               className="object-contain max-h-16 max-w-[160px] select-none pointer-events-none"
             />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
