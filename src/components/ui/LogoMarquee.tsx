@@ -73,7 +73,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
             while (current >= singleWidth) current -= singleWidth;
             x.set(current);
           }
-          velocityRef.current = info.velocity.x;
+          velocityRef.current = info.velocity.x / 60;
         }}
       >
         {tripled.map((logo, i) => (
