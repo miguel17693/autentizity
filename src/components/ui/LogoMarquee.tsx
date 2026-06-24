@@ -21,7 +21,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
 
   if (logos.length === 0) return null;
 
-  const tripled = [...logos, ...logos, ...logos];
+  const quintupled = [...logos, ...logos, ...logos, ...logos, ...logos];
 
   useEffect(() => {
     const loop = () => {
@@ -31,7 +31,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
         return;
       }
 
-      const singleWidth = track.scrollWidth / 3;
+            const singleWidth = track.scrollWidth / 5;
       let currentX = x.get();
 
       if (Math.abs(velocityRef.current) > MIN_VELOCITY) {
@@ -67,7 +67,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
           setIsDragging(false);
           const track = trackRef.current;
           if (track) {
-            const singleWidth = track.scrollWidth / 3;
+      const singleWidth = track.scrollWidth / 5;
             let current = x.get();
             while (current <= -2 * singleWidth) current += singleWidth;
             while (current >= 0) current -= singleWidth;
@@ -76,7 +76,7 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
           velocityRef.current = info.velocity.x / 60;
         }}
       >
-        {tripled.map((logo, i) => (
+        {quintupled.map((logo, i) => (
           <motion.div
             key={`${logo.name}-${i}`}
             className="flex items-center justify-center h-20 shrink-0"
