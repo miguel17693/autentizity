@@ -23,6 +23,16 @@ function generateId(): string {
   return "eco_" + Math.random().toString(36).slice(2, 10);
 }
 
+function getSectionLabels(slug: string): { singular: string; plural: string } {
+  const map: Record<string, { singular: string; plural: string }> = {
+    embajadores: { singular: "embajador", plural: "Embajadores" },
+    "empresas-impulsoras": { singular: "empresa", plural: "Empresas" },
+    "entidades-colaboradoras": { singular: "entidad", plural: "Entidades" },
+    instituciones: { singular: "institución", plural: "Instituciones" },
+  };
+  return map[slug] || { singular: "entidad", plural: "Entidades" };
+}
+
 const emptySection: Partial<EcosistemaSection> = {
   name: "",
   slug: "",
@@ -114,7 +124,7 @@ function SortableSection({
       <div className="px-5 py-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-medium tracking-[0.1em] text-text-muted">
-            Logos y entidades
+            {getSectionLabels(section.slug).plural}
             {entities.length > 0 && (
               <span className="ml-2 text-text-muted/50">({entities.length})</span>
             )}
@@ -126,12 +136,12 @@ function SortableSection({
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Añadir logo
+            Añadir {getSectionLabels(section.slug).singular}
           </button>
         </div>
 
         {entities.length === 0 ? (
-          <div className="text-sm text-text-muted py-3">No hay logos en esta sección.</div>
+          <div className="text-sm text-text-muted py-3">No hay {getSectionLabels(section.slug).plural.toLowerCase()} en esta sección.</div>
         ) : (
           <SortableContext items={entityIds} strategy={verticalListSortingStrategy}>
             <div className="space-y-1.5">
@@ -326,6 +336,9 @@ function EntityFormModal({
   movimientosItems,
   selectedMovimientoIds,
   onMovimientosChange,
+  imageLabel,
+  tagInput,
+  onTagInputChange,
 }: {
   editing: Partial<EcosistemaEntity>;
   saving: boolean;
@@ -335,6 +348,9 @@ function EntityFormModal({
   movimientosItems: { id: string; label: string }[];
   selectedMovimientoIds: string[];
   onMovimientosChange: (ids: string[]) => void;
+  imageLabel: string;
+  tagInput: string;
+  onTagInputChange: (value: string) => void;
 }) {
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
@@ -374,8 +390,8 @@ function EntityFormModal({
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Expertise / Tags (separadas por coma)</label>
             <input
               type="text"
-              value={(editing.tags as string[] || []).join(", ")}
-              onChange={(e) => onChange({ tags: e.target.value.split(",").map((t: string) => t.trim()).filter(Boolean) })}
+              value={tagInput}
+              onChange={(e) => onTagInputChange(e.target.value)}
               placeholder="Liderazgo, Diversidad, Tech"
               className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
@@ -389,10 +405,10 @@ function EntityFormModal({
             />
           </div>
           <ImageUpload
-            label="Logo"
+            label={imageLabel}
             value={editing.logo_url || ""}
             onChange={(url) => onChange({ logo_url: url })}
-            aspect={3 / 1}
+            aspect={imageLabel === "Foto" ? 1 / 1 : 3 / 1}
           />
           <div className="flex items-center gap-3">
             <label className="flex items-center gap-2 text-sm text-text-body cursor-pointer">
@@ -433,6 +449,7 @@ export default function AdminEcosistemaPage() {
 
   const [movimientosDisp, setMovimientosDisp] = useState<Movement[]>([]);
   const [selectedMovimientoIds, setSelectedMovimientoIds] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
@@ -562,10 +579,12 @@ export default function AdminEcosistemaPage() {
     const lastOrder = sectionEntities.length > 0 ? Math.max(...sectionEntities.map((e) => e.sort_order)) : 0;
     setEditingEntity({ ...emptyEntity, section_id: sectionId, sort_order: lastOrder + 1 });
     setSelectedMovimientoIds([]);
+    setTagInput("");
   }
 
   async function startEditEntity(entity: EcosistemaEntity) {
     setEditingEntity({ ...entity });
+    setTagInput((entity.tags || []).join(", "));
     const res = await fetch(`/api/ecosistema/entidades?entity_id=${entity.id}&section_id=${entity.section_id}`);
     if (res.ok) {
       const data = await res.json();
@@ -583,7 +602,7 @@ export default function AdminEcosistemaPage() {
       name: editingEntity.name || "",
       logo_url: editingEntity.logo_url || "",
       description: editingEntity.description || "",
-      tags: editingEntity.tags || [],
+      tags: tagInput.split(",").map((t: string) => t.trim()).filter(Boolean),
       sort_order: editingEntity.sort_order || 0,
       active: editingEntity.active ?? true,
       movimientoIds: selectedMovimientoIds,
@@ -686,6 +705,12 @@ export default function AdminEcosistemaPage() {
             .map((m) => ({ id: m.id, label: m.title }))}
           selectedMovimientoIds={selectedMovimientoIds}
           onMovimientosChange={setSelectedMovimientoIds}
+          imageLabel={(() => {
+            const section = sections.find((s) => s.id === editingEntity.section_id);
+            return section?.slug === "embajadores" ? "Foto" : "Logo";
+          })()}
+          tagInput={tagInput}
+          onTagInputChange={setTagInput}
         />
       )}
     </div>

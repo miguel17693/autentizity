@@ -1,12 +1,14 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
 import LogoMarquee from "@/components/ui/LogoMarquee";
-import Image from "next/image";
+import AmbassadorCard from "@/components/ui/AmbassadorCard";
 import { stripHtml } from "@/lib/utils";
 import {
   getEcosistemaSections,
   getAllEcosistemaEntities,
+  getAllMovimientosForEmbajadores,
 } from "@/lib/data/store";
+import type { Movement } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -31,27 +33,6 @@ interface SectionData {
   description: string;
   sort_order: number;
   entities: Entity[];
-}
-
-function AvatarPlaceholder({ name, logo, description }: { name: string; logo?: string; description?: string }) {
-  const hasPhoto = logo != null && logo !== "";
-  return (
-    <div className="text-center">
-      <div className="w-24 h-24 mx-auto rounded-full bg-surface-alt border border-border flex items-center justify-center mb-3 overflow-hidden">
-        {hasPhoto ? (
-          <Image src={logo} alt={name} width={96} height={96} unoptimized className="object-cover w-full h-full" />
-        ) : (
-          <svg className="w-10 h-10 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-          </svg>
-        )}
-      </div>
-      <p className="text-text-secondary text-sm font-light">{name}</p>
-      {description && (
-        <p className="text-text-muted text-[11px] font-light mt-0.5 italic leading-tight max-w-[120px] mx-auto">{stripHtml(description)}</p>
-      )}
-    </div>
-  );
 }
 
 // Hardcoded fallback — usado solo si no hay datos en la DB aún
@@ -100,6 +81,7 @@ const FALLBACK_SECTIONS: SectionData[] = [
 export default async function EcosistemaPage() {
   // Fetch from DB; if empty or error, use fallback
   let sections: SectionData[] = FALLBACK_SECTIONS;
+  let movementsByEntity: Record<string, Movement[]> = {};
 
   try {
     const dbSections = await getEcosistemaSections();
@@ -128,6 +110,12 @@ export default async function EcosistemaPage() {
         sort_order: s.sort_order,
         entities: (entitiesBySection[s.id] || []).sort((a, b) => a.sort_order - b.sort_order),
       }));
+
+      try {
+        movementsByEntity = await getAllMovimientosForEmbajadores();
+      } catch {
+        // Movements aren't critical — proceed without them
+      }
     }
   } catch {
     // Fallback silently — DB not available or not seeded yet
@@ -208,7 +196,13 @@ export default async function EcosistemaPage() {
                       sort_order: i,
                     }))
                 ).map((e) => (
-                  <AvatarPlaceholder key={e.id} name={e.name} logo={e.logo_url} description={e.description || (e.tags && e.tags.length > 0 ? e.tags.slice(0, 3).join(", ") : undefined)} />
+                  <AmbassadorCard
+                    key={e.id}
+                    name={e.name}
+                    photoUrl={e.logo_url}
+                    tags={e.tags || []}
+                    movements={movementsByEntity[e.id] || []}
+                  />
                 ))}
               </div>
             </div>

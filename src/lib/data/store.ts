@@ -386,6 +386,23 @@ export async function setActividadMovimientos(actividadId: string, movimientoIds
   }
 }
 
+export async function getAllMovimientosForEmbajadores(): Promise<Record<string, Movement[]>> {
+  requireDB();
+  const sql = getSQL();
+  const rows = await sql`
+    SELECT me.entidad_id, m.* FROM movimientos m
+    INNER JOIN movimiento_embajadores me ON m.id = me.movimiento_id
+    ORDER BY m.created_at DESC
+  `;
+  const map: Record<string, Movement[]> = {};
+  for (const row of rows) {
+    const eid = row.entidad_id as string;
+    if (!map[eid]) map[eid] = [];
+    map[eid].push(rowToMovement(row));
+  }
+  return map;
+}
+
 export async function setEntidadMovimientos(entidadId: string, movimientoIds: string[]): Promise<void> {
   requireDB();
   const sql = getSQL();
@@ -446,7 +463,7 @@ export async function deleteEcosistemaSection(id: string): Promise<boolean> {
 export async function getEcosistemaEntities(sectionId: string): Promise<EcosistemaEntity[]> {
   requireDB();
   const sql = getSQL();
-  const rows = await sql`SELECT * FROM ecosistema_entidades WHERE section_id = ${sectionId} AND active = true ORDER BY sort_order`;
+  const rows = await sql`SELECT * FROM ecosistema_entidades WHERE section_id = ${sectionId} ORDER BY sort_order`;
   return rows.map(rowToEcosistemaEntity);
 }
 
