@@ -1,0 +1,238 @@
+import Link from "next/link";
+import { cookies } from "next/headers";
+import Card from "@/components/ui/Card";
+import Section from "@/components/ui/Section";
+import { getEventos, getMovimientos, getActividades } from "@/lib/data/store";
+import type { Event, Movement, Activity } from "@/lib/types";
+
+export const dynamic = "force-dynamic";
+
+export default async function ActividadPage() {
+  const cookieStore = await cookies();
+  const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
+  const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
+
+  let eventos: Event[] = [];
+  let movimientos: Movement[] = [];
+  let actividades: Activity[] = [];
+  let dataError = false;
+
+  try {
+    eventos = await getEventos();
+  } catch (e) {
+    console.error("ActividadPage fetch error:", e);
+    dataError = true;
+  }
+  try {
+    movimientos = await getMovimientos();
+  } catch {
+    // fail silently
+  }
+  try {
+    actividades = await getActividades();
+  } catch {
+    // fail silently
+  }
+
+  const eventItems = isPreview ? eventos : eventos.filter((e) => e.status === "published");
+  const movItems = isPreview ? movimientos : movimientos.filter((m) => m.status === "published");
+  const actItems = isPreview ? actividades : actividades.filter((a) => a.status === "published");
+
+  const previewEvents = eventItems.slice(0, 3);
+  const previewMovs = movItems.slice(0, 3);
+  const previewActs = actItems.slice(0, 3);
+
+  return (
+    <>
+      {dataError && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-sm text-center py-2 px-4">
+          ⚠️ Error conectando con la base de datos. Los datos no están disponibles temporalmente.
+        </div>
+      )}
+
+      <section className="bg-primary py-14 sm:py-20 lg:py-28">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
+          <div className="flex items-center justify-center gap-4 mb-5">
+            <div className="w-8 h-[1px] bg-tertiary" />
+            <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+              Agenda
+            </span>
+            <div className="w-8 h-[1px] bg-tertiary" />
+          </div>
+          <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
+            Actividad
+          </h1>
+          <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
+            Descubre los próximos encuentros, foros y experiencias del ecosistema AutentiZity
+          </p>
+        </div>
+      </section>
+
+      <Section id="act-movimientos">
+        <section id="movimientos" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="brand-line" />
+              <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+                Movimientos
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+              Movimientos
+            </h2>
+            <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+              Líneas de acción del ecosistema AutentiZity
+            </p>
+
+            {previewMovs.length > 0 ? (
+              <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
+                {previewMovs.map((mov) => (
+                  <Card
+                    key={mov.id}
+                    href={`/movimientos/${mov.slug}`}
+                    image={mov.coverImage}
+                    title={mov.title}
+                    description={mov.description}
+                    tags={mov.tags}
+                    status={mov.status}
+                    ctaText="Ver movimiento"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-text-secondary col-span-full text-center py-10 font-light">
+                No hay movimientos publicados todavía
+              </p>
+            )}
+
+            {movItems.length > 3 && (
+              <div className="mt-10 text-center">
+                <Link
+                  href="/movimientos/todos"
+                  className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
+                >
+                  Ver todos los movimientos
+                  <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      </Section>
+
+      <Section id="act-eventos">
+        <section id="eventos" className="py-12 sm:py-16 lg:py-24">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="brand-line" />
+              <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+                Eventos
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+              Eventos
+            </h2>
+            <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+              Encuentros, foros y experiencias del ecosistema
+            </p>
+
+            {previewEvents.length > 0 ? (
+              <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
+                {previewEvents.map((event) => (
+                  <Card
+                    key={event.id}
+                    href={`/eventos/${event.slug}`}
+                    image={event.coverImage}
+                    title={event.title}
+                    description={event.description}
+                    tags={event.tags}
+                    badge={event.type}
+                    featured={event.featured}
+                    date={event.startDate}
+                    location={event.location}
+                    status={event.status}
+                    ctaText="Ver evento"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-text-secondary text-center py-20 font-light">
+                No hay eventos publicados todavía
+              </p>
+            )}
+
+            {eventItems.length > 3 && (
+              <div className="mt-10 text-center">
+                <Link
+                  href="/eventos/todos"
+                  className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
+                >
+                  Ver todos los eventos
+                  <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      </Section>
+
+      <Section id="act-actividades">
+        <section id="actividades" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="brand-line" />
+              <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+                Actividades
+              </span>
+            </div>
+            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
+              Actividades
+            </h2>
+            <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+              Otras actividades del ecosistema
+            </p>
+
+            {previewActs.length > 0 ? (
+              <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
+                {previewActs.map((act) => (
+                  <Card
+                    key={act.id}
+                    href={`/actividades/${act.slug}`}
+                    image={act.coverImage}
+                    title={act.title}
+                    description={act.description}
+                    tags={act.tags}
+                    status={act.status}
+                    ctaText="Ver actividad"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-text-secondary col-span-full text-center py-10 font-light">
+                No hay actividades publicadas todavía
+              </p>
+            )}
+
+            {actItems.length > 3 && (
+              <div className="mt-10 text-center">
+                <Link
+                  href="/actividades/todos"
+                  className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
+                >
+                  Ver todas las actividades
+                  <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      </Section>
+    </>
+  );
+}

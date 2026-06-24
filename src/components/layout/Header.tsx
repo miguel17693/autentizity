@@ -19,11 +19,11 @@ const navItems = [
   },
   {
     label: "Actividad",
-    href: "/eventos",
+    href: "/actividad",
     children: [
-      { label: "Eventos", href: "/eventos#eventos" },
-      { label: "Movimientos", href: "/eventos#movimientos" },
-      { label: "Actividades", href: "/eventos#actividades" },
+      { label: "Movimientos", href: "/movimientos/todos" },
+      { label: "Eventos", href: "/eventos/todos" },
+      { label: "Actividades", href: "/actividades/todos" },
     ],
   },
   {
