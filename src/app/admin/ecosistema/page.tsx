@@ -608,7 +608,13 @@ export default function AdminEcosistemaPage() {
       movimientoIds: selectedMovimientoIds,
     };
     const method = editingEntity.id ? "PUT" : "POST";
-    await fetch("/api/ecosistema/entidades", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const res = await fetch("/api/ecosistema/entidades", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: "Error desconocido" }));
+      alert("Error al guardar: " + (err.error || res.statusText));
+      setSavingEntity(false);
+      return;
+    }
     setEditingEntity(null);
     setSavingEntity(false);
     loadEntities(payload.section_id);
