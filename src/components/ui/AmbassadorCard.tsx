@@ -17,21 +17,21 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
       : null;
 
   return (
-    <article className="group h-full rounded-3xl border border-border-light bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-md">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-border-light bg-surface-alt">
+    <article className="group h-full w-full max-w-[11rem] rounded-2xl border border-secondary/15 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/35 hover:shadow-md">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border-light bg-surface-alt">
         {hasPhoto ? (
           <Image
             src={photoUrl}
             alt={name}
             fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 1280px) 11rem, (min-width: 1024px) 16vw, (min-width: 640px) 28vw, 42vw"
             unoptimized
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
+          <div className="flex h-full items-center justify-center bg-secondary/5">
             <svg
-              className="w-12 h-12 text-text-muted"
+              className="w-9 h-9 text-secondary/50"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -45,25 +45,29 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
             </svg>
           </div>
         )}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-primary/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </div>
 
-      <div className="pt-4 text-left">
-        <h3 className="font-serif text-lg text-primary font-normal leading-tight">
+      <div className="pt-3 text-left">
+        <p className="mb-1 text-[9px] font-medium tracking-[0.14em] uppercase text-tertiary">
+          Embajador/a
+        </p>
+        <h3 className="font-serif text-base text-primary font-normal leading-tight">
           {name}
         </h3>
 
         {description && (
-          <p className="mt-1.5 text-sm text-text-secondary font-light leading-relaxed">
+          <p className="mt-1 text-xs text-text-secondary font-light leading-snug">
             {description}
           </p>
         )}
 
         {tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-2.5 flex flex-wrap gap-1">
             {tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] px-2 py-0.5 rounded-full bg-surface-alt text-text-muted font-light border border-border/50"
+                className="text-[9px] px-1.5 py-0.5 rounded-full bg-secondary/10 text-secondary font-light border border-secondary/20"
               >
                 {tag}
               </span>
@@ -72,7 +76,7 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
         )}
 
         {movementTitle && (
-          <p className="mt-3 text-[11px] text-text-muted/80 font-light leading-relaxed">
+          <p className="mt-2.5 rounded-xl bg-tertiary/10 px-2 py-1.5 text-[10px] text-tertiary font-light leading-snug">
             {movementTitle}
           </p>
         )}
