@@ -479,7 +479,7 @@ export async function saveEcosistemaEntity(entity: EcosistemaEntity): Promise<vo
   const sql = getSQL();
   await sql`
     INSERT INTO ecosistema_entidades (id, section_id, name, logo_url, description, tags, sort_order, active)
-    VALUES (${entity.id}, ${entity.section_id}, ${entity.name}, ${entity.logo_url}, ${entity.description}, ${entity.tags}, ${entity.sort_order}, ${entity.active})
+    VALUES (${entity.id}, ${entity.section_id}, ${entity.name}, ${entity.logo_url}, ${entity.description}, ${JSON.stringify(entity.tags)}::jsonb, ${entity.sort_order}, ${entity.active})
     ON CONFLICT (id) DO UPDATE SET
       section_id = EXCLUDED.section_id,
       name = EXCLUDED.name,
