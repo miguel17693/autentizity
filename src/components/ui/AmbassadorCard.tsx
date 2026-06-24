@@ -17,8 +17,8 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
       : null;
 
   return (
-    <article className="group h-full w-full max-w-[11rem] rounded-2xl border border-secondary/15 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary/35 hover:shadow-md">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-border-light bg-surface-alt">
+    <article className="group h-full w-full max-w-[11rem] overflow-hidden rounded-2xl border-2 border-secondary bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-alt">
         {hasPhoto ? (
           <Image
             src={photoUrl}
@@ -48,7 +48,7 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-primary/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </div>
 
-      <div className="pt-3 text-left">
+      <div className="p-3 text-left">
         <p className="mb-1 text-[9px] font-medium tracking-[0.14em] uppercase text-tertiary">
           Embajador/a
         </p>
