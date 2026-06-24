@@ -76,17 +76,17 @@ export default async function MovimientoDetailPage({
           className="object-cover hidden sm:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end z-10">
+          {movimiento.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
-          <div className="flex gap-3 mb-4">
-            {movimiento.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
           <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">
             {movimiento.title}
           </h1>
