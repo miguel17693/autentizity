@@ -209,7 +209,7 @@ export default async function EcosistemaPage() {
                   </p>
                 )}
               </ScrollReveal>
-              <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 justify-items-center">
+              <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
                 {(embajadoresSection.entities.length > 0
                   ? embajadoresSection.entities
                   : Array.from({ length: 8 }, (_, i) => ({
