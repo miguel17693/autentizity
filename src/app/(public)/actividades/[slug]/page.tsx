@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Activity, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getActividadBySlug, getMovimientosByActividad } from "@/lib/data/store";
+import { renderRichText, stripHtml } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -54,12 +55,10 @@ export default async function ActividadDetailPage({
 
       <section className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
-          <p className="text-text-body text-lg leading-relaxed font-light">{actividad.description}</p>
+          <div className="text-text-body text-lg leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.description) }} />
 
           {actividad.content && (
-            <div className="mt-8 text-text-body leading-relaxed font-light">
-              {actividad.content.split("\n").map((paragraph, i) => <p key={i} className="mb-4">{paragraph}</p>)}
-            </div>
+            <div className="mt-8 text-text-body leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.content) }} />
           )}
 
           {actividad.buttonText && actividad.buttonUrl && (
@@ -91,7 +90,7 @@ export default async function ActividadDetailPage({
                 {publishedMovimientos.map((mov) => (
                   <Link key={mov.id} href={`/movimientos/${mov.slug}`} className="group block bg-white border border-border-light rounded-2xl p-5 hover:shadow-md transition-shadow">
                     <h3 className="font-serif text-lg text-primary font-normal group-hover:text-secondary transition-colors">{mov.title}</h3>
-                    <p className="text-text-secondary text-sm mt-2 line-clamp-2">{mov.description}</p>
+                    <p className="text-text-secondary text-sm mt-2 line-clamp-2">{stripHtml(mov.description)}</p>
                   </Link>
                 ))}
               </div>

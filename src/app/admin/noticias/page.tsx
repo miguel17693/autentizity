@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import type { News, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
+import RichTextEditor from "@/components/admin/RichTextEditor";
+import { stripHtml } from "@/lib/utils";
 
 const emptyNoticia: Partial<News> = {
   title: "",
@@ -152,11 +154,11 @@ export default function AdminNoticiasPage() {
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
               Extracto
             </label>
-            <textarea
-              rows={2}
+            <RichTextEditor
               value={editing.excerpt ?? ""}
-              onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })}
-              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
+              onChange={(val) => setEditing({ ...editing, excerpt: val })}
+              placeholder="Breve extracto de la noticia..."
+              variant="compact"
             />
           </div>
 
@@ -164,11 +166,11 @@ export default function AdminNoticiasPage() {
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
               Contenido
             </label>
-            <textarea
-              rows={6}
+            <RichTextEditor
               value={editing.content ?? ""}
-              onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
+              onChange={(val) => setEditing({ ...editing, content: val })}
+              placeholder="Contenido completo de la noticia..."
+              variant="full"
             />
           </div>
 
@@ -257,7 +259,7 @@ export default function AdminNoticiasPage() {
                 )}
               </div>
               <p className="text-xs text-text-muted mt-0.5 truncate">
-                {n.excerpt}
+                {stripHtml(n.excerpt)}
               </p>
             </div>
             <div className="flex gap-2 shrink-0">

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { formatDate, formatDateTime } from "@/lib/utils";
+import { formatDate, formatDateTime, renderRichText } from "@/lib/utils";
 import type { Event, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
@@ -90,16 +90,16 @@ export default async function EventoDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16">
             {/* Main content */}
             <div className="lg:col-span-2 order-2 lg:order-1">
-              <p className="text-text-body text-lg leading-relaxed font-light">
-                {evento.description}
-              </p>
+              <div
+                className="text-text-body text-lg leading-relaxed font-light"
+                dangerouslySetInnerHTML={{ __html: renderRichText(evento.description) }}
+              />
 
               {evento.content && (
-                <div className="mt-8 text-text-body leading-relaxed font-light">
-                  {evento.content.split("\n").map((paragraph, i) => (
-                    <p key={i} className="mb-4">{paragraph}</p>
-                  ))}
-                </div>
+                <div
+                  className="mt-8 text-text-body leading-relaxed font-light"
+                  dangerouslySetInnerHTML={{ __html: renderRichText(evento.content) }}
+                />
               )}
 
               {!evento.content && (

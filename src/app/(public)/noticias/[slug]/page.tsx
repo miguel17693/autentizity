@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { formatDate } from "@/lib/utils";
+import { formatDate, renderRichText } from "@/lib/utils";
 import type { News, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
@@ -79,16 +79,16 @@ export default async function NoticiaDetailPage({
       {/* Content */}
       <section className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
-          <p className="text-text-body text-lg leading-relaxed font-light">
-            {noticia.excerpt}
-          </p>
+          <div
+            className="text-text-body text-lg leading-relaxed font-light"
+            dangerouslySetInnerHTML={{ __html: renderRichText(noticia.excerpt) }}
+          />
 
           {noticia.content && (
-            <div className="mt-8 ptertiary ptertiary-lg max-w-none font-light text-text-body leading-relaxed">
-              {noticia.content.split("\n").map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
+            <div
+              className="mt-8 ptertiary ptertiary-lg max-w-none font-light text-text-body leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: renderRichText(noticia.content) }}
+            />
           )}
 
           {!noticia.content && (

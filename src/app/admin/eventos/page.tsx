@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Event, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 const emptyEvento: Partial<Event> = {
   title: "",
@@ -154,11 +155,11 @@ export default function AdminEventosPage() {
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
               Descripción
             </label>
-            <textarea
-              rows={2}
+            <RichTextEditor
               value={editing.description ?? ""}
-              onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
+              onChange={(val) => setEditing({ ...editing, description: val })}
+              placeholder="Breve descripción del evento..."
+              variant="compact"
             />
           </div>
 
@@ -288,11 +289,11 @@ export default function AdminEventosPage() {
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
               Contenido detallado
             </label>
-            <textarea
-              rows={5}
+            <RichTextEditor
               value={editing.content ?? ""}
-              onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
+              onChange={(val) => setEditing({ ...editing, content: val })}
+              placeholder="Contenido detallado del evento..."
+              variant="full"
             />
           </div>
 

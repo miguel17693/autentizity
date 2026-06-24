@@ -50,3 +50,33 @@ export function truncate(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength).trimEnd() + "…";
 }
+
+/**
+ * Convierte contenido legacy (texto plano con \n) o HTML a HTML sanitizado.
+ * Para usar con dangerouslySetInnerHTML en páginas de detalle.
+ */
+export function renderRichText(raw: string): string {
+  if (!/<[a-z][\s\S]*>/i.test(raw)) {
+    return raw
+      .split("\n")
+      .map((p) => `<p>${escapeHtml(p)}</p>`)
+      .join("");
+  }
+  return raw;
+}
+
+/**
+ * Elimina tags HTML y devuelve texto plano. Usar en tarjetas/listings.
+ */
+export function stripHtml(html: string): string {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "").trim();
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}

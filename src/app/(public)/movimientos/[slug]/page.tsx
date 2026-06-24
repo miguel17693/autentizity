@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Movement, EcosistemaEntity, Activity, News, Event } from "@/lib/types";
 import { notFound } from "next/navigation";
+import { renderRichText, stripHtml } from "@/lib/utils";
 import {
   getMovimientoBySlug,
   getEmbajadoresByMovimiento,
@@ -91,16 +92,16 @@ export default async function MovimientoDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16">
             {/* Main content */}
             <div className="lg:col-span-2 order-2 lg:order-1">
-              <p className="text-text-body text-lg leading-relaxed font-light">
-                {movimiento.description}
-              </p>
+              <div
+                className="text-text-body text-lg leading-relaxed font-light"
+                dangerouslySetInnerHTML={{ __html: renderRichText(movimiento.description) }}
+              />
 
               {movimiento.content && (
-                <div className="mt-8 text-text-body leading-relaxed font-light">
-                  {movimiento.content.split("\n").map((paragraph, i) => (
-                    <p key={i} className="mb-4">{paragraph}</p>
-                  ))}
-                </div>
+                <div
+                  className="mt-8 text-text-body leading-relaxed font-light"
+                  dangerouslySetInnerHTML={{ __html: renderRichText(movimiento.content) }}
+                />
               )}
 
               {/* Tags */}
@@ -178,7 +179,7 @@ export default async function MovimientoDetailPage({
                           </p>
                           {emb.description && (
                             <p className="text-[9px] text-text-muted mt-0.5 max-w-[64px] truncate italic">
-                              {emb.description}
+                              {stripHtml(emb.description)}
                             </p>
                           )}
                         </div>
@@ -264,7 +265,7 @@ export default async function MovimientoDetailPage({
                         <div className="p-4">
                           <h4 className="font-serif text-base text-primary font-normal">{act.title}</h4>
                           {act.description && (
-                            <p className="text-text-secondary text-sm mt-2 line-clamp-2">{act.description}</p>
+                            <p className="text-text-secondary text-sm mt-2 line-clamp-2">{stripHtml(act.description)}</p>
                           )}
                         </div>
                       </div>

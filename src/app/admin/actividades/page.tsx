@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import type { Activity, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
+import RichTextEditor from "@/components/admin/RichTextEditor";
+import { stripHtml } from "@/lib/utils";
 
 const emptyActividad: Partial<Activity> = {
   title: "",
@@ -120,12 +122,12 @@ export default function AdminActividadesPage() {
 
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Descripción</label>
-            <textarea rows={2} value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none" />
+            <RichTextEditor value={editing.description ?? ""} onChange={(val) => setEditing({ ...editing, description: val })} placeholder="Breve descripción de la actividad..." variant="compact" />
           </div>
 
           <div>
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Contenido detallado</label>
-            <textarea rows={5} value={editing.content ?? ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} className="w-full px-3 py-2.5 rounded-xl text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs" />
+            <RichTextEditor value={editing.content ?? ""} onChange={(val) => setEditing({ ...editing, content: val })} placeholder="Contenido detallado de la actividad..." variant="full" />
           </div>
 
           <div>
@@ -191,7 +193,7 @@ export default function AdminActividadesPage() {
                 </span>
                 {a.featured && <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] uppercase px-2 py-0.5 bg-secondary/10 text-secondary rounded-full">Destacada</span>}
               </div>
-              <p className="text-xs text-text-muted mt-0.5 truncate">{a.description}</p>
+              <p className="text-xs text-text-muted mt-0.5 truncate">{stripHtml(a.description)}</p>
             </div>
             <div className="flex gap-2 shrink-0">
               <button onClick={() => startEdit(a)} className="px-3 py-1.5 rounded-full text-[11px] text-text-secondary rounded-full border border-border hover:border-accent hover:text-accent transition-colors">Editar</button>

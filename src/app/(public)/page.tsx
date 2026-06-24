@@ -3,7 +3,7 @@ import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CountUp from "@/components/ui/CountUp";
 import Section from "@/components/ui/Section";
-import { formatDate } from "@/lib/utils";
+import { formatDate, stripHtml } from "@/lib/utils";
 import { getEventos, getNoticias } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
@@ -214,7 +214,7 @@ function Events({ events }: { events: any[] }) {
                     {event.title}
                   </h3>
                   <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light line-clamp-2">
-                    {event.description}
+                    {stripHtml(event.description)}
                   </p>
                   <div className="mt-4 flex items-center gap-2 text-text-muted text-xs font-light">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -296,7 +296,7 @@ function News({ news }: { news: any[] }) {
                     </h3>
                     {i === 0 && (
                       <p className="mt-2 text-white/50 text-sm leading-relaxed font-light max-w-lg">
-                        {item.excerpt}
+                        {stripHtml(item.excerpt)}
                       </p>
                     )}
                     <p className="mt-3 text-white/35 text-xs font-light">

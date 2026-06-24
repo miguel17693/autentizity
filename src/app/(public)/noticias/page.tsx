@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
-import { formatDate } from "@/lib/utils";
+import { formatDate, stripHtml } from "@/lib/utils";
 import type { News } from "@/lib/types";
 import { getNoticias } from "@/lib/data/store";
 
@@ -96,7 +96,7 @@ export default async function NoticiasPage() {
                       {item.title}
                     </h2>
                     <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-3">
-                      {item.excerpt}
+                      {stripHtml(item.excerpt)}
                     </p>
                     <div className="mt-4 flex items-center gap-2 text-secondary text-[12px] font-medium tracking-[0.06em] uppercase">
                       Leer más

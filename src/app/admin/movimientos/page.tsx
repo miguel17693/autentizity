@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import type { Movement, Activity, EcosistemaEntity } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
+import RichTextEditor from "@/components/admin/RichTextEditor";
+import { stripHtml } from "@/lib/utils";
 
 const emptyMovimiento: Partial<Movement> = {
   title: "",
@@ -163,11 +165,11 @@ export default function AdminMovimientosPage() {
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
               Descripción
             </label>
-            <textarea
-              rows={2}
+            <RichTextEditor
               value={editing.description ?? ""}
-              onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-none"
+              onChange={(val) => setEditing({ ...editing, description: val })}
+              placeholder="Breve descripción del movimiento..."
+              variant="compact"
             />
           </div>
 
@@ -175,11 +177,11 @@ export default function AdminMovimientosPage() {
             <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">
               Contenido detallado
             </label>
-            <textarea
-              rows={5}
+            <RichTextEditor
               value={editing.content ?? ""}
-              onChange={(e) => setEditing({ ...editing, content: e.target.value })}
-              className="w-full px-3 py-2.5 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none resize-y font-mono text-xs"
+              onChange={(val) => setEditing({ ...editing, content: val })}
+              placeholder="Contenido detallado del movimiento..."
+              variant="full"
             />
           </div>
 
@@ -283,7 +285,7 @@ export default function AdminMovimientosPage() {
                 )}
               </div>
               <p className="text-xs text-text-muted mt-0.5 truncate">
-                {mov.description}
+                {stripHtml(mov.description)}
               </p>
             </div>
             <div className="flex gap-2 shrink-0">

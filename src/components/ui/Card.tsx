@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { formatDate } from "@/lib/utils";
+import { formatDate, stripHtml } from "@/lib/utils";
 
 export interface CardProps {
   href: string;
@@ -107,7 +107,7 @@ export default function Card({
         </h2>
 
         <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-3">
-          {description}
+          {stripHtml(description)}
         </p>
 
         {tags.length > 0 && (

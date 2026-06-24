@@ -1,6 +1,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
 import Image from "next/image";
+import { stripHtml } from "@/lib/utils";
 import {
   getEcosistemaSections,
   getAllEcosistemaEntities,
@@ -64,7 +65,7 @@ function AvatarPlaceholder({ name, logo, description }: { name: string; logo?: s
       </div>
       <p className="text-text-secondary text-sm font-light">{name}</p>
       {description && (
-        <p className="text-text-muted text-[11px] font-light mt-0.5 italic leading-tight max-w-[120px] mx-auto">{description}</p>
+        <p className="text-text-muted text-[11px] font-light mt-0.5 italic leading-tight max-w-[120px] mx-auto">{stripHtml(description)}</p>
       )}
     </div>
   );
@@ -187,7 +188,7 @@ export default async function EcosistemaPage() {
                 </h2>
                 {sec.description && (
                   <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">
-                    {sec.description}
+                    {stripHtml(sec.description)}
                   </p>
                 )}
               </ScrollReveal>
@@ -221,7 +222,7 @@ export default async function EcosistemaPage() {
                 </h2>
                 {embajadoresSection.description && (
                   <p className="mt-4 text-text-body text-base lg:text-lg leading-relaxed font-light max-w-3xl">
-                    {embajadoresSection.description}
+                    {stripHtml(embajadoresSection.description)}
                   </p>
                 )}
               </ScrollReveal>
