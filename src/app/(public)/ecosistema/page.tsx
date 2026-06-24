@@ -165,7 +165,7 @@ export default async function EcosistemaPage() {
                   </p>
                 )}
               </ScrollReveal>
-              <div className="mt-10 bg-white/30 backdrop-blur-lg rounded-2xl border border-white/20 shadow-lg p-4 sm:p-6">
+              <div className="mt-10 bg-white rounded-2xl border border-border-light p-4 sm:p-6">
                 <LogoMarquee
                   logos={sec.entities
                     .filter((e) => e.logo_url)
