@@ -159,11 +159,6 @@ export default async function EcosistemaPage() {
       {/* Hero */}
       <section className="bg-primary py-14 sm:py-20 lg:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
-          <div className="flex items-center justify-center gap-4 mb-5">
-            <div className="w-8 h-[1px] bg-tertiary" />
-            <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">Ecosistema</span>
-            <div className="w-8 h-[1px] bg-tertiary" />
-          </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">Ecosistema</h1>
         </div>
       </section>
@@ -177,12 +172,7 @@ export default async function EcosistemaPage() {
           >
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
               <ScrollReveal>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="brand-line" />
-                  <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-                    {sec.name}
-                  </span>
-                </div>
+                <div className="brand-line mb-4" />
                 <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">
                   {sec.name}
                 </h2>
@@ -211,12 +201,7 @@ export default async function EcosistemaPage() {
           >
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
               <ScrollReveal>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="brand-line" />
-                  <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-                    Embajadores
-                  </span>
-                </div>
+                <div className="brand-line mb-4" />
                 <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">
                   Embajadores
                 </h2>

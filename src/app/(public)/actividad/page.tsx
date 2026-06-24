@@ -73,12 +73,7 @@ export default async function ActividadPage() {
         <section id="movimientos" className="py-8 sm:py-12 lg:py-16 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/movimientos" className="group/header block">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="brand-line group-hover/header:w-16 transition-all duration-300" />
-                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-                  Movimientos
-                </span>
-              </div>
+              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mb-4" />
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Movimientos
                 <svg
@@ -137,12 +132,7 @@ export default async function ActividadPage() {
         <section id="eventos" className="py-8 sm:py-12 lg:py-16">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/eventos" className="group/header block">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="brand-line group-hover/header:w-16 transition-all duration-300" />
-                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-                  Eventos
-                </span>
-              </div>
+              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mb-4" />
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Eventos
                 <svg
@@ -205,12 +195,7 @@ export default async function ActividadPage() {
         <section id="actividades" className="py-8 sm:py-12 lg:py-16 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/actividades" className="group/header block">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="brand-line group-hover/header:w-16 transition-all duration-300" />
-                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-                  Actividades
-                </span>
-              </div>
+              <div className="brand-line group-hover/header:w-16 transition-all duration-300 mb-4" />
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Actividades
                 <svg
