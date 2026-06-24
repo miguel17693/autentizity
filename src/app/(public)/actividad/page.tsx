@@ -38,9 +38,9 @@ export default async function ActividadPage() {
   const movItems = isPreview ? movimientos : movimientos.filter((m) => m.status === "published");
   const actItems = isPreview ? actividades : actividades.filter((a) => a.status === "published");
 
-  const previewEvents = eventItems.slice(0, 3);
-  const previewMovs = movItems.slice(0, 3);
-  const previewActs = actItems.slice(0, 3);
+  const previewEvents = eventItems.slice(0, 2);
+  const previewMovs = movItems.slice(0, 2);
+  const previewActs = actItems.slice(0, 2);
 
   return (
     <>
@@ -70,7 +70,7 @@ export default async function ActividadPage() {
 
       {/* ============== MOVIMIENTOS ============== */}
       <Section id="act-movimientos">
-        <section id="movimientos" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+        <section id="movimientos" className="py-8 sm:py-12 lg:py-16 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/movimientos" className="group/header block">
               <div className="flex items-center gap-4 mb-4">
@@ -97,7 +97,7 @@ export default async function ActividadPage() {
             </Link>
 
             {previewMovs.length > 0 ? (
-              <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
+              <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-6 -mx-5 sm:mx-0">
                 {previewMovs.map((mov) => (
                   <Card
                     key={mov.id}
@@ -117,7 +117,7 @@ export default async function ActividadPage() {
               </p>
             )}
 
-            <div className="mt-10 text-center">
+            <div className="mt-8 text-center">
               <Link
                 href="/actividad/movimientos"
                 className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
@@ -134,7 +134,7 @@ export default async function ActividadPage() {
 
       {/* ============== EVENTOS ============== */}
       <Section id="act-eventos">
-        <section id="eventos" className="py-12 sm:py-16 lg:py-24">
+        <section id="eventos" className="py-8 sm:py-12 lg:py-16">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/eventos" className="group/header block">
               <div className="flex items-center gap-4 mb-4">
@@ -161,7 +161,7 @@ export default async function ActividadPage() {
             </Link>
 
             {previewEvents.length > 0 ? (
-              <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
+              <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-6 -mx-5 sm:mx-0">
                 {previewEvents.map((event) => (
                   <Card
                     key={event.id}
@@ -185,7 +185,7 @@ export default async function ActividadPage() {
               </p>
             )}
 
-            <div className="mt-10 text-center">
+            <div className="mt-8 text-center">
               <Link
                 href="/actividad/eventos"
                 className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
@@ -202,7 +202,7 @@ export default async function ActividadPage() {
 
       {/* ============== ACTIVIDADES ============== */}
       <Section id="act-actividades">
-        <section id="actividades" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
+        <section id="actividades" className="py-8 sm:py-12 lg:py-16 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
             <Link href="/actividad/actividades" className="group/header block">
               <div className="flex items-center gap-4 mb-4">
@@ -229,7 +229,7 @@ export default async function ActividadPage() {
             </Link>
 
             {previewActs.length > 0 ? (
-              <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
+              <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-6 -mx-5 sm:mx-0">
                 {previewActs.map((act) => (
                   <Card
                     key={act.id}
@@ -249,7 +249,7 @@ export default async function ActividadPage() {
               </p>
             )}
 
-            <div className="mt-10 text-center">
+            <div className="mt-8 text-center">
               <Link
                 href="/actividad/actividades"
                 className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
