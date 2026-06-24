@@ -26,12 +26,13 @@ export interface CropResult { areas: Record<ContextKey, CropArea>; }
 
 interface MultiContextCropModalProps {
   imageSrc: string;
+  initialAreas?: Partial<Record<ContextKey, CropArea>>;
   processing?: boolean;
   onConfirm: (result: CropResult) => void;
   onCancel: () => void;
 }
 
-export default function MultiContextCropModal({ imageSrc, processing = false, onConfirm, onCancel }: MultiContextCropModalProps) {
+export default function MultiContextCropModal({ imageSrc, initialAreas, processing = false, onConfirm, onCancel }: MultiContextCropModalProps) {
   const [activeTab, setActiveTab] = useState<ContextKey>("hero");
   const [missingTabs, setMissingTabs] = useState<ContextKey[]>([]);
   const cropperRefs = useRef<Record<ContextKey, CropperRef | null>>({ hero: null, heroDesktop: null, card: null });
@@ -78,13 +79,17 @@ export default function MultiContextCropModal({ imageSrc, processing = false, on
           })}
         </div>
         <div className="relative w-full h-64 bg-black">
-          {CONTEXTS.map((c) => (
-            <Cropper key={c.key} ref={(el) => { cropperRefs.current[c.key] = el; }} src={imageSrc}
-              stencilProps={{ aspectRatio: c.aspect }}
-              onReady={onReadyFactory(c.key)}
-              onUpdate={onUpdateFactory(c.key)}
-              className={`!absolute inset-0 transition-opacity ${activeTab === c.key ? "opacity-100 pointer-events-auto z-10" : "opacity-0 pointer-events-none"}`} />
-          ))}
+          {CONTEXTS.map((c) => {
+            const initialArea = initialAreas?.[c.key];
+            return (
+              <Cropper key={c.key} ref={(el) => { cropperRefs.current[c.key] = el; }} src={imageSrc}
+                defaultCoordinates={initialArea ? { left: initialArea.x, top: initialArea.y, width: initialArea.width, height: initialArea.height } : undefined}
+                stencilProps={{ aspectRatio: c.aspect }}
+                onReady={onReadyFactory(c.key)}
+                onUpdate={onUpdateFactory(c.key)}
+                className={`!absolute inset-0 transition-opacity ${activeTab === c.key ? "opacity-100 pointer-events-auto z-10" : "opacity-0 pointer-events-none"}`} />
+            );
+          })}
         </div>
         <div className="px-4 py-1.5 text-[10px] text-text-muted/70 text-center bg-surface-alt border-t border-border">
           Rueda del ratón para zoom. Arrastra para mover la imagen.

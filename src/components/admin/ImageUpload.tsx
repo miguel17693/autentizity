@@ -35,6 +35,7 @@ export default function ImageUpload({
   const [dragOver, setDragOver] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [cropProcessing, setCropProcessing] = useState(false);
+  const [lastMultiAreas, setLastMultiAreas] = useState<CropResult["areas"] | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
@@ -62,6 +63,7 @@ export default function ImageUpload({
       const originalUrl = await uploadFile(file);
       if (!originalUrl) return;
       originalUrlRef.current = originalUrl;
+      setLastMultiAreas(null);
       setCropSrc(dataUrl);
     };
     reader.readAsDataURL(file);
@@ -97,6 +99,7 @@ export default function ImageUpload({
       const urls = await callCropApi(imageUrl, areas);
       const heroUrl = urls.hero, heroDesktopUrl = urls.heroDesktop, cardUrl = urls.card;
       if (!heroUrl || !heroDesktopUrl || !cardUrl) { setError("Error al procesar uno de los recortes. Inténtalo de nuevo."); setCropProcessing(false); return; }
+      setLastMultiAreas(areas);
       setCropSrc(null);
       setCropProcessing(false);
       const payload = { coverImage: heroUrl, coverImageOriginal: imageUrl, coverImageHero: heroUrl, coverImageCard: cardUrl, coverImageHeroDesktop: heroDesktopUrl };
@@ -106,7 +109,7 @@ export default function ImageUpload({
 
   const handleCropCancel = useCallback(() => { setCropSrc(null); setCropProcessing(false); if (fileInputRef.current) fileInputRef.current.value = ""; }, []);
   const handleDrop = useCallback((e: React.DragEvent) => { e.preventDefault(); setDragOver(false); const file = e.dataTransfer.files[0]; if (file) readAndCrop(file); }, [readAndCrop]);
-  const handleRemove = () => { onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setPreviewSrc(null); };
+  const handleRemove = () => { onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setLastMultiAreas(null); setPreviewSrc(null); };
   const handleRecrop = () => { const src = originalUrlRef.current || value; if (src) { setCropSrc(src); } };
   const handlePreview = () => { setPreviewSrc(value); };
 
@@ -158,6 +161,7 @@ export default function ImageUpload({
       </div>
       {cropSrc && multiContext && (
         <MultiContextCropModal imageSrc={cropSrc} processing={cropProcessing}
+          initialAreas={lastMultiAreas ?? undefined}
           onConfirm={handleMultiCropConfirm} onCancel={handleCropCancel} />
       )}
       {cropSrc && !multiContext && (
