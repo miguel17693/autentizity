@@ -5,6 +5,60 @@ import CropModal, { type CropArea } from "./CropModal";
 import MultiContextCropModal, { type CropResult } from "./MultiContextCropModal";
 
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+const MULTI_CROP_STORAGE_PREFIX = "autentizity:multi-crop:";
+
+function isCropArea(value: unknown): value is CropArea {
+  if (!value || typeof value !== "object") return false;
+  const area = value as Record<string, unknown>;
+  return (
+    typeof area.x === "number" && Number.isFinite(area.x) &&
+    typeof area.y === "number" && Number.isFinite(area.y) &&
+    typeof area.width === "number" && Number.isFinite(area.width) && area.width > 0 &&
+    typeof area.height === "number" && Number.isFinite(area.height) && area.height > 0
+  );
+}
+
+function parseStoredMultiAreas(value: string | null): CropResult["areas"] | null {
+  if (!value) return null;
+  const parsed = JSON.parse(value) as unknown;
+  if (!parsed || typeof parsed !== "object") return null;
+  const record = parsed as Record<string, unknown>;
+  const { hero, heroDesktop, card } = record;
+  if (!isCropArea(hero) || !isCropArea(heroDesktop) || !isCropArea(card)) return null;
+  return { hero, heroDesktop, card };
+}
+
+function multiCropStorageKey(imageUrl: string): string {
+  return `${MULTI_CROP_STORAGE_PREFIX}${imageUrl}`;
+}
+
+function readStoredMultiAreas(imageUrl: string): CropResult["areas"] | null {
+  if (!imageUrl || typeof window === "undefined") return null;
+  try {
+    return parseStoredMultiAreas(window.localStorage.getItem(multiCropStorageKey(imageUrl)));
+  } catch (err) {
+    console.warn("No se pudieron leer las coordenadas recordadas del recorte", err);
+    return null;
+  }
+}
+
+function writeStoredMultiAreas(imageUrl: string, areas: CropResult["areas"]): void {
+  if (!imageUrl || typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(multiCropStorageKey(imageUrl), JSON.stringify(areas));
+  } catch (err) {
+    console.warn("No se pudieron guardar las coordenadas del recorte", err);
+  }
+}
+
+function removeStoredMultiAreas(imageUrl: string): void {
+  if (!imageUrl || typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(multiCropStorageKey(imageUrl));
+  } catch (err) {
+    console.warn("No se pudieron borrar las coordenadas del recorte", err);
+  }
+}
 
 interface ImageUploadProps {
   value: string;
@@ -40,7 +94,12 @@ export default function ImageUpload({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
 
-  useEffect(() => { if (originalValue) { originalUrlRef.current = originalValue; } }, [originalValue]);
+  useEffect(() => {
+    if (originalValue) {
+      originalUrlRef.current = originalValue;
+      setLastMultiAreas(readStoredMultiAreas(originalValue));
+    }
+  }, [originalValue]);
 
   const uploadFile = useCallback(async (file: File): Promise<string> => {
     setUploading(true); setError("");
@@ -100,6 +159,7 @@ export default function ImageUpload({
       const heroUrl = urls.hero, heroDesktopUrl = urls.heroDesktop, cardUrl = urls.card;
       if (!heroUrl || !heroDesktopUrl || !cardUrl) { setError("Error al procesar uno de los recortes. Inténtalo de nuevo."); setCropProcessing(false); return; }
       setLastMultiAreas(areas);
+      writeStoredMultiAreas(imageUrl, areas);
       setCropSrc(null);
       setCropProcessing(false);
       const payload = { coverImage: heroUrl, coverImageOriginal: imageUrl, coverImageHero: heroUrl, coverImageCard: cardUrl, coverImageHeroDesktop: heroDesktopUrl };
@@ -109,8 +169,8 @@ export default function ImageUpload({
 
   const handleCropCancel = useCallback(() => { setCropSrc(null); setCropProcessing(false); if (fileInputRef.current) fileInputRef.current.value = ""; }, []);
   const handleDrop = useCallback((e: React.DragEvent) => { e.preventDefault(); setDragOver(false); const file = e.dataTransfer.files[0]; if (file) readAndCrop(file); }, [readAndCrop]);
-  const handleRemove = () => { onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setLastMultiAreas(null); setPreviewSrc(null); };
-  const handleRecrop = () => { const src = originalUrlRef.current || value; if (src) { setCropSrc(src); } };
+  const handleRemove = () => { const src = originalUrlRef.current || value; if (src) removeStoredMultiAreas(src); onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setLastMultiAreas(null); setPreviewSrc(null); };
+  const handleRecrop = () => { const src = originalUrlRef.current || value; if (src) { setLastMultiAreas(lastMultiAreas ?? readStoredMultiAreas(src)); setCropSrc(src); } };
   const handlePreview = () => { setPreviewSrc(value); };
 
   return (
