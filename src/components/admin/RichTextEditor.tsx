@@ -202,8 +202,8 @@ export default function RichTextEditor({
         .editor-content em { font-style: italic; }
       `}</style>
 
-      <div className="border border-border focus-within:border-accent bg-surface-alt transition-colors rounded-xl">
-        <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-border bg-white flex-wrap sticky top-0 z-10 rounded-t-xl">
+      <div className="border border-border focus-within:border-accent bg-surface-alt transition-colors rounded-xl overflow-hidden">
+        <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-border bg-white flex-wrap">
           <div className="flex items-center gap-0.5">
             <ToolbarBtn
               onClick={() => editor.chain().focus().toggleBold().run()}
@@ -299,7 +299,9 @@ export default function RichTextEditor({
           )}
         </div>
 
-        <EditorContent editor={editor} />
+        <div className="max-h-[50vh] overflow-y-auto">
+          <EditorContent editor={editor} />
+        </div>
 
         <input
           ref={fileInputRef}
