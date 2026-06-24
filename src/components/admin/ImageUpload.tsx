@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import CropModal from "./CropModal";
-import MultiContextCropModal from "./MultiContextCropModal";
+import MultiContextCropModal, { type CropResult } from "./MultiContextCropModal";
 
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
@@ -45,6 +45,7 @@ export default function ImageUpload({
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
+  const cropCoordsRef = useRef<CropResult["coords"] | null>(null);
 
   useEffect(() => {
     if (originalValue) {
@@ -98,6 +99,7 @@ export default function ImageUpload({
 
       setError("");
       setOriginalFormat(file.type);
+      cropCoordsRef.current = null; // reset coords for new image
       const reader = new FileReader();
       reader.onload = async () => {
         const dataUrl = reader.result as string;
@@ -124,9 +126,12 @@ export default function ImageUpload({
   );
 
   const handleMultiCropConfirm = useCallback(
-    async (files: { hero: File; heroDesktop: File; card: File }) => {
+    async (result: CropResult) => {
       setCropSrc(null);
       setError("");
+
+      const { files, coords } = result;
+      cropCoordsRef.current = coords;
 
       const [heroUrl, heroDesktopUrl, cardUrl] = await Promise.all([
         uploadFile(files.hero),
@@ -332,6 +337,7 @@ export default function ImageUpload({
             heroDesktop: heroValue || value,
             card: cardValue || value,
           }}
+          initialCrops={cropCoordsRef.current ?? undefined}
           onConfirm={handleMultiCropConfirm}
           onCancel={handleCropCancel}
         />

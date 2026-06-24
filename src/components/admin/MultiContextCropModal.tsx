@@ -26,15 +26,36 @@ interface CropState {
   area: Area | null;
 }
 
+type CropCoords = { x: number; y: number; zoom: number };
+
 type CropStates = Record<ContextKey, CropState>;
 
 const defaultCrop = (): CropState => ({ x: 0, y: 0, zoom: 1, area: null });
+
+function makeCrop(initial?: Partial<CropCoords>): CropState {
+  if (initial && (initial.x !== 0 || initial.y !== 0 || (initial.zoom && initial.zoom !== 1))) {
+    return { x: initial.x ?? 0, y: initial.y ?? 0, zoom: initial.zoom ?? 1, area: null };
+  }
+  return defaultCrop();
+}
+
+export interface CropFiles {
+  hero: File;
+  heroDesktop: File;
+  card: File;
+}
+
+export interface CropResult {
+  files: CropFiles;
+  coords: Record<ContextKey, CropCoords>;
+}
 
 interface MultiContextCropModalProps {
   imageSrc: string;
   originalFormat: string;
   existingUrls?: Partial<Record<ContextKey, string>>;
-  onConfirm: (files: { hero: File; heroDesktop: File; card: File }) => void;
+  initialCrops?: Partial<Record<ContextKey, CropCoords>>;
+  onConfirm: (result: CropResult) => void;
   onCancel: () => void;
 }
 
@@ -42,14 +63,15 @@ export default function MultiContextCropModal({
   imageSrc,
   originalFormat,
   existingUrls,
+  initialCrops,
   onConfirm,
   onCancel,
 }: MultiContextCropModalProps) {
   const [activeTab, setActiveTab] = useState<ContextKey>("hero");
   const [crops, setCrops] = useState<CropStates>({
-    hero: defaultCrop(),
-    heroDesktop: defaultCrop(),
-    card: defaultCrop(),
+    hero: makeCrop(initialCrops?.hero),
+    heroDesktop: makeCrop(initialCrops?.heroDesktop),
+    card: makeCrop(initialCrops?.card),
   });
   const [processing, setProcessing] = useState(false);
 
@@ -60,13 +82,34 @@ export default function MultiContextCropModal({
     []
   );
 
-  const onCropComplete = useCallback(
-    (key: ContextKey) =>
-      (_: Area, area: Area) => {
-        updateCrop(key, { area });
-      },
+  const onHeroComplete = useCallback(
+    (_: Area, area: Area) => updateCrop("hero", { area }),
     [updateCrop]
   );
+  const onHeroDesktopComplete = useCallback(
+    (_: Area, area: Area) => updateCrop("heroDesktop", { area }),
+    [updateCrop]
+  );
+  const onCardComplete = useCallback(
+    (_: Area, area: Area) => updateCrop("card", { area }),
+    [updateCrop]
+  );
+
+  const onCropCompleteMap: Record<ContextKey, (_: Area, area: Area) => void> = {
+    hero: onHeroComplete,
+    heroDesktop: onHeroDesktopComplete,
+    card: onCardComplete,
+  };
+
+  const handleTabChange = (newTab: ContextKey) => {
+    const current = crops[activeTab];
+    const target = crops[newTab];
+    // Inherit position from current tab if target hasn't been moved yet
+    if (target.x === 0 && target.y === 0 && (current.x !== 0 || current.y !== 0)) {
+      updateCrop(newTab, { x: current.x, y: current.y });
+    }
+    setActiveTab(newTab);
+  };
 
   const ctx = CONTEXTS.find((c) => c.key === activeTab)!;
 
@@ -84,7 +127,14 @@ export default function MultiContextCropModal({
         getCroppedImg(imageSrc, heroDesktop, originalFormat),
         getCroppedImg(imageSrc, card, originalFormat),
       ]);
-      onConfirm({ hero: heroFile, heroDesktop: heroDesktopFile, card: cardFile });
+      onConfirm({
+        files: { hero: heroFile, heroDesktop: heroDesktopFile, card: cardFile },
+        coords: {
+          hero: { x: crops.hero.x, y: crops.hero.y, zoom: crops.hero.zoom },
+          heroDesktop: { x: crops.heroDesktop.x, y: crops.heroDesktop.y, zoom: crops.heroDesktop.zoom },
+          card: { x: crops.card.x, y: crops.card.y, zoom: crops.card.zoom },
+        },
+      });
     } catch {
       setProcessing(false);
     }
@@ -111,7 +161,7 @@ export default function MultiContextCropModal({
             <button
               key={c.key}
               type="button"
-              onClick={() => setActiveTab(c.key)}
+              onClick={() => handleTabChange(c.key)}
               className={`flex-1 py-2 text-xs font-medium transition-colors ${
                 activeTab === c.key
                   ? "text-accent border-b-2 border-accent"
@@ -133,7 +183,7 @@ export default function MultiContextCropModal({
             aspect={ctx.aspect}
             onCropChange={(loc) => updateCrop(ctx.key, loc)}
             onZoomChange={(z) => updateCrop(ctx.key, { zoom: z })}
-            onCropComplete={onCropComplete(ctx.key)}
+            onCropComplete={onCropCompleteMap[ctx.key]}
           />
         </div>
 
@@ -181,7 +231,8 @@ export default function MultiContextCropModal({
 
         {/* Hint */}
         <div className="px-4 py-2 text-[10px] text-text-muted/70 text-center bg-surface-alt border-t border-border">
-          Define el encuadre para cada contexto donde se mostrará la imagen.
+          Define el encuadre para cada contexto. Al cambiar de pestaña se hereda la
+          posición de la anterior si aún no la has movido.
         </div>
 
         {/* Actions */}
