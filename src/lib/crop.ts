@@ -7,14 +7,10 @@ const FORMAT_EXT: Record<string, string> = {
   "image/webp": "webp",
 };
 
-export function getCroppedImg(
+function createCroppedCanvas(
   imageSrc: string,
-  pixelCrop: { x: number; y: number; width: number; height: number },
-  format = "image/jpeg"
-): Promise<File> {
-  const mime = FORMAT_EXT[format] ? format : "image/jpeg";
-  const ext = FORMAT_EXT[mime] || "jpg";
-
+  pixelCrop: { x: number; y: number; width: number; height: number }
+): Promise<{ canvas: HTMLCanvasElement; image: HTMLImageElement }> {
   return new Promise((resolve, reject) => {
     const image = new window.Image();
     image.crossOrigin = "anonymous";
@@ -42,6 +38,32 @@ export function getCroppedImg(
         pixelCrop.height
       );
 
+      resolve({ canvas, image });
+    };
+
+    image.onerror = () => reject(new Error("Failed to load image"));
+  });
+}
+
+export async function getCroppedPreview(
+  imageSrc: string,
+  pixelCrop: { x: number; y: number; width: number; height: number },
+  format = "image/jpeg"
+): Promise<string> {
+  const { canvas } = await createCroppedCanvas(imageSrc, pixelCrop);
+  return canvas.toDataURL(format);
+}
+
+export function getCroppedImg(
+  imageSrc: string,
+  pixelCrop: { x: number; y: number; width: number; height: number },
+  format = "image/jpeg"
+): Promise<File> {
+  const mime = FORMAT_EXT[format] ? format : "image/jpeg";
+  const ext = FORMAT_EXT[mime] || "jpg";
+
+  return new Promise((resolve, reject) => {
+    createCroppedCanvas(imageSrc, pixelCrop).then(({ canvas }) => {
       canvas.toBlob((blob) => {
         if (!blob) {
           reject(new Error("Canvas toBlob failed"));
@@ -50,8 +72,6 @@ export function getCroppedImg(
         const file = new File([blob], `cropped.${ext}`, { type: mime });
         resolve(file);
       }, mime);
-    };
-
-    image.onerror = () => reject(new Error("Failed to load image"));
+    }).catch(reject);
   });
 }

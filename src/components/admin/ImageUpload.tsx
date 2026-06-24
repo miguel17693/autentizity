@@ -133,25 +133,37 @@ export default function ImageUpload({
       const { files, coords } = result;
       cropCoordsRef.current = coords;
 
+      console.log("[ImageUpload] uploadMulti — coords:", coords);
+
       const [heroUrl, heroDesktopUrl, cardUrl] = await Promise.all([
         uploadFile(files.hero),
         uploadFile(files.heroDesktop),
         uploadFile(files.card),
       ]);
 
+      console.log("[ImageUpload] uploadMulti — URLs:", {
+        hero: heroUrl?.substring(0, 60) + "...",
+        heroDesktop: heroDesktopUrl?.substring(0, 60) + "...",
+        card: cardUrl?.substring(0, 60) + "...",
+      });
+
       if (!heroUrl || !heroDesktopUrl || !cardUrl) {
         setError("Error al subir uno de los crops. Inténtalo de nuevo.");
         return;
       }
 
+      const payload = {
+        coverImage: heroUrl,
+        coverImageOriginal: originalUrlRef.current,
+        coverImageHero: heroUrl,
+        coverImageCard: cardUrl,
+        coverImageHeroDesktop: heroDesktopUrl,
+      };
+
+      console.log("[ImageUpload] onChangeMulti payload:", payload);
+
       if (onChangeMulti) {
-        onChangeMulti({
-          coverImage: heroUrl,
-          coverImageOriginal: originalUrlRef.current,
-          coverImageHero: heroUrl,
-          coverImageCard: cardUrl,
-          coverImageHeroDesktop: heroDesktopUrl,
-        });
+        onChangeMulti(payload);
         onChange(heroUrl, originalUrlRef.current);
       }
     },
