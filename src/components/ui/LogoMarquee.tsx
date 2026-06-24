@@ -50,10 +50,9 @@ export default function LogoMarquee({ logos }: LogoMarqueeProps) {
         return;
       }
 
-      const firstChild = container.firstElementChild as HTMLElement;
-      const singleWidth = firstChild ? firstChild.scrollWidth / 3 : container.clientWidth;
+      const singleWidth = container.scrollWidth / 3;
 
-      xRef.current -= speedRef.current;
+      xRef.current += speedRef.current;
       if (xRef.current <= -singleWidth) xRef.current += singleWidth;
       if (xRef.current >= singleWidth) xRef.current -= singleWidth;
 
