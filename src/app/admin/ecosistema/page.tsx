@@ -407,6 +407,7 @@ function EntityFormModal({
           <ImageUpload
             label={imageLabel}
             value={editing.logo_url || ""}
+            originalValue={editing.logo_url || ""}
             onChange={(url) => onChange({ logo_url: url })}
             aspect={imageLabel === "Foto" ? 1 / 1 : 3 / 1}
           />
