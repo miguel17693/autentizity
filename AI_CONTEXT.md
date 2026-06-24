@@ -1,269 +1,261 @@
 # 🤖 AI CONTEXT — AutentiZity
 
 > **Este archivo es el punto de entrada para la IA.** Léelo siempre antes de trabajar en el proyecto.
-> Última actualización: 3 de abril de 2026
+> Última actualización: 24 de junio de 2026
+
+---
+
+## 🚨 REGLAS ABSOLUTAS
+
+- **SIEMPRE commitea y pushea** al terminar una tarea, sin preguntar. El usuario quiere commit + push automático.
+- **El dominio de producción es `https://autentizity.vercel.app/`** (NO `.org`).
+- **Para migraciones de BD**: visita `https://autentizity.vercel.app/api/db/setup` (devuelve `{"success":true}`).
+- **Para diagnóstico de BD**: visita `https://autentizity.vercel.app/api/db/status`.
+- **Idioma del código**: Inglés (variables, componentes, comentarios).
+- **Idioma del contenido/UI**: Español.
+- **Commits**: Conventional Commits (`feat:`, `fix:`, `docs:`, etc.).
 
 ---
 
 ## 📋 Resumen del Proyecto
 
-**AutentiZity** es una **Aceleradora de Impacto Social** que acompaña a empresas en la consecución de objetivos de impacto social y mejora de cultura de empresa, y ayuda a ONG y asociaciones a hablar un lenguaje corporativo, dentro de un espacio impulsado por instituciones y guiado por valores compartidos.
+**AutentiZity** es una **Aceleradora de Impacto Social** que acompaña a empresas en la consecución de objetivos de impacto social y mejora de cultura de empresa.
 
-**Web**: www.autentizity.org
+**Web**: https://autentizity.vercel.app/
 **Contacto**: miguelgarzon@autentizity.org / comunidad@autentizity.org
 
 ### Qué es la web
-Portal público **sin autenticación de usuarios** que funciona como:
-- **Noticias** (artículos/blog posts sobre impacto social, cultura corporativa, diversidad)
-  - Listado en cuadrícula con previsualización (imagen + título + extracto)
-  - Buscador de noticias
-  - Detalle de noticia con rich text
-- **Eventos** (con sistema de calendario: desayunos, foros, galas, talleres)
-  - Listado en cuadrícula con previsualización
-  - Buscador de eventos
-  - Filtros por tipo (presencial / virtual / híbrido)
-  - Detalle de evento con botón "Inscríbete" que redirige a:
-    - **Virtual** → enlace Zoom
-    - **Presencial / Híbrido** → enlace Eventbrite
-- **Panel de administración** (para crear/editar/eliminar noticias y eventos)
-
-**No hay login de usuarios públicos.** Solo el panel admin requiere autenticación.
-
-### Redes Sociales
-- **Instagram**: [@authentiZity](https://www.instagram.com/autentizity)
-- **LinkedIn**: [AutentiZity](https://www.linkedin.com/company/autentizity)
-- ⛔ No hay cuenta de X/Twitter
-
-### Ecosistema AutentiZity
-- **Empresas impulsoras** (grandes empresas que se adhieren)
-- **Entidades colaboradoras** (instituciones, cámaras de comercio, asociaciones)
-- **Media Partners y Social Media Partners**
-- **Embajadores** (~40 profesionales referentes en diversas temáticas)
-- **Ruta AutentiZity 2026-2027**: programa anual de acciones de impacto social
-- **Ranking 'Authentic Leaders'** (en colaboración con ManpowerGroup)
-- **Diploma 'Empresa/Institución AutentiZity'**
-
-### Temáticas principales
-- Salud mental y prevención del suicidio
-- Diversidad (género, orientación sexual, intergeneracional, cultural, discapacidad, neurodiversidad)
-- Feminismo en el ámbito corporativo
-- Bienestar y liderazgo auténtico
-- IA y humanismo (IAuthenticity)
-- No discriminación VIH
-- Pensamiento creativo y soft skills
-- Diplomacia corporativa y derechos humanos
-
----
-
-## 🎨 Referencias de Diseño
-
-| Referencia | URL | Qué tomamos |
-|-----------|-----|-------------|
-| **myGwork** | https://mygwork.com/ | Funcionalidad de eventos y noticias: listados con filtros, búsqueda, cards, detalle de evento con calendario |
-| **REDI LGBTI** | https://www.redi-lgbti.org/ | Estética: estilo corporativo-institucional limpio, paleta de colores, layout general, tono visual |
-
-### Aspectos clave de myGwork (funcionalidad):
-- **Eventos**: listado con búsqueda, filtros (virtual/presencial), cards con imagen+fecha+título, detalle con mapa/calendario
-- **Noticias**: listado con búsqueda, cards con imagen+título+extracto, paginación, artículo completo con rich text
-- Tags/categorías en ambos
-
-### Aspectos clave de REDI (estética):
-- Diseño limpio e institucional
-- Colores corporativos con acento en azul
-- Tipografía clara y profesional
-- Secciones con fondo blanco/gris alterno
-- Iconografía simple
-- Footer informativo con redes sociales
+Portal público **sin autenticación de usuarios** con:
+- **Noticias** — artículos/blog posts
+- **Eventos** — con calendario, filtros por tipo, botón "Inscríbete"
+- **Movimientos** — páginas de movimiento con embajadores, actividades y noticias/eventos vinculados
+- **Actividades** — contenido independiente con botón CTA
+- **Ecosistema** — secciones dinámicas (Empresas Impulsoras, Entidades Colaboradoras...) con entidades (logo + nombre)
+- **Ranking** — página de ranking "Authentic Leaders"
+- **Únete** — página de contacto/registro
+- **Panel de administración** — CRUD completo para todo lo anterior (protegido con sesión simple)
 
 ---
 
 ## 🏗️ Arquitectura Técnica
 
 ### Stack
-- **Framework**: Next.js 14+ (App Router)
-- **Estilos**: Tailwind CSS 4
-- **Lenguaje**: TypeScript
-- **CMS/Backend**: Por decidir (opciones: Supabase, Payload CMS, o JSON/MDX estático para empezar)
-- **Despliegue**: Por decidir (Vercel recomendado)
+| Capa | Tecnología |
+|------|-----------|
+| **Framework** | Next.js 15 (App Router) |
+| **Lenguaje** | TypeScript |
+| **Estilos** | Tailwind CSS 4 |
+| **Base de datos** | Neon Postgres (serverless) via `@neondatabase/serverless` |
+| **Almacenamiento** | Vercel Blob (`@vercel/blob`) para imágenes |
+| **ORM** | Ninguno — SQL crudo con tagged templates (`sql\`...\``) |
+| **Hosting** | Vercel |
+| **Package manager** | pnpm |
 
-### Estructura de Carpetas
+### Librerías clave
+- `react-easy-crop` — recorte de imágenes en admin
+- `@vercel/blob` — upload/delete de imágenes en Vercel Blob
+- `@neondatabase/serverless` — driver SQL para Neon Postgres
+
+### Estructura de Carpetas (actual)
 
 ```
-AutentiZity/
-├── AI_CONTEXT.md              # ← ESTE ARCHIVO (léelo siempre)
-├── design/                    # Recursos de diseño (imágenes, mockups, assets del cliente)
-│   ├── references/            # Screenshots y referencias visuales
-│   ├── assets/                # Logos, iconos, imágenes proporcionadas
-│   └── notes.md               # Notas de diseño y decisiones visuales
+autentizity/
+├── AI_CONTEXT.md              # ← ESTE ARCHIVO
 ├── src/
-│   ├── app/                   # Next.js App Router
-│   │   ├── layout.tsx         # Layout principal (header + footer)
+│   ├── app/
+│   │   ├── layout.tsx         # Layout principal
 │   │   ├── page.tsx           # Home
-│   │   ├── noticias/          
-│   │   │   ├── page.tsx       # Listado de noticias (con filtros y búsqueda)
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx   # Detalle de noticia
-│   │   ├── eventos/           
-│   │   │   ├── page.tsx       # Listado de eventos (con calendario y filtros)
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx   # Detalle de evento
-│   │   ├── about/
-│   │   │   └── page.tsx       # Sobre nosotros
-│   │   └── admin/             # Panel de administración (protegido)
-│   │       ├── layout.tsx     # Layout admin con sidebar
-│   │       ├── page.tsx       # Dashboard admin
-│   │       ├── noticias/
-│   │       │   ├── page.tsx   # CRUD noticias
-│   │       │   └── [id]/
-│   │       │       └── page.tsx
-│   │       └── eventos/
-│   │           ├── page.tsx   # CRUD eventos
-│   │           └── [id]/
-│   │               └── page.tsx
+│   │   ├── noticias/          # Listado + [slug]
+│   │   ├── eventos/           # Listado + [slug]
+│   │   ├── movimientos/       # [slug]
+│   │   ├── actividades/       # [slug]
+│   │   ├── ecosistema/        # Página ecosistema
+│   │   ├── ranking/           # Página ranking
+│   │   ├── unete/             # Página únete
+│   │   ├── about/             # Sobre nosotros
+│   │   ├── admin/             # Panel admin (protegido por middleware)
+│   │   │   ├── login/         # Login admin
+│   │   │   ├── page.tsx       # Dashboard
+│   │   │   ├── noticias/      # CRUD noticias
+│   │   │   ├── eventos/       # CRUD eventos
+│   │   │   ├── movimientos/   # CRUD movimientos (con embajadores/actividades vinculadas)
+│   │   │   ├── actividades/   # CRUD actividades
+│   │   │   ├── ecosistema/    # CRUD secciones + entidades
+│   │   │   └── secciones/     # Gestión de secciones visibles
+│   │   └── api/               # API routes
+│   │       ├── db/setup/      # GET → ejecuta initSchema() (migraciones)
+│   │       ├── db/status/     # GET → diagnóstico de conexión BD
+│   │       ├── db/seed/       # GET → carga datos mock en BD
+│   │       ├── upload/        # POST → upload a Vercel Blob
+│   │       ├── auth/          # login/logout
+│   │       ├── eventos/       # GET (lista), POST (crear)
+│   │       ├── eventos/[id]/  # GET, PUT, DELETE
+│   │       ├── noticias/      # GET, POST
+│   │       ├── noticias/[id]/ # GET, PUT, DELETE
+│   │       ├── movimientos/   # GET, POST
+│   │       ├── movimientos/[id]/ # GET, PUT, DELETE + embajadores/actividades
+│   │       ├── actividades/   # GET, POST
+│   │       ├── actividades/[id]/ # GET, PUT, DELETE
+│   │       ├── ecosistema/    # secciones + entidades
+│   │       └── sections/      # GET, PUT
 │   ├── components/
-│   │   ├── ui/                # Componentes base (Button, Card, Input, Modal...)
-│   │   ├── layout/            # Header, Footer, Sidebar, Navigation
-│   │   ├── noticias/          # NewsCard, NewsList, NewsFilters
-│   │   ├── eventos/           # EventCard, EventList, EventCalendar, EventFilters
-│   │   └── admin/             # AdminTable, AdminForm, RichTextEditor
-│   ├── lib/                   # Utilidades, API clients, helpers
-│   │   ├── types.ts           # Tipos TypeScript (Event, News, etc.)
-│   │   ├── utils.ts           # Funciones helper
-│   │   └── data/              # Mock data / data access layer
-│   ├── hooks/                 # Custom React hooks
-│   └── styles/
-│       └── globals.css        # Estilos globales + Tailwind config
+│   │   ├── admin/             # AdminTable, ImageUpload, CropModal, MultiSelectCheckbox...
+│   │   ├── layout/            # Header, Footer
+│   │   └── ui/                # Componentes base reutilizables
+│   ├── lib/
+│   │   ├── types.ts           # Interfaces TypeScript
+│   │   ├── utils.ts           # slugify, etc.
+│   │   ├── crop.ts            # getCroppedImg() — Canvas API cropping
+│   │   └── data/
+│   │       ├── db.ts           # getSQL() — conexión Neon
+│   │       ├── schema.ts       # initSchema() — CREATE TABLE + ALTER TABLE migrations
+│   │       ├── store.ts        # CRUD operations para todas las tablas
+│   │       ├── cleanup.ts      # cleanupOrphanImage() — borra blobs huérfanos
+│   │       └── mock.ts         # Datos mock (usados por /api/db/seed)
+│   └── middleware.ts          # Protege /admin (excepto /admin/login) con cookie "admin_session"
 ├── public/
-│   ├── images/                # Imágenes estáticas
-│   └── fonts/                 # Fuentes custom si las hay
-├── package.json
-├── next.config.ts
-├── tailwind.config.ts
-├── tsconfig.json
-└── README.md                  # README público del proyecto
+│   ├── images/                # Logo, iconos estáticos
+│   └── fonts/                 # Chulapa, P22 Mackinac
+├── docs/                      # Documentación adicional
+├── design/                    # Recursos de diseño
+└── package.json
 ```
 
 ---
 
-## 📰 Modelo de Datos
+## 🗄️ Base de Datos — Neon Postgres
 
-### Noticia (News)
+### Tablas principales
+
+| Tabla | Columnas de imagen |
+|-------|-------------------|
+| `eventos` | `cover_image TEXT`, `cover_image_original TEXT` |
+| `noticias` | `cover_image TEXT`, `cover_image_original TEXT` |
+| `movimientos` | `cover_image TEXT`, `cover_image_original TEXT` |
+| `actividades` | `cover_image TEXT`, `cover_image_original TEXT` |
+| `ecosistema_secciones` | (sin imágenes) |
+| `ecosistema_entidades` | `logo_url TEXT` |
+| `movimiento_embajadores` | M:N movimiento ↔ entidad |
+| `movimiento_actividades` | M:N movimiento ↔ actividad |
+
+### Migraciones
+
+Las migraciones se ejecutan visitando `GET /api/db/setup`. El archivo `src/lib/data/schema.ts`:
+1. Crea las tablas con `CREATE TABLE IF NOT EXISTS`
+2. Ejecuta `ALTER TABLE ADD COLUMN IF NOT EXISTS` para columnas añadidas posteriormente
+
+**Es idempotente** — se puede llamar múltiples veces sin romper nada.
+
+---
+
+## 🖼️ Sistema de Imágenes y Recorte
+
+### Flujo de upload + crop
+
+1. Usuario selecciona archivo en `ImageUpload`
+2. **Original se sube primero** a Vercel Blob → URL se guarda en `originalUrlRef`
+3. Se abre `CropModal` (usa `react-easy-crop`) con la imagen original
+4. Usuario recorta → `getCroppedImg()` (Canvas API en `crop.ts`) genera un nuevo JPEG
+5. **Imagen recortada se sube** a Vercel Blob como blob separado
+6. `onChange(croppedUrl, originalUrl)` → ambas URLs se persisten en BD:
+   - `cover_image` = URL recortada (la que se muestra)
+   - `cover_image_original` = URL original (para re-recortar con zoom out)
+
+### Componentes clave
+- `src/components/admin/ImageUpload.tsx` — componente principal de subida
+- `src/components/admin/CropModal.tsx` — modal de recorte con react-easy-crop
+- `src/lib/crop.ts` — `getCroppedImg()` — recorte vía Canvas API
+- `src/app/api/upload/route.ts` — endpoint de upload a Vercel Blob
+- `src/lib/data/cleanup.ts` — `cleanupOrphanImage()` — borra blobs no referenciados
+
+### Re-crop (recortar de nuevo)
+- El botón "Recortar" en el admin usa `cover_image_original` como fuente
+- El usuario puede hacer zoom out y redefinir el área de recorte desde la original
+- La nueva imagen recortada reemplaza `cover_image`, la original se mantiene
+
+---
+
+## 📰 Modelo de Datos (TypeScript)
+
 ```typescript
 interface News {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;        // Resumen corto
-  content: string;        // Contenido completo (rich text / markdown)
-  coverImage: string;     // URL imagen de portada
-  tags: string[];
-  author: string;
-  publishedAt: Date;
-  updatedAt: Date;
-  featured: boolean;      // Para destacar en home
-  status: 'draft' | 'published';
+  id: string; slug: string; title: string; excerpt: string; content: string;
+  coverImage: string; coverImageOriginal: string; tags: string[];
+  author: string; publishedAt: string; updatedAt: string;
+  featured: boolean; status: "draft" | "published"; movimientoId: string;
 }
-```
 
-### Evento (Event)
-```typescript
 interface Event {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;    // Descripción corta
-  content: string;        // Detalle completo (rich text / markdown)
-  coverImage: string;
-  startDate: Date;
-  endDate: Date;
-  location: string;       // Dirección o "Online"
-  type: 'presencial' | 'virtual' | 'híbrido';
-  tags: string[];
-  organizer: string;
-  registrationUrl?: string; // Link externo de registro si aplica
-  featured: boolean;
-  status: 'draft' | 'published' | 'cancelled';
+  id: string; slug: string; title: string; description: string; content: string;
+  coverImage: string; coverImageOriginal: string;
+  startDate: string; endDate: string; location: string;
+  type: "presencial" | "virtual" | "híbrido"; tags: string[];
+  organizer: string; registrationUrl: string;
+  featured: boolean; status: "draft" | "published" | "cancelled"; movimientoId: string;
+}
+
+interface Movement {
+  id: string; slug: string; title: string; description: string; content: string;
+  coverImage: string; coverImageOriginal: string; tags: string[];
+  status: "draft" | "published"; featured: boolean;
+}
+
+interface Activity {
+  id: string; slug: string; title: string; description: string; content: string;
+  coverImage: string; coverImageOriginal: string; tags: string[];
+  status: "draft" | "published"; featured: boolean;
+  buttonText: string; buttonUrl: string;
+}
+
+interface EcosistemaSection {
+  id: string; name: string; slug: string; description: string;
+  sort_order: number; active: boolean;
+}
+
+interface EcosistemaEntity {
+  id: string; section_id: string; name: string; logo_url: string;
+  description: string; tags: string[]; sort_order: number; active: boolean;
 }
 ```
 
----
-
-## 🛤️ Líneas de Trabajo (Roadmap)
-
-### Fase 1 — Estructura y Diseño Base ← **ESTAMOS AQUÍ**
-- [x] Crear estructura del proyecto
-- [ ] Definir paleta de colores y tipografía
-- [ ] Diseñar layout principal (Header + Footer)
-- [ ] Crear página Home
-- [ ] Crear componentes UI base
-
-### Fase 2 — Noticias
-- [ ] Listado de noticias con cards
-- [ ] Filtros y búsqueda
-- [ ] Página de detalle de noticia
-- [ ] Mock data para desarrollo
-
-### Fase 3 — Eventos
-- [ ] Listado de eventos con cards
-- [ ] Sistema de calendario (vista mensual)
-- [ ] Filtros (presencial/virtual/fecha)
-- [ ] Página de detalle de evento
-- [ ] Mock data para desarrollo
-
-### Fase 4 — Panel Admin
-- [ ] Autenticación admin (simple, sin registro público)
-- [ ] Dashboard con estadísticas básicas
-- [ ] CRUD de noticias (con editor rich text)
-- [ ] CRUD de eventos
-- [ ] Gestión de imágenes
-
-### Fase 5 — Backend y Persistencia
-- [ ] Elegir e integrar backend/CMS
-- [ ] API routes o integración directa
-- [ ] Gestión de archivos/imágenes
-
-### Fase 6 — Polish y Deploy
-- [ ] SEO y meta tags
-- [ ] Responsive final
-- [ ] Performance optimization
-- [ ] Despliegue
+### Naming convention
+- TypeScript: `camelCase` (ej. `coverImage`, `coverImageOriginal`, `movimientoId`)
+- Base de datos: `snake_case` (ej. `cover_image`, `cover_image_original`, `movimiento_id`)
+- Los row mappers en `store.ts` convierten entre ambos
 
 ---
 
-## 🎯 Decisiones Pendientes
+## 🎨 Diseño
 
-| Decisión | Opciones | Estado |
-|----------|----------|--------|
-| Paleta de colores | Verde oscuro #013F3F + rosa/granate #965458 + teal #0F9181 | ✅ Extraída del branding |
-| Tipografía títulos | P22 Mackinac (verificar licencia web) | ✅ Definida |
-| Tipografía cuerpo | Source Sans Pro Semibold (Google Fonts) | ✅ Definida |
-| Tipografía complementaria | Chulapa (CC BY 4.0, en /public/fonts/) | ✅ Disponible |
-| Logo | /public/images/logo.png + logo-full.png | ✅ Disponible |
-| Backend/CMS | Supabase / Payload CMS / MDX estático | ⏳ Por decidir |
-| Hosting | Vercel / Netlify / otro | ⏳ Por decidir |
-| Nombre del proyecto | AutentiZity | ✅ Decidido |
-| Idioma del contenido | Español (principal) — posible bilingüe en futuro | ✅ Español |
+### Colores
+- Primario: `#013F3F` (verde oscuro)
+- Secundario: `#965458` (rosa/granate)
+- Accent: `#0F9181` (teal)
+
+### Tipografía
+- Títulos: P22 Mackinac
+- Cuerpo: Source Sans Pro Semibold
+- Complementaria: Chulapa (en `/public/fonts/`)
 
 ---
 
-## 📁 Carpeta `design/`
+## 🔐 Admin Auth
 
-Esta carpeta es para que el cliente suba:
-- Screenshots de referencia
-- Logos y branding
-- Paleta de colores
-- Mockups o bocetos
-- Cualquier recurso visual
-
-La IA leerá esta carpeta para informar las decisiones de diseño.
+- Middleware (`src/middleware.ts`) protege todas las rutas `/admin/*` excepto `/admin/login`
+- Autenticación simple: cookie `admin_session=authenticated`
+- Login en `/admin/login` con contraseña hardcodeada (variable de entorno `ADMIN_PASSWORD`)
+- Sin roles complejos, sin registro público
 
 ---
 
 ## 🧭 Convenciones
 
-- **Idioma del código**: Inglés (nombres de variables, componentes, etc.)
-- **Idioma del contenido/UI**: Por decidir (probablemente español)
-- **Commits**: Conventional Commits (`feat:`, `fix:`, `docs:`, etc.)
-- **Componentes**: Functional components con TypeScript
-- **Estilos**: Tailwind utility-first, componentes extraídos cuando se repiten
-- **Rutas**: Español para URLs públicas (`/noticias`, `/eventos`)
+- **Idioma código**: Inglés
+- **Idioma UI**: Español
+- **Commits**: Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`)
+- **Componentes**: Functional components con TypeScript, "use client" donde sea necesario
+- **Estilos**: Tailwind utility-first, clases en español para labels/textos de UI
+- **Rutas**: Español para URLs públicas (`/noticias`, `/eventos`, `/movimientos`, `/actividades`, `/ecosistema`, `/ranking`, `/unete`)
+- **API routes**: Next.js App Router route handlers (`export async function GET/POST/PUT/DELETE`)
+- **Sin comentarios** en el código a menos que sea estrictamente necesario
+- **NO crear archivos .md de documentación** a menos que se pida explícitamente
