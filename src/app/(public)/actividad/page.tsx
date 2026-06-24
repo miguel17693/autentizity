@@ -68,21 +68,33 @@ export default async function ActividadPage() {
         </div>
       </section>
 
+      {/* ============== MOVIMIENTOS ============== */}
       <Section id="act-movimientos">
         <section id="movimientos" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="brand-line" />
-              <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+            <Link href="/actividad/movimientos" className="group/header block">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="brand-line group-hover/header:w-16 transition-all duration-300" />
+                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+                  Movimientos
+                </span>
+              </div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Movimientos
-              </span>
-            </div>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
-              Movimientos
-            </h2>
-            <p className="mt-4 text-text-body text-base font-light max-w-3xl">
-              Líneas de acción del ecosistema AutentiZity
-            </p>
+                <svg
+                  className="w-5 h-5 lg:w-6 lg:h-6 opacity-0 group-hover/header:opacity-100 group-hover/header:translate-x-1 transition-all duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </h2>
+              <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+                Líneas de acción del ecosistema AutentiZity
+              </p>
+              <div className="mt-3 h-[2px] w-0 group-hover/header:w-full bg-primary/10 transition-all duration-500 rounded-full" />
+            </Link>
 
             {previewMovs.length > 0 ? (
               <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
@@ -105,38 +117,48 @@ export default async function ActividadPage() {
               </p>
             )}
 
-            {movItems.length > 3 && (
-              <div className="mt-10 text-center">
-                <Link
-                  href="/movimientos/todos"
-                  className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
-                >
-                  Ver todos los movimientos
-                  <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </div>
-            )}
+            <div className="mt-10 text-center">
+              <Link
+                href="/actividad/movimientos"
+                className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
+              >
+                Ver todos los movimientos
+                <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </section>
       </Section>
 
+      {/* ============== EVENTOS ============== */}
       <Section id="act-eventos">
         <section id="eventos" className="py-12 sm:py-16 lg:py-24">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="brand-line" />
-              <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+            <Link href="/actividad/eventos" className="group/header block">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="brand-line group-hover/header:w-16 transition-all duration-300" />
+                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+                  Eventos
+                </span>
+              </div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Eventos
-              </span>
-            </div>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
-              Eventos
-            </h2>
-            <p className="mt-4 text-text-body text-base font-light max-w-3xl">
-              Encuentros, foros y experiencias del ecosistema
-            </p>
+                <svg
+                  className="w-5 h-5 lg:w-6 lg:h-6 opacity-0 group-hover/header:opacity-100 group-hover/header:translate-x-1 transition-all duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </h2>
+              <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+                Encuentros, foros y experiencias del ecosistema
+              </p>
+              <div className="mt-3 h-[2px] w-0 group-hover/header:w-full bg-primary/10 transition-all duration-500 rounded-full" />
+            </Link>
 
             {previewEvents.length > 0 ? (
               <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
@@ -163,38 +185,48 @@ export default async function ActividadPage() {
               </p>
             )}
 
-            {eventItems.length > 3 && (
-              <div className="mt-10 text-center">
-                <Link
-                  href="/eventos/todos"
-                  className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
-                >
-                  Ver todos los eventos
-                  <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </div>
-            )}
+            <div className="mt-10 text-center">
+              <Link
+                href="/actividad/eventos"
+                className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
+              >
+                Ver todos los eventos
+                <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </section>
       </Section>
 
+      {/* ============== ACTIVIDADES ============== */}
       <Section id="act-actividades">
         <section id="actividades" className="py-12 sm:py-16 lg:py-24 bg-surface-alt">
           <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="brand-line" />
-              <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+            <Link href="/actividad/actividades" className="group/header block">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="brand-line group-hover/header:w-16 transition-all duration-300" />
+                <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
+                  Actividades
+                </span>
+              </div>
+              <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] inline-flex items-center gap-3 group-hover/header:text-secondary transition-colors">
                 Actividades
-              </span>
-            </div>
-            <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
-              Actividades
-            </h2>
-            <p className="mt-4 text-text-body text-base font-light max-w-3xl">
-              Otras actividades del ecosistema
-            </p>
+                <svg
+                  className="w-5 h-5 lg:w-6 lg:h-6 opacity-0 group-hover/header:opacity-100 group-hover/header:translate-x-1 transition-all duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </h2>
+              <p className="mt-4 text-text-body text-base font-light max-w-3xl">
+                Otras actividades del ecosistema
+              </p>
+              <div className="mt-3 h-[2px] w-0 group-hover/header:w-full bg-primary/10 transition-all duration-500 rounded-full" />
+            </Link>
 
             {previewActs.length > 0 ? (
               <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-8 -mx-5 sm:mx-0">
@@ -217,19 +249,17 @@ export default async function ActividadPage() {
               </p>
             )}
 
-            {actItems.length > 3 && (
-              <div className="mt-10 text-center">
-                <Link
-                  href="/actividades/todos"
-                  className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
-                >
-                  Ver todas las actividades
-                  <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </div>
-            )}
+            <div className="mt-10 text-center">
+              <Link
+                href="/actividad/actividades"
+                className="inline-flex items-center gap-2 text-primary text-[13px] font-medium tracking-[0.08em] uppercase border-b-2 border-primary pb-0.5 hover:text-secondary hover:border-secondary transition-colors"
+              >
+                Ver todas las actividades
+                <svg className="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </section>
       </Section>
