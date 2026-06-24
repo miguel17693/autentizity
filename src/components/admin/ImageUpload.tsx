@@ -34,6 +34,7 @@ export default function ImageUpload({
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [cropProcessing, setCropProcessing] = useState(false);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const originalUrlRef = useRef<string>("");
@@ -73,30 +74,36 @@ export default function ImageUpload({
   }, []);
 
   const handleSingleCropConfirm = useCallback(async (area: CropArea) => {
-    setCropSrc(null); setError("");
+    setError("");
+    setCropProcessing(true);
     const imageUrl = originalUrlRef.current;
-    if (!imageUrl) { setError("Error: no se encontró la imagen original"); return; }
+    if (!imageUrl) { setError("Error: no se encontró la imagen original"); setCropProcessing(false); return; }
     try {
       const urls = await callCropApi(imageUrl, { default: area });
+      setCropSrc(null);
+      setCropProcessing(false);
       onChange(urls.default, imageUrl);
-    } catch (err) { setError(err instanceof Error ? err.message : "Error al recortar"); }
+    } catch (err) { setError(err instanceof Error ? err.message : "Error al recortar"); setCropProcessing(false); }
   }, [callCropApi, onChange]);
 
   const handleMultiCropConfirm = useCallback(async (result: CropResult) => {
-    setCropSrc(null); setError("");
+    setError("");
+    setCropProcessing(true);
     const { areas } = result;
     const imageUrl = originalUrlRef.current;
-    if (!imageUrl) { setError("Error: no se encontró la imagen original"); return; }
+    if (!imageUrl) { setError("Error: no se encontró la imagen original"); setCropProcessing(false); return; }
     try {
       const urls = await callCropApi(imageUrl, areas);
       const heroUrl = urls.hero, heroDesktopUrl = urls.heroDesktop, cardUrl = urls.card;
-      if (!heroUrl || !heroDesktopUrl || !cardUrl) { setError("Error al procesar uno de los recortes. Inténtalo de nuevo."); return; }
+      if (!heroUrl || !heroDesktopUrl || !cardUrl) { setError("Error al procesar uno de los recortes. Inténtalo de nuevo."); setCropProcessing(false); return; }
+      setCropSrc(null);
+      setCropProcessing(false);
       const payload = { coverImage: heroUrl, coverImageOriginal: imageUrl, coverImageHero: heroUrl, coverImageCard: cardUrl, coverImageHeroDesktop: heroDesktopUrl };
       if (onChangeMulti) { onChangeMulti(payload); onChange(heroUrl, imageUrl); }
-    } catch (err) { setError(err instanceof Error ? err.message : "Error al recortar"); }
+    } catch (err) { setError(err instanceof Error ? err.message : "Error al recortar"); setCropProcessing(false); }
   }, [callCropApi, onChange, onChangeMulti]);
 
-  const handleCropCancel = useCallback(() => { setCropSrc(null); if (fileInputRef.current) fileInputRef.current.value = ""; }, []);
+  const handleCropCancel = useCallback(() => { setCropSrc(null); setCropProcessing(false); if (fileInputRef.current) fileInputRef.current.value = ""; }, []);
   const handleDrop = useCallback((e: React.DragEvent) => { e.preventDefault(); setDragOver(false); const file = e.dataTransfer.files[0]; if (file) readAndCrop(file); }, [readAndCrop]);
   const handleRemove = () => { onChange("", ""); originalUrlRef.current = ""; setShowUrlInput(false); setPreviewSrc(null); };
   const handleRecrop = () => { const src = originalUrlRef.current || value; if (src) { setCropSrc(src); } };
@@ -149,11 +156,12 @@ export default function ImageUpload({
         </div>
       </div>
       {cropSrc && multiContext && (
-        <MultiContextCropModal imageSrc={cropSrc} existingUrls={{ hero: heroValue || value, heroDesktop: heroValue || value, card: cardValue || value }}
+        <MultiContextCropModal imageSrc={cropSrc} processing={cropProcessing}
+          existingUrls={{ hero: heroValue || value, heroDesktop: heroValue || value, card: cardValue || value }}
           onConfirm={handleMultiCropConfirm} onCancel={handleCropCancel} />
       )}
       {cropSrc && !multiContext && (
-        <CropModal imageSrc={cropSrc} aspect={aspect} onConfirm={handleSingleCropConfirm} onCancel={handleCropCancel} />
+        <CropModal imageSrc={cropSrc} processing={cropProcessing} aspect={aspect} onConfirm={handleSingleCropConfirm} onCancel={handleCropCancel} />
       )}
       {previewSrc && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setPreviewSrc(null)}>

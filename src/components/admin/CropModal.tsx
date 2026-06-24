@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { Cropper, CropperRef } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 
@@ -14,6 +14,7 @@ export interface CropArea {
 interface CropModalProps {
   imageSrc: string;
   aspect?: number;
+  processing?: boolean;
   onConfirm: (area: CropArea) => void;
   onCancel: () => void;
 }
@@ -21,16 +22,15 @@ interface CropModalProps {
 export default function CropModal({
   imageSrc,
   aspect = 16 / 10,
+  processing = false,
   onConfirm,
   onCancel,
 }: CropModalProps) {
   const cropperRef = useRef<CropperRef>(null);
-  const [processing, setProcessing] = useState(false);
 
   const handleConfirm = () => {
     const coords = cropperRef.current?.getCoordinates();
     if (!coords) return;
-    setProcessing(true);
     onConfirm({
       x: coords.left,
       y: coords.top,

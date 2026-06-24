@@ -41,7 +41,7 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   const isPng = logo?.endsWith(".png");
 
   return (
-    <div className="flex items-center justify-center h-24 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 px-6">
+    <div className="flex items-center justify-center h-24 bg-white rounded-2xl border border-secondary/20 shadow-sm hover:shadow-md hover:border-secondary/40 transition-all duration-300 px-6">
       {hasLogo ? (
         <Image src={logo} alt={name ?? ""} width={120} height={48} unoptimized={isPng} className="object-contain max-h-12 max-w-[120px]" />
       ) : (

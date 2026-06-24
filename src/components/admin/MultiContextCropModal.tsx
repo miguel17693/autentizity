@@ -27,13 +27,13 @@ export interface CropResult { areas: Record<ContextKey, CropArea>; }
 interface MultiContextCropModalProps {
   imageSrc: string;
   existingUrls?: Partial<Record<ContextKey, string>>;
+  processing?: boolean;
   onConfirm: (result: CropResult) => void;
   onCancel: () => void;
 }
 
-export default function MultiContextCropModal({ imageSrc, existingUrls, onConfirm, onCancel }: MultiContextCropModalProps) {
+export default function MultiContextCropModal({ imageSrc, existingUrls, processing = false, onConfirm, onCancel }: MultiContextCropModalProps) {
   const [activeTab, setActiveTab] = useState<ContextKey>("hero");
-  const [processing, setProcessing] = useState(false);
   const [missingTabs, setMissingTabs] = useState<ContextKey[]>([]);
   const cropperRefs = useRef<Record<ContextKey, CropperRef | null>>({ hero: null, heroDesktop: null, card: null });
   const previewRefs = useRef<Record<ContextKey, CropperPreviewRef | null>>({ hero: null, heroDesktop: null, card: null });
@@ -49,11 +49,16 @@ export default function MultiContextCropModal({ imageSrc, existingUrls, onConfir
       areas[key] = { x: coords.left, y: coords.top, width: coords.width, height: coords.height };
     }
     if (missing.length > 0) { setMissingTabs(missing); return; }
-    setProcessing(true);
     onConfirm({ areas: areas as Record<ContextKey, CropArea> });
   }, [onConfirm]);
 
   const onUpdateFactory = useCallback((key: ContextKey) => (cropper: CropperRef) => { previewRefs.current[key]?.update(cropper); }, []);
+
+  const onReadyFactory = useCallback((key: ContextKey) => (cropper: CropperRef) => {
+    requestAnimationFrame(() => {
+      previewRefs.current[key]?.update(cropper);
+    });
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
@@ -76,7 +81,9 @@ export default function MultiContextCropModal({ imageSrc, existingUrls, onConfir
         <div className="relative w-full h-64 bg-black">
           {CONTEXTS.map((c) => (
             <Cropper key={c.key} ref={(el) => { cropperRefs.current[c.key] = el; }} src={imageSrc}
-              stencilProps={{ aspectRatio: c.aspect }} onUpdate={onUpdateFactory(c.key)}
+              stencilProps={{ aspectRatio: c.aspect }}
+              onReady={onReadyFactory(c.key)}
+              onUpdate={onUpdateFactory(c.key)}
               className={`!absolute inset-0 transition-opacity ${activeTab === c.key ? "opacity-100 pointer-events-auto z-10" : "opacity-0 pointer-events-none"}`} />
           ))}
         </div>
