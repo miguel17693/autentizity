@@ -284,9 +284,9 @@ function News({ news }: { news: any[] }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <div className="flex gap-3 mb-2">
+                    <div className="flex gap-3 mb-2 justify-end">
                       {item.tags.slice(0, 2).map((tag: string) => (
-                        <span key={tag} className="text-[10px] font-medium tracking-[0.1em] uppercase text-white/70">
+                        <span key={tag} className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full">
                           {tag}
                         </span>
                       ))}

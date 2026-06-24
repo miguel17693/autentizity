@@ -122,7 +122,7 @@ export default async function EventoDetailPage({
                 {evento.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-3 py-1.5"
+                    className="text-[10px] font-medium tracking-[0.08em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
                   >
                     {tag}
                   </span>

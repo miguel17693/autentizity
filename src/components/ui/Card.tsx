@@ -74,6 +74,18 @@ export default function Card({
             )}
           </div>
         )}
+        {tags.length > 0 && (
+          <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end">
+            {tags.slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                className="text-[10px] font-medium tracking-[0.08em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="p-6 lg:p-8">
@@ -111,19 +123,6 @@ export default function Card({
         <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light line-clamp-3">
           {stripHtml(description)}
         </p>
-
-        {tags.length > 0 && (
-          <div className="mt-5 flex items-center gap-3 flex-wrap">
-            {tags.slice(0, 4).map((tag) => (
-              <span
-                key={tag}
-                className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-2.5 py-1"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
 
         <div className="mt-5 pt-4 border-t border-border-light flex items-center gap-2 text-secondary text-[12px] font-medium tracking-[0.06em] uppercase opacity-0 group-hover:opacity-100 transition-opacity">
           {ctaText}

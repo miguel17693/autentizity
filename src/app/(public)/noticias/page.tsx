@@ -77,11 +77,11 @@ export default async function NoticiasPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                    <div className="absolute top-4 left-4 flex gap-2">
+                    <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end">
                       {item.tags.slice(0, 2).map((tag) => (
                         <span
                           key={tag}
-                          className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1"
+                          className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
                         >
                           {tag}
                         </span>

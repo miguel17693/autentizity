@@ -66,7 +66,7 @@ export default async function NoticiaDetailPage({
             {noticia.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1"
+                className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
               >
                 {tag}
               </span>
