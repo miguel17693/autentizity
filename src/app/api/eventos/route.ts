@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
     registrationUrl: body.registrationUrl ?? "",
     featured: body.featured ?? false,
     status: body.status ?? "draft",
+    updatedAt: new Date().toISOString(),
     movimientoId: body.movimientoId ?? "",
   };
 

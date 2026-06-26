@@ -11,6 +11,21 @@ interface CropArea {
   height: number;
 }
 
+function isValidImageUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    if (!parsed.hostname.endsWith("public.blob.vercel-storage.com")) {
+      return false;
+    }
+    if (parsed.protocol !== "https:") {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: Request): Promise<NextResponse> {
   try {
     const body = await request.json();
@@ -26,10 +41,17 @@ export async function POST(request: Request): Promise<NextResponse> {
       );
     }
 
+    if (!isValidImageUrl(imageUrl)) {
+      return NextResponse.json(
+        { error: "URL de imagen no permitida" },
+        { status: 400 }
+      );
+    }
+
     const response = await fetch(imageUrl);
     if (!response.ok) {
       return NextResponse.json(
-        { error: `Failed to fetch image: ${response.status}` },
+        { error: "No se pudo obtener la imagen" },
         { status: 400 }
       );
     }
@@ -41,7 +63,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     if (imgW === 0 || imgH === 0) {
       return NextResponse.json(
-        { error: "Could not read image dimensions" },
+        { error: "No se pudieron leer las dimensiones de la imagen" },
         { status: 400 }
       );
     }
@@ -78,7 +100,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ urls: results });
   } catch (error) {
     console.error("Crop error:", error);
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Error interno del servidor" },
+      { status: 500 }
+    );
   }
 }

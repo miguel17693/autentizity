@@ -1,7 +1,15 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
+import sharp from "sharp";
 
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
+
+function sanitizeFilename(name: string): string {
+  return name
+    .replace(/[^a-zA-Z0-9._-]/g, "_")
+    .replace(/\.\./g, ".")
+    .substring(0, 200);
+}
 
 export async function POST(request: Request): Promise<NextResponse> {
   const formData = await request.formData();
@@ -25,8 +33,20 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
+  const buffer = Buffer.from(await file.arrayBuffer());
+
   try {
-    const blob = await put(file.name, file, {
+    await sharp(buffer).metadata();
+  } catch {
+    return NextResponse.json(
+      { error: "El archivo no es una imagen válida" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const safeName = sanitizeFilename(file.name);
+    const blob = await put(safeName, buffer, {
       access: "public",
       addRandomSuffix: true,
     });
@@ -34,9 +54,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ url: blob.url });
   } catch (error) {
     console.error("Upload error:", error);
-    const message = error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
-      { error: `Error al subir la imagen: ${message}` },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }

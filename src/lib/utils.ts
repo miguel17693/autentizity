@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import sanitizeHtml from "sanitize-html";
 
 /**
  * Combina clases de Tailwind de forma condicional
@@ -51,6 +52,32 @@ export function truncate(text: string, maxLength: number): string {
   return text.slice(0, maxLength).trimEnd() + "…";
 }
 
+const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: [
+    "h1", "h2", "h3", "h4", "h5", "h6",
+    "p", "br", "hr",
+    "ul", "ol", "li",
+    "blockquote", "pre", "code",
+    "strong", "em", "u", "s", "del",
+    "a", "img", "iframe",
+    "figure", "figcaption",
+    "div", "span",
+  ],
+  allowedAttributes: {
+    a: ["href", "title", "target", "rel"],
+    img: ["src", "alt", "title", "width", "height"],
+    iframe: ["src", "width", "height", "frameborder", "allowfullscreen"],
+    "*": ["class", "style"],
+  },
+  allowedSchemes: ["http", "https", "mailto"],
+  allowedStyles: {
+    "*": {
+      "text-align": [/^left$/, /^right$/, /^center$/],
+    },
+  },
+  allowedIframeHostnames: ["www.youtube.com", "www.youtube-nocookie.com"],
+};
+
 /**
  * Convierte contenido legacy (texto plano con \n) o HTML a HTML sanitizado.
  * Para usar con dangerouslySetInnerHTML en páginas de detalle.
@@ -62,7 +89,7 @@ export function renderRichText(raw: string): string {
       .map((p) => `<p>${escapeHtml(p)}</p>`)
       .join("");
   }
-  return raw;
+  return sanitizeHtml(raw, SANITIZE_OPTIONS);
 }
 
 /**

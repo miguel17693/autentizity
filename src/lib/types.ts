@@ -50,6 +50,7 @@ export interface Event {
   registrationUrl: string;
   featured: boolean;
   status: "draft" | "published" | "cancelled";
+  updatedAt: string;
   movimientoId: string;
 }
 

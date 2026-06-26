@@ -521,6 +521,7 @@ function rowToEvent(row: Record<string, unknown>): Event {
     registrationUrl: (row.registration_url as string) || "",
     featured: row.featured as boolean,
     status: (row.status as Event["status"]) || "draft",
+    updatedAt: (row.updated_at as string) || "",
     movimientoId: (row.movimiento_id as string) || "",
   };
 }
