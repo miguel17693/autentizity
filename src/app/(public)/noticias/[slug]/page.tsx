@@ -128,13 +128,13 @@ export default async function NoticiaDetailPage({
       <article className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
           <div
-            className="rich-text-content text-lg leading-relaxed font-light"
+            className="text-text-body text-lg leading-relaxed font-light"
             dangerouslySetInnerHTML={{ __html: renderRichText(noticia.excerpt) }}
           />
 
           {noticia.content && (
             <div
-              className="rich-text-content mt-8 font-light leading-relaxed"
+              className="mt-8 ptertiary ptertiary-lg max-w-none font-light text-text-body leading-relaxed"
               dangerouslySetInnerHTML={{ __html: renderRichText(noticia.content) }}
             />
           )}

@@ -126,13 +126,13 @@ export default async function MovimientoDetailPage({
             {/* Main content */}
             <div className="lg:col-span-2 order-2 lg:order-1">
               <div
-                className="rich-text-content text-lg leading-relaxed font-light"
+                className="text-text-body text-lg leading-relaxed font-light"
                 dangerouslySetInnerHTML={{ __html: renderRichText(movimiento.description) }}
               />
 
               {movimiento.content && (
                 <div
-                  className="rich-text-content mt-8 leading-relaxed font-light"
+                  className="mt-8 text-text-body leading-relaxed font-light"
                   dangerouslySetInnerHTML={{ __html: renderRichText(movimiento.content) }}
                 />
               )}
