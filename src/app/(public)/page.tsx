@@ -35,54 +35,165 @@ async function getNews() {
 /* ============== HERO ============== */
 function Hero() {
   return (
-    <section className="relative min-h-[calc(100dvh-57px)] sm:min-h-[calc(100dvh-65px)] lg:min-h-[calc(100dvh-73px)] flex items-center justify-center bg-primary overflow-hidden">
+    <section className="relative min-h-[calc(100dvh-57px)] sm:min-h-[calc(100dvh-65px)] lg:min-h-[calc(100dvh-73px)] flex items-center bg-[#074040] overflow-hidden">
 
-      {/* Decorative circles — centred */}
-      <div className="absolute inset-0 overflow-hidden opacity-[0.04]">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] border border-white rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] border border-white rounded-full" />
-      </div>
+      {/* Curved background shape — left side */}
+      <svg
+        className="absolute left-0 bottom-0 w-[55%] h-[100%] pointer-events-none opacity-30"
+        viewBox="0 0 962 598"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M0 598C0 598 180 380 320 280 460 180 600 100 750 80 900 60 962 0 962 0V598H0Z"
+          fill="#0D5454"
+        />
+      </svg>
 
-      <div className="relative max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 py-12 sm:py-20 w-full text-center">
-        {/* Overline */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-5 sm:mb-6">
-          <div className="w-8 h-[1px] bg-tertiary" />
-          <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-            Aceleradora de Impacto Social
-          </span>
-          <div className="w-8 h-[1px] bg-tertiary" />
+      {/* Decorative circles — yellow group */}
+      <div className="absolute -left-[80px] -top-[140px] lg:-left-[100px] lg:-top-[180px] w-[320px] h-[320px] lg:w-[480px] lg:h-[480px] rounded-full bg-tertiary/70" />
+      <div className="absolute left-[60px] top-[30px] lg:left-[80px] lg:top-[40px] w-[200px] h-[200px] lg:w-[280px] lg:h-[280px] rounded-full bg-white/90" />
+
+      {/* Decorative circles — teal group */}
+      <div className="absolute top-[5%] right-[15%] lg:top-[8%] lg:right-[18%] w-[160px] h-[160px] lg:w-[220px] lg:h-[220px] rounded-full bg-accent/70" />
+      <div className="absolute top-[5%] right-[15%] lg:top-[8%] lg:right-[18%] w-[100px] h-[100px] lg:w-[140px] lg:h-[140px] rounded-full bg-white/85" />
+
+      {/* Decorative circles — pink group large */}
+      <div className="absolute bottom-[5%] left-[8%] lg:bottom-[8%] lg:left-[10%] w-[160px] h-[160px] lg:w-[220px] lg:h-[220px] rounded-full bg-secondary/60" />
+      <div className="absolute bottom-[5%] left-[8%] lg:bottom-[8%] lg:left-[10%] w-[100px] h-[100px] lg:w-[140px] lg:h-[140px] rounded-full bg-white/85" />
+
+      {/* Decorative circles — small pink, bottom right */}
+      <div className="absolute bottom-[40%] right-[8%] lg:bottom-[35%] lg:right-[8%] w-[100px] h-[100px] lg:w-[140px] lg:h-[140px] rounded-full bg-secondary/80" />
+
+      {/* Decorative circles — small yellow, bottom right */}
+      <div className="absolute bottom-[15%] right-[20%] lg:bottom-[12%] lg:right-[18%] w-[80px] h-[80px] lg:w-[110px] lg:h-[110px] rounded-full bg-tertiary/80" />
+      <div className="absolute bottom-[15%] right-[20%] lg:bottom-[12%] lg:right-[18%] w-[50px] h-[50px] lg:w-[70px] lg:h-[70px] rounded-full bg-white/90" />
+
+      {/* Subtle connecting dashed lines — SVG hub-and-spoke */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.18]"
+        viewBox="0 0 1440 800"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        {/* Central hub */}
+        <circle cx="620" cy="400" r="6" fill="#E8C547" />
+        {/* Nodes */}
+        <circle cx="320" cy="250" r="5" fill="#E8C547" />
+        <circle cx="520" cy="550" r="5" fill="#E8C547" />
+        <circle cx="950" cy="320" r="5" fill="#E8C547" />
+        <circle cx="1020" cy="580" r="5" fill="#E8C547" />
+        {/* Connecting lines — dashed */}
+        <line x1="620" y1="400" x2="320" y2="250" stroke="#E8C547" strokeWidth="1.5" strokeDasharray="8 6" />
+        <line x1="620" y1="400" x2="520" y2="550" stroke="#E8C547" strokeWidth="1.5" strokeDasharray="8 6" />
+        <line x1="620" y1="400" x2="950" y2="320" stroke="#E8C547" strokeWidth="1.5" strokeDasharray="8 6" />
+        <line x1="620" y1="400" x2="1020" y2="580" stroke="#E8C547" strokeWidth="1.5" strokeDasharray="8 6" />
+        {/* Outer connecting ring */}
+        <path
+          d="M320 250 Q420 180 620 200 Q820 220 950 320 Q1020 400 1020 580"
+          stroke="#E8C547"
+          strokeWidth="1"
+          strokeDasharray="6 10"
+          fill="none"
+          opacity="0.5"
+        />
+        <path
+          d="M320 250 Q300 450 520 550 Q700 620 1020 580"
+          stroke="#E8C547"
+          strokeWidth="1"
+          strokeDasharray="6 10"
+          fill="none"
+          opacity="0.5"
+        />
+      </svg>
+
+      {/* Content */}
+      <div className="relative max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 py-12 sm:py-20 w-full">
+
+        {/* Desktop layout: title left, entities positioned around */}
+        <div className="hidden lg:block">
+          {/* Main title */}
+          <div className="max-w-lg">
+            <h1 className="font-serif text-[clamp(3.5rem,6vw,5.5rem)] text-[#0E1448] font-bold leading-none tracking-[-0.02em]">
+              Ecosistema
+            </h1>
+          </div>
+
+          {/* Entity labels — positioned absolutely within relative container */}
+          <div className="relative mt-8" style={{ height: "min(340px, 30vw)" }}>
+            <span className="absolute top-[15%] left-[22%] text-[#F8EFE6] font-sans text-lg font-light tracking-[0.02em]">
+              empresas
+            </span>
+            <span className="absolute top-[45%] left-[44%] text-[#F8EFE6] font-sans text-lg font-light tracking-[0.02em]">
+              asociaciones
+            </span>
+            <span className="absolute top-[82%] left-[62%] text-[#F8EFE6] font-sans text-lg font-light tracking-[0.02em]">
+              instituciones
+            </span>
+            <span className="absolute top-[38%] left-[74%] text-[#F8EFE6] font-sans text-lg font-light tracking-[0.02em]">
+              profesionales
+            </span>
+          </div>
+
+          {/* CTAs */}
+          <div className="mt-8 flex gap-4">
+            <Link
+              href="/ecosistema"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
+            >
+              Descubre el ecosistema
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <Link
+              href="/eventos"
+              className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
+            >
+              Próximos eventos
+            </Link>
+          </div>
         </div>
 
-        {/* Headline */}
-        <h1 className="font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[1.08] text-white font-light tracking-[-0.02em] text-balance max-w-4xl mx-auto">
-          Autenticidad en el trabajo que ayuda a la{" "}
-          <span className="font-normal text-secondary-light">transformación de las empresas</span>
-        </h1>
+        {/* Mobile / tablet layout: stacked centered */}
+        <div className="lg:hidden text-center">
+          <h1 className="font-serif text-[clamp(2.8rem,10vw,4.5rem)] text-[#0E1448] font-bold leading-none tracking-[-0.02em]">
+            Ecosistema
+          </h1>
 
-        {/* Subtext */}
-        <p className="mt-4 sm:mt-6 text-white/55 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
-          Conectamos empresas, instituciones, asociaciones y profesionales en un
-          ecosistema que promueve la <strong className="font-semibold text-white/75">«autenticidad»</strong>: poder ser tú, en tu lugar de trabajo
-        </p>
+          {/* Entity pills */}
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {["empresas", "asociaciones", "instituciones", "profesionales"].map((label) => (
+              <span
+                key={label}
+                className="text-[#F8EFE6] font-sans text-sm font-light tracking-[0.02em] px-5 py-2 rounded-full border border-white/10 bg-white/[0.04]"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
 
-        {/* CTAs */}
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-          <Link
-            href="/ecosistema"
-            className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
-          >
-            Descubre el ecosistema
-            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
-          <Link
-            href="/eventos"
-            className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
-          >
-            Próximos eventos
-          </Link>
+          {/* Subtext */}
+          <p className="mt-6 text-white/55 text-sm leading-relaxed max-w-md mx-auto font-light">
+            Conectamos empresas, instituciones, asociaciones y profesionales en un ecosistema que promueve la autenticidad
+          </p>
+
+          {/* CTAs */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/ecosistema"
+              className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
+            >
+              Descubre el ecosistema
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <Link
+              href="/eventos"
+              className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
+            >
+              Próximos eventos
+            </Link>
+          </div>
         </div>
       </div>
 
