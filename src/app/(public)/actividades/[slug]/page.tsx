@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { getActividadBySlug, getMovimientosByActividad } from "@/lib/data/store";
 import { renderRichText, stripHtml } from "@/lib/utils";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,

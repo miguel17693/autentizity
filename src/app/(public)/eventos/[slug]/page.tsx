@@ -6,7 +6,7 @@ import type { Event, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -74,8 +74,25 @@ export default async function EventoDetailPage({
 
   if (!evento) return notFound();
 
+  const eventJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: evento.title,
+    startDate: evento.startDate,
+    endDate: evento.endDate || evento.startDate,
+    location: { "@type": "Place", name: evento.location },
+    description: stripHtml(evento.description).slice(0, 5000),
+    image: evento.coverImage,
+    organizer: { "@type": "Organization", name: evento.organizer || "AutentiZity", url: "https://autentizity.org" },
+    eventStatus: evento.status === "cancelled" ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled",
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image

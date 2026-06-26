@@ -6,7 +6,7 @@ import type { News, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -62,8 +62,21 @@ export default async function NoticiaDetailPage({
 
   if (!noticia) return notFound();
 
+  const newsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: noticia.title,
+    image: noticia.coverImage,
+    datePublished: noticia.publishedAt,
+    author: { "@type": "Person", name: noticia.author },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(newsJsonLd) }}
+      />
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
