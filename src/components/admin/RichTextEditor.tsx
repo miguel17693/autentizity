@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
 import Youtube from "@tiptap/extension-youtube";
@@ -46,8 +46,17 @@ function ToolbarBtn({
   return (
     <button
       type="button"
-      onMouseDown={(event) => event.preventDefault()}
-      onClick={onClick}
+      onMouseDown={(event) => {
+        event.preventDefault();
+        onClick();
+      }}
+      onTouchStart={(event) => {
+        event.preventDefault();
+        onClick();
+      }}
+      onClick={(event) => {
+        if (event.detail === 0) onClick();
+      }}
       disabled={disabled}
       title={title}
       className={`p-1.5 rounded-md transition-colors ${
@@ -70,6 +79,13 @@ export default function RichTextEditor({
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const prevValueRef = useRef(value);
+  const lastSelectionRef = useRef<{ from: number; to: number } | null>(null);
+
+  const rememberSelection = useCallback((currentEditor: Editor) => {
+    if (!currentEditor.isFocused) return;
+    const { from, to } = currentEditor.state.selection;
+    lastSelectionRef.current = { from, to };
+  }, []);
 
   const editor = useEditor({
     extensions: [
@@ -88,8 +104,18 @@ export default function RichTextEditor({
       Placeholder.configure({ placeholder }),
     ],
     content: value,
+    onCreate: ({ editor }) => {
+      rememberSelection(editor);
+    },
     onUpdate: ({ editor }) => {
+      rememberSelection(editor);
       onChange(editor.getHTML());
+    },
+    onSelectionUpdate: ({ editor }) => {
+      rememberSelection(editor);
+    },
+    onFocus: ({ editor }) => {
+      rememberSelection(editor);
     },
     editorProps: {
       attributes: {
@@ -99,6 +125,26 @@ export default function RichTextEditor({
     },
     immediatelyRender: false,
   });
+
+  const restoreSelection = useCallback(() => {
+    if (!editor || !lastSelectionRef.current) return;
+    const { from, to } = lastSelectionRef.current;
+    const maxPosition = editor.state.doc.content.size;
+    editor.commands.setTextSelection({
+      from: Math.max(0, Math.min(from, maxPosition)),
+      to: Math.max(0, Math.min(to, maxPosition)),
+    });
+  }, [editor]);
+
+  const runWithSavedSelection = useCallback(
+    (command: (currentEditor: Editor) => void) => {
+      if (!editor) return;
+      restoreSelection();
+      command(editor);
+      rememberSelection(editor);
+    },
+    [editor, rememberSelection, restoreSelection]
+  );
 
   useEffect(() => {
     if (!editor) return;
@@ -150,31 +196,39 @@ export default function RichTextEditor({
 
       const url = await uploadImage(file);
       if (url) {
+        restoreSelection();
         editor.chain().focus().setImage({ src: url }).run();
+        rememberSelection(editor);
       }
       if (fileInputRef.current) fileInputRef.current.value = "";
     },
-    [editor, uploadImage]
+    [editor, rememberSelection, restoreSelection, uploadImage]
   );
 
   const handleYoutubeClick = useCallback(() => {
     if (!editor) return;
+    restoreSelection();
     const url = prompt("URL del vídeo de YouTube:");
     if (!url) return;
-    editor.commands.setYoutubeVideo({ src: url });
-  }, [editor]);
+    restoreSelection();
+    editor.chain().focus().setYoutubeVideo({ src: url }).run();
+    rememberSelection(editor);
+  }, [editor, rememberSelection, restoreSelection]);
 
   const handleLinkClick = useCallback(() => {
     if (!editor) return;
+    restoreSelection();
     const previousUrl = editor.getAttributes("link").href;
     const url = prompt("URL del enlace:", previousUrl || "https://");
     if (url === null) return;
+    restoreSelection();
     if (url === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
     } else {
       editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
     }
-  }, [editor]);
+    rememberSelection(editor);
+  }, [editor, rememberSelection, restoreSelection]);
 
   if (!editor) {
     return (
@@ -211,14 +265,14 @@ export default function RichTextEditor({
         <div className="flex items-center gap-0.5 px-2 py-1.5 border-b border-border bg-white flex-wrap">
           <div className="flex items-center gap-0.5">
             <ToolbarBtn
-              onClick={() => editor.chain().focus().toggleBold().run()}
+              onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleBold().run())}
               isActive={editor.isActive("bold")}
               title="Negrita"
             >
               <Bold size={buttonSize} />
             </ToolbarBtn>
             <ToolbarBtn
-              onClick={() => editor.chain().focus().toggleItalic().run()}
+              onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleItalic().run())}
               isActive={editor.isActive("italic")}
               title="Cursiva"
             >
@@ -231,21 +285,21 @@ export default function RichTextEditor({
           {variant === "full" && (
             <>
               <ToolbarBtn
-                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleHeading({ level: 1 }).run())}
                 isActive={editor.isActive("heading", { level: 1 })}
                 title="Título 1"
               >
                 <Heading1 size={buttonSize} />
               </ToolbarBtn>
               <ToolbarBtn
-                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleHeading({ level: 2 }).run())}
                 isActive={editor.isActive("heading", { level: 2 })}
                 title="Título 2"
               >
                 <Heading2 size={buttonSize} />
               </ToolbarBtn>
               <ToolbarBtn
-                onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleHeading({ level: 3 }).run())}
                 isActive={editor.isActive("heading", { level: 3 })}
                 title="Título 3"
               >
@@ -253,21 +307,21 @@ export default function RichTextEditor({
               </ToolbarBtn>
               <div className="w-px h-5 bg-border mx-1" />
               <ToolbarBtn
-                onClick={() => editor.chain().focus().toggleBulletList().run()}
+                onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleBulletList().run())}
                 isActive={editor.isActive("bulletList")}
                 title="Lista"
               >
                 <List size={buttonSize} />
               </ToolbarBtn>
               <ToolbarBtn
-                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleOrderedList().run())}
                 isActive={editor.isActive("orderedList")}
                 title="Lista numerada"
               >
                 <ListOrdered size={buttonSize} />
               </ToolbarBtn>
               <ToolbarBtn
-                onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                onClick={() => runWithSavedSelection((editor) => editor.chain().focus().toggleBlockquote().run())}
                 isActive={editor.isActive("blockquote")}
                 title="Cita"
               >
