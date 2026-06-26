@@ -19,14 +19,14 @@ function requireDB() {
 export async function getEventos(): Promise<Event[]> {
   requireDB();
   const sql = getSQL();
-  const rows = await sql`SELECT * FROM eventos ORDER BY start_date DESC`;
+  const rows = await sql`SELECT * FROM eventos ORDER BY start_date ASC`;
   return rows.map(rowToEvent);
 }
 
 export async function getEventosByMovimiento(movimientoId: string): Promise<Event[]> {
   requireDB();
   const sql = getSQL();
-  const rows = await sql`SELECT * FROM eventos WHERE movimiento_id = ${movimientoId} ORDER BY start_date DESC`;
+  const rows = await sql`SELECT * FROM eventos WHERE movimiento_id = ${movimientoId} ORDER BY start_date ASC`;
   return rows.map(rowToEvent);
 }
 

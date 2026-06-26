@@ -19,7 +19,7 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
 
   return (
     <article className="group h-full w-full max-w-[17rem] overflow-hidden rounded-3xl border border-border-light bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5">
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-gradient-to-br from-primary/5 via-surface-alt to-secondary/10">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-primary/5 via-surface-alt to-secondary/10">
         {hasPhoto ? (
           <Image
             src={photoUrl}
@@ -46,10 +46,8 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
             </svg>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/55 via-primary/5 to-transparent opacity-80" />
-        <span className="absolute left-4 top-4 bg-white/90 px-3 py-1.5 text-[10px] font-medium tracking-[0.14em] uppercase text-primary backdrop-blur-sm">
-          Embajador/a
-        </span>
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-primary/55 via-primary/5 to-transparent opacity-80" />
+
         {visibleTags.length > 0 && (
           <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-1.5">
             {visibleTags.map((tag) => (

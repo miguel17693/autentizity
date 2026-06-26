@@ -59,6 +59,8 @@ export default async function EventosTodosPage({
       const d = new Date(e.startDate);
       return d >= startOfMonth && d <= endOfMonth;
     });
+  } else {
+    filtered = filtered.filter((e) => new Date(e.startDate) >= today);
   }
 
   const hasFilters = !!(q || tagsParam || tipo || fecha);

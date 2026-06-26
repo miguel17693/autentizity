@@ -77,9 +77,10 @@ export default function RankingPage() {
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
             Los líderes que están redefiniendo la cultura empresarial en España
           </p>
-          <p className="mt-2 text-secondary-light text-sm font-light">
-            Organiza AutentiZity &amp; ManpowerGroup
-          </p>
+          <div className="mt-4 flex items-center justify-center gap-4">
+            <img src="/images/logo-transparent.png" alt="AutentiZity" className="h-8 w-auto" />
+            <img src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" className="h-10 w-auto" />
+          </div>
         </div>
       </section>
 

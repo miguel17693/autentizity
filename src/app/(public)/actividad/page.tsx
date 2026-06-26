@@ -38,7 +38,8 @@ export default async function ActividadPage() {
   const movItems = isPreview ? movimientos : movimientos.filter((m) => m.status === "published");
   const actItems = isPreview ? actividades : actividades.filter((a) => a.status === "published");
 
-  const previewEvents = eventItems.slice(0, 2);
+  const upcomingEvents = eventItems.filter((e) => new Date(e.startDate) >= new Date());
+  const previewEvents = upcomingEvents.slice(0, 2);
   const previewMovs = movItems.slice(0, 2);
   const previewActs = actItems.slice(0, 2);
 
