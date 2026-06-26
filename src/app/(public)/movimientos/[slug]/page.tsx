@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import type { Movement, EcosistemaEntity, Activity, News, Event } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { renderRichText, stripHtml } from "@/lib/utils";
@@ -12,6 +13,31 @@ import {
 } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const movimiento = await getMovimientoBySlug(slug);
+    if (!movimiento) return { title: "Movimiento no encontrado" };
+    return {
+      title: movimiento.title,
+      description: stripHtml(movimiento.description).slice(0, 160),
+      alternates: { canonical: `https://autentizity.org/movimientos/${movimiento.slug}` },
+      openGraph: {
+        title: movimiento.title,
+        description: stripHtml(movimiento.description).slice(0, 160),
+        images: movimiento.coverImage ? [{ url: movimiento.coverImage, width: 1200, height: 630 }] : [],
+        type: "article",
+      },
+    };
+  } catch {
+    return { title: "Movimiento" };
+  }
+}
 
 export default async function MovimientoDetailPage({
   params,
@@ -94,7 +120,7 @@ export default async function MovimientoDetailPage({
       </section>
 
       {/* Content */}
-      <section className="py-10 sm:py-16 lg:py-24">
+      <article className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16">
             {/* Main content */}
@@ -283,7 +309,7 @@ export default async function MovimientoDetailPage({
             </div>
           )}
         </div>
-      </section>
+      </article>
     </>
   );
 }

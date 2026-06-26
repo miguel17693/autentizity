@@ -1,11 +1,37 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import type { Activity, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getActividadBySlug, getMovimientosByActividad } from "@/lib/data/store";
 import { renderRichText, stripHtml } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const actividad = await getActividadBySlug(slug);
+    if (!actividad) return { title: "Actividad no encontrada" };
+    return {
+      title: actividad.title,
+      description: stripHtml(actividad.description).slice(0, 160),
+      alternates: { canonical: `https://autentizity.org/actividades/${actividad.slug}` },
+      openGraph: {
+        title: actividad.title,
+        description: stripHtml(actividad.description).slice(0, 160),
+        images: actividad.coverImage ? [{ url: actividad.coverImage, width: 1200, height: 630 }] : [],
+        type: "article",
+      },
+    };
+  } catch {
+    return { title: "Actividad" };
+  }
+}
 
 export default async function ActividadDetailPage({
   params,
@@ -54,7 +80,7 @@ export default async function ActividadDetailPage({
         </div>
       </section>
 
-      <section className="py-10 sm:py-16 lg:py-24">
+      <article className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="text-text-body text-lg leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.description) }} />
 
@@ -107,7 +133,7 @@ export default async function ActividadDetailPage({
             </Link>
           </div>
         </div>
-      </section>
+      </article>
     </>
   );
 }

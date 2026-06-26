@@ -1,7 +1,15 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
+import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Únete",
+  description:
+    "Forma parte del ecosistema AutentiZity. Empresas, organizaciones y profesionales que impulsan la autenticidad en el trabajo.",
+  alternates: { canonical: "https://autentizity.org/unete" },
+};
 
 /* ============================================
  * ÚNETE — Empresas, Organizaciones, Profesionales

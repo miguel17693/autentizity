@@ -1,4 +1,12 @@
-// Placeholder — About page
+import type { Metadata } from "next";
+
+export const revalidate = 86400;
+
+export const metadata: Metadata = {
+  title: "Sobre Nosotros",
+  robots: { index: false },
+};
+
 export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-12">

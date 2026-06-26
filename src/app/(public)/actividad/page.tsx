@@ -1,11 +1,19 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Card from "@/components/ui/Card";
 import Section from "@/components/ui/Section";
 import { getEventos, getMovimientos, getActividades } from "@/lib/data/store";
 import type { Event, Movement, Activity } from "@/lib/types";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Actividad",
+  description:
+    "Descubre los próximos encuentros, foros y experiencias del ecosistema AutentiZity. Movimientos corporativos, eventos y actividades.",
+  alternates: { canonical: "https://autentizity.org/actividad" },
+};
 
 export default async function ActividadPage() {
   const cookieStore = await cookies();

@@ -1,11 +1,39 @@
 import Link from "next/link";
 import Image from "next/image";
-import { formatDate, renderRichText } from "@/lib/utils";
+import type { Metadata } from "next";
+import { formatDate, renderRichText, stripHtml } from "@/lib/utils";
 import type { News, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const noticia = await getNoticiaBySlug(slug);
+    if (!noticia) return { title: "Noticia no encontrada" };
+    return {
+      title: noticia.title,
+      description: stripHtml(noticia.excerpt).slice(0, 160),
+      alternates: { canonical: `https://autentizity.org/noticias/${noticia.slug}` },
+      openGraph: {
+        title: noticia.title,
+        description: stripHtml(noticia.excerpt).slice(0, 160),
+        images: noticia.coverImage ? [{ url: noticia.coverImage, width: 1200, height: 630 }] : [],
+        type: "article",
+        publishedTime: noticia.publishedAt,
+      },
+    };
+  } catch {
+    return { title: "Noticia" };
+  }
+}
+
 export default async function NoticiaDetailPage({
   params,
 }: {
@@ -84,7 +112,7 @@ export default async function NoticiaDetailPage({
       </section>
 
       {/* Content */}
-      <section className="py-10 sm:py-16 lg:py-24">
+      <article className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
           <div
             className="text-text-body text-lg leading-relaxed font-light"
@@ -119,7 +147,7 @@ export default async function NoticiaDetailPage({
             </Link>
           </div>
         </div>
-      </section>
+      </article>
     </>
   );
 }

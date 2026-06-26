@@ -1,12 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CountUp from "@/components/ui/CountUp";
 import Section from "@/components/ui/Section";
 import { formatDate, stripHtml } from "@/lib/utils";
 import { getEventos, getNoticias } from "@/lib/data/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "AutentiZity — Aceleradora de Impacto Social",
+  description:
+    "Conectamos empresas, instituciones, asociaciones y profesionales en un ecosistema que promueve la autenticidad: poder ser tú, en tu lugar de trabajo.",
+  alternates: { canonical: "https://autentizity.org" },
+};
 
 /* ============================================
  * HOME — AutentiZity

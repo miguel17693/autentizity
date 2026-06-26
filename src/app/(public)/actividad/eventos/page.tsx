@@ -1,10 +1,18 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Card from "@/components/ui/Card";
 import FilterBar from "@/components/ui/FilterBar";
 import { getEventos } from "@/lib/data/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Eventos",
+  description:
+    "Todos los eventos del ecosistema AutentiZity. Encuentros, foros y experiencias presenciales, virtuales e híbridos.",
+  alternates: { canonical: "https://autentizity.org/actividad/eventos" },
+};
 
 export default async function EventosTodosPage({
   searchParams,

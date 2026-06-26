@@ -79,9 +79,9 @@ export default function Footer() {
             © {new Date().getFullYear()} AutentiZity
           </p>
           <div className="flex gap-4 text-[10px] text-white/15 font-light">
-            <Link href="/privacy" className="hover:text-white/40 transition-colors">Privacidad</Link>
-            <Link href="/cookies" className="hover:text-white/40 transition-colors">Cookies</Link>
-            <Link href="/legal" className="hover:text-white/40 transition-colors">Aviso Legal</Link>
+            <span>Privacidad</span>
+            <span>Cookies</span>
+            <span>Aviso Legal</span>
           </div>
         </div>
       </div>

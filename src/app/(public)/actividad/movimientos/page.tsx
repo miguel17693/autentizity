@@ -1,10 +1,18 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Card from "@/components/ui/Card";
 import FilterBar from "@/components/ui/FilterBar";
 import { getMovimientos } from "@/lib/data/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Movimientos Corporativos",
+  description:
+    "Líneas de acción del ecosistema AutentiZity. Movimientos corporativos que impulsan la autenticidad en el trabajo.",
+  alternates: { canonical: "https://autentizity.org/actividad/movimientos" },
+};
 
 export default async function MovimientosTodosPage({
   searchParams,

@@ -1,6 +1,7 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Section from "@/components/ui/Section";
 import Image from "next/image";
+import type { Metadata } from "next";
 import AmbassadorCard from "@/components/ui/AmbassadorCard";
 import { stripHtml } from "@/lib/utils";
 import {
@@ -10,7 +11,14 @@ import {
 } from "@/lib/data/store";
 import type { Movement } from "@/lib/types";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Ecosistema",
+  description:
+    "Empresas, entidades e instituciones que impulsan la autenticidad en el ecosistema AutentiZity.",
+  alternates: { canonical: "https://autentizity.org/ecosistema" },
+};
 
 /* ============================================
  * ECOSISTEMA — Dinámico desde base de datos.

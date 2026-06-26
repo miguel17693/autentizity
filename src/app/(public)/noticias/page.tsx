@@ -1,11 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { formatDate, stripHtml } from "@/lib/utils";
 import type { News } from "@/lib/types";
 import { getNoticias } from "@/lib/data/store";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Noticias",
+  description:
+    "Actualidad del ecosistema AutentiZity, organizaciones y personas que impulsan la autenticidad en sus lugares de trabajo.",
+  alternates: { canonical: "https://autentizity.org/noticias" },
+};
 
 export default async function NoticiasPage() {
   const cookieStore = await cookies();

@@ -1,11 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
-import { formatDate, formatDateTime, renderRichText } from "@/lib/utils";
+import type { Metadata } from "next";
+import { formatDate, formatDateTime, renderRichText, stripHtml } from "@/lib/utils";
 import type { Event, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const evento = await getEventoBySlug(slug);
+    if (!evento) return { title: "Evento no encontrado" };
+    return {
+      title: evento.title,
+      description: stripHtml(evento.description).slice(0, 160),
+      alternates: { canonical: `https://autentizity.org/eventos/${evento.slug}` },
+      openGraph: {
+        title: evento.title,
+        description: stripHtml(evento.description).slice(0, 160),
+        images: evento.coverImage ? [{ url: evento.coverImage, width: 1200, height: 630 }] : [],
+        type: "article",
+      },
+    };
+  } catch {
+    return { title: "Evento" };
+  }
+}
+
 function getRegistrationLabel(type: string) {
   switch (type) {
     case "virtual":
@@ -92,7 +119,7 @@ export default async function EventoDetailPage({
       </section>
 
       {/* Content */}
-      <section className="py-10 sm:py-16 lg:py-24">
+      <article className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16">
             {/* Main content */}
@@ -215,7 +242,7 @@ export default async function EventoDetailPage({
             </aside>
           </div>
         </div>
-      </section>
+      </article>
     </>
   );
 }
