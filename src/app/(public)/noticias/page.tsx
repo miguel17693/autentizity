@@ -76,7 +76,7 @@ export default async function NoticiasPage() {
                       Borrador
                     </div>
                   )}
-                  <div className="relative h-48 sm:h-52 overflow-hidden">
+                  <div className="relative h-48 sm:h-52 overflow-hidden rounded-t-2xl">
                     <Image
                       src={item.coverImageCard || item.coverImage}
                       alt={item.title}

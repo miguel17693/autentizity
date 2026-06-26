@@ -165,7 +165,5 @@ b {
     border-radius: 100px !important;
   }
 
-  img[class*="object-cover"] {
-    border-radius: 1rem !important;
-  }
+  /* Las imágenes heredan el border-radius de su contenedor via overflow-hidden */
 }

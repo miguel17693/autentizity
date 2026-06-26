@@ -197,7 +197,7 @@ function Events({ events }: { events: any[] }) {
                 href={`/eventos/${event.slug}`}
                 className="group block bg-white overflow-hidden hover:shadow-xl rounded-2xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-500"
               >
-                <div className="relative h-48 sm:h-52 lg:h-60 overflow-hidden">
+                <div className="relative h-48 sm:h-52 lg:h-60 overflow-hidden rounded-t-2xl">
                   <Image
                     src={event.coverImageCard || event.coverImage}
                     alt={event.title}
@@ -282,7 +282,7 @@ function News({ news }: { news: any[] }) {
                 href={`/noticias/${item.slug}`}
                 className="group block h-full"
               >
-                <div className={`relative overflow-hidden h-full ${i === 0 ? "min-h-[16rem] sm:min-h-[18rem]" : "min-h-[13rem] sm:min-h-[14rem]"}`}>
+                <div className={`relative overflow-hidden h-full rounded-t-2xl ${i === 0 ? "min-h-[16rem] sm:min-h-[18rem]" : "min-h-[13rem] sm:min-h-[14rem]"}`}>
                   <Image
                     src={item.coverImageCard || item.coverImage}
                     alt={item.title}
