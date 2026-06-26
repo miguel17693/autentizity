@@ -42,7 +42,7 @@ export default function Card({
         isDraft ? "border-secondary border-dashed" : "border-border-light"
       }`}
     >
-      <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden rounded-2xl">
+      <div className="relative h-48 sm:h-56 lg:h-64 overflow-hidden rounded-t-2xl">
         {isDraft && (
           <div className="absolute top-4 right-4 z-10 bg-secondary text-white text-[10px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1">
             Borrador
@@ -59,7 +59,7 @@ export default function Card({
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-primary-light to-primary" />
         )}
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         {(badge || featured) && (
           <div className="absolute top-4 left-4 flex gap-2">
             {badge && (

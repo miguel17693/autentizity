@@ -19,7 +19,7 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
 
   return (
     <article className="group h-full w-full max-w-[17rem] overflow-hidden rounded-3xl border border-border-light bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-primary/5 via-surface-alt to-secondary/10">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-3xl bg-gradient-to-br from-primary/5 via-surface-alt to-secondary/10">
         {hasPhoto ? (
           <Image
             src={photoUrl}
@@ -46,7 +46,7 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
             </svg>
           </div>
         )}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-primary/55 via-primary/5 to-transparent opacity-80" />
+        <div className="absolute inset-0 rounded-t-3xl bg-gradient-to-t from-primary/55 via-primary/5 to-transparent opacity-80" />
 
         {visibleTags.length > 0 && (
           <div className="absolute inset-x-4 bottom-4 flex flex-wrap gap-1.5">

@@ -68,7 +68,7 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const isInternalChange = useRef(false);
+  const prevValueRef = useRef(value);
 
   const editor = useEditor({
     extensions: [
@@ -88,7 +88,6 @@ export default function RichTextEditor({
     ],
     content: value,
     onUpdate: ({ editor }) => {
-      isInternalChange.current = true;
       onChange(editor.getHTML());
     },
     editorProps: {
@@ -101,11 +100,10 @@ export default function RichTextEditor({
   });
 
   useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      if (isInternalChange.current) {
-        isInternalChange.current = false;
-        return;
-      }
+    if (!editor) return;
+    const valueChanged = value !== prevValueRef.current;
+    prevValueRef.current = value;
+    if (valueChanged && value !== editor.getHTML()) {
       editor.commands.setContent(value);
     }
   }, [value, editor]);
