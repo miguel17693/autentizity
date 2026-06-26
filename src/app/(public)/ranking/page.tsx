@@ -87,8 +87,8 @@ export default function RankingPage() {
             Los líderes que están redefiniendo la cultura empresarial en España
           </p>
           <div className="mt-4 flex items-center justify-center gap-4">
-            <Image src="/images/logo-transparent.png" alt="AutentiZity" width={120} height={32} className="h-8 w-auto brightness-0 invert" />
-            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={140} height={40} className="h-10 w-auto" />
+            <Image src="/images/logo-transparent.png" alt="AutentiZity" width={120} height={32} className="h-20 w-auto brightness-0 invert" />
+            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={140} height={40} className="h-25 w-auto" />
           </div>
         </div>
       </section>
