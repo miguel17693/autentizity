@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     title: "AutentiZity — Aceleradora de Impacto Social",
     description:
       "Aceleradora de Impacto Social que acompaña a empresas, ONG e instituciones a impulsar una cultura corporativa basada en la autenticidad y el compromiso social.",
-    images: [{ url: "/images/og-default.png", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-default.jpg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "AutentiZity — Aceleradora de Impacto Social",
     description:
       "Aceleradora de Impacto Social que acompaña a empresas, ONG e instituciones a impulsar una cultura corporativa basada en la autenticidad y el compromiso social.",
-    images: ["/images/og-default.png"],
+    images: ["/images/og-default.jpg"],
   },
 };
 
