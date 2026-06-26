@@ -71,8 +71,8 @@ export default function RankingPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-primary py-14 sm:py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center">
+      <section className="bg-primary py-14 sm:py-20 lg:py-28 flex flex-col justify-center">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12 text-center w-full">
           <div className="flex items-center justify-center gap-4 mb-5">
             <div className="w-8 h-[1px] bg-tertiary" />
             <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
@@ -86,7 +86,7 @@ export default function RankingPage() {
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
             Los líderes que están redefiniendo la cultura empresarial en España
           </p>
-          <div className="mt-8 flex items-center justify-center gap-8">
+          <div className="mt-8 flex items-center justify-center gap-12 lg:gap-16">
             <Image src="/images/logo-transparent.png" alt="AutentiZity" width={120} height={32} className="h-20 w-auto brightness-0 invert" />
             <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={140} height={40} className="h-25 w-auto" />
           </div>
