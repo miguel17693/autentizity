@@ -118,6 +118,89 @@ b {
   font-weight: 700;
 }
 
+/* Contenido HTML del editor en páginas públicas */
+.rich-text-content {
+  color: var(--color-text-body);
+}
+
+.rich-text-content h1 {
+  color: var(--color-primary);
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.15;
+  margin: 2rem 0 1rem;
+}
+
+.rich-text-content h2 {
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+  margin: 1.75rem 0 0.875rem;
+}
+
+.rich-text-content h3 {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.rich-text-content p {
+  margin: 0 0 1rem;
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+}
+
+.rich-text-content ul {
+  list-style: disc;
+}
+
+.rich-text-content ol {
+  list-style: decimal;
+}
+
+.rich-text-content li {
+  margin: 0.375rem 0;
+  padding-left: 0.25rem;
+}
+
+.rich-text-content li > p {
+  margin-bottom: 0.25rem;
+}
+
+.rich-text-content blockquote {
+  border-left: 2px solid var(--color-tertiary);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+}
+
+.rich-text-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.rich-text-content img {
+  height: auto;
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+
+.rich-text-content iframe {
+  aspect-ratio: 16 / 9;
+  height: auto;
+  margin: 1.5rem 0;
+  max-width: 100%;
+  width: 100%;
+}
+
 /* ============================================
  * PREVIEW MODE — Admin preview toggle
  * ============================================ */

@@ -82,10 +82,10 @@ export default async function ActividadDetailPage({
 
       <article className="py-10 sm:py-16 lg:py-24">
         <div className="max-w-[800px] mx-auto px-5 sm:px-6 lg:px-12">
-          <div className="text-text-body text-lg leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.description) }} />
+          <div className="rich-text-content text-lg leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.description) }} />
 
           {actividad.content && (
-            <div className="mt-8 text-text-body leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.content) }} />
+            <div className="rich-text-content mt-8 leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: renderRichText(actividad.content) }} />
           )}
 
           {actividad.buttonText && actividad.buttonUrl && (

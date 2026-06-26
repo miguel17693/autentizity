@@ -142,13 +142,13 @@ export default async function EventoDetailPage({
             {/* Main content */}
             <div className="lg:col-span-2 order-2 lg:order-1">
               <div
-                className="text-text-body text-lg leading-relaxed font-light"
+                className="rich-text-content text-lg leading-relaxed font-light"
                 dangerouslySetInnerHTML={{ __html: renderRichText(evento.description) }}
               />
 
               {evento.content && (
                 <div
-                  className="mt-8 text-text-body leading-relaxed font-light"
+                  className="rich-text-content mt-8 leading-relaxed font-light"
                   dangerouslySetInnerHTML={{ __html: renderRichText(evento.content) }}
                 />
               )}
