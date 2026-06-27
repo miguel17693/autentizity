@@ -227,6 +227,36 @@ export default async function MovimientoDetailPage({
           {/* Related — full width sections */}
           {(publishedNoticias.length > 0 || publishedEventos.length > 0 || publishedActividades.length > 0) && (
             <div className="mt-16 lg:mt-24 space-y-16">
+              {publishedActividades.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="brand-line" />
+                    <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">Actividades</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {publishedActividades.slice(0, 4).map((act) => (
+                      <Link
+                        key={act.id}
+                        href={`/actividades/${act.slug}`}
+                        className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
+                      >
+                        {act.coverImage && (
+                          <div className="relative h-40 overflow-hidden">
+                            <Image src={act.coverImageCard || act.coverImage} alt={act.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                          </div>
+                        )}
+                        <div className="p-4">
+                          <h4 className="font-serif text-base text-primary font-normal group-hover:text-secondary transition-colors">{act.title}</h4>
+                          {act.description && (
+                            <p className="text-text-secondary text-sm mt-2 line-clamp-2">{stripHtml(act.description)}</p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {publishedEventos.length > 0 && (
                 <div>
                   <div className="flex items-center gap-4 mb-6">
@@ -276,32 +306,6 @@ export default async function MovimientoDetailPage({
                           </h4>
                         </div>
                       </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {publishedActividades.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="brand-line" />
-                    <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">Actividades</span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {publishedActividades.slice(0, 4).map((act) => (
-                      <div key={act.id} className="bg-white border border-border-light rounded-2xl overflow-hidden">
-                        {act.coverImage && (
-                          <div className="relative h-40 overflow-hidden">
-                            <Image src={act.coverImageCard || act.coverImage} alt={act.title} fill className="object-cover" />
-                          </div>
-                        )}
-                        <div className="p-4">
-                          <h4 className="font-serif text-base text-primary font-normal">{act.title}</h4>
-                          {act.description && (
-                            <p className="text-text-secondary text-sm mt-2 line-clamp-2">{stripHtml(act.description)}</p>
-                          )}
-                        </div>
-                      </div>
                     ))}
                   </div>
                 </div>
