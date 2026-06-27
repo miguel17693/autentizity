@@ -88,7 +88,7 @@ export default function RankingPage() {
           </p>
           <div className="mt-8 flex items-center justify-center gap-8 sm:gap-12 lg:gap-16">
             <Image src="/images/logo-transparent.png" alt="AutentiZity" width={120} height={32} className="h-20 w-auto brightness-0 invert" />
-            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={140} height={40} className="h-25 w-auto" />
+            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={140} height={40} className="h-20 w-auto" />
           </div>
         </div>
       </section>
