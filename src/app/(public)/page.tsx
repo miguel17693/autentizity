@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 /* ------- Data fetching (direct DB) ------- */
 async function getEvents() {
   const eventos = await getEventos();
-  return eventos.filter((e) => e.status === "published" && e.featured);
+  return eventos.filter((e) => e.status === "published" && e.featured && new Date(e.startDate) >= new Date());
 }
 
 async function getNews() {
