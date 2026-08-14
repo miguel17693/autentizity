@@ -96,3 +96,21 @@
 | Deploy en Vercel (token nuevo en https://vercel.com/account/tokens) |
 | Componente upload/recorte de imágenes en admin |
 | Sincronización back-office → front (depende de DATABASE_URL) |
+
+---
+
+## ⚖️ COMPLIANCE / LEGAL (`/privacidad`, `/cookies`, `/aviso-legal`, `/codigo-etico`)
+
+**Fecha**: 14 de agosto 2026
+**Rama**: `diseño`
+
+| Elemento | Cambio |
+|---|---|
+| Política de Privacidad | Creada página pública bilingüe ES/EN en `/privacidad` con el contenido del documento del cliente |
+| Política de Cookies | Creada página pública bilingüe ES/EN en `/cookies` con el contenido del documento del cliente |
+| Aviso Legal | Creada página pública bilingüe ES/EN en `/aviso-legal` con el contenido del documento del cliente |
+| Código Ético | Creada página pública en `/codigo-etico` con el contenido del PDF del cliente |
+| Código Ético PDF | Añadido PDF original descargable en `/documents/codigo-etico-autentizity.pdf` |
+| Footer | `Privacidad`, `Cookies`, `Aviso Legal` y `Código Ético` pasan a ser enlaces reales |
+| Redirecciones | Añadidas redirecciones 308 desde `/privacy`, `/legal`, `/politica-privacidad`, `/politica-cookies`, `/cookie-policy`, `/code-of-ethics` y `/ethics` |
+| Sitemap | Añadidas las 4 páginas de compliance al `sitemap.xml` |
