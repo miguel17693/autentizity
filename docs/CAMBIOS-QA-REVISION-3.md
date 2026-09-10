@@ -159,6 +159,17 @@ Publicado y verificado en **https://autentizity.vercel.app/** el **10 de septiem
 - Verificado visualmente en `https://autentizity.vercel.app/ranking`, a 1440 px y 390 px: ambos logos cargan y el botón queda debajo de los dos, sin desbordamiento horizontal.
 - No se han modificado datos ni ejecutado migraciones en este ajuste.
 
+### Mejora posterior: imagen para compartir enlaces
+
+- Sustituida la imagen por defecto de poco contraste por una tarjeta con el logotipo original sólido, fondo claro y colores corporativos. Se han conservado los archivos originales y las portadas propias de los contenidos.
+- Nueva imagen: `public/images/og-autentizity-v2.png`, **1200 × 630**, PNG opaco y **119.955 bytes**. La URL nueva evita reutilizar la caché del archivo de imagen anterior; no fuerza a Telegram u otras plataformas a renovar previsualizaciones de páginas ya almacenadas.
+- Open Graph y Twitter apuntan a la misma tarjeta, con texto alternativo; Open Graph incluye dimensiones y tipo MIME. No se han cambiado dominios canónicos ni textos de las páginas.
+- Generador: `node scripts/generate-social-preview.mjs`, sin dependencias nuevas.
+- Tests RED → GREEN de metadatos y archivo; suite completa **49/49**, TypeScript y build correctos.
+- Commit de código: `ebae73ff5797f1e50c86594c1fbbc07f7cb1fb4c`; despliegue de producción `dpl_3SJZM7sqKzVsL3v64MSQdk11HPaT`, **READY**, alias y SHA comprobados por API.
+- Verificados **18 casos HTTP**: Home y Referentes en `.vercel.app`, `.org` y `.com`, con los agentes de Telegram, Facebook y Twitter. Todos sirven los nuevos metadatos. La imagen devuelve 200 y `image/png` en los tres dominios, con bytes idénticos al archivo local.
+- Revisión visual del archivo original y de la nueva tarjeta a tamaño completo y miniatura de 420 px. **No se afirma haber inspeccionado la caché interna ni la tarjeta renderizada por el cliente nativo de Telegram**; los enlaces ya compartidos pueden conservar la imagen anterior hasta que la plataforma refresque su previsualización.
+
 ## Dudas para cerrar con Miguel
 
 1. **Formulario de adhesión:** URL existente o formulario propio; campos, destinatario y consentimientos.
