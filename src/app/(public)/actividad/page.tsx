@@ -218,9 +218,6 @@ export default async function ActividadPage() {
                 </svg>
               </h2>
               <div className="brand-line group-hover/header:w-16 transition-all duration-300 mt-4" />
-              <p className="mt-4 text-text-body text-base font-light max-w-3xl">
-                Otras actividades del ecosistema
-              </p>
               <div className="mt-3 h-[2px] w-0 group-hover/header:w-full bg-primary/10 transition-all duration-500 rounded-full" />
             </Link>
 

@@ -6,6 +6,7 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import { stripHtml } from "@/lib/utils";
+import { groupMovementParticipants } from "@/lib/movement-participants";
 
 const emptyMovimiento: Partial<Movement> = {
   title: "",
@@ -26,7 +27,7 @@ export default function AdminMovimientosPage() {
 
   const [actividadesDisp, setActividadesDisp] = useState<Activity[]>([]);
   const [embajadoresDisp, setEmbajadoresDisp] = useState<EcosistemaEntity[]>([]);
-  const [embajadorSectionId, setEmbajadorSectionId] = useState("");
+  const [participantSections, setParticipantSections] = useState<EcosistemaSection[]>([]);
   const [selectedActividadIds, setSelectedActividadIds] = useState<string[]>([]);
   const [selectedEmbajadorIds, setSelectedEmbajadorIds] = useState<string[]>([]);
 
@@ -51,10 +52,9 @@ export default function AdminMovimientosPage() {
       entRes.json(),
       sectionRes.json(),
     ]);
-    const embajadoresSection = (sections as EcosistemaSection[]).find((s) => s.slug === "embajadores");
     setActividadesDisp(actividades);
     setEmbajadoresDisp(entidades);
-    setEmbajadorSectionId(embajadoresSection?.id ?? "");
+    setParticipantSections(sections);
   }
 
   function startCreate() {
@@ -125,9 +125,18 @@ export default function AdminMovimientosPage() {
   const actividadesItems = actividadesDisp
     .filter((a) => a.status === "published")
     .map((a) => ({ id: a.id, label: a.title }));
-  const embajadoresItems = embajadoresDisp
-    .filter((e) => e.active && e.section_id === embajadorSectionId)
-    .map((e) => ({ id: e.id, label: e.name }));
+  const participantGroups = groupMovementParticipants(embajadoresDisp, participantSections)
+    .map(({ section, entities }) => ({
+      id: section.id,
+      label: `${section.name}${section.active ? "" : " (sección inactiva)"}`,
+      entities,
+    }));
+  const unclassifiedEntities = embajadoresDisp.filter(
+    (entity) => !participantSections.some((section) => section.id === entity.section_id),
+  );
+  if (unclassifiedEntities.length > 0) {
+    participantGroups.push({ id: "unclassified", label: "Sin sección válida", entities: unclassifiedEntities });
+  }
 
   return (
     <div>
@@ -209,13 +218,30 @@ export default function AdminMovimientosPage() {
               selectedIds={selectedActividadIds}
               onChange={setSelectedActividadIds}
             />
-            <MultiSelectCheckbox
-              label="Embajadores"
-              items={embajadoresItems}
-              selectedIds={selectedEmbajadorIds}
-              onChange={setSelectedEmbajadorIds}
-            />
+            {participantGroups.map((group) => {
+              const groupIds = new Set(group.entities.map((entity) => entity.id));
+              return (
+                <MultiSelectCheckbox
+                  key={group.id}
+                  label={group.label}
+                  items={group.entities.map((entity) => ({
+                    id: entity.id,
+                    label: `${entity.name}${entity.active ? "" : " (inactiva)"}`,
+                  }))}
+                  selectedIds={selectedEmbajadorIds.filter((id) => groupIds.has(id))}
+                  onChange={(ids) => setSelectedEmbajadorIds((current) => [
+                    ...current.filter((id) => !groupIds.has(id)),
+                    ...ids,
+                  ])}
+                />
+              );
+            })}
           </div>
+          {unclassifiedEntities.length > 0 && (
+            <p className="text-sm text-text-secondary">
+              Las entidades sin sección válida no se muestran en público. Revisa su clasificación en Ecosistema.
+            </p>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

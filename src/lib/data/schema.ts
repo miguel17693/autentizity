@@ -9,7 +9,11 @@ const DEFAULT_ECOSISTEMA_SECTIONS = [
     id: "eco-empresas",
     name: "Empresas Impulsoras",
     slug: "empresas-impulsoras",
-    description: "Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren.",
+    description: "Empresas comprometidas con la construcción de culturas corporativas más auténticas, inclusivas y humanas. Organizaciones que entienden que el cambio real comienza dentro y que su impacto se proyecta mucho más allá del lugar de trabajo.",
+    previousDescriptions: [
+      "Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren.",
+      "Empresas que no se conforman con la cultura que tienen, sino que construyen la que quieren. Organizaciones que entienden que el cambio real empieza dentro… y se proyecta fuera",
+    ],
     sort_order: 1,
     active: true,
   },
@@ -17,7 +21,12 @@ const DEFAULT_ECOSISTEMA_SECTIONS = [
     id: "eco-entidades",
     name: "Entidades Colaboradoras",
     slug: "entidades-colaboradoras",
-    description: "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos.",
+    description: "ONG y asociaciones con las que colaboramos y que aportan su conocimiento, experiencia y compromiso para promover el bienestar, la inclusión y la salud mental también en los lugares de trabajo.",
+    previousDescriptions: [
+      "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos.",
+      "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos",
+      "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos. Porque somos personas en todos los ámbitos de nuestra vida, también en nuestros lugares de trabajo",
+    ],
     sort_order: 2,
     active: true,
   },
@@ -25,7 +34,12 @@ const DEFAULT_ECOSISTEMA_SECTIONS = [
     id: "eco-instituciones",
     name: "Instituciones, Cámaras de Comercio y Asociaciones Corporativas",
     slug: "instituciones",
-    description: "Cuando lo público y lo privado avanzan juntos, el impacto se multiplica.",
+    description: "Entidades con las que generamos alianzas y espacios de colaboración entre el ámbito público, empresarial y social. Porque cuando avanzamos juntos, el impacto se multiplica.",
+    previousDescriptions: [
+      "Cuando lo público y lo privado avanzan juntos, el impacto se multiplica.",
+      "Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica",
+      "Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica. Aquí es donde nacen los cambios que transforman empresas, ciudades y formas de vivir el trabajo",
+    ],
     sort_order: 3,
     active: true,
   },
@@ -35,6 +49,14 @@ const DEFAULT_ECOSISTEMA_SECTIONS = [
     slug: "embajadores",
     description: "Profesionales que impulsan los movimientos corporativos de AutentiZity.",
     sort_order: 4,
+    active: true,
+  },
+  {
+    id: "eco-consejo-consultivo",
+    name: "Consejo Consultivo de Impacto Social",
+    slug: "consejo-consultivo-impacto-social",
+    description: "Representantes de instituciones públicas, universidades, empresas, asociaciones y entidades empresariales que aportan su conocimiento y experiencia para ayudarnos a definir nuestras prioridades y los movimientos corporativos con los que generar un impacto social positivo desde el ámbito empresarial.",
+    sort_order: 5,
     active: true,
   },
 ];
@@ -187,8 +209,15 @@ export async function initSchema() {
     await sql`
       INSERT INTO ecosistema_secciones (id, name, slug, description, sort_order, active)
       VALUES (${section.id}, ${section.name}, ${section.slug}, ${section.description}, ${section.sort_order}, ${section.active})
-      ON CONFLICT (id) DO NOTHING
+      ON CONFLICT DO NOTHING
     `;
+    // Only replace known legacy copy; preserve custom admin text and empty descriptions.
+    for (const previousDescription of section.previousDescriptions ?? []) {
+      await sql`
+        UPDATE ecosistema_secciones SET description = ${section.description}
+        WHERE id = ${section.id} AND description = ${previousDescription}
+      `;
+    }
   }
 
   await sql`

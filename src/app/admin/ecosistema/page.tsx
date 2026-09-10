@@ -26,6 +26,7 @@ function generateId(): string {
 function getSectionLabels(slug: string): { singular: string; plural: string } {
   const map: Record<string, { singular: string; plural: string }> = {
     embajadores: { singular: "embajador", plural: "Embajadores" },
+    "consejo-consultivo-impacto-social": { singular: "miembro", plural: "Miembros" },
     "empresas-impulsoras": { singular: "empresa", plural: "Empresas" },
     "entidades-colaboradoras": { singular: "entidad", plural: "Entidades" },
     instituciones: { singular: "institución", plural: "Instituciones" },
@@ -718,7 +719,7 @@ export default function AdminEcosistemaPage() {
           onMovimientosChange={setSelectedMovimientoIds}
           imageLabel={(() => {
             const section = sections.find((s) => s.id === editingEntity.section_id);
-            return section?.slug === "embajadores" ? "Foto" : "Logo";
+            return section?.slug === "embajadores" || section?.slug === "consejo-consultivo-impacto-social" ? "Foto" : "Logo";
           })()}
           tagInput={tagInput}
           onTagInputChange={setTagInput}

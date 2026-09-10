@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import type { Movement, EcosistemaEntity, Activity, News, Event } from "@/lib/types";
+import type { Movement, EcosistemaEntity, EcosistemaSection, Activity, News, Event } from "@/lib/types";
+import { groupMovementParticipants } from "@/lib/movement-participants";
 import { notFound } from "next/navigation";
 import { renderRichText, stripHtml } from "@/lib/utils";
 import {
   getMovimientoBySlug,
   getEmbajadoresByMovimiento,
+  getEcosistemaSections,
   getActividadesByMovimiento,
   getNoticiasByMovimiento,
   getEventosByMovimiento,
@@ -47,6 +49,7 @@ export default async function MovimientoDetailPage({
   const { slug } = await params;
   let movimiento: Movement | undefined;
   let embajadores: EcosistemaEntity[] = [];
+  let sections: EcosistemaSection[] = [];
   let actividades: Activity[] = [];
   let noticias: News[] = [];
   let eventos: Event[] = [];
@@ -69,11 +72,12 @@ export default async function MovimientoDetailPage({
   if (!movimiento) return notFound();
 
   try {
-    [embajadores, actividades, noticias, eventos] = await Promise.all([
+    [embajadores, actividades, noticias, eventos, sections] = await Promise.all([
       getEmbajadoresByMovimiento(movimiento.id).catch(() => []),
       getActividadesByMovimiento(movimiento.id).catch(() => []),
       getNoticiasByMovimiento(movimiento.id).catch(() => []),
       getEventosByMovimiento(movimiento.id).catch(() => []),
+      getEcosistemaSections().catch(() => []),
     ]);
   } catch {
     // Silent fallback
@@ -82,6 +86,10 @@ export default async function MovimientoDetailPage({
   const publishedNoticias = noticias.filter((n) => n.status === "published");
   const publishedEventos = eventos.filter((e) => e.status === "published");
   const publishedActividades = actividades.filter((a) => a.status === "published");
+  const participantGroups = groupMovementParticipants(
+    embajadores.filter((entity) => entity.active),
+    sections.filter((section) => section.active),
+  );
 
   return (
     <>
@@ -174,22 +182,22 @@ export default async function MovimientoDetailPage({
                   <p className="text-text-secondary text-sm font-light">
                     Ponte en contacto con nosotros para saber más sobre este movimiento.
                   </p>
-                  <a
-                    href="mailto:comunidad@autentizity.org"
+                  <Link
+                    href="/unete"
                     className="block w-full text-center px-6 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
                   >
-                    Enviar email
-                  </a>
+                    Únete
+                  </Link>
                 </div>
 
                 {/* Related sections */}
-                {embajadores.length > 0 && (
-                  <div className="bg-white border border-border-light rounded-2xl p-6 sm:p-8">
+                {participantGroups.map(({ section, entities }) => (
+                  <div key={section.id} className="bg-white border border-border-light rounded-2xl p-6 sm:p-8">
                     <h3 className="font-serif text-sm text-primary font-normal tracking-[0.04em] mb-4">
-                      Embajadores
+                      {section.name}
                     </h3>
                     <div className="flex flex-wrap gap-3">
-                      {embajadores.map((emb) => (
+                      {entities.map((emb) => (
                         <div key={emb.id} className="text-center">
                           {emb.logo_url ? (
                             <Image
@@ -198,16 +206,18 @@ export default async function MovimientoDetailPage({
                               width={48}
                               height={48}
                               unoptimized
-                              className="w-12 h-12 rounded-full object-cover mx-auto border border-border"
+                              className={section.slug === "embajadores"
+                                ? "w-12 h-12 rounded-full object-cover mx-auto border border-border"
+                                : "w-24 h-16 object-contain mx-auto"}
                             />
                           ) : (
-                            <div className="w-12 h-12 rounded-full bg-surface-alt border border-border flex items-center justify-center mx-auto">
+                            <div className={`bg-surface-alt border border-border flex items-center justify-center mx-auto ${section.slug === "embajadores" ? "w-12 h-12 rounded-full" : "w-24 h-16 rounded-lg"}`}>
                               <svg className="w-5 h-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d={section.slug === "embajadores" ? "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" : "M3 21h18M5 21V3h14v18M9 7h1m4 0h1M9 11h1m4 0h1M10 21v-5h4v5"} />
                               </svg>
                             </div>
                           )}
-                          <p className="text-xs text-text-secondary mt-1 font-light max-w-[64px] truncate">
+                          <p className="text-xs text-text-secondary mt-1 font-light max-w-[112px] break-words">
                             {emb.name}
                           </p>
                           {emb.description && (
@@ -219,7 +229,7 @@ export default async function MovimientoDetailPage({
                       ))}
                     </div>
                   </div>
-                )}
+                ))}
               </div>
             </aside>
           </div>

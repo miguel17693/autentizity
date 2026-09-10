@@ -6,7 +6,7 @@ import Image from "next/image";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Ranking Líderes de la Autenticidad",
+  title: "Referentes de la autenticidad 2026",
   description:
     "Los 100 líderes que transforman la cultura empresarial en España. Una iniciativa de AutentiZity y ManpowerGroup.",
   alternates: { canonical: "https://autentizity.org/ranking" },
@@ -63,8 +63,8 @@ const categories = [
 const timeline = [
   { step: "01", title: "Convocatoria", desc: "La convocatoria 2026 ya está abierta. Es el momento de dar visibilidad a tu liderazgo" },
   { step: "02", title: "Evaluación", desc: "Un comité independiente de expertos del ámbito corporativo y la sociedad civil evalúa cada candidatura con criterios rigurosos en las cuatro categorías" },
-  { step: "03", title: "Selección", desc: "Se seleccionan los 100 líderes más auténticos de España, que serán reconocidos por su impacto y coherencia" },
-  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Ranking líderes de la autenticidad' junto a ManpowerGroup" },
+  { step: "03", title: "Selección", desc: "Se seleccionan los 100 líderes y voces que serán reconocidos por su impacto, coherencia y compromiso, impulsando acciones concretas de bienestar, salud mental, inclusión y liderazgo" },
+  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Referentes de la autenticidad 2026' junto a ManpowerGroup" },
 ];
 
 export default function RankingPage() {
@@ -81,14 +81,20 @@ export default function RankingPage() {
             <div className="w-8 h-[1px] bg-tertiary" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
-            Ranking líderes de la autenticidad
+            Referentes de la autenticidad 2026
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
-            Los líderes que están redefiniendo la cultura empresarial en España
+            Líderes y voces que están redefiniendo la cultura empresarial en España
           </p>
+          <a
+            href="https://tally.so/r/1Aa2gp"
+            className="mt-8 inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
+          >
+            PARTICIPA
+          </a>
           <div className="mt-8 flex items-center justify-center gap-8 sm:gap-12 lg:gap-16">
-            <Image src="/images/logo-transparent.png" alt="AutentiZity" width={120} height={32} className="h-20 w-auto brightness-0 invert" />
-            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={140} height={40} className="h-20 w-auto" />
+            <Image src="/images/logo-transparent.png" alt="AutentiZity" width={944} height={550} className="h-14 sm:h-20 w-auto brightness-0 invert" />
+            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={1144} height={617} className="h-14 sm:h-20 w-auto" />
           </div>
         </div>
       </section>
@@ -100,15 +106,21 @@ export default function RankingPage() {
           <div className="max-w-3xl mx-auto text-center">
             <ScrollReveal>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
-                ¿Qué es el Ranking?
+                Top 100
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
-                El <strong className="font-medium">Ranking Líderes de la Autenticidad</strong> es una
-                iniciativa de AutentiZity y ManpowerGroup que reconoce a los 100 profesionales que más contribuyen a impulsar la autenticidad en España. Personas que, desde organizaciones, entidades sociales o proyectos propios, promueven entornos donde cada individuo puede desarrollar su potencial sin renunciar a quién es
+                <strong className="font-medium">Referentes de la autenticidad 2026</strong> es una
+                iniciativa de AutentiZity y ManpowerGroup que reconoce a los 100 profesionales que más contribuyen a impulsar la autenticidad en España. Personas que, desde organizaciones, entidades sociales promueven entornos donde cada individuo puede desarrollar su potencial sin renunciar a quién es
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
-                Su impacto se articula en cuatro ámbitos clave: Bienestar Integral, Salud Mental, Diversidad, Equidad e Inclusión (DEI) y Liderazgo Auténtico
+                Su impacto se articula en cuatro ámbitos clave:
               </p>
+              <ul className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-text-secondary text-sm font-light">
+                <li>Bienestar Integral</li>
+                <li>Salud Mental</li>
+                <li>Inclusión</li>
+                <li>Liderazgo Auténtico</li>
+              </ul>
             </ScrollReveal>
           </div>
         </div>
@@ -201,7 +213,7 @@ export default function RankingPage() {
               ¿Quieres participar?
             </h2>
             <p className="mt-5 text-text-secondary text-base leading-relaxed font-light">
-              ¿Quieres formar parte del ranking líderes de la autenticidad de AutentiZity
+              ¿Quieres formar parte de Referentes de la autenticidad 2026 de AutentiZity
               y ManpowerGroup o nominar a alguien de tu organización?
             </p>
             <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light">
@@ -209,10 +221,10 @@ export default function RankingPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:comunidad@autentizity.org"
+                href="https://tally.so/r/1Aa2gp"
                 className="inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
               >
-                Participa
+                PARTICIPA
               </a>
               <a
                 href="mailto:comunidad@autentizity.org?subject=Nominar%20l%C3%ADder"
@@ -240,14 +252,14 @@ export default function RankingPage() {
                 <div className="brand-line" />
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
-                Diploma AutentiZity
+                Diploma “Empresa AutentiZity”
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
                 En colaboración con instituciones públicas, reconocemos a las
                 organizaciones que están redefiniendo la forma de hacer empresa
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
-                El Diploma AutentiZity distingue a aquellas compañías que impulsan
+                El Diploma “Empresa AutentiZity” distingue a aquellas compañías que impulsan
                 culturas auténticas, coherentes y con impacto real en la sociedad
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">

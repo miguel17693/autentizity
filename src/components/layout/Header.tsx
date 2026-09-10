@@ -11,10 +11,11 @@ const navItems = [
     label: "Ecosistema",
     href: "/ecosistema",
     children: [
-      { label: "Empresas", href: "/ecosistema#empresas" },
-      { label: "Entidades Colaboradoras", href: "/ecosistema#asociaciones" },
+      { label: "Empresas", href: "/ecosistema#empresas-impulsoras" },
+      { label: "Entidades Colaboradoras", href: "/ecosistema#entidades-colaboradoras" },
       { label: "Instituciones, Cámaras de Comercio y Asociaciones Corporativas", href: "/ecosistema#instituciones" },
       { label: "Embajadores", href: "/ecosistema#embajadores" },
+      { label: "Consejo Consultivo de Impacto Social", href: "/ecosistema#consejo-consultivo-impacto-social" },
     ],
   },
   {
@@ -30,8 +31,8 @@ const navItems = [
     label: "Reconocimiento",
     href: "/ranking",
     children: [
-      { label: "Ranking Líderes de la Autenticidad", href: "/ranking#ranking" },
-      { label: "Diploma AutentiZity", href: "/ranking#diploma" },
+      { label: "Referentes de la autenticidad 2026", href: "/ranking#ranking" },
+      { label: "Diploma “Empresa AutentiZity”", href: "/ranking#diploma" },
     ],
   },
   { label: "Noticias", href: "/noticias" },

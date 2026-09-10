@@ -63,7 +63,7 @@ function Hero() {
         {/* Subtext */}
         <p className="mt-4 sm:mt-6 text-white/55 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-light">
           Conectamos empresas, instituciones, asociaciones y profesionales en un
-          ecosistema que promueve la <strong className="font-semibold text-white/75">«autenticidad»</strong>: poder ser tú, en tu lugar de trabajo
+          ecosistema que promueve la <strong className="font-semibold text-white/75">autenticidad</strong>: poder ser tú, en tu lugar de trabajo
         </p>
 
         {/* CTAs */}
@@ -78,10 +78,18 @@ function Hero() {
             </svg>
           </Link>
           <Link
-            href="/eventos"
+            href="/actividad/movimientos"
             className="inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full text-white/65 text-[13px] font-medium tracking-[0.08em] uppercase border border-white/20 hover:border-white/50 hover:text-white transition-all"
           >
-            Próximos eventos
+            Movimientos Corporativos
+          </Link>
+        </div>
+        <div className="mt-4 flex justify-center">
+          <Link
+            href="/unete"
+            className="inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
+          >
+            Únete
           </Link>
         </div>
       </div>
@@ -97,7 +105,7 @@ function Hero() {
 /* ============== INTRODUCTION ============== */
 function Introduction() {
   return (
-    <section className="py-12 sm:py-16 lg:py-24">
+    <section className="py-12 sm:py-16 lg:py-24 overflow-x-clip">
       <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           {/* Text */}
@@ -114,14 +122,14 @@ function Introduction() {
             </h2>
             <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
               AutentiZity es el punto de encuentro entre los valores de la
-              sociedad y la cultura de las empresas. Impulsa una cultura
-              empresarial basada en lo que nos une: aquello que nos identifica,
-              nos hace únicos y nos posiciona en el mundo
+              sociedad y la cultura de las empresas. Impulsamos una cultura
+              empresarial basada en lo que nos une, aquello que nos identifica,
+              nos hace únicos y nos posiciona en el mundo.
             </p>
-            <p className="mt-3 text-text-secondary text-sm leading-relaxed font-light">
-              El potencial de «ser tú» define la identidad de personas y
-              organizaciones. En este camino, las acompañamos junto a
-              asociaciones e instituciones que impulsan su desarrollo
+            <p className="mt-3 text-text-body text-base lg:text-lg leading-relaxed font-light">
+              Contribuimos a crear entornos laborales más humanos, en los que
+              cada persona pueda mostrarse tal como es. En este camino nos
+              acompañan empresas, instituciones asociaciones y profesionales.
             </p>
           </ScrollReveal>
 
@@ -132,7 +140,7 @@ function Introduction() {
                 { title: "Autenticidad", desc: "Espacios donde las personas y empresas pueden ser fieles a sus valores" },
                 { title: "Impacto Social", desc: "Cambio real y medible conectando empresas, instituciones, asociaciones y profesionales con valores" },
                 { title: "Cultura", desc: "Transformar la cultura corporativa para impulsar el bienestar que genera poder ser tú en tu lugar de trabajo" },
-                { title: "Reconocimiento", desc: "Ranking Líderes de la Autenticidad\nDiploma Empresa AutentiZity" },
+                { title: "Reconocimiento", desc: "Referentes de la autenticidad 2026\nDiploma “Empresa AutentiZity”" },
               ].map((pillar) => (
                 <div
                   key={pillar.title}
@@ -141,7 +149,7 @@ function Introduction() {
                   <h3 className="font-serif text-lg text-primary font-normal mb-2 group-hover:text-secondary transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-text-secondary text-sm leading-relaxed font-light">
+                  <p className="text-text-secondary text-sm leading-relaxed font-light whitespace-pre-line">
                     {pillar.desc}
                   </p>
                 </div>
@@ -168,7 +176,7 @@ function Events({ events }: { events: any[] }) {
               <div className="flex items-center gap-4 mb-4">
                 <div className="brand-line" />
                 <span className="text-tertiary text-[12px] font-medium tracking-[0.15em] uppercase">
-                  Agenda
+                  Movimientos Corporativos
                 </span>
               </div>
               <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15]">
