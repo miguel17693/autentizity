@@ -122,7 +122,19 @@ Hasta realizar esa activación, los textos persistidos y el nuevo apartado no de
 
 ### Publicación
 
-Pendiente de registrar aquí la verificación final del despliegue y su identificador antes de entregar el archivo.
+Publicado y verificado en **https://autentizity.vercel.app/** el **10 de septiembre de 2026**, tras autorización expresa de Miguel para producción.
+
+- Commit de código: `528fa7a26e615917a7f6d4c4a5e697ab25cc790a`, pusheado a `origin/diseño`. No se ha modificado `main`.
+- Despliegue Vercel: `dpl_A9M6BjwojLKjTmRWGUAzqfgweoeD`, estado **READY**, destino **production** y alias `autentizity.vercel.app` asignado sin error, comprobados por API.
+- URL inmutable: https://autentizity-h0n74jnco-miguel17693s-projects.vercel.app
+- Reejecutados antes de publicar: **46/46 tests**, TypeScript, build y `git diff --cached --check`, correctos. El build remoto también ha terminado correctamente con el entorno de producción.
+- **20 rutas públicas comprobadas por HTTP**, todas con respuesta 200 y sin mensajes de error de aplicación o de conexión: Home, Referentes, Ecosistema, Actividad, listados de actividades/movimientos, Únete y todos los movimientos, actividades y eventos publicados en la API consultada.
+- Verificados en el HTML público los párrafos de Home, enlaces a Movimientos/Únete, nombre 2026, Top 100, los dos PARTICIPA al Tally, eliminación del subtítulo de actividades y categorías/IPSEN en De Philadelphia a Madrid.
+- Los cuatro eventos publicados muestran `Regístrate` y conservan sus destinos. Las dos actividades conservan sus CTA personalizados y sus URLs.
+- CSS, JavaScript, logo, icono, robots y sitemap comprobados con respuesta 200.
+- Navegador de producción: Home y Referentes a **390 px**, sin desbordamiento; retratos circulares reales en Ecosistema; comprobadas también Actividad, listado de actividades, evento, actividad, Únete y movimiento representativos.
+- **Migración NO ejecutada:** el diagnóstico protegido devuelve **401** en la sesión del navegador disponible. La API pública sigue mostrando las tres descripciones anteriores y no contiene aún el Consejo. Esto no invalida la publicación del código, pero **E01–E03 y el alta de sección de E05 siguen pendientes** de la activación autenticada descrita arriba.
+- No se han enviado formularios, inventado miembros ni eludido la autenticación. Siguen pendientes las decisiones de formulario, frase del partner e imágenes.
 
 ## Dudas para cerrar con Miguel
 
