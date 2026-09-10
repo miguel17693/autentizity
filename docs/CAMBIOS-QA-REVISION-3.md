@@ -151,6 +151,14 @@ Publicado y verificado en **https://autentizity.vercel.app/** el **10 de septiem
 - **Migración NO ejecutada:** el diagnóstico protegido devuelve **401** en la sesión del navegador disponible. La API pública sigue mostrando las tres descripciones anteriores y no contiene aún el Consejo. Esto no invalida la publicación del código, pero **E01–E03 y el alta de sección de E05 siguen pendientes** de la activación autenticada descrita arriba.
 - No se han enviado formularios, inventado miembros ni eludido la autenticación. Siguen pendientes las decisiones de formulario, frase del partner e imágenes.
 
+### Aclaración posterior: posición de PARTICIPA
+
+- Movido el botón del hero debajo de los logos de AutentiZity y ManpowerGroup. Se conserva el enlace `https://tally.so/r/1Aa2gp` y el botón de la llamada final.
+- Test de regresión comprobado en RED → GREEN; suite completa **47/47**, TypeScript y build correctos.
+- Publicado con el commit `e207716896b150e9d3b23882fb687b08e3d95283`, despliegue `dpl_3WdxQqiMKcFXqQrzU9z1D8hSugBC` (**READY**, producción y alias verificados).
+- Verificado visualmente en `https://autentizity.vercel.app/ranking`, a 1440 px y 390 px: ambos logos cargan y el botón queda debajo de los dos, sin desbordamiento horizontal.
+- No se han modificado datos ni ejecutado migraciones en este ajuste.
+
 ## Dudas para cerrar con Miguel
 
 1. **Formulario de adhesión:** URL existente o formulario propio; campos, destinatario y consentimientos.
