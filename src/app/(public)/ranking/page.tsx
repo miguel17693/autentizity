@@ -86,16 +86,16 @@ export default function RankingPage() {
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
             Líderes y voces que están redefiniendo la cultura empresarial en España
           </p>
+          <div className="mt-8 flex items-center justify-center gap-8 sm:gap-12 lg:gap-16">
+            <Image src="/images/logo-transparent.png" alt="AutentiZity" width={944} height={550} className="h-14 sm:h-20 w-auto brightness-0 invert" />
+            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={1144} height={617} className="h-14 sm:h-20 w-auto" />
+          </div>
           <a
             href="https://tally.so/r/1Aa2gp"
             className="mt-8 inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
           >
             PARTICIPA
           </a>
-          <div className="mt-8 flex items-center justify-center gap-8 sm:gap-12 lg:gap-16">
-            <Image src="/images/logo-transparent.png" alt="AutentiZity" width={944} height={550} className="h-14 sm:h-20 w-auto brightness-0 invert" />
-            <Image src="/MPG_BE_Logo_SS_STK_WHT-1.webp" alt="ManpowerGroup" width={1144} height={617} className="h-14 sm:h-20 w-auto" />
-          </div>
         </div>
       </section>
 

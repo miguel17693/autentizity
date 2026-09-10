@@ -42,6 +42,17 @@ describe("Ranking page", () => {
     expect(metadata.alternates?.canonical).toBe("https://autentizity.org/ranking");
   });
 
+  it("places the hero PARTICIPA button after both partner logos", () => {
+    const hero = renderPage().match(/<section\b[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+    const participaPosition = hero.indexOf('href="https://tally.so/r/1Aa2gp"');
+
+    for (const logo of ["AutentiZity", "ManpowerGroup"]) {
+      const logoPosition = hero.indexOf(`alt="${logo}"`);
+      expect(logoPosition).toBeGreaterThanOrEqual(0);
+      expect(participaPosition).toBeGreaterThan(logoPosition);
+    }
+  });
+
   it("links the hero and lower PARTICIPA pills to the exact application form", () => {
     const markup = renderPage();
     const participationLinks = [...markup.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)]

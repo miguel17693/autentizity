@@ -101,7 +101,7 @@ Mientras no se actualicen los textos y se dé de alta el Consejo, desde el admin
 
   > Se seleccionan los 100 líderes y voces que serán reconocidos por su impacto, coherencia y compromiso, impulsando acciones concretas de bienestar, salud mental, inclusión y liderazgo
 
-- **R05 · Página 9 — Aplicado:** píldora `PARTICIPA` en el hero y en la llamada final, ambas a **https://tally.so/r/1Aa2gp**. Se ha abierto el destino y comprobado que corresponde a la convocatoria; no se ha enviado ninguna candidatura.
+- **R05 · Página 9 — Aplicado:** píldora `PARTICIPA` en el hero y en la llamada final, ambas a **https://tally.so/r/1Aa2gp**. Por aclaración posterior del cliente, el botón del hero va **debajo de los logos de AutentiZity y ManpowerGroup**, tanto en móvil como en escritorio. Se conserva el botón de la llamada final. Se ha abierto el destino y comprobado que corresponde a la convocatoria; no se ha enviado ninguna candidatura.
 
 ## Únete: decisión pendiente
 
