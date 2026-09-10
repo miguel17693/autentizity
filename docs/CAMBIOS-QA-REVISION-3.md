@@ -46,11 +46,26 @@
 - Corregidos los enlaces de navegación a las anclas reales de Empresas y Entidades; añadido acceso al Consejo.
 - La migración solo reemplaza textos antiguos conocidos. Respeta descripciones personalizadas o vacías y no altera relaciones ni añade miembros.
 
+### Nota para el cliente: contenido editable desde administración
+
+**Las descripciones de Empresas Impulsoras, Entidades Colaboradoras e Instituciones ya se podían editar desde el panel de administración.** Para cambiar esos párrafos no hace falta solicitar un desarrollo, publicar una nueva versión ni ejecutar la actualización automática de datos.
+
+Pasos:
+
+1. Acceder a `https://autentizity.vercel.app/admin/ecosistema` con la cuenta de administrador.
+2. Pulsar **Editar** en la sección correspondiente.
+3. Modificar el campo **Descripción** y pulsar **Guardar**.
+4. Revisar el resultado en la página pública de Ecosistema.
+
+Los textos nuevos del PDF están recogidos arriba y se pueden copiar en esos campos. La actualización automática preparada es una alternativa para aplicar esos textos y dar de alta el Consejo de una vez; no es un requisito para editar las descripciones manualmente.
+
+Una vez creada la sección del Consejo Consultivo, sus miembros, descripciones y fotografías también se gestionan desde Ecosistema en el administrador. Los cambios de diseño —como el formato circular de los retratos— sí forman parte del desarrollo publicado.
+
 ### Activación pendiente de Ecosistema
 
 La configuración de producción protege `DATABASE_URL` como secreto y no existe conexión de desarrollo utilizable. El endpoint de administración exige una sesión autorizada; **no se ha eludido esa protección**.
 
-Después de publicar este código, una persona con acceso debe:
+Para aplicar de una vez la actualización automática preparada, una persona con acceso debe:
 
 1. Iniciar sesión en `https://autentizity.vercel.app/admin/login`.
 2. Abrir, en ese mismo navegador, `https://autentizity.vercel.app/api/db/setup`.
@@ -58,7 +73,7 @@ Después de publicar este código, una persona con acceso debe:
 4. Revisar las tres descripciones y el Consejo en `/admin/ecosistema` y `/ecosistema`.
 5. Añadir los miembros reales del Consejo y sus imágenes desde administración.
 
-Hasta realizar esa activación, los textos persistidos y el nuevo apartado no deben considerarse publicados.
+Mientras no se actualicen los textos y se dé de alta el Consejo, desde el administrador o mediante esta actualización automática, esos cambios de contenido no deben considerarse publicados.
 
 ## Movimientos Corporativos
 
