@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+const socialImage = {
+  url: "/images/og-autentizity-v2.png",
+  alt: "AutentiZity — Aceleradora de Impacto Social. Autenticidad en el trabajo.",
+};
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -26,14 +31,14 @@ export const metadata: Metadata = {
     title: "AutentiZity — Aceleradora de Impacto Social",
     description:
       "Aceleradora de Impacto Social que acompaña a empresas, ONG e instituciones a impulsar una cultura corporativa basada en la autenticidad y el compromiso social.",
-    images: [{ url: "/images/og-default.jpg", width: 1200, height: 630 }],
+    images: [{ ...socialImage, width: 1200, height: 630, type: "image/png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "AutentiZity — Aceleradora de Impacto Social",
     description:
       "Aceleradora de Impacto Social que acompaña a empresas, ONG e instituciones a impulsar una cultura corporativa basada en la autenticidad y el compromiso social.",
-    images: ["/images/og-default.jpg"],
+    images: [socialImage],
   },
 };
 
