@@ -78,10 +78,19 @@ export default function Footer() {
           <p className="text-white/15 text-[10px] font-light">
             © {new Date().getFullYear()} AutentiZity
           </p>
-          <div className="flex gap-4 text-[10px] text-white/15 font-light">
-            <span>Privacidad</span>
-            <span>Cookies</span>
-            <span>Aviso Legal</span>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-light">
+            <Link href="/privacidad" className="text-white/35 hover:text-white transition-colors">
+              Privacidad
+            </Link>
+            <Link href="/cookies" className="text-white/35 hover:text-white transition-colors">
+              Cookies
+            </Link>
+            <Link href="/aviso-legal" className="text-white/35 hover:text-white transition-colors">
+              Aviso Legal
+            </Link>
+            <Link href="/codigo-etico" className="text-white/35 hover:text-white transition-colors">
+              Código Ético
+            </Link>
           </div>
         </div>
       </div>

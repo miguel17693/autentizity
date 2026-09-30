@@ -5,6 +5,7 @@ import type { Activity, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getActividadBySlug, getMovimientosByActividad } from "@/lib/data/store";
 import { renderRichText, stripHtml } from "@/lib/utils";
+import { getActivityButtonLabel } from "@/lib/registration";
 
 export const revalidate = 300;
 
@@ -96,7 +97,7 @@ export default async function ActividadDetailPage({
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
               >
-                {actividad.buttonText}
+                {getActivityButtonLabel(actividad.buttonText)}
               </a>
             </div>
           )}

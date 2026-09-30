@@ -1,0 +1,17 @@
+.git
+.vercel
+.next
+node_modules
+.env*
+*.tsbuildinfo
+coverage
+.hermes
+.agent
+.changes
+docs
+design
+inbox
+3revision
+AI_CONTEXT.md
+tests
+vitest.config.ts

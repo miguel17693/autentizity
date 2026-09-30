@@ -33,19 +33,6 @@ export async function generateMetadata({
   }
 }
 
-function getRegistrationLabel(type: string) {
-  switch (type) {
-    case "virtual":
-      return "Unirse por Zoom";
-    case "presencial":
-      return "Reservar en Eventbrite";
-    case "híbrido":
-      return "Inscribirse";
-    default:
-      return "Inscríbete";
-  }
-}
-
 export default async function EventoDetailPage({
   params,
 }: {
@@ -246,7 +233,7 @@ export default async function EventoDetailPage({
                     rel="noopener noreferrer"
                     className="block w-full text-center px-6 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
                   >
-                    {getRegistrationLabel(evento.type)}
+                    Regístrate
                   </a>
                 )}
 

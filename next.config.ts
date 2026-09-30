@@ -23,6 +23,17 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/privacy", destination: "/privacidad", permanent: true },
+      { source: "/politica-privacidad", destination: "/privacidad", permanent: true },
+      { source: "/legal", destination: "/aviso-legal", permanent: true },
+      { source: "/politica-cookies", destination: "/cookies", permanent: true },
+      { source: "/cookie-policy", destination: "/cookies", permanent: true },
+      { source: "/code-of-ethics", destination: "/codigo-etico", permanent: true },
+      { source: "/ethics", destination: "/codigo-etico", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

@@ -10,7 +10,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Actividades",
   description:
-    "Otras actividades del ecosistema AutentiZity. Iniciativas, colaboraciones y proyectos de impacto social.",
+    "Actividades de AutentiZity. Iniciativas, colaboraciones y proyectos de impacto social.",
   alternates: { canonical: "https://autentizity.org/actividad/actividades" },
 };
 
@@ -65,9 +65,6 @@ export default async function ActividadesTodosPage({
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
             Actividades
           </h1>
-          <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-xl mx-auto">
-            Otras actividades del ecosistema
-          </p>
         </div>
       </section>
 
