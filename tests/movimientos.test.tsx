@@ -60,6 +60,32 @@ beforeEach(() => {
 });
 
 describe("movement participants", () => {
+  it.each([
+    { id: "eco-consejo-consultivo", slug: "consejo-consultivo-impacto-social" },
+    { id: "fixture-manual-council", slug: "consejo-consultivo-de-impacto-social" },
+  ])("renders council $id photos and missing-photo placeholders as people, not company logos", async (identity) => {
+    const council = { ...sections[0], ...identity, name: "Consejo Consultivo de Impacto Social", sort_order: 7 };
+    data.getEcosistemaSections.mockResolvedValue([...sections, council]);
+    data.getEmbajadoresByMovimiento.mockResolvedValue([
+      ...entities,
+      { ...entities[0], id: "fixture-council-member", section_id: council.id, name: "Miembro con foto", logo_url: "/council-portrait.jpg", description: "Cargo de prueba" },
+      { ...entities[0], id: "fixture-council-empty", section_id: council.id, name: "Miembro sin foto", logo_url: "" },
+      { ...entities[0], id: "fixture-council-inactive", section_id: council.id, name: "Miembro inactivo", active: false },
+    ]);
+    const html = await renderPage();
+    const photo = html.match(/<img[^>]*alt="Miembro con foto"[^>]*>/)?.[0];
+    expect(photo).toContain("rounded-full object-cover");
+    expect(photo).not.toContain("object-contain");
+    const councilHtml = html.slice(html.indexOf(">Consejo Consultivo de Impacto Social</h3>"));
+    expect(councilHtml).toContain("w-12 h-12 rounded-full");
+    expect(councilHtml).toContain("M15.75 6a3.75 3.75");
+    expect(councilHtml).toContain("Miembro sin foto");
+    expect(councilHtml).toContain("Cargo de prueba");
+    expect(html).not.toContain("Miembro inactivo");
+    expect(html.match(/<img[^>]*alt="IPSEN"[^>]*>/)?.[0]).toContain("object-contain");
+    expect(html.match(/<img[^>]*alt="IPSEN"[^>]*>/)?.[0]).not.toContain("rounded-full");
+  });
+
   it("hides inactive entities, inactive sections and unclassified relations without inventing categories", async () => {
     data.getEcosistemaSections.mockResolvedValue([...sections, { ...sections[0], id: "inactive", name: "Sección oculta", active: false }]);
     data.getEmbajadoresByMovimiento.mockResolvedValue([

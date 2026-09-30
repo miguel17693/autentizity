@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import {
   getAllEcosistemaSections,
   saveEcosistemaSection,
@@ -28,6 +29,8 @@ export async function POST(request: NextRequest) {
       sort_order: body.sort_order ?? 0,
       description: body.description ?? "",
     });
+    revalidatePath("/ecosistema");
+    revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json(body);
   } catch (e) {
     console.error("POST /api/ecosistema/secciones error:", e);
@@ -47,6 +50,8 @@ export async function PUT(request: NextRequest) {
       sort_order: body.sort_order ?? 0,
       description: body.description ?? "",
     });
+    revalidatePath("/ecosistema");
+    revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json(body);
   } catch (e) {
     console.error("PUT /api/ecosistema/secciones error:", e);
@@ -61,6 +66,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Se requiere id" }, { status: 400 });
     }
     await deleteEcosistemaSection(id);
+    revalidatePath("/ecosistema");
+    revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error("DELETE /api/ecosistema/secciones error:", e);

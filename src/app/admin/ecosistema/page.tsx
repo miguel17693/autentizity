@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import type { EcosistemaSection, EcosistemaEntity, Movement } from "@/lib/types";
+import { isCouncilSection, isPortraitSection } from "@/lib/ecosistema-sections";
 import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 import {
@@ -23,15 +24,15 @@ function generateId(): string {
   return "eco_" + Math.random().toString(36).slice(2, 10);
 }
 
-function getSectionLabels(slug: string): { singular: string; plural: string } {
+function getSectionLabels(section?: EcosistemaSection): { singular: string; plural: string } {
+  if (section && isCouncilSection(section)) return { singular: "miembro", plural: "Miembros" };
+  if (section && isPortraitSection(section)) return { singular: "embajador", plural: "Embajadores" };
   const map: Record<string, { singular: string; plural: string }> = {
-    embajadores: { singular: "embajador", plural: "Embajadores" },
-    "consejo-consultivo-impacto-social": { singular: "miembro", plural: "Miembros" },
     "empresas-impulsoras": { singular: "empresa", plural: "Empresas" },
     "entidades-colaboradoras": { singular: "entidad", plural: "Entidades" },
     instituciones: { singular: "institución", plural: "Instituciones" },
   };
-  return map[slug] || { singular: "entidad", plural: "Entidades" };
+  return map[section?.slug || ""] || { singular: "entidad", plural: "Entidades" };
 }
 
 const emptySection: Partial<EcosistemaSection> = {
@@ -125,7 +126,7 @@ function SortableSection({
       <div className="px-5 py-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-medium tracking-[0.1em] text-text-muted">
-            {getSectionLabels(section.slug).plural}
+            {getSectionLabels(section).plural}
             {entities.length > 0 && (
               <span className="ml-2 text-text-muted/50">({entities.length})</span>
             )}
@@ -137,12 +138,12 @@ function SortableSection({
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Añadir {getSectionLabels(section.slug).singular}
+            Añadir {getSectionLabels(section).singular}
           </button>
         </div>
 
         {entities.length === 0 ? (
-          <div className="text-sm text-text-muted py-3">No hay {getSectionLabels(section.slug).plural.toLowerCase()} en esta sección.</div>
+          <div className="text-sm text-text-muted py-3">No hay {getSectionLabels(section).plural.toLowerCase()} en esta sección.</div>
         ) : (
           <SortableContext items={entityIds} strategy={verticalListSortingStrategy}>
             <div className="space-y-1.5">
@@ -275,7 +276,7 @@ function SectionFormModal({
               value={editing.name || ""}
               onChange={(e) => {
                 const name = e.target.value;
-                onChange({ name, slug: slugify(name) });
+                onChange(editing.id ? { name } : { name, slug: slugify(name) });
               }}
               className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
               required
@@ -337,7 +338,7 @@ function EntityFormModal({
   movimientosItems,
   selectedMovimientoIds,
   onMovimientosChange,
-  imageLabel,
+  section,
   tagInput,
   onTagInputChange,
 }: {
@@ -349,16 +350,19 @@ function EntityFormModal({
   movimientosItems: { id: string; label: string }[];
   selectedMovimientoIds: string[];
   onMovimientosChange: (ids: string[]) => void;
-  imageLabel: string;
+  section?: EcosistemaSection;
   tagInput: string;
   onTagInputChange: (value: string) => void;
 }) {
+  const isPerson = !!section && isPortraitSection(section);
+  const imageLabel = isPerson ? "Foto" : "Logo";
+  const labels = getSectionLabels(section);
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
       <div className="bg-white shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <div className="px-6 py-4 rounded-full border-b border-border flex items-center justify-between">
           <h3 className="font-serif text-lg text-primary font-normal">
-            {editing.id ? "Editar entidad" : "Nueva entidad"}
+            {editing.id ? "Editar" : isPerson ? "Nuevo" : "Nueva"} {labels.singular}
           </h3>
           <button onClick={onCancel} className="text-text-muted hover:text-primary">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -378,12 +382,12 @@ function EntityFormModal({
             />
           </div>
           <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Descripción (metatexto)</label>
+            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">{isPerson ? "Cargo / organización" : "Descripción (metatexto)"}</label>
             <input
               type="text"
               value={editing.description || ""}
               onChange={(e) => onChange({ description: e.target.value })}
-              placeholder="Opcional: texto secundario"
+              placeholder={isPerson ? "Opcional: cargo y organización" : "Opcional: texto secundario"}
               className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
             />
           </div>
@@ -420,7 +424,7 @@ function EntityFormModal({
                 onChange={(e) => onChange({ active: e.target.checked })}
                 className="w-4 h-4"
               />
-              Activa
+              {isPerson ? "Activo" : "Activa"}
             </label>
           </div>
           <div className="flex justify-end gap-3 pt-2">
@@ -627,7 +631,10 @@ export default function AdminEcosistemaPage() {
   }
 
   async function deleteEntity(id: string, sectionId: string) {
-    if (!confirm("¿Eliminar esta entidad?")) return;
+    const section = sections.find((s) => s.id === sectionId);
+    const labels = getSectionLabels(section);
+    const demonstrative = section && isPortraitSection(section) ? "este" : "esta";
+    if (!confirm(`¿Eliminar ${demonstrative} ${labels.singular}?`)) return;
     await fetch("/api/ecosistema/entidades", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
     loadEntities(sectionId);
   }
@@ -653,7 +660,7 @@ export default function AdminEcosistemaPage() {
         <div>
           <h1 className="font-serif text-3xl text-primary font-light">Ecosistema</h1>
           <p className="mt-2 text-text-secondary text-sm font-light">
-            Arrastra para reordenar secciones y logos. Gestiona las secciones y entidades de la página Ecosistema.
+            Arrastra para reordenar secciones y participantes. Gestiona las secciones y participantes de la página Ecosistema.
           </p>
         </div>
       </div>
@@ -717,10 +724,7 @@ export default function AdminEcosistemaPage() {
             .map((m) => ({ id: m.id, label: m.title }))}
           selectedMovimientoIds={selectedMovimientoIds}
           onMovimientosChange={setSelectedMovimientoIds}
-          imageLabel={(() => {
-            const section = sections.find((s) => s.id === editingEntity.section_id);
-            return section?.slug === "embajadores" || section?.slug === "consejo-consultivo-impacto-social" ? "Foto" : "Logo";
-          })()}
+          section={sections.find((s) => s.id === editingEntity.section_id)}
           tagInput={tagInput}
           onTagInputChange={setTagInput}
         />

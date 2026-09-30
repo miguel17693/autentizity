@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import type { Movement, EcosistemaEntity, EcosistemaSection, Activity, News, Event } from "@/lib/types";
 import { groupMovementParticipants } from "@/lib/movement-participants";
+import { isPortraitSection } from "@/lib/ecosistema-sections";
 import { notFound } from "next/navigation";
 import { renderRichText, stripHtml } from "@/lib/utils";
 import {
@@ -206,14 +207,14 @@ export default async function MovimientoDetailPage({
                               width={48}
                               height={48}
                               unoptimized
-                              className={section.slug === "embajadores"
+                              className={isPortraitSection(section)
                                 ? "w-12 h-12 rounded-full object-cover mx-auto border border-border"
                                 : "w-24 h-16 object-contain mx-auto"}
                             />
                           ) : (
-                            <div className={`bg-surface-alt border border-border flex items-center justify-center mx-auto ${section.slug === "embajadores" ? "w-12 h-12 rounded-full" : "w-24 h-16 rounded-lg"}`}>
+                            <div className={`bg-surface-alt border border-border flex items-center justify-center mx-auto ${isPortraitSection(section) ? "w-12 h-12 rounded-full" : "w-24 h-16 rounded-lg"}`}>
                               <svg className="w-5 h-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d={section.slug === "embajadores" ? "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" : "M3 21h18M5 21V3h14v18M9 7h1m4 0h1M9 11h1m4 0h1M10 21v-5h4v5"} />
+                                <path strokeLinecap="round" strokeLinejoin="round" d={isPortraitSection(section) ? "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" : "M3 21h18M5 21V3h14v18M9 7h1m4 0h1M9 11h1m4 0h1M10 21v-5h4v5"} />
                               </svg>
                             </div>
                           )}

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import {
   getAllEcosistemaEntities,
   getEcosistemaEntities,
@@ -62,6 +63,8 @@ export async function POST(request: NextRequest) {
         movimientoError = "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla.";
       }
     }
+    revalidatePath("/ecosistema");
+    revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json({ ...entityData, movimientoError: movimientoError || undefined });
   } catch (e) {
     console.error("POST /api/ecosistema/entidades error:", e);
@@ -92,6 +95,8 @@ export async function PUT(request: NextRequest) {
         movimientoError = "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla.";
       }
     }
+    revalidatePath("/ecosistema");
+    revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json({ ...entityData, movimientoError: movimientoError || undefined });
   } catch (e) {
     console.error("PUT /api/ecosistema/entidades error:", e);
@@ -106,6 +111,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Se requiere id" }, { status: 400 });
     }
     await deleteEcosistemaEntity(id);
+    revalidatePath("/ecosistema");
+    revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error("DELETE /api/ecosistema/entidades error:", e);
