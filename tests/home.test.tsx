@@ -31,11 +31,11 @@ describe("QA 3 home", () => {
 
   it("renames recognition and the agenda label consistently", async () => {
     const html = renderToStaticMarkup(await HomePage());
-    expect(text(html)).toContain("Referentes de la autenticidad 2026");
+    expect(text(html)).toContain("Referentes de la Autenticidad 2026");
     expect(text(html)).toContain("Diploma “Empresa AutentiZity”");
     expect(text(html)).not.toContain(" Agenda ");
     const header = renderToStaticMarkup(<Header />);
-    expect(text(header)).toContain("Referentes de la autenticidad 2026");
+    expect(text(header)).toContain("Referentes de la Autenticidad 2026");
     expect(text(header)).toContain("Diploma “Empresa AutentiZity”");
     expect(header).toContain('href="/ecosistema#consejo-consultivo-impacto-social"');
     expect(header).toContain('href="/ecosistema#empresas-impulsoras"');

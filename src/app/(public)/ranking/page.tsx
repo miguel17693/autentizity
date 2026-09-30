@@ -6,7 +6,7 @@ import Image from "next/image";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Referentes de la autenticidad 2026",
+  title: "Referentes de la Autenticidad 2026",
   description:
     "Los 100 líderes que transforman la cultura empresarial en España. Una iniciativa de AutentiZity y ManpowerGroup.",
   alternates: { canonical: "https://autentizity.org/ranking" },
@@ -64,7 +64,7 @@ const timeline = [
   { step: "01", title: "Convocatoria", desc: "La convocatoria 2026 ya está abierta. Es el momento de dar visibilidad a tu liderazgo" },
   { step: "02", title: "Evaluación", desc: "Un comité independiente de expertos del ámbito corporativo y la sociedad civil evalúa cada candidatura con criterios rigurosos en las cuatro categorías" },
   { step: "03", title: "Selección", desc: "Se seleccionan los 100 líderes y voces que serán reconocidos por su impacto, coherencia y compromiso, impulsando acciones concretas de bienestar, salud mental, inclusión y liderazgo" },
-  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Referentes de la autenticidad 2026' junto a ManpowerGroup" },
+  { step: "04", title: "Presentación", desc: "Los líderes seleccionados se anuncian en la Gala AutentiZity, en el marco del evento 'Liderazgo Auténtico & Referentes de la Autenticidad 2026' junto a ManpowerGroup" },
 ];
 
 export default function RankingPage() {
@@ -81,7 +81,7 @@ export default function RankingPage() {
             <div className="w-8 h-[1px] bg-tertiary" />
           </div>
           <h1 className="font-serif text-4xl lg:text-5xl text-white font-light tracking-[-0.02em]">
-            Referentes de la autenticidad 2026
+            Referentes de la Autenticidad 2026
           </h1>
           <p className="mt-4 text-white/45 text-base lg:text-lg font-light max-w-2xl mx-auto">
             Líderes y voces que están redefiniendo la cultura empresarial en España
@@ -109,7 +109,7 @@ export default function RankingPage() {
                 Top 100
               </h2>
               <p className="mt-6 text-text-body text-base lg:text-lg leading-relaxed font-light">
-                <strong className="font-medium">Referentes de la autenticidad 2026</strong> es una
+                <strong className="font-medium">Referentes de la Autenticidad 2026</strong> es una
                 iniciativa de AutentiZity y ManpowerGroup que reconoce a los 100 profesionales que más contribuyen a impulsar la autenticidad en España. Personas que, desde organizaciones, entidades sociales promueven entornos donde cada individuo puede desarrollar su potencial sin renunciar a quién es
               </p>
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
@@ -213,7 +213,7 @@ export default function RankingPage() {
               ¿Quieres participar?
             </h2>
             <p className="mt-5 text-text-secondary text-base leading-relaxed font-light">
-              ¿Quieres formar parte de Referentes de la autenticidad 2026 de AutentiZity
+              ¿Quieres formar parte de Referentes de la Autenticidad 2026 de AutentiZity
               y ManpowerGroup o nominar a alguien de tu organización?
             </p>
             <p className="mt-2 text-text-secondary text-sm leading-relaxed font-light">

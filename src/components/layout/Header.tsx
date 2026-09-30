@@ -31,7 +31,7 @@ const navItems = [
     label: "Reconocimiento",
     href: "/ranking",
     children: [
-      { label: "Referentes de la autenticidad 2026", href: "/ranking#ranking" },
+      { label: "Referentes de la Autenticidad 2026", href: "/ranking#ranking" },
       { label: "Diploma “Empresa AutentiZity”", href: "/ranking#diploma" },
     ],
   },

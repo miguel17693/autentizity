@@ -16,7 +16,7 @@ vi.mock("@/components/ui/Section", () => ({
 
 import RankingPage, { metadata } from "@/app/(public)/ranking/page";
 
-const pageTitle = "Referentes de la autenticidad 2026";
+const pageTitle = "Referentes de la Autenticidad 2026";
 const renderPage = () => renderToStaticMarkup(<RankingPage />);
 const textContent = (markup: string) => markup.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
 const elementTexts = (markup: string, tag: string) =>
@@ -85,7 +85,7 @@ describe("Ranking page", () => {
 
     expect(elementTexts(intro, "h2")).toEqual(["Top 100"]);
     expect(elementTexts(intro, "p")).toContain(
-      "Referentes de la autenticidad 2026 es una iniciativa de AutentiZity y ManpowerGroup que reconoce a los 100 profesionales que más contribuyen a impulsar la autenticidad en España. Personas que, desde organizaciones, entidades sociales promueven entornos donde cada individuo puede desarrollar su potencial sin renunciar a quién es",
+      "Referentes de la Autenticidad 2026 es una iniciativa de AutentiZity y ManpowerGroup que reconoce a los 100 profesionales que más contribuyen a impulsar la autenticidad en España. Personas que, desde organizaciones, entidades sociales promueven entornos donde cada individuo puede desarrollar su potencial sin renunciar a quién es",
     );
     expect(elementTexts(intro, "li")).toEqual([
       "Bienestar Integral", "Salud Mental", "Inclusión", "Liderazgo Auténtico",
