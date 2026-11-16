@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Movement, Activity, EcosistemaEntity, EcosistemaSection } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 import RichTextEditor from "@/components/admin/RichTextEditor";
-import { stripHtml } from "@/lib/utils";
+import AdminAlert from "@/components/admin/AdminAlert";
+import FormActions from "@/components/admin/FormActions";
+import { useCrud, useList } from "@/hooks/useCrud";
+import { parseTags, stripHtml } from "@/lib/utils";
 import { groupMovementParticipants } from "@/lib/movement-participants";
 
 const emptyMovimiento: Partial<Movement> = {
@@ -20,44 +23,18 @@ const emptyMovimiento: Partial<Movement> = {
 };
 
 export default function AdminMovimientosPage() {
-  const [movimientos, setMovimientos] = useState<Movement[]>([]);
+  const { items: movimientos, save, remove, saving, error, clearError } = useCrud<Movement>("/api/movimientos");
   const [editing, setEditing] = useState<Partial<Movement> | null>(null);
   const [tagsInput, setTagsInput] = useState("");
-  const [saving, setSaving] = useState(false);
 
-  const [actividadesDisp, setActividadesDisp] = useState<Activity[]>([]);
-  const [embajadoresDisp, setEmbajadoresDisp] = useState<EcosistemaEntity[]>([]);
-  const [participantSections, setParticipantSections] = useState<EcosistemaSection[]>([]);
+  const { items: actividadesDisp } = useList<Activity>("/api/actividades");
+  const { items: embajadoresDisp } = useList<EcosistemaEntity>("/api/ecosistema/entidades");
+  const { items: participantSections } = useList<EcosistemaSection>("/api/ecosistema/secciones");
   const [selectedActividadIds, setSelectedActividadIds] = useState<string[]>([]);
   const [selectedEmbajadorIds, setSelectedEmbajadorIds] = useState<string[]>([]);
 
-  useEffect(() => {
-    loadMovimientos();
-    loadOptions();
-  }, []);
-
-  async function loadMovimientos() {
-    const res = await fetch("/api/movimientos");
-    setMovimientos(await res.json());
-  }
-
-  async function loadOptions() {
-    const [actRes, entRes, sectionRes] = await Promise.all([
-      fetch("/api/actividades"),
-      fetch("/api/ecosistema/entidades"),
-      fetch("/api/ecosistema/secciones"),
-    ]);
-    const [actividades, entidades, sections] = await Promise.all([
-      actRes.json(),
-      entRes.json(),
-      sectionRes.json(),
-    ]);
-    setActividadesDisp(actividades);
-    setEmbajadoresDisp(entidades);
-    setParticipantSections(sections);
-  }
-
   function startCreate() {
+    clearError();
     setEditing({ ...emptyMovimiento });
     setTagsInput("");
     setSelectedActividadIds([]);
@@ -65,6 +42,7 @@ export default function AdminMovimientosPage() {
   }
 
   async function startEdit(mov: Movement) {
+    clearError();
     setEditing({ ...mov });
     setTagsInput(mov.tags.join(", "));
 
@@ -83,43 +61,18 @@ export default function AdminMovimientosPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!editing) return;
-    setSaving(true);
-
-    const payload = {
+    const saved = await save({
       ...editing,
-      tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean),
+      tags: parseTags(tagsInput),
       embajadorIds: selectedEmbajadorIds,
       actividadIds: selectedActividadIds,
-    };
-
-    const res = editing.id
-      ? await fetch(`/api/movimientos/${editing.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
-      : await fetch("/api/movimientos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: "Error desconocido" }));
-      alert("Error al guardar: " + (err.error || res.statusText));
-      setSaving(false);
-      return;
-    }
-
-    setEditing(null);
-    setSaving(false);
-    loadMovimientos();
+    });
+    if (saved) setEditing(null);
   }
 
   async function handleDelete(id: string) {
     if (!confirm("¿Eliminar este movimiento?")) return;
-    await fetch(`/api/movimientos/${id}`, { method: "DELETE" });
-    loadMovimientos();
+    await remove(id);
   }
 
   const actividadesItems = actividadesDisp
@@ -154,6 +107,12 @@ export default function AdminMovimientosPage() {
           + Nuevo movimiento
         </button>
       </div>
+
+      {!editing && error && (
+        <div className="mb-6">
+          <AdminAlert message={error} onDismiss={clearError} />
+        </div>
+      )}
 
       {editing && (
         <form
@@ -282,22 +241,13 @@ export default function AdminMovimientosPage() {
             </label>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <button
-              type="submit"
-              disabled={saving}
-              className="px-6 py-2.5 bg-secondary text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-secondary-light transition-colors disabled:opacity-50"
-            >
-              {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setEditing(null)}
-              className="px-6 py-2.5 rounded-full text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors"
-            >
-              Cancelar
-            </button>
-          </div>
+          <FormActions
+            isEditing={!!editing.id}
+            saving={saving}
+            onCancel={() => setEditing(null)}
+            error={error}
+            onDismissError={clearError}
+          />
         </form>
       )}
 

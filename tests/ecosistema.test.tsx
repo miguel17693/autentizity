@@ -69,7 +69,7 @@ describe("Council administration", () => {
     { id: "fixture-company", slug: "empresas-impulsoras" },
   ])("preserves the existing slug when renaming section $id through its form handler", (identity) => {
     const section = { ...ambassadors, ...identity };
-    state.values = [[section], false, section, false, {}, null, false, [], [], ""];
+    state.values = [[section], false, section, false, {}, null, false, [], null, [], ""];
     renderToStaticMarkup(<AdminEcosistemaPage />);
     const nameInput = state.inputs.find((input) => input.value === section.name);
     nameInput!.onChange!({ target: { value: "Nombre nuevo" } } as ChangeEvent<HTMLInputElement>);
@@ -79,7 +79,7 @@ describe("Council administration", () => {
 
   it("still generates a slug from the name for new sections", () => {
     const section = { name: "", slug: "", active: true };
-    state.values = [[], false, section, false, {}, null, false, [], [], ""];
+    state.values = [[], false, section, false, {}, null, false, [], null, [], ""];
     renderToStaticMarkup(<AdminEcosistemaPage />);
     const nameInput = state.inputs.find((input) => input.required && !input.className?.includes("font-mono"));
     nameInput!.onChange!({ target: { value: "Nueva sección pública" } } as ChangeEvent<HTMLInputElement>);
@@ -94,7 +94,7 @@ describe("Council administration", () => {
     { id: "fixture-institution", slug: "instituciones", noun: "institución", title: "Nueva institución", image: "Logo", aspect: "3", description: "Descripción (metatexto)" },
   ])("preserves the section-specific form vocabulary and image treatment for $slug", (fixture) => {
     const section = { ...ambassadors, id: fixture.id, slug: fixture.slug };
-    state.values = [[section], false, null, false, {}, { section_id: section.id }, false, [], [], ""];
+    state.values = [[section], false, null, false, {}, { section_id: section.id }, false, [], null, [], ""];
     const html = renderToStaticMarkup(<AdminEcosistemaPage />);
     expect(html).toContain(`Añadir ${fixture.noun}`);
     expect(html).toContain(fixture.title);
@@ -109,7 +109,7 @@ describe("Council administration", () => {
   ])("confirms deletion using member vocabulary for $id without issuing an API request on cancellation", async (identity) => {
     const council = { ...ambassadors, ...identity };
     const entity = { id: "fixture-member", section_id: council.id, name: "Miembro de prueba", active: true, tags: [], sort_order: 1 };
-    state.values = [[council], false, null, false, { [council.id]: [entity] }, null, false, [], [], ""];
+    state.values = [[council], false, null, false, { [council.id]: [entity] }, null, false, [], null, [], ""];
     const confirm = vi.fn(() => false);
     const fetch = vi.fn();
     vi.stubGlobal("confirm", confirm);
@@ -130,7 +130,7 @@ describe("Council administration", () => {
   ])("uses person vocabulary in the member form ($id, editing=$editing)", (fixture) => {
     const council = { ...ambassadors, id: fixture.id, slug: fixture.slug };
     const entity = { section_id: council.id, ...(fixture.editing ? { id: "fixture-member" } : {}), description: "Cargo de prueba" };
-    state.values = [[council], false, null, false, {}, entity, false, [], [], ""];
+    state.values = [[council], false, null, false, {}, entity, false, [], null, [], ""];
     const html = renderToStaticMarkup(<AdminEcosistemaPage />);
     expect(html).toContain(fixture.editing ? "Editar miembro" : "Nuevo miembro");
     expect(html).toContain("Cargo / organización");
@@ -145,7 +145,7 @@ describe("Council administration", () => {
     { id: "fixture-manual-council", slug: "consejo-consultivo-de-impacto-social" },
   ])("uses square photo uploads and member actions for council $id", (identity) => {
     const council = { ...ambassadors, ...identity, name: "Consejo Consultivo de Impacto Social" };
-    state.values = [[council], false, null, false, {}, { section_id: council.id, name: "Miembro de prueba", logo_url: "/portrait-original.jpg" }, false, [], [], ""];
+    state.values = [[council], false, null, false, {}, { section_id: council.id, name: "Miembro de prueba", logo_url: "/portrait-original.jpg" }, false, [], null, [], ""];
     const html = renderToStaticMarkup(<AdminEcosistemaPage />);
     expect(html).toContain('data-image-label="Foto"');
     expect(html).toContain('data-aspect="1"');

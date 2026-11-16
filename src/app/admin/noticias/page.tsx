@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { News, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 import RichTextEditor from "@/components/admin/RichTextEditor";
-import { stripHtml } from "@/lib/utils";
+import AdminAlert from "@/components/admin/AdminAlert";
+import FormActions from "@/components/admin/FormActions";
+import { useCrud, useList } from "@/hooks/useCrud";
+import { parseTags, stripHtml } from "@/lib/utils";
 
 const emptyNoticia: Partial<News> = {
   title: "",
@@ -20,33 +23,19 @@ const emptyNoticia: Partial<News> = {
 };
 
 export default function AdminNoticiasPage() {
-  const [noticias, setNoticias] = useState<News[]>([]);
-  const [movimientos, setMovimientos] = useState<Movement[]>([]);
+  const { items: noticias, save, remove, saving, error, clearError } = useCrud<News>("/api/noticias");
+  const { items: movimientos } = useList<Movement>("/api/movimientos");
   const [editing, setEditing] = useState<Partial<News> | null>(null);
   const [tagsInput, setTagsInput] = useState("");
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    loadNoticias();
-    loadMovimientos();
-  }, []);
-
-  async function loadNoticias() {
-    const res = await fetch("/api/noticias");
-    setNoticias(await res.json());
-  }
-
-  async function loadMovimientos() {
-    const res = await fetch("/api/movimientos");
-    setMovimientos(await res.json());
-  }
 
   function startCreate() {
+    clearError();
     setEditing({ ...emptyNoticia });
     setTagsInput("");
   }
 
   function startEdit(n: News) {
+    clearError();
     setEditing({ ...n });
     setTagsInput(n.tags.join(", "));
   }
@@ -54,36 +43,12 @@ export default function AdminNoticiasPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!editing) return;
-    setSaving(true);
-
-    const payload = {
-      ...editing,
-      tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean),
-    };
-
-    if (editing.id) {
-      await fetch(`/api/noticias/${editing.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    } else {
-      await fetch("/api/noticias", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-    }
-
-    setEditing(null);
-    setSaving(false);
-    loadNoticias();
+    if (await save({ ...editing, tags: parseTags(tagsInput) })) setEditing(null);
   }
 
   async function handleDelete(id: string) {
     if (!confirm("¿Eliminar esta noticia?")) return;
-    await fetch(`/api/noticias/${id}`, { method: "DELETE" });
-    loadNoticias();
+    await remove(id);
   }
 
   return (
@@ -102,6 +67,12 @@ export default function AdminNoticiasPage() {
           + Nueva noticia
         </button>
       </div>
+
+      {!editing && error && (
+        <div className="mb-6">
+          <AdminAlert message={error} onDismiss={clearError} />
+        </div>
+      )}
 
       {/* Edit / Create form */}
       {editing && (
@@ -216,22 +187,13 @@ export default function AdminNoticiasPage() {
             </div>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <button
-              type="submit"
-              disabled={saving}
-              className="px-6 py-2.5 bg-secondary text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-secondary-light transition-colors disabled:opacity-50"
-            >
-              {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setEditing(null)}
-              className="px-6 py-2.5 rounded-full text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors"
-            >
-              Cancelar
-            </button>
-          </div>
+          <FormActions
+            isEditing={!!editing.id}
+            saving={saving}
+            onCancel={() => setEditing(null)}
+            error={error}
+            onDismissError={clearError}
+          />
         </form>
       )}
 

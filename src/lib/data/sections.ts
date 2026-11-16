@@ -29,7 +29,7 @@ const DEFAULT_SECTIONS: SectionConfig[] = [
   { id: "act-eventos", label: "Listado de eventos", page: "Actividad", visible: true },
   { id: "act-movimientos", label: "Movimientos Corporativos", page: "Actividad", visible: true },
   // Reconocimiento
-  { id: "rank-intro", label: "¿Qué es el Ranking?", page: "Reconocimiento", visible: true },
+  { id: "rank-intro", label: "Top 100", page: "Reconocimiento", visible: true },
   { id: "rank-categories", label: "Categorías", page: "Reconocimiento", visible: true },
   { id: "rank-process", label: "Proceso de selección", page: "Reconocimiento", visible: true },
   { id: "rank-cta", label: "¿Quieres participar?", page: "Reconocimiento", visible: true },
@@ -81,17 +81,6 @@ export async function saveSections(sections: SectionConfig[]): Promise<void> {
         visible = EXCLUDED.visible
     `;
   }
-}
-
-export async function toggleSection(id: string, visible: boolean): Promise<SectionConfig | null> {
-  if (!hasDB()) return null;
-  const sql = getSQL();
-  const rows = await sql`
-    UPDATE sections SET visible = ${visible} WHERE id = ${id} RETURNING *
-  `;
-  if (rows.length === 0) return null;
-  const r = rows[0];
-  return { id: r.id as string, label: r.label as string, page: r.page as string, visible: r.visible as boolean };
 }
 
 async function seedSections(): Promise<void> {

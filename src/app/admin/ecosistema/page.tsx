@@ -2,9 +2,16 @@
 
 import { useEffect, useState, useCallback } from "react";
 import type { EcosistemaSection, EcosistemaEntity, Movement } from "@/lib/types";
-import { isCouncilSection, isPortraitSection } from "@/lib/ecosistema-sections";
-import ImageUpload from "@/components/admin/ImageUpload";
-import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
+import { isPortraitSection } from "@/lib/ecosistema-sections";
+import { generateId } from "@/lib/ids";
+import { errorMessage, requestJson } from "@/lib/request-json";
+import { parseTags } from "@/lib/utils";
+import { useList } from "@/hooks/useCrud";
+import AdminAlert from "@/components/admin/AdminAlert";
+import SortableSection from "@/components/admin/ecosistema/SortableSection";
+import SectionFormModal from "@/components/admin/ecosistema/SectionFormModal";
+import EntityFormModal from "@/components/admin/ecosistema/EntityFormModal";
+import { getSectionLabels } from "@/components/admin/ecosistema/labels";
 import {
   DndContext,
   closestCenter,
@@ -13,27 +20,10 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
-import {
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-function generateId(): string {
-  return "eco_" + Math.random().toString(36).slice(2, 10);
-}
-
-function getSectionLabels(section?: EcosistemaSection): { singular: string; plural: string } {
-  if (section && isCouncilSection(section)) return { singular: "miembro", plural: "Miembros" };
-  if (section && isPortraitSection(section)) return { singular: "embajador", plural: "Embajadores" };
-  const map: Record<string, { singular: string; plural: string }> = {
-    "empresas-impulsoras": { singular: "empresa", plural: "Empresas" },
-    "entidades-colaboradoras": { singular: "entidad", plural: "Entidades" },
-    instituciones: { singular: "institución", plural: "Instituciones" },
-  };
-  return map[section?.slug || ""] || { singular: "entidad", plural: "Entidades" };
-}
+const SECTIONS_API = "/api/ecosistema/secciones";
+const ENTITIES_API = "/api/ecosistema/entidades";
 
 const emptySection: Partial<EcosistemaSection> = {
   name: "",
@@ -53,397 +43,6 @@ const emptyEntity: Partial<EcosistemaEntity> = {
   active: true,
 };
 
-/* ==========================================
- * Sortable Section Header
- * ========================================== */
-function SortableSection({
-  section,
-  onEdit,
-  onDelete,
-  onAddEntity,
-  entities,
-  onEditEntity,
-  onDeleteEntity,
-}: {
-  section: EcosistemaSection;
-  onEdit: (s: EcosistemaSection) => void;
-  onDelete: (id: string) => void;
-  onAddEntity: (sectionId: string) => void;
-  entities: EcosistemaEntity[];
-  onEditEntity: (e: EcosistemaEntity) => void;
-  onDeleteEntity: (id: string, sectionId: string) => void;
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: section.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  const entityIds = entities.map((e) => `ent-${e.id}`);
-
-  return (
-    <div ref={setNodeRef} style={style} className="bg-white border border-border rounded-2xl">
-      {/* Section header */}
-      <div className="flex items-center justify-between px-5 py-3.5 rounded-full bg-surface-alt border-b border-border">
-        <div className="flex items-center gap-3">
-          {/* Drag handle */}
-          <button
-            {...attributes}
-            {...listeners}
-            className="text-text-muted hover:text-primary cursor-grab active:cursor-grabbing touch-none"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 6h2v2H8V6zm6 0h2v2h-2V6zM8 11h2v2H8v-2zm6 0h2v2h-2v-2zm-6 5h2v2H8v-2zm6 0h2v2h-2v-2z" />
-            </svg>
-          </button>
-          <span className={`w-2 h-2 rounded-full ${section.active ? "bg-accent" : "bg-text-muted"}`} />
-          <span className="text-sm text-primary font-medium">{section.name}</span>
-          <span className="text-[11px] text-text-muted font-mono">{section.slug}</span>
-          {!section.active && (
-            <span className="text-[10px] px-2 py-0.5 bg-text-muted/10 text-text-muted uppercase">Inactiva</span>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <button onClick={() => onEdit(section)} className="text-xs text-text-muted hover:text-primary transition-colors px-2 py-1">
-            Editar
-          </button>
-          <button onClick={() => onDelete(section.id)} className="text-xs text-red-500 hover:text-red-700 transition-colors px-2 py-1">
-            Eliminar
-          </button>
-        </div>
-      </div>
-
-      {/* Entities */}
-      <div className="px-5 py-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-medium tracking-[0.1em] text-text-muted">
-            {getSectionLabels(section).plural}
-            {entities.length > 0 && (
-              <span className="ml-2 text-text-muted/50">({entities.length})</span>
-            )}
-          </h3>
-          <button
-            onClick={() => onAddEntity(section.id)}
-            className="px-3 py-1.5 bg-primary text-white rounded-full text-[11px] font-medium hover:bg-primary/90 transition-colors flex items-center gap-1"
-          >
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            Añadir {getSectionLabels(section).singular}
-          </button>
-        </div>
-
-        {entities.length === 0 ? (
-          <div className="text-sm text-text-muted py-3">No hay {getSectionLabels(section).plural.toLowerCase()} en esta sección.</div>
-        ) : (
-          <SortableContext items={entityIds} strategy={verticalListSortingStrategy}>
-            <div className="space-y-1.5">
-              {entities.map((entity) => (
-                <SortableEntity
-                  key={`ent-${entity.id}`}
-                  entity={entity}
-                  sectionId={section.id}
-                  onEdit={onEditEntity}
-                  onDelete={onDeleteEntity}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ==========================================
- * Sortable Entity Row
- * ========================================== */
-function SortableEntity({
-  entity,
-  sectionId,
-  onEdit,
-  onDelete,
-}: {
-  entity: EcosistemaEntity;
-  sectionId: string;
-  onEdit: (e: EcosistemaEntity) => void;
-  onDelete: (id: string, sectionId: string) => void;
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: `ent-${entity.id}` });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 50 : undefined,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="flex items-center gap-3 border border-border/50 px-3 py-2 hover:bg-surface-alt/50 transition-colors"
-    >
-      {/* Drag handle */}
-      <button
-        {...attributes}
-        {...listeners}
-        className="text-text-muted hover:text-primary cursor-grab active:cursor-grabbing touch-none shrink-0"
-      >
-        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 6h2v2H8V6zm6 0h2v2h-2V6zM8 11h2v2H8v-2zm6 0h2v2h-2v-2zm-6 5h2v2H8v-2zm6 0h2v2h-2v-2z" />
-        </svg>
-      </button>
-
-      {entity.logo_url ? (
-        <img src={entity.logo_url} alt={entity.name} className="w-12 h-7 object-contain border border-border" />
-      ) : (
-        <div className="w-12 h-7 bg-surface-alt border border-border flex items-center justify-center">
-          <span className="text-[9px] text-text-muted">SIN LOGO</span>
-        </div>
-      )}
-      <div className="flex-1 min-w-0">
-        <p className="text-sm text-text-body">{entity.name}</p>
-        {entity.description && (
-          <p className="text-xs text-text-muted truncate">{entity.description}</p>
-        )}
-      </div>
-      {!entity.active && (
-        <span className="text-[10px] px-2 py-0.5 bg-text-muted/10 text-text-muted">Inactiva</span>
-      )}
-      <button onClick={() => onEdit(entity)} className="text-xs text-text-muted hover:text-primary px-2 py-1 shrink-0">
-        Editar
-      </button>
-      <button onClick={() => onDelete(entity.id, sectionId)} className="text-xs text-red-500 hover:text-red-700 px-2 py-1 shrink-0">
-        Eliminar
-      </button>
-    </div>
-  );
-}
-
-/* ==========================================
- * Modal: Section Form
- * ========================================== */
-function SectionFormModal({
-  editing,
-  saving,
-  onSave,
-  onCancel,
-  onChange,
-  slugify,
-}: {
-  editing: Partial<EcosistemaSection>;
-  saving: boolean;
-  onSave: (e: React.FormEvent) => void;
-  onCancel: () => void;
-  onChange: (updates: Partial<EcosistemaSection>) => void;
-  slugify: (name: string) => string;
-}) {
-  return (
-    <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
-      <div className="bg-white shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="px-6 py-4 rounded-full border-b border-border flex items-center justify-between">
-          <h3 className="font-serif text-lg text-primary font-normal">
-            {editing.id ? "Editar sección" : "Nueva sección"}
-          </h3>
-          <button onClick={onCancel} className="text-text-muted hover:text-primary">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <form onSubmit={onSave} className="px-6 py-4 space-y-4">
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Nombre *</label>
-            <input
-              type="text"
-              value={editing.name || ""}
-              onChange={(e) => {
-                const name = e.target.value;
-                onChange(editing.id ? { name } : { name, slug: slugify(name) });
-              }}
-              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Slug *</label>
-            <input
-              type="text"
-              value={editing.slug || ""}
-              onChange={(e) => onChange({ slug: e.target.value })}
-              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none font-mono text-xs"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Descripción</label>
-            <textarea
-              value={editing.description || ""}
-              onChange={(e) => onChange({ description: e.target.value })}
-              rows={3}
-              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-sm text-text-body cursor-pointer">
-              <input
-                type="checkbox"
-                checked={editing.active ?? true}
-                onChange={(e) => onChange({ active: e.target.checked })}
-                className="w-4 h-4"
-              />
-              Activa
-            </label>
-          </div>
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onCancel} className="px-4 py-2 rounded-full text-sm text-text-secondary border border-border hover:bg-surface-alt transition-colors">
-              Cancelar
-            </button>
-            <button type="submit" disabled={saving} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
-              {saving ? "Guardando..." : "Guardar"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-/* ==========================================
- * Modal: Entity Form
- * ========================================== */
-function EntityFormModal({
-  editing,
-  saving,
-  onSave,
-  onCancel,
-  onChange,
-  movimientosItems,
-  selectedMovimientoIds,
-  onMovimientosChange,
-  section,
-  tagInput,
-  onTagInputChange,
-}: {
-  editing: Partial<EcosistemaEntity>;
-  saving: boolean;
-  onSave: (e: React.FormEvent) => void;
-  onCancel: () => void;
-  onChange: (updates: Partial<EcosistemaEntity>) => void;
-  movimientosItems: { id: string; label: string }[];
-  selectedMovimientoIds: string[];
-  onMovimientosChange: (ids: string[]) => void;
-  section?: EcosistemaSection;
-  tagInput: string;
-  onTagInputChange: (value: string) => void;
-}) {
-  const isPerson = !!section && isPortraitSection(section);
-  const imageLabel = isPerson ? "Foto" : "Logo";
-  const labels = getSectionLabels(section);
-  return (
-    <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4">
-      <div className="bg-white shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="px-6 py-4 rounded-full border-b border-border flex items-center justify-between">
-          <h3 className="font-serif text-lg text-primary font-normal">
-            {editing.id ? "Editar" : isPerson ? "Nuevo" : "Nueva"} {labels.singular}
-          </h3>
-          <button onClick={onCancel} className="text-text-muted hover:text-primary">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <form onSubmit={onSave} className="px-6 py-4 space-y-4">
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Nombre *</label>
-            <input
-              type="text"
-              value={editing.name || ""}
-              onChange={(e) => onChange({ name: e.target.value })}
-              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">{isPerson ? "Cargo / organización" : "Descripción (metatexto)"}</label>
-            <input
-              type="text"
-              value={editing.description || ""}
-              onChange={(e) => onChange({ description: e.target.value })}
-              placeholder={isPerson ? "Opcional: cargo y organización" : "Opcional: texto secundario"}
-              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted mb-1.5">Expertise / Tags (separadas por coma)</label>
-            <input
-              type="text"
-              value={tagInput}
-              onChange={(e) => onTagInputChange(e.target.value)}
-              placeholder="Liderazgo, Diversidad, Tech"
-              className="w-full px-3 py-2 rounded-full text-sm border border-border bg-surface-alt focus:border-accent outline-none"
-            />
-          </div>
-          <div>
-            <MultiSelectCheckbox
-              label="Movimientos Corporativos"
-              items={movimientosItems}
-              selectedIds={selectedMovimientoIds}
-              onChange={onMovimientosChange}
-            />
-          </div>
-          <ImageUpload
-            label={imageLabel}
-            value={editing.logo_url || ""}
-            originalValue={editing.logo_url || ""}
-            onChange={(url) => onChange({ logo_url: url })}
-            aspect={imageLabel === "Foto" ? 1 / 1 : 3 / 1}
-          />
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-sm text-text-body cursor-pointer">
-              <input
-                type="checkbox"
-                checked={editing.active ?? true}
-                onChange={(e) => onChange({ active: e.target.checked })}
-                className="w-4 h-4"
-              />
-              {isPerson ? "Activo" : "Activa"}
-            </label>
-          </div>
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onCancel} className="px-4 py-2 rounded-full text-sm text-text-secondary border border-border hover:bg-surface-alt transition-colors">
-              Cancelar
-            </button>
-            <button type="submit" disabled={saving} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50">
-              {saving ? "Guardando..." : "Guardar"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-/* ==========================================
- * Main Page
- * ========================================== */
 export default function AdminEcosistemaPage() {
   const [sections, setSections] = useState<EcosistemaSection[]>([]);
   const [loading, setLoading] = useState(true);
@@ -453,35 +52,50 @@ export default function AdminEcosistemaPage() {
   const [editingEntity, setEditingEntity] = useState<Partial<EcosistemaEntity> | null>(null);
   const [savingEntity, setSavingEntity] = useState(false);
 
-  const [movimientosDisp, setMovimientosDisp] = useState<Movement[]>([]);
+  const { items: movimientosDisp } = useList<Movement>("/api/movimientos");
   const [selectedMovimientoIds, setSelectedMovimientoIds] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
   // --- Data loading ---
   const loadEntities = useCallback(async (sectionId: string) => {
-    const res = await fetch(`/api/ecosistema/entidades?section_id=${sectionId}`);
-    const data = await res.json();
-    setEntities((prev) => ({ ...prev, [sectionId]: data }));
+    try {
+      const data = await requestJson<EcosistemaEntity[]>(`${ENTITIES_API}?section_id=${sectionId}`);
+      setEntities((prev) => ({ ...prev, [sectionId]: data }));
+    } catch (err) {
+      setError(`No se pudieron cargar los participantes: ${errorMessage(err)}`);
+    }
   }, []);
 
   const loadSections = useCallback(async () => {
     setLoading(true);
-    const res = await fetch("/api/ecosistema/secciones");
-    const data = await res.json();
-    setSections(data);
-    setLoading(false);
-    for (const s of data) {
-      loadEntities(s.id);
+    try {
+      const data = await requestJson<EcosistemaSection[]>(SECTIONS_API);
+      setSections(data);
+      for (const s of data) {
+        loadEntities(s.id);
+      }
+    } catch (err) {
+      setError(`No se pudieron cargar las secciones: ${errorMessage(err)}`);
+    } finally {
+      setLoading(false);
     }
   }, [loadEntities]);
 
-  useEffect(() => { loadSections(); loadMovimientos(); }, [loadSections]);
+  useEffect(() => { loadSections(); }, [loadSections]);
 
-  async function loadMovimientos() {
-    const res = await fetch("/api/movimientos");
-    setMovimientosDisp(await res.json());
+  async function runAction(action: () => Promise<unknown>, failure: string): Promise<boolean> {
+    setError(null);
+    try {
+      await action();
+      return true;
+    } catch (err) {
+      setError(`${failure}: ${errorMessage(err)}`);
+      return false;
+    }
   }
 
   // --- Drag & Drop ---
@@ -516,14 +130,11 @@ export default function AdminEcosistemaPage() {
       const reordered = oldList.map((e, i) => ({ ...e, sort_order: i + 1 }));
       setEntities((prev) => ({ ...prev, [sectionId]: reordered }));
 
-      // Persist
-      await Promise.all(reordered.map((e) =>
-        fetch("/api/ecosistema/entidades", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(e),
-        })
-      ));
+      const saved = await runAction(
+        () => Promise.all(reordered.map((e) => requestJson(ENTITIES_API, { method: "PUT", body: e }))),
+        "No se pudo guardar el nuevo orden"
+      );
+      if (!saved) loadEntities(sectionId);
       return;
     }
 
@@ -539,43 +150,55 @@ export default function AdminEcosistemaPage() {
     const updated = reordered.map((s, i) => ({ ...s, sort_order: i + 1 }));
     setSections(updated);
 
-    await Promise.all(updated.map((s) =>
-      fetch("/api/ecosistema/secciones", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(s),
-      })
-    ));
+    const saved = await runAction(
+      () => Promise.all(updated.map((s) => requestJson(SECTIONS_API, { method: "PUT", body: s }))),
+      "No se pudo guardar el nuevo orden"
+    );
+    if (!saved) loadSections();
   }
 
   // --- Section CRUD ---
   function startCreateSection() {
     const lastOrder = sections.length > 0 ? Math.max(...sections.map((s) => s.sort_order)) : 0;
+    setModalError(null);
     setEditingSection({ ...emptySection, sort_order: lastOrder + 1 });
+  }
+
+  function startEditSection(section: EcosistemaSection) {
+    setModalError(null);
+    setEditingSection(section);
   }
 
   async function saveSection(e: React.FormEvent) {
     e.preventDefault();
     if (!editingSection) return;
     setSavingSection(true);
+    setModalError(null);
     const payload: EcosistemaSection = {
-      id: editingSection.id || generateId(),
+      id: editingSection.id || generateId("eco"),
       name: editingSection.name || "",
       slug: editingSection.slug || "",
       description: editingSection.description || "",
       sort_order: editingSection.sort_order || 0,
       active: editingSection.active ?? true,
     };
-    const method = editingSection.id ? "PUT" : "POST";
-    await fetch("/api/ecosistema/secciones", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    setEditingSection(null);
-    setSavingSection(false);
-    loadSections();
+    try {
+      await requestJson(SECTIONS_API, { method: editingSection.id ? "PUT" : "POST", body: payload });
+      setEditingSection(null);
+      loadSections();
+    } catch (err) {
+      setModalError(`No se pudo guardar: ${errorMessage(err)}`);
+    } finally {
+      setSavingSection(false);
+    }
   }
 
   async function deleteSection(id: string) {
     if (!confirm("¿Eliminar esta sección? También se eliminarán todas sus entidades.")) return;
-    await fetch("/api/ecosistema/secciones", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
+    await runAction(
+      () => requestJson(SECTIONS_API, { method: "DELETE", body: { id } }),
+      "No se pudo eliminar la sección"
+    );
     loadSections();
   }
 
@@ -583,15 +206,17 @@ export default function AdminEcosistemaPage() {
   function startCreateEntity(sectionId: string) {
     const sectionEntities = entities[sectionId] || [];
     const lastOrder = sectionEntities.length > 0 ? Math.max(...sectionEntities.map((e) => e.sort_order)) : 0;
+    setModalError(null);
     setEditingEntity({ ...emptyEntity, section_id: sectionId, sort_order: lastOrder + 1 });
     setSelectedMovimientoIds([]);
     setTagInput("");
   }
 
   async function startEditEntity(entity: EcosistemaEntity) {
+    setModalError(null);
     setEditingEntity({ ...entity });
     setTagInput((entity.tags || []).join(", "));
-    const res = await fetch(`/api/ecosistema/entidades?entity_id=${entity.id}&section_id=${entity.section_id}`);
+    const res = await fetch(`${ENTITIES_API}?entity_id=${entity.id}&section_id=${entity.section_id}`);
     if (res.ok) {
       const data = await res.json();
       setSelectedMovimientoIds(data.movimientoIds || []);
@@ -602,32 +227,33 @@ export default function AdminEcosistemaPage() {
     e.preventDefault();
     if (!editingEntity) return;
     setSavingEntity(true);
+    setModalError(null);
     const payload = {
-      id: editingEntity.id || generateId(),
+      id: editingEntity.id || generateId("eco"),
       section_id: editingEntity.section_id || "",
       name: editingEntity.name || "",
       logo_url: editingEntity.logo_url || "",
       description: editingEntity.description || "",
-      tags: tagInput.split(",").map((t: string) => t.trim()).filter(Boolean),
+      tags: parseTags(tagInput),
       sort_order: editingEntity.sort_order || 0,
       active: editingEntity.active ?? true,
       movimientoIds: selectedMovimientoIds,
     };
-    const method = editingEntity.id ? "PUT" : "POST";
-    const res = await fetch("/api/ecosistema/entidades", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({ error: "Error desconocido" }));
-      alert("Error al guardar: " + (err.error || res.statusText));
+    try {
+      const data = await requestJson<{ movimientoError?: string }>(ENTITIES_API, {
+        method: editingEntity.id ? "PUT" : "POST",
+        body: payload,
+      });
+      if (data?.movimientoError) {
+        alert(data.movimientoError);
+      }
+      setEditingEntity(null);
+      loadEntities(payload.section_id);
+    } catch (err) {
+      setModalError(`No se pudo guardar: ${errorMessage(err)}`);
+    } finally {
       setSavingEntity(false);
-      return;
     }
-    const data = await res.json();
-    if (data.movimientoError) {
-      alert(data.movimientoError);
-    }
-    setEditingEntity(null);
-    setSavingEntity(false);
-    loadEntities(payload.section_id);
   }
 
   async function deleteEntity(id: string, sectionId: string) {
@@ -635,12 +261,11 @@ export default function AdminEcosistemaPage() {
     const labels = getSectionLabels(section);
     const demonstrative = section && isPortraitSection(section) ? "este" : "esta";
     if (!confirm(`¿Eliminar ${demonstrative} ${labels.singular}?`)) return;
-    await fetch("/api/ecosistema/entidades", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
+    await runAction(
+      () => requestJson(ENTITIES_API, { method: "DELETE", body: { id } }),
+      `No se pudo eliminar ${demonstrative} ${labels.singular}`
+    );
     loadEntities(sectionId);
-  }
-
-  function slugify(name: string): string {
-    return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
   const sectionIds = sections.map((s) => s.id);
@@ -665,6 +290,12 @@ export default function AdminEcosistemaPage() {
         </div>
       </div>
 
+      {error && (
+        <div className="mb-6">
+          <AdminAlert message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
+
       {/* Sections */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-3">
@@ -686,7 +317,7 @@ export default function AdminEcosistemaPage() {
                   <SortableSection
                     key={section.id}
                     section={section}
-                    onEdit={setEditingSection}
+                    onEdit={startEditSection}
                     onDelete={deleteSection}
                     onAddEntity={startCreateEntity}
                     entities={entities[section.id] || []}
@@ -708,7 +339,7 @@ export default function AdminEcosistemaPage() {
           onSave={saveSection}
           onCancel={() => setEditingSection(null)}
           onChange={(updates) => setEditingSection((prev) => ({ ...prev, ...updates }))}
-          slugify={slugify}
+          error={modalError}
         />
       )}
 
@@ -727,6 +358,7 @@ export default function AdminEcosistemaPage() {
           section={sections.find((s) => s.id === editingEntity.section_id)}
           tagInput={tagInput}
           onTagInputChange={setTagInput}
+          error={modalError}
         />
       )}
     </div>

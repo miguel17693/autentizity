@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Activity, Movement } from "@/lib/types";
 import ImageUpload from "@/components/admin/ImageUpload";
 import MultiSelectCheckbox from "@/components/admin/MultiSelectCheckbox";
 import RichTextEditor from "@/components/admin/RichTextEditor";
-import { stripHtml } from "@/lib/utils";
+import AdminAlert from "@/components/admin/AdminAlert";
+import FormActions from "@/components/admin/FormActions";
+import { useCrud, useList } from "@/hooks/useCrud";
+import { parseTags, stripHtml } from "@/lib/utils";
 
 const emptyActividad: Partial<Activity> = {
   title: "",
@@ -21,33 +24,22 @@ const emptyActividad: Partial<Activity> = {
 };
 
 export default function AdminActividadesPage() {
-  const [actividades, setActividades] = useState<Activity[]>([]);
+  const { items: actividades, save, remove, saving, error, clearError } = useCrud<Activity>("/api/actividades");
   const [editing, setEditing] = useState<Partial<Activity> | null>(null);
   const [tagsInput, setTagsInput] = useState("");
-  const [saving, setSaving] = useState(false);
 
-  const [movimientosDisp, setMovimientosDisp] = useState<Movement[]>([]);
+  const { items: movimientosDisp } = useList<Movement>("/api/movimientos");
   const [selectedMovimientoIds, setSelectedMovimientoIds] = useState<string[]>([]);
 
-  useEffect(() => { loadActividades(); loadMovimientos(); }, []);
-
-  async function loadActividades() {
-    const res = await fetch("/api/actividades");
-    setActividades(await res.json());
-  }
-
-  async function loadMovimientos() {
-    const res = await fetch("/api/movimientos");
-    setMovimientosDisp(await res.json());
-  }
-
   function startCreate() {
+    clearError();
     setEditing({ ...emptyActividad });
     setTagsInput("");
     setSelectedMovimientoIds([]);
   }
 
   async function startEdit(a: Activity) {
+    clearError();
     setEditing({ ...a });
     setTagsInput(a.tags.join(", "));
 
@@ -63,33 +55,13 @@ export default function AdminActividadesPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!editing) return;
-    setSaving(true);
-    const payload = {
-      ...editing,
-      tags: tagsInput.split(",").map((t) => t.trim()).filter(Boolean),
-      movimientoIds: selectedMovimientoIds,
-    };
-    try {
-      if (editing.id) {
-        const res = await fetch(`/api/actividades/${editing.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-        if (!res.ok) throw new Error("Error al actualizar");
-      } else {
-        const res = await fetch("/api/actividades", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-        if (!res.ok) throw new Error("Error al crear");
-      }
-      setEditing(null);
-      loadActividades();
-    } catch (err) {
-      alert("Error al guardar: " + (err instanceof Error ? err.message : "desconocido"));
-    } finally {
-      setSaving(false);
-    }
+    const saved = await save({ ...editing, tags: parseTags(tagsInput), movimientoIds: selectedMovimientoIds });
+    if (saved) setEditing(null);
   }
 
   async function handleDelete(id: string) {
     if (!confirm("¿Eliminar esta actividad?")) return;
-    await fetch(`/api/actividades/${id}`, { method: "DELETE" });
-    loadActividades();
+    await remove(id);
   }
 
   const movimientosItems = movimientosDisp
@@ -107,6 +79,12 @@ export default function AdminActividadesPage() {
           + Nueva actividad
         </button>
       </div>
+
+      {!editing && error && (
+        <div className="mb-6">
+          <AdminAlert message={error} onDismiss={clearError} />
+        </div>
+      )}
 
       {editing && (
         <form onSubmit={handleSave} className="bg-white border border-border rounded-2xl p-6 mb-8 space-y-4">
@@ -171,14 +149,13 @@ export default function AdminActividadesPage() {
             </label>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={saving} className="px-6 py-2.5 bg-secondary text-white rounded-full text-[12px] font-medium tracking-[0.06em] uppercase hover:bg-secondary-light transition-colors disabled:opacity-50">
-              {saving ? "Guardando..." : editing.id ? "Actualizar" : "Crear"}
-            </button>
-            <button type="button" onClick={() => setEditing(null)} className="px-6 py-2.5 rounded-full text-text-secondary text-[12px] font-medium tracking-[0.06em] uppercase border border-border hover:bg-surface-alt transition-colors rounded-full">
-              Cancelar
-            </button>
-          </div>
+          <FormActions
+            isEditing={!!editing.id}
+            saving={saving}
+            onCancel={() => setEditing(null)}
+            error={error}
+            onDismissError={clearError}
+          />
         </form>
       )}
 

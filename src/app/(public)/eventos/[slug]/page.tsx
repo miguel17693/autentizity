@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { formatDate, formatDateTime, renderRichText, stripHtml } from "@/lib/utils";
+import { formatDateTime, renderRichText, stripHtml } from "@/lib/utils";
 import type { Event, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
