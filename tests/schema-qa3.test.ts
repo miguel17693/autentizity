@@ -1,14 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { initSchema } from "@/lib/data/schema";
+import { MIGRATIONS, ensureSchema, type SqlTag } from "@/lib/data/schema";
 
-const { sql } = vi.hoisted(() => ({ sql: vi.fn(async () => []) }));
-vi.mock("@/lib/data/db", () => ({ getSQL: () => sql }));
+const sql = vi.fn<SqlTag>(async () => []);
+
+async function runDataMigrations() {
+  for (const migration of MIGRATIONS) await migration.up(sql);
+}
 
 function statements() {
   return (sql.mock.calls as unknown as [TemplateStringsArray, ...unknown[]][]).map(([parts, ...values]) => ({ text: parts.join("?").replace(/\s+/g, " ").trim(), values }));
 }
 
-describe("Ecosistema schema migration (SQL stub, no database)", () => {
+describe("Ecosistema data migrations (SQL stub, no database)", () => {
   beforeEach(() => sql.mockClear());
 
   it.each([
@@ -16,7 +19,7 @@ describe("Ecosistema schema migration (SQL stub, no database)", () => {
     ["eco-entidades", "ONG y asociaciones con las que colaboramos y que aportan su conocimiento, experiencia y compromiso para promover el bienestar, la inclusión y la salud mental también en los lugares de trabajo."],
     ["eco-instituciones", "Entidades con las que generamos alianzas y espacios de colaboración entre el ámbito público, empresarial y social. Porque cuando avanzamos juntos, el impacto se multiplica."],
   ])("migrates known copy for %s without overwriting admin edits", async (id, description) => {
-    await initSchema();
+    await runDataMigrations();
     const insert = statements().find((q) => q.text.startsWith("INSERT INTO ecosistema_secciones") && q.values[0] === id);
     expect(insert?.values[3]).toBe(description);
     const updates = statements().filter((q) => q.text.startsWith("UPDATE ecosistema_secciones") && q.values[1] === id);
@@ -40,12 +43,12 @@ describe("Ecosistema schema migration (SQL stub, no database)", () => {
     ["eco-entidades", "Organizaciones que promueven el bienestar, la inclusión y entornos de trabajo más humanos"],
     ["eco-instituciones", "Cuando lo público y lo privado dejan de ir en paralelo y empiezan a avanzar juntos, el impacto se multiplica"],
   ])("also migrates the exact published legacy copy for %s", async (id, previous) => {
-    await initSchema();
+    await runDataMigrations();
     expect(statements().some((q) => q.text.startsWith("UPDATE ecosistema_secciones") && q.values[1] === id && q.values[2] === previous)).toBe(true);
   });
 
   it("creates the manageable council section, without inventing members", async () => {
-    await initSchema();
+    await runDataMigrations();
     const inserts = statements().filter((q) => q.text.startsWith("INSERT INTO ecosistema_secciones"));
     expect(inserts.find((q) => q.values[0] === "eco-consejo-consultivo")?.values).toEqual([
       "eco-consejo-consultivo", "Consejo Consultivo de Impacto Social", "consejo-consultivo-impacto-social",
@@ -54,5 +57,11 @@ describe("Ecosistema schema migration (SQL stub, no database)", () => {
     ]);
     expect(inserts.every((q) => q.text.endsWith("ON CONFLICT DO NOTHING"))).toBe(true);
     expect(statements().some((q) => q.text.startsWith("INSERT INTO ecosistema_entidades"))).toBe(false);
+  });
+
+  it("keeps data changes out of the DDL that runs on every deploy", async () => {
+    await ensureSchema(sql);
+    expect(statements().length).toBeGreaterThan(0);
+    expect(statements().every((q) => /^(CREATE TABLE IF NOT EXISTS|ALTER TABLE \w+ ADD COLUMN IF NOT EXISTS)/.test(q.text))).toBe(true);
   });
 });

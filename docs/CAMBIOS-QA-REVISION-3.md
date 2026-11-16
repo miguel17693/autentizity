@@ -63,15 +63,11 @@ Una vez creada la sección del Consejo Consultivo, sus miembros, descripciones y
 
 ### Activación pendiente de Ecosistema
 
-La configuración de producción protege `DATABASE_URL` como secreto y no existe conexión de desarrollo utilizable. El endpoint de administración exige una sesión autorizada; **no se ha eludido esa protección**.
+**Actualización:** ya no hace falta ningún paso manual. Las migraciones se aplican solas en cada deploy de producción, antes de generar las páginas (se ha retirado el botón "Ejecutar migraciones" y el endpoint `/api/db/setup`). En el primer deploy con este cambio:
 
-Para aplicar de una vez la actualización automática preparada, una persona con acceso debe:
-
-1. Iniciar sesión en `https://autentizity.vercel.app/admin/login`.
-2. Abrir, en ese mismo navegador, `https://autentizity.vercel.app/api/db/setup`.
-3. Confirmar una respuesta `{"success":true}`. El endpoint invalida la caché de `/ecosistema` tras completar la migración para que no sea necesario esperar su intervalo de regeneración.
-4. Revisar las tres descripciones y el Consejo en `/admin/ecosistema` y `/ecosistema`.
-5. Añadir los miembros reales del Consejo y sus imágenes desde administración.
+1. Se aplican las migraciones `0001-seed-ecosistema-sections` (alta de secciones por defecto; no hace nada si ya existen, como el Consejo creado desde el administrador) y `0002-qa3-ecosistema-descriptions` (E01–E03).
+2. Las descripciones de Empresas, Entidades e Instituciones cambian solo si conservan el texto antiguo conocido.
+3. Después conviene revisar las tres descripciones y el Consejo en `/admin/ecosistema` y `/ecosistema`, y añadir los miembros reales del Consejo y sus imágenes desde administración.
 
 Mientras no se actualicen los textos y se dé de alta el Consejo, desde el administrador o mediante esta actualización automática, esos cambios de contenido no deben considerarse publicados.
 
@@ -175,4 +171,4 @@ Publicado y verificado en **https://autentizity.vercel.app/** el **10 de septiem
 1. **Formulario de adhesión:** URL existente o formulario propio; campos, destinatario y consentimientos.
 2. **Reconocimiento / partner:** confirmar la frase final sin la duplicación `Manpower de la Autenticidad`.
 3. **Consejo Consultivo:** aportar miembros, cargos/descripciones e imágenes reales.
-4. **Activación de datos:** ejecutar la migración desde una sesión de administrador autorizada.
+4. **Activación de datos:** automática en el siguiente deploy de producción; solo queda revisar el resultado.

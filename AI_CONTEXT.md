@@ -1,7 +1,7 @@
 # 🤖 AI CONTEXT — AutentiZity
 
 > **Este archivo es el punto de entrada para la IA.** Léelo siempre antes de trabajar en el proyecto.
-> Última actualización: 24 de junio de 2026
+> Última actualización: 16 de noviembre de 2026
 
 ---
 
@@ -9,7 +9,7 @@
 
 - **SIEMPRE commitea y pushea** al terminar una tarea, sin preguntar. El usuario quiere commit + push automático.
 - **El dominio de producción es `https://autentizity.vercel.app/`** (NO `.org`).
-- **Para migraciones de BD**: en el panel `/admin`, pulsa **"Ejecutar migraciones"** (hace `POST /api/db/setup`; requiere sesión de admin y mismo origen). Visitar la URL con GET ya no hace nada (405).
+- **Para migraciones de BD**: son automáticas en cada deploy de producción (`pnpm build` ejecuta `scripts/migrate.ts` antes de `next build`). Para añadir una, añádela al final de `MIGRATIONS` en `src/lib/data/schema.ts`.
 - **Para diagnóstico de BD**: visita `https://autentizity.vercel.app/api/db/status`.
 - **Idioma del código**: Inglés (variables, componentes, comentarios).
 - **Idioma del contenido/UI**: Español.
@@ -83,7 +83,6 @@ autentizity/
 │   │   │   ├── ecosistema/    # CRUD secciones + entidades
 │   │   │   └── secciones/     # Gestión de secciones visibles
 │   │   └── api/               # API routes
-│   │       ├── db/setup/      # POST (admin, mismo origen) → ejecuta initSchema() (migraciones)
 │   │       ├── db/status/     # GET → diagnóstico de conexión BD
 │   │       ├── db/seed/       # POST (admin) → carga datos mock en BD; 404 en producción
 │   │       ├── upload/        # POST → upload a Vercel Blob
@@ -110,7 +109,8 @@ autentizity/
 │   │   ├── crop.ts            # getCroppedImg() — Canvas API cropping
 │   │   └── data/
 │   │       ├── db.ts           # getSQL() — conexión Neon
-│   │       ├── schema.ts       # initSchema() — CREATE TABLE + ALTER TABLE migrations
+│   │       ├── schema.ts       # ensureSchema() (DDL idempotente) + MIGRATIONS (cambios de datos, una vez por id)
+│   │       ├── migrate.ts      # runMigrations() — ejecutor usado por scripts/migrate.ts
 │   │       ├── store.ts        # CRUD operations para todas las tablas
 │   │       ├── cleanup.ts      # cleanupOrphanImage() — borra blobs huérfanos
 │   │       └── mock.ts         # Datos mock (usados por /api/db/seed)
@@ -118,6 +118,7 @@ autentizity/
 ├── public/
 │   ├── images/                # Logo, iconos estáticos
 │   └── fonts/                 # Chulapa, P22 Mackinac
+├── scripts/                   # migrate.ts (migraciones antes de next build), generadores
 ├── docs/                      # Documentación adicional
 ├── design/                    # Recursos de diseño
 └── package.json
@@ -142,11 +143,16 @@ autentizity/
 
 ### Migraciones
 
-Las migraciones se ejecutan desde el botón **"Ejecutar migraciones"** del panel `/admin` (`POST /api/db/setup`). El archivo `src/lib/data/schema.ts`:
-1. Crea las tablas con `CREATE TABLE IF NOT EXISTS`
-2. Ejecuta `ALTER TABLE ADD COLUMN IF NOT EXISTS` para columnas añadidas posteriormente
+Las migraciones son **automáticas en cada deploy de producción**: el script `build` de `package.json` (`tsx scripts/migrate.ts && next build`) las ejecuta antes de `next build`, así las páginas prerenderizadas ya usan los datos migrados. No hay botón ni endpoint manual.
 
-**Es idempotente** — se puede llamar múltiples veces sin romper nada.
+- Solo se ejecutan si `VERCEL_ENV=production` (o `RUN_MIGRATIONS=1`). En local, CI y previews de Vercel (que pueden compartir la BD de producción) se omiten con el log `skipping migrations`.
+- En producción, si falta `DATABASE_URL` o una migración falla, el build termina con error y sigue publicada la versión anterior.
+- Todo corre en **una transacción** con `pg_advisory_xact_lock` (conexión WebSocket de Neon): si algo falla no se aplica nada, y dos deploys simultáneos se esperan entre sí.
+- `ensureSchema()` en `src/lib/data/schema.ts` ejecuta en cada deploy el DDL idempotente (`CREATE TABLE IF NOT EXISTS`, `ALTER TABLE ADD COLUMN IF NOT EXISTS`) y crea `schema_migrations`.
+- Los cambios de datos van en la lista `MIGRATIONS` del mismo archivo y se ejecutan **una sola vez por `id`** (registrado en `schema_migrations`). **Para añadir una migración, añádela al final de la lista**; nunca edites ni reordenes las ya aplicadas.
+- Deben ser compatibles con la versión publicada (solo añadir), porque se aplican antes de que el nuevo código esté en línea.
+- Ejecución manual: `RUN_MIGRATIONS=1 DATABASE_URL=... pnpm migrate`.
+- El Build Command del proyecto en Vercel debe ser el predeterminado (`pnpm build`); si se sobrescribe, las migraciones no se ejecutan.
 
 ---
 
