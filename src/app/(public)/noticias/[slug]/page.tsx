@@ -8,6 +8,7 @@ import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
 import { isOptimizableImage } from "@/lib/images";
+import DetailTags from "@/components/ui/DetailTags";
 
 export const revalidate = 300;
 
@@ -107,16 +108,6 @@ export default async function NoticiaDetailPage({
           className="object-cover hidden sm:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end z-10">
-          {noticia.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
           {movimiento && (
             <Link
@@ -159,6 +150,8 @@ export default async function NoticiaDetailPage({
               </p>
             </div>
           )}
+
+          <DetailTags tags={noticia.tags} />
 
           {/* Back */}
           <div className="mt-16 pt-8 border-t border-border-light">

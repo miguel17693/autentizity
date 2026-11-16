@@ -9,6 +9,7 @@ import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
 import { isPastEvent } from "@/lib/dates";
 import { isOptimizableImage } from "@/lib/images";
+import DetailTags from "@/components/ui/DetailTags";
 
 export const revalidate = 300;
 
@@ -163,17 +164,7 @@ export default async function EventoDetailPage({
                 </div>
               )}
 
-              {/* Tags */}
-              <div className="mt-10 flex items-center gap-3 flex-wrap">
-                {evento.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[10px] font-medium tracking-[0.08em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <DetailTags tags={evento.tags} />
 
               {/* Back */}
               <div className="mt-12 pt-8 border-t border-border-light">
