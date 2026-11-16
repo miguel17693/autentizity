@@ -5,9 +5,10 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import CountUp from "@/components/ui/CountUp";
 import Section from "@/components/ui/Section";
 import { formatDate, stripHtml } from "@/lib/utils";
+import { isUpcomingEvent } from "@/lib/dates";
 import { getEventos, getNoticias } from "@/lib/data/store";
 
-export const revalidate = 3600;
+export const revalidate = 900;
 
 export const metadata: Metadata = {
   title: "AutentiZity — Aceleradora de Impacto Social",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 /* ------- Data fetching (direct DB) ------- */
 async function getEvents() {
   const eventos = await getEventos();
-  return eventos.filter((e) => e.status === "published" && e.featured && new Date(e.startDate) >= new Date());
+  return eventos.filter((e) => e.status === "published" && e.featured && isUpcomingEvent(e));
 }
 
 async function getNews() {
@@ -165,6 +166,7 @@ function Introduction() {
 /* ============== EVENTS ============== */
 function Events({ events }: { events: any[] }) {
   const featured = events.filter((e: any) => e.featured);
+  if (featured.length === 0) return null;
 
   return (
     <section className="py-12 sm:py-16 lg:py-24 bg-surface-alt">

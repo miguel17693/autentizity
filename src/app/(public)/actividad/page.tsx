@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Card from "@/components/ui/Card";
 import Section from "@/components/ui/Section";
+import { isUpcomingEvent } from "@/lib/dates";
 import { getEventos, getMovimientos, getActividades } from "@/lib/data/store";
 import type { Event, Movement, Activity } from "@/lib/types";
 
-export const revalidate = 3600;
+export const revalidate = 900;
 
 export const metadata: Metadata = {
   title: "Actividad",
@@ -46,7 +47,7 @@ export default async function ActividadPage() {
   const movItems = isPreview ? movimientos : movimientos.filter((m) => m.status === "published");
   const actItems = isPreview ? actividades : actividades.filter((a) => a.status === "published");
 
-  const upcomingEvents = eventItems.filter((e) => new Date(e.startDate) >= new Date());
+  const upcomingEvents = eventItems.filter((e) => isUpcomingEvent(e));
   const previewEvents = upcomingEvents.slice(0, 2);
   const previewMovs = movItems.slice(0, 2);
   const previewActs = actItems.slice(0, 2);

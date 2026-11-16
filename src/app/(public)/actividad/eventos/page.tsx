@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import Card from "@/components/ui/Card";
+import { isEventInCurrentMonth, isPastEvent, isUpcomingEvent } from "@/lib/dates";
 import FilterBar from "@/components/ui/FilterBar";
 import { getEventos } from "@/lib/data/store";
 
@@ -53,22 +54,14 @@ export default async function EventosTodosPage({
   }
 
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   const fecha = typeof sp.fecha === "string" ? sp.fecha : "";
-  if (fecha === "proximos") {
-    filtered = filtered.filter((e) => new Date(e.startDate) >= today);
-  } else if (fecha === "pasados") {
-    filtered = filtered.filter((e) => new Date(e.startDate) < today);
+  if (fecha === "pasados") {
+    filtered = filtered.filter((e) => isPastEvent(e, now));
   } else if (fecha === "este-mes") {
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    filtered = filtered.filter((e) => {
-      const d = new Date(e.startDate);
-      return d >= startOfMonth && d <= endOfMonth;
-    });
+    filtered = filtered.filter((e) => isEventInCurrentMonth(e, now));
   } else {
-    filtered = filtered.filter((e) => new Date(e.startDate) >= today);
+    filtered = filtered.filter((e) => isUpcomingEvent(e, now));
   }
 
   const hasFilters = !!(q || tagsParam || tipo || fecha);
