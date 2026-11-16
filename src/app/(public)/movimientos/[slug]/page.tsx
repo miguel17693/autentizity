@@ -14,6 +14,8 @@ import {
   getNoticiasByMovimiento,
   getEventosByMovimiento,
 } from "@/lib/data/store";
+import { isAdminPreview } from "@/lib/auth/preview";
+import { isPubliclyVisible } from "@/lib/visibility";
 
 export const revalidate = 300;
 
@@ -25,7 +27,9 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const movimiento = await getMovimientoBySlug(slug);
-    if (!movimiento) return { title: "Movimiento no encontrado" };
+    if (!movimiento || (!isPubliclyVisible(movimiento) && !(await isAdminPreview()))) {
+      return { title: "Movimiento no encontrado" };
+    }
     return {
       title: movimiento.title,
       description: stripHtml(movimiento.description).slice(0, 160),
@@ -71,6 +75,7 @@ export default async function MovimientoDetailPage({
   }
 
   if (!movimiento) return notFound();
+  if (!isPubliclyVisible(movimiento) && !(await isAdminPreview())) return notFound();
 
   try {
     [embajadores, actividades, noticias, eventos, sections] = await Promise.all([

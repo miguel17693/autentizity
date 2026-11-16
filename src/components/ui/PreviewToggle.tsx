@@ -1,52 +1,32 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const ADMIN_HINT_COOKIE = "admin_ui";
 
 /**
- * Floating preview toggle — only visible when the user is logged in as admin.
- * When active, hidden sections will be shown with a visual indicator.
- * The state is shared via a CSS class on <html> that other components can read.
+ * Floating preview toggle for admins. Preview relies on Next.js draft mode,
+ * enabled through /api/preview, which validates the admin session server-side.
  */
-export default function PreviewToggle() {
+export default function PreviewToggle({ enabled }: { enabled: boolean }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [previewOn, setPreviewOn] = useState(false);
 
   useEffect(() => {
-    // Check if admin session cookie exists
-    const hasSession = document.cookie
-      .split(";")
-      .some((c) => c.trim().startsWith("admin_session="));
-    setIsAdmin(hasSession);
-
-    // Restore previous state
-    if (hasSession) {
-      const stored = localStorage.getItem("autentizity-preview");
-      if (stored === "on") {
-        setPreviewOn(true);
-        document.documentElement.classList.add("preview-mode");
-        document.cookie = "preview_mode=on;path=/";
-      } else {
-        document.cookie = "preview_mode=;path=/;max-age=0";
-      }
-    }
+    setIsAdmin(
+      document.cookie.split(";").some((c) => c.trim().startsWith(`${ADMIN_HINT_COOKIE}=`))
+    );
   }, []);
 
-  if (!isAdmin) return null;
+  useEffect(() => {
+    document.documentElement.classList.toggle("preview-mode", enabled);
+  }, [enabled]);
+
+  if (!isAdmin && !enabled) return null;
 
   const toggle = () => {
-    const next = !previewOn;
-    setPreviewOn(next);
-    if (next) {
-      document.documentElement.classList.add("preview-mode");
-      localStorage.setItem("autentizity-preview", "on");
-      document.cookie = "preview_mode=on;path=/";
-    } else {
-      document.documentElement.classList.remove("preview-mode");
-      localStorage.setItem("autentizity-preview", "off");
-      document.cookie = "preview_mode=;path=/;max-age=0";
-    }
-    // Reload to reflect server-side changes (drafts, hidden sections)
-    window.location.reload();
+    const target = `${window.location.pathname}${window.location.search}`;
+    const params = new URLSearchParams({ enable: enabled ? "0" : "1", redirect: target });
+    window.location.href = `/api/preview?${params.toString()}`;
   };
 
   return (
@@ -55,17 +35,17 @@ export default function PreviewToggle() {
       <button
         onClick={toggle}
         className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${
-          previewOn ? "bg-accent" : "bg-white/20"
+          enabled ? "bg-accent" : "bg-white/20"
         }`}
-        aria-label={previewOn ? "Desactivar preview" : "Activar preview"}
+        aria-label={enabled ? "Desactivar preview" : "Activar preview"}
       >
         <span
           className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-200 ${
-            previewOn ? "translate-x-5" : "translate-x-0"
+            enabled ? "translate-x-5" : "translate-x-0"
           }`}
         />
       </button>
-      {previewOn && (
+      {enabled && (
         <span className="text-accent text-[10px] uppercase tracking-wider">ON</span>
       )}
     </div>

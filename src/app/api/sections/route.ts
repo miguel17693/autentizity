@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSections, saveSections } from "@/lib/data/sections";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export async function GET() {
   return NextResponse.json(await getSections());
 }
 
 export async function PUT(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const body = await request.json();
   // body = { id: string, visible: boolean } or full array
   if (Array.isArray(body)) {

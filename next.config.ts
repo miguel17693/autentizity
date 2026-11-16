@@ -19,8 +19,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "*.public.blob.vercel-storage.com",
+        pathname: "/**",
       },
+      // Mock data used by the dev-only seed endpoint
+      ...(process.env.NODE_ENV !== "production"
+        ? [{ protocol: "https" as const, hostname: "images.unsplash.com", pathname: "/**" }]
+        : []),
     ],
   },
   async redirects() {

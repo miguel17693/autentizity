@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-const SESSION_SECRET =
-  process.env.SESSION_SECRET || "autentizity-default-secret-change-in-production";
+import { SESSION_COOKIE, getSessionSecret, verifySessionToken } from "@/lib/auth/session";
 
 const PUBLIC_PREFIXES = [
   "/admin/login",
   "/api/auth/login",
   "/api/auth/logout",
+  "/api/preview",
 ];
 
 const PUBLIC_GET_API = [
@@ -22,28 +21,6 @@ const PUBLIC_GET_API = [
 const loginRateLimit = new Map<string, { count: number; resetTime: number }>();
 const LOGIN_LIMIT = 5;
 const LOGIN_WINDOW = 15 * 60 * 1000;
-
-async function verifySessionToken(cookieValue: string): Promise<boolean> {
-  try {
-    const [token, sig] = cookieValue.split(".");
-    if (!token || !sig) return false;
-    const encoder = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-      "raw",
-      encoder.encode(SESSION_SECRET),
-      { name: "HMAC", hash: "SHA-256" },
-      false,
-      ["sign"]
-    );
-    const sigRaw = await crypto.subtle.sign("HMAC", key, encoder.encode(token));
-    const expectedSig = Array.from(new Uint8Array(sigRaw), (b) =>
-      b.toString(16).padStart(2, "0")
-    ).join("");
-    return sig === expectedSig;
-  } catch {
-    return false;
-  }
-}
 
 function getIP(request: NextRequest): string {
   return (
@@ -85,8 +62,8 @@ export async function middleware(request: NextRequest) {
   const needsAuth =
     pathname.startsWith("/admin") || pathname.startsWith("/api");
   if (needsAuth) {
-    const session = request.cookies.get("admin_session");
-    if (!session || !(await verifySessionToken(session.value))) {
+    const session = request.cookies.get(SESSION_COOKIE)?.value;
+    if (!(await verifySessionToken(session, getSessionSecret()))) {
       if (pathname.startsWith("/api")) {
         return NextResponse.json(
           { error: "No autorizado" },

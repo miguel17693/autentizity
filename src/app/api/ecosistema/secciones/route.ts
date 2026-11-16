@@ -6,6 +6,7 @@ import {
   deleteEcosistemaSection,
 } from "@/lib/data/store";
 import type { EcosistemaSection } from "@/lib/types";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export async function GET() {
   try {
@@ -18,6 +19,8 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   try {
     const body: EcosistemaSection = await request.json();
     if (!body.id || !body.name || !body.slug) {
@@ -39,6 +42,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   try {
     const body: EcosistemaSection = await request.json();
     if (!body.id) {
@@ -60,6 +65,8 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   try {
     const { id } = await request.json();
     if (!id) {

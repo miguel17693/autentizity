@@ -5,6 +5,8 @@ import { formatDate, renderRichText, stripHtml } from "@/lib/utils";
 import type { News, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
+import { isAdminPreview } from "@/lib/auth/preview";
+import { isPubliclyVisible } from "@/lib/visibility";
 
 export const revalidate = 300;
 
@@ -16,7 +18,9 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const noticia = await getNoticiaBySlug(slug);
-    if (!noticia) return { title: "Noticia no encontrada" };
+    if (!noticia || (!isPubliclyVisible(noticia) && !(await isAdminPreview()))) {
+      return { title: "Noticia no encontrada" };
+    }
     return {
       title: noticia.title,
       description: stripHtml(noticia.excerpt).slice(0, 160),
@@ -61,6 +65,9 @@ export default async function NoticiaDetailPage({
   }
 
   if (!noticia) return notFound();
+  const preview = await isAdminPreview();
+  if (!isPubliclyVisible(noticia) && !preview) return notFound();
+  if (movimiento && !isPubliclyVisible(movimiento) && !preview) movimiento = undefined;
 
   const newsJsonLd = {
     "@context": "https://schema.org",

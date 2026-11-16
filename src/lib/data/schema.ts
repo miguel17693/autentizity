@@ -1,6 +1,6 @@
 /**
  * Database schema initialization.
- * Run via: GET /api/db/setup (protected, admin only)
+ * Run via: POST /api/db/setup (admin only), triggered from the admin dashboard.
  */
 import { getSQL } from "./db";
 

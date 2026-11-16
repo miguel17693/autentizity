@@ -5,6 +5,8 @@ import { formatDate, formatDateTime, renderRichText, stripHtml } from "@/lib/uti
 import type { Event, Movement } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
+import { isAdminPreview } from "@/lib/auth/preview";
+import { isPubliclyVisible } from "@/lib/visibility";
 
 export const revalidate = 300;
 
@@ -16,7 +18,9 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const evento = await getEventoBySlug(slug);
-    if (!evento) return { title: "Evento no encontrado" };
+    if (!evento || (!isPubliclyVisible(evento) && !(await isAdminPreview()))) {
+      return { title: "Evento no encontrado" };
+    }
     return {
       title: evento.title,
       description: stripHtml(evento.description).slice(0, 160),
@@ -60,6 +64,9 @@ export default async function EventoDetailPage({
   }
 
   if (!evento) return notFound();
+  const preview = await isAdminPreview();
+  if (!isPubliclyVisible(evento) && !preview) return notFound();
+  if (movimiento && !isPubliclyVisible(movimiento) && !preview) movimiento = undefined;
 
   const eventJsonLd = {
     "@context": "https://schema.org",

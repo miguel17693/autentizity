@@ -1,12 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEventos, createEvento } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth/admin";
+import { isAdminRequest } from "@/lib/auth/session";
+import { onlyPublic } from "@/lib/visibility";
 
-export async function GET() {
-  return NextResponse.json(await getEventos());
+export async function GET(request: NextRequest) {
+  const items = await getEventos();
+  return NextResponse.json((await isAdminRequest(request)) ? items : onlyPublic(items));
 }
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const body = await request.json();
 
   const id = String(Date.now());
