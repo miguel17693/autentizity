@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { getActividadBySlug, getMovimientosByActividad } from "@/lib/data/store";
 import { renderRichText, stripHtml } from "@/lib/utils";
 import { getActivityButtonLabel } from "@/lib/registration";
+import { isAdminPreview } from "@/lib/auth/preview";
+import { isPubliclyVisible } from "@/lib/visibility";
 
 export const revalidate = 300;
 
@@ -17,7 +19,9 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const actividad = await getActividadBySlug(slug);
-    if (!actividad) return { title: "Actividad no encontrada" };
+    if (!actividad || (!isPubliclyVisible(actividad) && !(await isAdminPreview()))) {
+      return { title: "Actividad no encontrada" };
+    }
     return {
       title: actividad.title,
       description: stripHtml(actividad.description).slice(0, 160),
@@ -62,6 +66,7 @@ export default async function ActividadDetailPage({
   }
 
   if (!actividad) return notFound();
+  if (!isPubliclyVisible(actividad) && !(await isAdminPreview())) return notFound();
 
   const publishedMovimientos = movimientos.filter((m) => m.status === "published");
 

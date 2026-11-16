@@ -14,7 +14,7 @@ const data = vi.hoisted(() => ({
 vi.mock("@/lib/data/store", () => data);
 vi.mock("next/image", () => ({ default: ({ fill, priority, ...props }: ComponentProps<"img"> & { fill?: boolean; priority?: boolean }) => <img {...props} /> }));
 vi.mock("next/navigation", () => ({ notFound: () => { throw new Error("NOT_FOUND"); } }));
-vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => undefined }) }));
+vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => undefined }), draftMode: async () => ({ isEnabled: false }) }));
 vi.mock("@/components/ui/Section", () => ({ default: ({ children }: { children: ReactNode }) => <>{children}</> }));
 vi.mock("@/components/ui/FilterBar", () => ({ default: () => null }));
 

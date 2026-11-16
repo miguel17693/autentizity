@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { isAdminPreview } from "@/lib/auth/preview";
 import { formatDate, stripHtml } from "@/lib/utils";
 import type { News } from "@/lib/types";
 import { getNoticias } from "@/lib/data/store";
@@ -16,9 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NoticiasPage() {
-  const cookieStore = await cookies();
-  const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
-  const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
+  const isPreview = await isAdminPreview();
   let noticias: News[] = [];
   let dataError = false;
   try {

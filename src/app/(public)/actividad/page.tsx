@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { isAdminPreview } from "@/lib/auth/preview";
 import Card from "@/components/ui/Card";
 import Section from "@/components/ui/Section";
 import { getEventos, getMovimientos, getActividades } from "@/lib/data/store";
@@ -16,9 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ActividadPage() {
-  const cookieStore = await cookies();
-  const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
-  const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
+  const isPreview = await isAdminPreview();
 
   let eventos: Event[] = [];
   let movimientos: Movement[] = [];

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { isAdminPreview } from "@/lib/auth/preview";
 import Card from "@/components/ui/Card";
 import FilterBar from "@/components/ui/FilterBar";
 import { getMovimientos } from "@/lib/data/store";
@@ -20,9 +20,7 @@ export default async function MovimientosTodosPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const sp = await searchParams;
-  const cookieStore = await cookies();
-  const isAdmin = cookieStore.get("admin_session")?.value === "authenticated";
-  const isPreview = isAdmin && cookieStore.get("preview_mode")?.value === "on";
+  const isPreview = await isAdminPreview();
 
   const allMovimientos = await getMovimientos();
   const published = isPreview
