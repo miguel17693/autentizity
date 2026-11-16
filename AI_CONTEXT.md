@@ -9,7 +9,7 @@
 
 - **SIEMPRE commitea y pushea** al terminar una tarea, sin preguntar. El usuario quiere commit + push automático.
 - **El dominio de producción es `https://autentizity.vercel.app/`** (NO `.org`).
-- **Para migraciones de BD**: visita `https://autentizity.vercel.app/api/db/setup` (devuelve `{"success":true}`).
+- **Para migraciones de BD**: en el panel `/admin`, pulsa **"Ejecutar migraciones"** (hace `POST /api/db/setup`; requiere sesión de admin y mismo origen). Visitar la URL con GET ya no hace nada (405).
 - **Para diagnóstico de BD**: visita `https://autentizity.vercel.app/api/db/status`.
 - **Idioma del código**: Inglés (variables, componentes, comentarios).
 - **Idioma del contenido/UI**: Español.
@@ -83,9 +83,9 @@ autentizity/
 │   │   │   ├── ecosistema/    # CRUD secciones + entidades
 │   │   │   └── secciones/     # Gestión de secciones visibles
 │   │   └── api/               # API routes
-│   │       ├── db/setup/      # GET → ejecuta initSchema() (migraciones)
+│   │       ├── db/setup/      # POST (admin, mismo origen) → ejecuta initSchema() (migraciones)
 │   │       ├── db/status/     # GET → diagnóstico de conexión BD
-│   │       ├── db/seed/       # GET → carga datos mock en BD
+│   │       ├── db/seed/       # POST (admin) → carga datos mock en BD; 404 en producción
 │   │       ├── upload/        # POST → upload a Vercel Blob
 │   │       ├── auth/          # login/logout
 │   │       ├── eventos/       # GET (lista), POST (crear)
@@ -112,7 +112,7 @@ autentizity/
 │   │       ├── store.ts        # CRUD operations para todas las tablas
 │   │       ├── cleanup.ts      # cleanupOrphanImage() — borra blobs huérfanos
 │   │       └── mock.ts         # Datos mock (usados por /api/db/seed)
-│   └── middleware.ts          # Protege /admin (excepto /admin/login) con cookie "admin_session"
+│   └── middleware.ts          # Protege /admin (excepto /admin/login) y las mutaciones de la API con la cookie firmada "admin_session"
 ├── public/
 │   ├── images/                # Logo, iconos estáticos
 │   └── fonts/                 # Chulapa, P22 Mackinac
@@ -140,7 +140,7 @@ autentizity/
 
 ### Migraciones
 
-Las migraciones se ejecutan visitando `GET /api/db/setup`. El archivo `src/lib/data/schema.ts`:
+Las migraciones se ejecutan desde el botón **"Ejecutar migraciones"** del panel `/admin` (`POST /api/db/setup`). El archivo `src/lib/data/schema.ts`:
 1. Crea las tablas con `CREATE TABLE IF NOT EXISTS`
 2. Ejecuta `ALTER TABLE ADD COLUMN IF NOT EXISTS` para columnas añadidas posteriormente
 
@@ -241,9 +241,12 @@ interface EcosistemaEntity {
 
 ## 🔐 Admin Auth
 
-- Middleware (`src/middleware.ts`) protege todas las rutas `/admin/*` excepto `/admin/login`
-- Autenticación simple: cookie `admin_session=authenticated`
-- Login en `/admin/login` con contraseña hardcodeada (variable de entorno `ADMIN_PASSWORD`)
+- Middleware (`src/middleware.ts`) protege todas las rutas `/admin/*` excepto `/admin/login` y los métodos no públicos de `/api/*`
+- Además, cada handler que muta datos (POST/PUT/DELETE) llama a `requireAdmin(request)` de `src/lib/auth/admin.ts`
+- Sesión: cookie httpOnly `admin_session` con token `exp.nonce.hmac` firmado con HMAC-SHA256 (`src/lib/auth/session.ts`, Web Crypto), caduca a las 8 h
+- Variables de entorno obligatorias: `ADMIN_USER`, `ADMIN_PASS` y `SESSION_SECRET` (sin valor por defecto: si falta, el login devuelve 500 y nadie entra al admin)
+- Borradores: las APIs públicas y las páginas `[slug]` solo muestran contenido `published` (o `cancelled`); con sesión de admin las APIs devuelven todo
+- Vista previa: `PreviewToggle` llama a `/api/preview?enable=1&redirect=/ruta`, que activa `draftMode()` solo con sesión válida; las páginas usan `isAdminPreview()` (`src/lib/auth/preview.ts`)
 - Sin roles complejos, sin registro público
 
 ---
