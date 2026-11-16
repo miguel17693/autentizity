@@ -15,6 +15,8 @@ const csp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Lint runs in CI; a lint error must not block a production deploy.
+  eslint: { ignoreDuringBuilds: true },
   images: {
     remotePatterns: [
       {
