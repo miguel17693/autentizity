@@ -83,17 +83,6 @@ export async function saveSections(sections: SectionConfig[]): Promise<void> {
   }
 }
 
-export async function toggleSection(id: string, visible: boolean): Promise<SectionConfig | null> {
-  if (!hasDB()) return null;
-  const sql = getSQL();
-  const rows = await sql`
-    UPDATE sections SET visible = ${visible} WHERE id = ${id} RETURNING *
-  `;
-  if (rows.length === 0) return null;
-  const r = rows[0];
-  return { id: r.id as string, label: r.label as string, page: r.page as string, visible: r.visible as boolean };
-}
-
 async function seedSections(): Promise<void> {
   const sql = getSQL();
   for (const s of DEFAULT_SECTIONS) {

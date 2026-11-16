@@ -90,21 +90,6 @@ export interface Activity {
   buttonUrl: string;
 }
 
-// --- Navegación ---
-export interface NavItem {
-  label: string;
-  href: string;
-  children?: NavItem[];
-}
-
-// --- Admin ---
-export interface AdminUser {
-  id: string;
-  email: string;
-  name: string;
-  role: "admin" | "editor";
-}
-
 // --- Ecosistema (dinámico desde admin) ---
 export interface EcosistemaSection {
   id: string;
