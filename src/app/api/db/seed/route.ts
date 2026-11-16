@@ -1,8 +1,25 @@
 import { NextResponse } from "next/server";
 import { getSQL } from "@/lib/data/db";
 import { mockEvents, mockNews } from "@/lib/data/mock";
+import { isSameOriginRequest, requireAdmin } from "@/lib/auth/admin";
+
+function isProduction(): boolean {
+  return process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+}
 
 export async function GET() {
+  if (isProduction()) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ error: "Method not allowed" }, { status: 405, headers: { Allow: "POST" } });
+}
+
+export async function POST(request: Request) {
+  if (isProduction()) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: "Origen no permitido" }, { status: 403 });
+  }
+
   try {
     const sql = getSQL();
 
