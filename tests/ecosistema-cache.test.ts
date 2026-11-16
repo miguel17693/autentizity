@@ -47,8 +47,9 @@ async function expectSuccessfulMutation(
   responseBody: unknown = body,
 ) {
   let completeSave!: () => void;
-  persistence.mockImplementationOnce(() => new Promise<void>((resolve) => {
-    completeSave = resolve;
+  // Deletes resolve to whether a row was removed; saves ignore the resolved value.
+  persistence.mockImplementationOnce(() => new Promise<boolean>((resolve) => {
+    completeSave = () => resolve(true);
   }));
   const responsePromise = handler(request(method, body));
   await vi.waitFor(() => expect(persistence).toHaveBeenCalledTimes(1));
@@ -214,6 +215,17 @@ describe("Ecosistema CRUD cache invalidation", () => {
   it("invalidates public pages only after a section is deleted", async () => {
     await expectSuccessfulMutation(sections.DELETE, "DELETE", store.deleteEcosistemaSection, { id: section.id }, { success: true });
     expect(store.deleteEcosistemaSection).toHaveBeenCalledWith(section.id);
+  });
+
+  it.each([
+    { route: "sections", handler: sections.DELETE, persistence: store.deleteEcosistemaSection, id: section.id },
+    { route: "entities", handler: entities.DELETE, persistence: store.deleteEcosistemaEntity, id: entity.id },
+  ])("$route DELETE returns 404 without invalidation when nothing was deleted", async ({ handler, persistence, id }) => {
+    persistence.mockResolvedValueOnce(false);
+    const response = await handler(request("DELETE", { id }));
+    expect(response.status).toBe(404);
+    expect(await response.json()).toHaveProperty("error");
+    expect(revalidatePath).not.toHaveBeenCalled();
   });
 
   it("invalidates public pages only after a section is updated", async () => {

@@ -117,7 +117,9 @@ export async function DELETE(request: NextRequest) {
     if (!id) {
       return NextResponse.json({ error: "Se requiere id" }, { status: 400 });
     }
-    await deleteEcosistemaEntity(id);
+    if (!(await deleteEcosistemaEntity(id))) {
+      return NextResponse.json({ error: "Entidad no encontrada" }, { status: 404 });
+    }
     revalidatePath("/ecosistema");
     revalidatePath("/movimientos/[slug]", "page");
     return NextResponse.json({ success: true });
