@@ -112,7 +112,7 @@ describe("movement participants", () => {
     const selectedIds = [entities[0].id, entities[1].id, inactiveEntity.id, unknownEntity.id];
     admin.selectors = [];
     admin.setters = [];
-    admin.states = [[], movement, "", false, [], [...entities, inactiveEntity, unknownEntity], sections, [], selectedIds];
+    admin.states = [[], null, false, null, movement, "", [], null, [...entities, inactiveEntity, unknownEntity], null, sections, null, [], selectedIds];
     const html = renderToStaticMarkup(<AdminMovimientosPage />);
     for (const name of sectionNames) expect(html).toContain(`<legend>${name}</legend>`);
     expect(html).toContain("Empresa inactiva (inactiva)");
@@ -121,7 +121,7 @@ describe("movement participants", () => {
     const companies = admin.selectors.find((selector) => selector.label === "Empresas Impulsoras")!;
     expect(companies.selectedIds).toEqual([entities[1].id, inactiveEntity.id]);
     companies.onChange([inactiveEntity.id]);
-    const update = admin.setters[8].mock.calls[0][0];
+    const update = admin.setters[13].mock.calls[0][0];
     const next = typeof update === "function" ? update(selectedIds) : update;
     expect(next).toEqual([entities[0].id, unknownEntity.id, inactiveEntity.id]);
   });

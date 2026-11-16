@@ -51,6 +51,11 @@ export function slugify(text: string): string {
     .replace(/(^-|-$)+/g, "");
 }
 
+/** Convierte "a, b, ,c" en ["a", "b", "c"] */
+export function parseTags(input: string): string[] {
+  return input.split(",").map((t) => t.trim()).filter(Boolean);
+}
+
 /**
  * Trunca texto a un número máximo de caracteres
  */
