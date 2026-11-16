@@ -9,6 +9,7 @@ import {
   getMovimientosByEmbajador,
 } from "@/lib/data/store";
 import type { EcosistemaEntity } from "@/lib/types";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,6 +42,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   let movimientoError = "";
   try {
     const body = await request.json();
@@ -60,7 +63,7 @@ export async function POST(request: NextRequest) {
         await setEntidadMovimientos(entityData.id, movimientoIds);
       } catch (e) {
         console.error("POST /api/ecosistema/entidades — setEntidadMovimientos error:", e);
-        movimientoError = "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla.";
+        movimientoError = "Movimientos no guardados. Ejecuta las migraciones desde el panel de administración.";
       }
     }
     revalidatePath("/ecosistema");
@@ -73,6 +76,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   let movimientoError = "";
   try {
     const body = await request.json();
@@ -92,7 +97,7 @@ export async function PUT(request: NextRequest) {
         await setEntidadMovimientos(entityData.id, movimientoIds);
       } catch (e) {
         console.error("PUT /api/ecosistema/entidades — setEntidadMovimientos error:", e);
-        movimientoError = "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla.";
+        movimientoError = "Movimientos no guardados. Ejecuta las migraciones desde el panel de administración.";
       }
     }
     revalidatePath("/ecosistema");
@@ -105,6 +110,8 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   try {
     const { id } = await request.json();
     if (!id) {

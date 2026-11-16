@@ -19,6 +19,7 @@ const { store, revalidatePath } = vi.hoisted(() => ({
 }));
 vi.mock("@/lib/data/store", () => store);
 vi.mock("next/cache", () => ({ revalidatePath }));
+vi.mock("@/lib/auth/admin", () => ({ requireAdmin: async () => null }));
 
 const section = { id: "section-1", name: "Consejo", slug: "consejo" };
 const entity = { id: "entity-1", section_id: section.id, name: "Persona" };
@@ -187,7 +188,7 @@ describe("Ecosistema CRUD cache invalidation", () => {
     try {
       await expectSuccessfulMutation(handler, method, store.saveEcosistemaEntity,
         { ...entity, movimientoIds: ["movement-1"] },
-        { ...entity, movimientoError: "Movimientos no guardados. Ejecuta /api/db/setup para crear la tabla." });
+        { ...entity, movimientoError: "Movimientos no guardados. Ejecuta las migraciones desde el panel de administración." });
       expect(store.setEntidadMovimientos).toHaveBeenCalledWith(entity.id, ["movement-1"]);
       expect(log).toHaveBeenCalledWith(`${method} /api/ecosistema/entidades — setEntidadMovimientos error:`, error);
     } finally {

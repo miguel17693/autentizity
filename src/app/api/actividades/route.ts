@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getActividades, createActividad, setActividadMovimientos } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth/admin";
+import { isAdminRequest } from "@/lib/auth/session";
+import { onlyPublic } from "@/lib/visibility";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    return NextResponse.json(await getActividades());
+    const items = await getActividades();
+    return NextResponse.json((await isAdminRequest(request)) ? items : onlyPublic(items));
   } catch (err) {
     console.error("[GET /api/actividades]", err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Internal server error" },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }
@@ -16,6 +20,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const denied = await requireAdmin(request);
+    if (denied) return denied;
     const body = await request.json();
     const id = String(Date.now());
     const slug = body.slug || slugify(body.title);
@@ -48,7 +54,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error("[POST /api/actividades]", err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Internal server error" },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }

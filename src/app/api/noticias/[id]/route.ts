@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getNoticia, updateNoticia, deleteNoticia } from "@/lib/data/store";
 import { cleanupOrphanImage } from "@/lib/data/cleanup";
+import { requireAdmin } from "@/lib/auth/admin";
+import { isAdminRequest } from "@/lib/auth/session";
+import { isPubliclyVisible } from "@/lib/visibility";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   const noticia = await getNoticia(id);
-  if (!noticia) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!noticia || (!isPubliclyVisible(noticia) && !(await isAdminRequest(request)))) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   return NextResponse.json(noticia);
 }
 
@@ -16,6 +21,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const { id } = await params;
   const existing = await getNoticia(id);
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -66,9 +73,11 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const { id } = await params;
 
   // Get image URLs before deleting

@@ -1,6 +1,7 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const runtime = "nodejs";
 
@@ -27,6 +28,8 @@ function isValidImageUrl(url: string): boolean {
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   try {
     const body = await request.json();
     const { imageUrl, crops } = body as {

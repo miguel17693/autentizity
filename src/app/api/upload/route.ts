@@ -1,6 +1,7 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
+import { requireAdmin } from "@/lib/auth/admin";
 
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
@@ -12,6 +13,8 @@ function sanitizeFilename(name: string): string {
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
 

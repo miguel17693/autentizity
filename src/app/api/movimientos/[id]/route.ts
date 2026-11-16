@@ -11,14 +11,20 @@ import {
   setMovimientoActividades,
 } from "@/lib/data/store";
 import { cleanupOrphanImage } from "@/lib/data/cleanup";
+import { requireAdmin } from "@/lib/auth/admin";
+import { isAdminRequest } from "@/lib/auth/session";
+import { isPubliclyVisible, onlyPublic } from "@/lib/visibility";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   const mov = await getMovimiento(id);
-  if (!mov) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const isAdmin = await isAdminRequest(request);
+  if (!mov || (!isPubliclyVisible(mov) && !isAdmin)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
   const [embajadores, actividades, noticias, eventos] = await Promise.all([
     getEmbajadoresByMovimiento(id).catch(() => []),
@@ -27,13 +33,24 @@ export async function GET(
     getEventosByMovimiento(id).catch(() => []),
   ]);
 
-  return NextResponse.json({ ...mov, embajadores, actividades, noticias, eventos });
+  if (isAdmin) {
+    return NextResponse.json({ ...mov, embajadores, actividades, noticias, eventos });
+  }
+  return NextResponse.json({
+    ...mov,
+    embajadores,
+    actividades: onlyPublic(actividades),
+    noticias: onlyPublic(noticias),
+    eventos: onlyPublic(eventos),
+  });
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const { id } = await params;
   const body = await request.json();
 
@@ -104,9 +121,11 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin(request);
+  if (denied) return denied;
   const { id } = await params;
 
   const mov = await getMovimiento(id);

@@ -1,22 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getActividad, updateActividad, deleteActividad, getMovimientosByActividad, setActividadMovimientos } from "@/lib/data/store";
 import { cleanupOrphanImage } from "@/lib/data/cleanup";
+import { requireAdmin } from "@/lib/auth/admin";
+import { isAdminRequest } from "@/lib/auth/session";
+import { isPubliclyVisible, onlyPublic } from "@/lib/visibility";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
     const act = await getActividad(id);
-    if (!act) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const isAdmin = await isAdminRequest(request);
+    if (!act || (!isPubliclyVisible(act) && !isAdmin)) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
 
     const movimientos = await getMovimientosByActividad(id).catch(() => []);
-    return NextResponse.json({ ...act, movimientos });
+    return NextResponse.json({ ...act, movimientos: isAdmin ? movimientos : onlyPublic(movimientos) });
   } catch (err) {
     console.error("[GET /api/actividades/[id]]", err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Internal server error" },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }
@@ -27,6 +33,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const denied = await requireAdmin(request);
+    if (denied) return denied;
     const { id } = await params;
     const body = await request.json();
 
@@ -62,17 +70,19 @@ export async function PUT(
   } catch (err) {
     console.error("[PUT /api/actividades/[id]]", err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Internal server error" },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const denied = await requireAdmin(request);
+    if (denied) return denied;
     const { id } = await params;
 
     const act = await getActividad(id);
@@ -95,7 +105,7 @@ export async function DELETE(
   } catch (err) {
     console.error("[DELETE /api/actividades/[id]]", err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Internal server error" },
+      { error: "Error interno del servidor" },
       { status: 500 }
     );
   }
