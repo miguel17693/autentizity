@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { ComponentProps, ReactNode } from "react";
 import type { Activity, Event } from "@/lib/types";
@@ -32,6 +32,8 @@ const params = Promise.resolve({ slug: "fixture" });
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.useFakeTimers({ toFake: ["Date"] });
+  vi.setSystemTime(new Date("2026-11-16T12:00:00Z"));
   data.getEventoBySlug.mockResolvedValue(event);
   data.getActividadBySlug.mockResolvedValue(activity);
   data.getMovimientosByActividad.mockResolvedValue([]);
@@ -39,6 +41,7 @@ beforeEach(() => {
   data.getMovimientos.mockResolvedValue([]);
   data.getActividades.mockResolvedValue([activity]);
 });
+afterEach(() => vi.useRealTimers());
 
 describe("activity listings", () => {
   it("removes the secondary ecosystem subtitle from both listings and metadata", async () => {
@@ -81,5 +84,27 @@ describe("registration copy", () => {
     const html = renderToStaticMarkup(await EventoDetailPage({ params }));
     expect(html).toMatch(/<a[^>]*href="https:\/\/tickets.example\/registro\?source=evento"[^>]*>Regístrate<\/a>/);
     expect(html).not.toContain("Eventbrite");
+  });
+});
+
+describe("registration on past events", () => {
+  const renderEvent = async (dates: Pick<Event, "startDate" | "endDate">) => {
+    data.getEventoBySlug.mockResolvedValue({ ...event, ...dates });
+    return renderToStaticMarkup(await EventoDetailPage({ params }));
+  };
+
+  it("hides Regístrate once the event has ended", async () => {
+    expect(await renderEvent({ startDate: "2026-05-28T18:00", endDate: "2026-05-28T21:00" })).not.toContain(">Regístrate</a>");
+    expect(await renderEvent({ startDate: "2026-05-28", endDate: "" })).not.toContain(">Regístrate</a>");
+  });
+
+  it("uses the end date in Madrid time, falling back to the start date", async () => {
+    const dates = { startDate: "2026-11-20T18:00", endDate: "2026-11-20T21:00" };
+    vi.setSystemTime(new Date("2026-11-20T19:30:00Z"));
+    expect(await renderEvent(dates)).toContain(">Regístrate</a>");
+    vi.setSystemTime(new Date("2026-11-20T20:30:00Z"));
+    expect(await renderEvent(dates)).not.toContain(">Regístrate</a>");
+    vi.setSystemTime(new Date("2026-11-20T17:30:00Z"));
+    expect(await renderEvent({ startDate: "2026-11-20T18:00", endDate: "" })).not.toContain(">Regístrate</a>");
   });
 });

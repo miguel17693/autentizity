@@ -8,6 +8,8 @@ import { renderRichText, stripHtml } from "@/lib/utils";
 import { getActivityButtonLabel } from "@/lib/registration";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
+import { isOptimizableImage } from "@/lib/images";
+import DetailTags from "@/components/ui/DetailTags";
 
 export const revalidate = 300;
 
@@ -69,18 +71,15 @@ export default async function ActividadDetailPage({
   if (!isPubliclyVisible(actividad) && !(await isAdminPreview())) return notFound();
 
   const publishedMovimientos = movimientos.filter((m) => m.status === "published");
+  const heroImage = actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png";
+  const heroImageDesktop = actividad.coverImageHeroDesktop || heroImage;
 
   return (
     <>
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
-        <Image src={actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover sm:hidden" />
-        <Image src={actividad.coverImageHeroDesktop || actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover hidden sm:block" />
+        <Image src={heroImage} alt={actividad.title} fill priority unoptimized={!isOptimizableImage(heroImage)} className="object-cover sm:hidden" />
+        <Image src={heroImageDesktop} alt={actividad.title} fill priority unoptimized={!isOptimizableImage(heroImageDesktop)} className="object-cover hidden sm:block" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end z-10">
-          {actividad.tags.map((tag) => (
-            <span key={tag} className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full">{tag}</span>
-          ))}
-        </div>
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
           <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">{actividad.title}</h1>
         </div>
@@ -107,11 +106,7 @@ export default async function ActividadDetailPage({
             </div>
           )}
 
-          <div className="mt-10 flex items-center gap-3 flex-wrap">
-            {actividad.tags.map((tag) => (
-              <span key={tag} className="text-[10px] font-medium tracking-[0.08em] uppercase text-text-muted border border-border px-3 py-1.5 rounded-full">{tag}</span>
-            ))}
-          </div>
+          <DetailTags tags={actividad.tags} />
 
           {publishedMovimientos.length > 0 && (
             <div className="mt-12 pt-8 border-t border-border-light">

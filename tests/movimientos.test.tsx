@@ -75,6 +75,7 @@ describe("movement participants", () => {
     const html = await renderPage();
     const photo = html.match(/<img[^>]*alt="Miembro con foto"[^>]*>/)?.[0];
     expect(photo).toContain("rounded-full object-cover");
+    expect(photo).toContain("border-2 border-secondary");
     expect(photo).not.toContain("object-contain");
     const councilHtml = html.slice(html.indexOf(">Consejo Consultivo de Impacto Social</h3>"));
     expect(councilHtml).toContain("w-12 h-12 rounded-full");

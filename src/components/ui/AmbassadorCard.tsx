@@ -19,7 +19,7 @@ export default function AmbassadorCard({ name, photoUrl, description, tags, move
 
   return (
     <article className="group h-full w-full max-w-[17rem] overflow-hidden rounded-3xl border border-border-light bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5">
-      <div className="relative aspect-square w-[calc(100%_-_2.5rem)] mx-auto mt-5 overflow-hidden rounded-full border border-primary bg-surface-alt">
+      <div className="relative aspect-square w-[calc(100%_-_2.5rem)] mx-auto mt-5 overflow-hidden rounded-full border-2 border-secondary bg-surface-alt">
         {hasPhoto ? (
           <Image
             src={photoUrl}

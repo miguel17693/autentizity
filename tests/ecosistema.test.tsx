@@ -155,9 +155,9 @@ describe("Council administration", () => {
 });
 
 describe("Ambassador portraits", () => {
-  it("uses a circular portrait with a thin brand-green ring and original natural colour", () => {
+  it("uses a circular portrait framed like the entity logos and original natural colour", () => {
     const html = renderToStaticMarkup(<AmbassadorCard name="Retrato de prueba" photoUrl="/original.jpg" description="Profesión" tags={["Inclusión"]} movements={[]} />);
-    expect(html).toMatch(/class="[^"]*aspect-square[^"]*rounded-full[^"]*border border-primary[^"]*"/);
+    expect(html).toMatch(/class="[^"]*aspect-square[^"]*rounded-full[^"]*border-2 border-secondary[^"]*"/);
     expect(html).toContain('src="/original.jpg"');
     expect(html).toContain('data-original="true"');
     expect(html).not.toMatch(/gradient|grayscale|sepia/);
@@ -195,6 +195,7 @@ describe("Ecosistema public data", () => {
     ]);
     const html = renderToStaticMarkup(await EcosistemaPage());
     expect(html.match(/<img[^>]*alt="IPSEN"[^>]*>/)?.[0]).toContain("object-contain");
+    expect(html).toMatch(/class="[^"]*rounded-2xl border-2 border-secondary[^"]*"><img[^>]*alt="IPSEN"/);
     expect(html).not.toContain("<article");
   });
 

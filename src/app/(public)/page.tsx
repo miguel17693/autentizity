@@ -6,6 +6,7 @@ import CountUp from "@/components/ui/CountUp";
 import Section from "@/components/ui/Section";
 import { formatDate, stripHtml } from "@/lib/utils";
 import { isUpcomingEvent } from "@/lib/dates";
+import { isOptimizableImage } from "@/lib/images";
 import { getEventos, getNoticias } from "@/lib/data/store";
 import type { Event, News as NewsItem } from "@/lib/types";
 
@@ -213,6 +214,7 @@ function Events({ events }: { events: Event[] }) {
                     src={event.coverImageCard || event.coverImage}
                     alt={event.title}
                     fill
+                    unoptimized={!isOptimizableImage(event.coverImageCard || event.coverImage)}
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />
@@ -298,6 +300,7 @@ function News({ news }: { news: NewsItem[] }) {
                     src={item.coverImageCard || item.coverImage}
                     alt={item.title}
                     fill
+                    unoptimized={!isOptimizableImage(item.coverImageCard || item.coverImage)}
                     sizes={i === 0 ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 1024px) 100vw, 33vw"}
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   />

@@ -294,6 +294,7 @@ interface EcosistemaEntity {
 - **Admin**: `useCrud`/`useList` (`src/hooks/useCrud.ts`) y `requestJson` comprueban `res.ok`; si falla, el formulario sigue abierto y muestra el error en español
 - **Caché ISR**: toda mutación de contenido público llama a `revalidatePublicContent()` justo antes de responder con éxito
 - **Fechas**: `startDate`/`endDate` se guardan sin zona (`YYYY-MM-DDTHH:mm`) y se interpretan como hora de Madrid (`Europe/Madrid`); usar `@/lib/dates` y `formatDate`/`formatDateTime`, nunca `new Date(e.startDate)` directo
+- **Imágenes**: el optimizador de `next/image` solo acepta rutas locales y Vercel Blob (`images.remotePatterns`). Toda `<Image>` con URL de la BD debe llevar `unoptimized={!isOptimizableImage(src)}` (`@/lib/images`) para que las URLs externas (p. ej. imgur) las cargue el navegador directamente (CSP `img-src https:`)
 - **Sin comentarios** en el código a menos que sea estrictamente necesario
 - **NO crear archivos .md de documentación** a menos que se pida explícitamente
 

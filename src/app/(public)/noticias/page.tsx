@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { formatDate, stripHtml } from "@/lib/utils";
+import { isOptimizableImage } from "@/lib/images";
 import type { News } from "@/lib/types";
 import { getNoticias } from "@/lib/data/store";
 
@@ -79,6 +80,7 @@ export default async function NoticiasPage() {
                       src={item.coverImageCard || item.coverImage}
                       alt={item.title}
                       fill
+                      unoptimized={!isOptimizableImage(item.coverImageCard || item.coverImage)}
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />

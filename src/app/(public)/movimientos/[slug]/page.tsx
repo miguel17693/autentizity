@@ -16,6 +16,8 @@ import {
 } from "@/lib/data/store";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
+import { isOptimizableImage } from "@/lib/images";
+import DetailTags from "@/components/ui/DetailTags";
 
 export const revalidate = 300;
 
@@ -92,6 +94,8 @@ export default async function MovimientoDetailPage({
   const publishedNoticias = noticias.filter((n) => n.status === "published");
   const publishedEventos = eventos.filter((e) => e.status === "published");
   const publishedActividades = actividades.filter((a) => a.status === "published");
+  const heroImage = movimiento.coverImageHero || movimiento.coverImage || "/images/logo-transparent.png";
+  const heroImageDesktop = movimiento.coverImageHeroDesktop || heroImage;
   const participantGroups = groupMovementParticipants(
     embajadores.filter((entity) => entity.active),
     sections.filter((section) => section.active),
@@ -102,30 +106,22 @@ export default async function MovimientoDetailPage({
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
-          src={movimiento.coverImageHero || movimiento.coverImage || "/images/logo-transparent.png"}
+          src={heroImage}
           alt={movimiento.title}
           fill
           priority
+          unoptimized={!isOptimizableImage(heroImage)}
           className="object-cover sm:hidden"
         />
         <Image
-          src={movimiento.coverImageHeroDesktop || movimiento.coverImageHero || movimiento.coverImage || "/images/logo-transparent.png"}
+          src={heroImageDesktop}
           alt={movimiento.title}
           fill
           priority
+          unoptimized={!isOptimizableImage(heroImageDesktop)}
           className="object-cover hidden sm:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-        <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end z-10">
-          {movimiento.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-[10px] font-medium tracking-[0.1em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
         <div className="relative max-w-[1400px] w-full mx-auto px-5 sm:px-6 lg:px-12 pb-8 sm:pb-12">
           <h1 className="font-serif text-2xl sm:text-3xl lg:text-5xl text-white font-light leading-[1.1] max-w-3xl">
             {movimiento.title}
@@ -151,17 +147,7 @@ export default async function MovimientoDetailPage({
                 />
               )}
 
-              {/* Tags */}
-              <div className="mt-10 flex items-center gap-3 flex-wrap">
-                {movimiento.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[10px] font-medium tracking-[0.08em] uppercase text-white bg-secondary/80 backdrop-blur-sm px-2.5 py-1 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <DetailTags tags={movimiento.tags} />
 
               {/* Back */}
               <div className="mt-12 pt-8 border-t border-border-light">
@@ -213,11 +199,11 @@ export default async function MovimientoDetailPage({
                               height={48}
                               unoptimized
                               className={isPortraitSection(section)
-                                ? "w-12 h-12 rounded-full object-cover mx-auto border border-border"
+                                ? "w-12 h-12 rounded-full object-cover mx-auto border-2 border-secondary"
                                 : "w-24 h-16 object-contain mx-auto"}
                             />
                           ) : (
-                            <div className={`bg-surface-alt border border-border flex items-center justify-center mx-auto ${isPortraitSection(section) ? "w-12 h-12 rounded-full" : "w-24 h-16 rounded-lg"}`}>
+                            <div className={`bg-surface-alt flex items-center justify-center mx-auto ${isPortraitSection(section) ? "w-12 h-12 rounded-full border-2 border-secondary" : "w-24 h-16 rounded-lg border border-border"}`}>
                               <svg className="w-5 h-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d={isPortraitSection(section) ? "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" : "M3 21h18M5 21V3h14v18M9 7h1m4 0h1M9 11h1m4 0h1M10 21v-5h4v5"} />
                               </svg>
@@ -258,7 +244,7 @@ export default async function MovimientoDetailPage({
                       >
                         {act.coverImage && (
                           <div className="relative h-40 overflow-hidden">
-                            <Image src={act.coverImageCard || act.coverImage} alt={act.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                            <Image src={act.coverImageCard || act.coverImage} alt={act.title} fill unoptimized={!isOptimizableImage(act.coverImageCard || act.coverImage)} className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                           </div>
                         )}
                         <div className="p-4">
@@ -287,7 +273,7 @@ export default async function MovimientoDetailPage({
                         className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                       >
                         <div className="relative h-40 overflow-hidden">
-                          <Image src={ev.coverImageCard || ev.coverImage} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                          <Image src={ev.coverImageCard || ev.coverImage} alt={ev.title} fill unoptimized={!isOptimizableImage(ev.coverImageCard || ev.coverImage)} className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                         </div>
                         <div className="p-4">
                           <h4 className="font-serif text-base text-primary font-normal group-hover:text-secondary transition-colors">
@@ -314,7 +300,7 @@ export default async function MovimientoDetailPage({
                         className="group block bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
                       >
                         <div className="relative h-40 overflow-hidden">
-                          <Image src={n.coverImageCard || n.coverImage} alt={n.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                          <Image src={n.coverImageCard || n.coverImage} alt={n.title} fill unoptimized={!isOptimizableImage(n.coverImageCard || n.coverImage)} className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                         </div>
                         <div className="p-4">
                           <h4 className="font-serif text-base text-primary font-normal group-hover:text-secondary transition-colors">
