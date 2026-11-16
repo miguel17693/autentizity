@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import AmbassadorCard from "@/components/ui/AmbassadorCard";
 import { stripHtml } from "@/lib/utils";
+import { isOptimizableImage } from "@/lib/images";
 import { getEcosistemaAnchor, getEcosistemaAnchorAliases, isPortraitSection } from "@/lib/ecosistema-sections";
 import {
   getEcosistemaSections,
@@ -52,7 +53,7 @@ function LogoPlaceholder({ name, logo }: { name?: string; logo?: string }) {
   return (
     <div className="flex items-center justify-center h-28 bg-white rounded-2xl border-2 border-secondary shadow-sm hover:shadow-md transition-shadow duration-300 p-5">
       {hasLogo ? (
-        <Image src={logo} alt={name ?? ""} width={160} height={64} unoptimized={isPng} className="object-contain max-h-16 max-w-[140px]" />
+        <Image src={logo} alt={name ?? ""} width={160} height={64} unoptimized={isPng || !isOptimizableImage(logo)} className="object-contain max-h-16 max-w-[140px]" />
       ) : (
         <span className="text-text-muted text-xs font-medium tracking-[0.1em] uppercase text-center leading-tight">
           {name ?? "LOGO"}

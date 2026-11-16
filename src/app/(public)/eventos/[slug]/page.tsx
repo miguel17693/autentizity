@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
+import { isOptimizableImage } from "@/lib/images";
 
 export const revalidate = 300;
 
@@ -68,6 +69,9 @@ export default async function EventoDetailPage({
   if (!isPubliclyVisible(evento) && !preview) return notFound();
   if (movimiento && !isPubliclyVisible(movimiento) && !preview) movimiento = undefined;
 
+  const heroImage = evento.coverImageHero || evento.coverImage;
+  const heroImageDesktop = evento.coverImageHeroDesktop || heroImage;
+
   const eventJsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
@@ -90,17 +94,19 @@ export default async function EventoDetailPage({
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
-          src={evento.coverImageHero || evento.coverImage}
+          src={heroImage}
           alt={evento.title}
           fill
           priority
+          unoptimized={!isOptimizableImage(heroImage)}
           className="object-cover sm:hidden"
         />
         <Image
-          src={evento.coverImageHeroDesktop || evento.coverImageHero || evento.coverImage}
+          src={heroImageDesktop}
           alt={evento.title}
           fill
           priority
+          unoptimized={!isOptimizableImage(heroImageDesktop)}
           className="object-cover hidden sm:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />

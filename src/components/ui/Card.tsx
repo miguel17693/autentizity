@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate, stripHtml } from "@/lib/utils";
+import { isOptimizableImage } from "@/lib/images";
 
 export interface CardProps {
   href: string;
@@ -34,6 +35,7 @@ export default function Card({
   ctaText = "Ver más",
 }: CardProps) {
   const isDraft = status === "draft";
+  const imageSrc = cardImage || image;
 
   return (
     <Link
@@ -48,11 +50,12 @@ export default function Card({
             Borrador
           </div>
         )}
-        {(cardImage || image) ? (
+        {imageSrc ? (
           <Image
-            src={cardImage || image}
+            src={imageSrc}
             alt={title}
             fill
+            unoptimized={!isOptimizableImage(imageSrc)}
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
           />

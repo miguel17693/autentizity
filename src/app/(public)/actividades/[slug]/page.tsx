@@ -8,6 +8,7 @@ import { renderRichText, stripHtml } from "@/lib/utils";
 import { getActivityButtonLabel } from "@/lib/registration";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
+import { isOptimizableImage } from "@/lib/images";
 
 export const revalidate = 300;
 
@@ -69,12 +70,14 @@ export default async function ActividadDetailPage({
   if (!isPubliclyVisible(actividad) && !(await isAdminPreview())) return notFound();
 
   const publishedMovimientos = movimientos.filter((m) => m.status === "published");
+  const heroImage = actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png";
+  const heroImageDesktop = actividad.coverImageHeroDesktop || heroImage;
 
   return (
     <>
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
-        <Image src={actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover sm:hidden" />
-        <Image src={actividad.coverImageHeroDesktop || actividad.coverImageHero || actividad.coverImage || "/images/logo-transparent.png"} alt={actividad.title} fill priority className="object-cover hidden sm:block" />
+        <Image src={heroImage} alt={actividad.title} fill priority unoptimized={!isOptimizableImage(heroImage)} className="object-cover sm:hidden" />
+        <Image src={heroImageDesktop} alt={actividad.title} fill priority unoptimized={!isOptimizableImage(heroImageDesktop)} className="object-cover hidden sm:block" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="absolute bottom-4 right-4 flex gap-2 flex-wrap justify-end z-10">
           {actividad.tags.map((tag) => (

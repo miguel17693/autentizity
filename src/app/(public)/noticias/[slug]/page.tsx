@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getNoticiaBySlug, getMovimiento } from "@/lib/data/store";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
+import { isOptimizableImage } from "@/lib/images";
 
 export const revalidate = 300;
 
@@ -69,6 +70,9 @@ export default async function NoticiaDetailPage({
   if (!isPubliclyVisible(noticia) && !preview) return notFound();
   if (movimiento && !isPubliclyVisible(movimiento) && !preview) movimiento = undefined;
 
+  const heroImage = noticia.coverImageHero || noticia.coverImage;
+  const heroImageDesktop = noticia.coverImageHeroDesktop || heroImage;
+
   const newsJsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
@@ -87,17 +91,19 @@ export default async function NoticiaDetailPage({
       {/* Hero with cover image */}
       <section className="relative aspect-[16/10] sm:aspect-auto sm:h-[50vh] sm:min-h-[360px] flex items-end">
         <Image
-          src={noticia.coverImageHero || noticia.coverImage}
+          src={heroImage}
           alt={noticia.title}
           fill
           priority
+          unoptimized={!isOptimizableImage(heroImage)}
           className="object-cover sm:hidden"
         />
         <Image
-          src={noticia.coverImageHeroDesktop || noticia.coverImageHero || noticia.coverImage}
+          src={heroImageDesktop}
           alt={noticia.title}
           fill
           priority
+          unoptimized={!isOptimizableImage(heroImageDesktop)}
           className="object-cover hidden sm:block"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
