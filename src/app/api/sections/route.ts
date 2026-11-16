@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import { getSections, saveSections } from "@/lib/data/sections";
 import { requireAdmin } from "@/lib/auth/admin";
 
@@ -13,6 +14,7 @@ export async function PUT(request: NextRequest) {
   // body = { id: string, visible: boolean } or full array
   if (Array.isArray(body)) {
     await saveSections(body);
+    revalidatePublicContent();
     return NextResponse.json(body);
   }
   // Single toggle
@@ -23,5 +25,6 @@ export async function PUT(request: NextRequest) {
   }
   sections[idx].visible = body.visible;
   await saveSections(sections);
+  revalidatePublicContent();
   return NextResponse.json(sections[idx]);
 }

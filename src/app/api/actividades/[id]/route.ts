@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import { getActividad, updateActividad, deleteActividad, getMovimientosByActividad, setActividadMovimientos } from "@/lib/data/store";
 import { cleanupOrphanImage } from "@/lib/data/cleanup";
 import { requireAdmin } from "@/lib/auth/admin";
@@ -66,6 +67,7 @@ export async function PUT(
       await setActividadMovimientos(id, movimientoIds);
     }
 
+    revalidatePublicContent();
     return NextResponse.json(updated);
   } catch (err) {
     console.error("[PUT /api/actividades/[id]]", err);
@@ -101,6 +103,7 @@ export async function DELETE(
     if (heroDesktopImageUrl) await cleanupOrphanImage(heroDesktopImageUrl);
     if (cardImageUrl) await cleanupOrphanImage(cardImageUrl);
 
+    revalidatePublicContent();
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("[DELETE /api/actividades/[id]]", err);

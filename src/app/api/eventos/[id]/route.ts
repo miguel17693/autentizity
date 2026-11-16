@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import { getEvento, updateEvento, deleteEvento } from "@/lib/data/store";
 import { cleanupOrphanImage } from "@/lib/data/cleanup";
 import { requireAdmin } from "@/lib/auth/admin";
@@ -68,6 +69,7 @@ export async function PUT(
     await cleanupOrphanImage(existing.coverImageCard);
   }
 
+  revalidatePublicContent();
   return NextResponse.json(updated);
 }
 
@@ -107,5 +109,6 @@ export async function DELETE(
     await cleanupOrphanImage(cardImageUrl);
   }
 
+  revalidatePublicContent();
   return NextResponse.json({ ok: true });
 }

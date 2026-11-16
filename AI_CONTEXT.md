@@ -105,6 +105,8 @@ autentizity/
 │   ├── lib/
 │   │   ├── types.ts           # Interfaces TypeScript
 │   │   ├── utils.ts           # slugify, etc.
+│   │   ├── dates.ts           # Fechas de eventos en hora de Madrid (próximos/pasados/este mes)
+│   │   ├── revalidate.ts      # revalidatePublicContent() tras mutaciones de contenido
 │   │   ├── crop.ts            # getCroppedImg() — Canvas API cropping
 │   │   └── data/
 │   │       ├── db.ts           # getSQL() — conexión Neon
@@ -260,5 +262,7 @@ interface EcosistemaEntity {
 - **Estilos**: Tailwind utility-first, clases en español para labels/textos de UI
 - **Rutas**: Español para URLs públicas (`/noticias`, `/eventos`, `/movimientos`, `/actividades`, `/ecosistema`, `/ranking`, `/unete`)
 - **API routes**: Next.js App Router route handlers (`export async function GET/POST/PUT/DELETE`)
+- **Caché ISR**: toda mutación de contenido público llama a `revalidatePublicContent()` justo antes de responder con éxito
+- **Fechas**: `startDate`/`endDate` se guardan sin zona (`YYYY-MM-DDTHH:mm`) y se interpretan como hora de Madrid; usar `@/lib/dates` y `formatDate`/`formatDateTime`, nunca `new Date(e.startDate)` directo
 - **Sin comentarios** en el código a menos que sea estrictamente necesario
 - **NO crear archivos .md de documentación** a menos que se pida explícitamente

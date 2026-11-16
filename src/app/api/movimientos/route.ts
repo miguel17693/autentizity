@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import {
   getMovimientos,
   createMovimiento,
@@ -48,5 +49,6 @@ export async function POST(request: NextRequest) {
     await setMovimientoActividades(id, body.actividadIds);
   }
 
+  revalidatePublicContent();
   return NextResponse.json(movimiento, { status: 201 });
 }

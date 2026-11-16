@@ -1,10 +1,11 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { ReactNode } from "react";
 import HomePage from "@/app/(public)/page";
 import Header from "@/components/layout/Header";
 
-vi.mock("@/lib/data/store", () => ({ getEventos: async () => [], getNoticias: async () => [] }));
+const data = vi.hoisted(() => ({ eventos: [] as Record<string, unknown>[] }));
+vi.mock("@/lib/data/store", () => ({ getEventos: async () => data.eventos, getNoticias: async () => [] }));
 vi.mock("@/components/ui/ScrollReveal", () => ({ default: ({ children }: { children: ReactNode }) => <>{children}</> }));
 vi.mock("@/components/ui/Section", () => ({ default: ({ children }: { children: ReactNode }) => <>{children}</> }));
 vi.mock("@/components/ui/CountUp", () => ({ default: () => null }));
@@ -51,5 +52,31 @@ describe("QA 3 home", () => {
     expect(second?.[2]).toBe("Contribuimos a crear entornos laborales más humanos, en los que cada persona pueda mostrarse tal como es. En este camino nos acompañan empresas, instituciones asociaciones y profesionales.");
     const typography = (classes: string) => classes.split(" ").filter((c) => !c.startsWith("mt-")).join(" ");
     expect(typography(first![1])).toBe(typography(second![1]));
+  });
+});
+
+describe("home upcoming events", () => {
+  const event = { id: "1", slug: "foro", title: "Foro de autenticidad", description: "", type: "Foro", coverImage: "/foro.jpg", status: "published", featured: true };
+
+  afterEach(() => {
+    data.eventos = [];
+    vi.useRealTimers();
+  });
+
+  it("hides the block when there are no upcoming events", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-11-20T17:30:00Z"));
+    data.eventos = [{ ...event, startDate: "2026-11-20T18:00" }];
+    const html = renderToStaticMarkup(await HomePage());
+    expect(text(html)).not.toContain("Próximos eventos y actividades");
+  });
+
+  it("keeps an ongoing multi-day event", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-11-21T12:00:00Z"));
+    data.eventos = [{ ...event, startDate: "2026-11-20T09:00", endDate: "2026-11-22T18:00" }];
+    const html = renderToStaticMarkup(await HomePage());
+    expect(text(html)).toContain("Próximos eventos y actividades");
+    expect(text(html)).toContain("Foro de autenticidad");
   });
 });

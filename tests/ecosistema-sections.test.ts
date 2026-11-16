@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getEcosistemaAnchor, isCouncilSection, isPortraitSection } from "@/lib/ecosistema-sections";
+import { getEcosistemaAnchor, getEcosistemaAnchorAliases, isCouncilSection, isPortraitSection } from "@/lib/ecosistema-sections";
 
 describe("ecosistema section classification", () => {
   it.each([
@@ -8,8 +8,21 @@ describe("ecosistema section classification", () => {
     { id: "fixture-council", slug: "consejo-consultivo-impacto-social", anchor: "consejo-consultivo-impacto-social" },
     { id: "eco-embajadores", slug: "renamed-ambassadors", anchor: "renamed-ambassadors" },
     { id: "fixture-company", slug: "empresas-impulsoras", anchor: "empresas-impulsoras" },
+    { id: "eco-instituciones", slug: "instituciones-fundaciones-camaras-de-comercio-y-asociaciones-corporativas", anchor: "instituciones" },
+    { id: "eco-instituciones", slug: "renamed-institutions", anchor: "instituciones" },
+    { id: "fixture-institutions", slug: "instituciones-fundaciones-camaras-de-comercio-y-asociaciones-corporativas", anchor: "instituciones" },
   ])("keeps the navigation anchor stable for $id", (section) => {
     expect(getEcosistemaAnchor(section)).toBe(section.anchor);
+  });
+
+  it.each([
+    { id: "eco-instituciones", slug: "instituciones-fundaciones-camaras-de-comercio-y-asociaciones-corporativas", aliases: ["instituciones-fundaciones-camaras-de-comercio-y-asociaciones-corporativas"] },
+    { id: "fixture-institutions", slug: "instituciones", aliases: [] },
+    { id: "eco-consejo-consultivo", slug: "consejo-consultivo-impacto-social", aliases: ["consejo-consultivo-de-impacto-social"] },
+    { id: "fixture-manual-council", slug: "consejo-consultivo-de-impacto-social", aliases: ["consejo-consultivo-de-impacto-social"] },
+    { id: "fixture-company", slug: "empresas-impulsoras", aliases: [] },
+  ])("keeps slug-based links to $id working through aliases", (section) => {
+    expect(getEcosistemaAnchorAliases(section)).toEqual(section.aliases);
   });
   it.each([
     { id: "eco-consejo-consultivo", slug: "renamed-council" },

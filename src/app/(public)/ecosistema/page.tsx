@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import AmbassadorCard from "@/components/ui/AmbassadorCard";
 import { stripHtml } from "@/lib/utils";
-import { getEcosistemaAnchor, isCouncilSection, isPortraitSection } from "@/lib/ecosistema-sections";
+import { getEcosistemaAnchor, getEcosistemaAnchorAliases, isPortraitSection } from "@/lib/ecosistema-sections";
 import {
   getEcosistemaSections,
   getAllEcosistemaEntities,
@@ -135,7 +135,7 @@ export default async function EcosistemaPage() {
             id={getEcosistemaAnchor(sec)}
             className={`py-12 sm:py-16 lg:py-24 ${idx % 2 === 1 ? "bg-surface-alt" : ""}`}
           >
-            {isCouncilSection(sec) && <span id="consejo-consultivo-de-impacto-social" aria-hidden="true" />}
+            {getEcosistemaAnchorAliases(sec).map((alias) => <span key={alias} id={alias} aria-hidden="true" />)}
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
               <ScrollReveal>
                 <h2 className="font-serif text-3xl lg:text-4xl text-primary font-light leading-[1.15] max-w-3xl">

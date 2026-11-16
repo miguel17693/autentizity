@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import {
   getMovimiento,
   updateMovimiento,
@@ -117,6 +118,7 @@ export async function PUT(
     await setMovimientoActividades(id, body.actividadIds);
   }
 
+  revalidatePublicContent();
   return NextResponse.json(updated);
 }
 
@@ -144,5 +146,6 @@ export async function DELETE(
   if (heroDesktopImageUrl) await cleanupOrphanImage(heroDesktopImageUrl);
   if (cardImageUrl) await cleanupOrphanImage(cardImageUrl);
 
+  revalidatePublicContent();
   return NextResponse.json({ success: true });
 }

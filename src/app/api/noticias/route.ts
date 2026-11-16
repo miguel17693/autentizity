@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import { getNoticias, createNoticia } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 import { requireAdmin } from "@/lib/auth/admin";
@@ -40,5 +41,6 @@ export async function POST(request: NextRequest) {
   };
 
   await createNoticia(noticia);
+  revalidatePublicContent();
   return NextResponse.json(noticia, { status: 201 });
 }
