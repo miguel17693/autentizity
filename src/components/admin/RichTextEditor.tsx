@@ -17,7 +17,7 @@ import {
   ListOrdered,
   Quote,
   Link,
-  Image,
+  Image as ImageIcon,
   YoutubeIcon,
 } from "lucide-react";
 
@@ -291,7 +291,7 @@ export default function RichTextEditor({
                 disabled={uploading}
                 title="Insertar imagen"
               >
-                <Image size={buttonSize} />
+                <ImageIcon size={buttonSize} />
               </ToolbarBtn>
               <ToolbarBtn
                 onClick={handleYoutubeClick}

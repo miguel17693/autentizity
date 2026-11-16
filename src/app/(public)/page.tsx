@@ -7,6 +7,7 @@ import Section from "@/components/ui/Section";
 import { formatDate, stripHtml } from "@/lib/utils";
 import { isUpcomingEvent } from "@/lib/dates";
 import { getEventos, getNoticias } from "@/lib/data/store";
+import type { Event, News as NewsItem } from "@/lib/types";
 
 export const revalidate = 900;
 
@@ -164,8 +165,8 @@ function Introduction() {
 }
 
 /* ============== EVENTS ============== */
-function Events({ events }: { events: any[] }) {
-  const featured = events.filter((e: any) => e.featured);
+function Events({ events }: { events: Event[] }) {
+  const featured = events.filter((e) => e.featured);
   if (featured.length === 0) return null;
 
   return (
@@ -201,7 +202,7 @@ function Events({ events }: { events: any[] }) {
         {/* Events grid — full-bleed on mobile */}
       <div className="max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 sm:gap-6">
-          {featured.map((event: any, i: number) => (
+          {featured.map((event, i) => (
             <ScrollReveal key={event.id} delay={i * 0.1}>
               <Link
                 href={`/eventos/${event.slug}`}
@@ -252,7 +253,7 @@ function Events({ events }: { events: any[] }) {
 }
 
 /* ============== NEWS ============== */
-function News({ news }: { news: any[] }) {
+function News({ news }: { news: NewsItem[] }) {
   return (
     <section className="py-12 sm:py-16 lg:py-24">
       <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -286,7 +287,7 @@ function News({ news }: { news: any[] }) {
         {/* News grid — full-bleed on mobile */}
       <div className="max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 sm:gap-6 auto-rows-fr">
-          {news.map((item: any, i: number) => (
+          {news.map((item, i) => (
             <ScrollReveal key={item.id} delay={i * 0.1} className={i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}>
               <Link
                 href={`/noticias/${item.slug}`}
@@ -407,8 +408,8 @@ function CTA() {
 
 /* ============== PAGE ============== */
 export default async function HomePage() {
-  let events: any[] = [];
-  let news: any[] = [];
+  let events: Event[] = [];
+  let news: NewsItem[] = [];
   let dataError = false;
 
   try {

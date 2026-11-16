@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 export type FilterVariant = "eventos" | "movimientos" | "actividades";
@@ -31,7 +31,8 @@ export default function FilterBar({ variant, availableTags }: FilterBarProps) {
   const searchParams = useSearchParams();
 
   const currentQ = searchParams.get("q") || "";
-  const currentTags = searchParams.get("tags")?.split(",").filter(Boolean) || [];
+  const tagsParam = searchParams.get("tags");
+  const currentTags = useMemo(() => tagsParam?.split(",").filter(Boolean) || [], [tagsParam]);
   const currentFecha = searchParams.get("fecha") || "";
   const currentTipo = searchParams.get("tipo") || "";
   const [searchInput, setSearchInput] = useState(currentQ);
