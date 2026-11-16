@@ -3,11 +3,12 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { safeAdminRedirect } from "@/lib/auth/redirect";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") ?? "/admin";
+  const from = safeAdminRedirect(searchParams.get("from"));
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

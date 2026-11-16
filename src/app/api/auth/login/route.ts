@@ -1,37 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
-import { randomBytes, createHmac } from "crypto";
-
-const ADMIN_USER = process.env.ADMIN_USER;
-const ADMIN_PASS = process.env.ADMIN_PASS;
-const SESSION_SECRET =
-  process.env.SESSION_SECRET || "autentizity-default-secret-change-in-production";
-
-function createSessionToken(): string {
-  const token = randomBytes(32).toString("hex");
-  const hmac = createHmac("sha256", SESSION_SECRET).update(token).digest("hex");
-  return `${token}.${hmac}`;
-}
+import {
+  ADMIN_HINT_COOKIE,
+  SESSION_COOKIE,
+  SESSION_MAX_AGE_SECONDS,
+  createSessionToken,
+  getSessionSecret,
+  safeEqual,
+} from "@/lib/auth/session";
 
 export async function POST(request: NextRequest) {
-  if (!ADMIN_USER || !ADMIN_PASS) {
+  const adminUser = process.env.ADMIN_USER;
+  const adminPass = process.env.ADMIN_PASS;
+  const secret = getSessionSecret();
+
+  if (!adminUser || !adminPass || !secret) {
+    console.error("[POST /api/auth/login] ADMIN_USER, ADMIN_PASS or SESSION_SECRET is not configured");
     return NextResponse.json(
       { ok: false, error: "Error interno del servidor" },
       { status: 500 }
     );
   }
 
-  const body = await request.json();
-  const { username, password } = body;
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ ok: false, error: "Solicitud no válida" }, { status: 400 });
+  }
+  const { username, password } = (body ?? {}) as { username?: unknown; password?: unknown };
 
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
-    const token = createSessionToken();
+  const [userOk, passOk] = await Promise.all([
+    safeEqual(typeof username === "string" ? username : "", adminUser),
+    safeEqual(typeof password === "string" ? password : "", adminPass),
+  ]);
+
+  if (userOk && passOk) {
+    const token = await createSessionToken(secret);
+    const secure = process.env.NODE_ENV === "production";
     const response = NextResponse.json({ ok: true });
-    response.cookies.set("admin_session", token, {
+    response.cookies.set(SESSION_COOKIE, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure,
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 8,
+      maxAge: SESSION_MAX_AGE_SECONDS,
+    });
+    response.cookies.set(ADMIN_HINT_COOKIE, "1", {
+      httpOnly: false,
+      secure,
+      sameSite: "lax",
+      path: "/",
+      maxAge: SESSION_MAX_AGE_SECONDS,
     });
     return response;
   }
