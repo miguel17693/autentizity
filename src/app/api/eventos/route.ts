@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import { getEventos, createEvento } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
@@ -37,5 +38,6 @@ export async function POST(request: NextRequest) {
   };
 
   await createEvento(evento);
+  revalidatePublicContent();
   return NextResponse.json(evento, { status: 201 });
 }

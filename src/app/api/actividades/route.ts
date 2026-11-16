@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePublicContent } from "@/lib/revalidate";
 import { getActividades, createActividad, setActividadMovimientos } from "@/lib/data/store";
 import { slugify } from "@/lib/utils";
 
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
       await setActividadMovimientos(id, body.movimientoIds);
     }
 
+    revalidatePublicContent();
     return NextResponse.json(actividad, { status: 201 });
   } catch (err) {
     console.error("[POST /api/actividades]", err);
