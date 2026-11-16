@@ -13,7 +13,7 @@
 - **H02 · Página 1 — Aplicado:** el botón `Próximos eventos` pasa a `Movimientos Corporativos` y enlaza a `/actividad/movimientos`.
 - **H03 · Páginas 1 y 9 — Parcial:** añadido botón píldora `Únete` debajo de los otros botones. Enlaza a `/unete`; el formulario general de adhesión sigue pendiente de definición.
 - **H04 · Página 1 — Aplicado:** sustituidos los dos párrafos introductorios por el texto del PDF, con puntos finales y la misma tipografía, tamaño e interlineado.
-- **H05 · Página 2 — Parcial:** actualizado el nombre a `Referentes de la autenticidad 2026` y `Diploma “Empresa AutentiZity”`, también en navegación. La coletilla del partner requiere confirmación: el PDF dice literalmente `Referentes de la Autenticidad – AutentiZity & Manpower de la Autenticidad`. No se ha publicado esa duplicación ni inventado su corrección. La colaboración con ManpowerGroup sigue figurando en la página de Referentes.
+- **H05 · Página 2 — Parcial:** actualizado el nombre a `Referentes de la Autenticidad 2026` y `Diploma “Empresa AutentiZity”`, también en navegación. La coletilla del partner requiere confirmación: el PDF dice literalmente `Referentes de la Autenticidad – AutentiZity & Manpower de la Autenticidad`. No se ha publicado esa duplicación ni inventado su corrección. La colaboración con ManpowerGroup sigue figurando en la página de Referentes.
 - **H06 · Página 2 — Aplicado:** renombrada la sobrelínea `Agenda` a `Movimientos Corporativos`. El PDF solo pide cambiar esa etiqueta: se conserva el bloque de próximos eventos y actividades y su enlace a la agenda, sin sustituir sus datos por otro contenido.
 
 ### Texto introductorio aplicado
@@ -88,7 +88,7 @@ Mientras no se actualicen los textos y se dé de alta el Consejo, desde el admin
 - **A01 · Página 5 — Aplicado:** eliminado `Otras actividades del ecosistema` del listado y del bloque de Actividad; metadata ajustada sin esa expresión.
 - **A02 · Página 5 — Aplicado:** botones de reserva/inscripción muestran `Regístrate`, independientemente de Eventbrite o de otro proveedor. Se conservan las URLs de registro originales. Los botones personalizados que no son de registro no se sustituyen indiscriminadamente.
 
-## Referentes de la autenticidad 2026
+## Referentes de la Autenticidad 2026
 
 - **R01 · Páginas 6–7 — Aplicado:** nombre nuevo en título, metadatos y referencias de la página. Se conserva `/ranking` y sus anclas para no romper enlaces.
 - **R02 · Página 7 — Aplicado:** subtítulo `Líderes y voces que están redefiniendo la cultura empresarial en España`.

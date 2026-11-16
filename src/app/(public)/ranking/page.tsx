@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 /* ============================================
- * RANKING — Authentic Leaders
+ * RANKING — Referentes de la Autenticidad 2026
  * Premium editorial page
  * ============================================ */
 

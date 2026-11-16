@@ -128,8 +128,8 @@ export const mockNews: News[] = [
   },
   {
     id: "2",
-    slug: "ranking-lideres-autenticidad-manpowergroup",
-    title: "Ranking líderes de la autenticidad con ManpowerGroup",
+    slug: "referentes-autenticidad-2026-manpowergroup",
+    title: "Referentes de la Autenticidad 2026 con ManpowerGroup",
     excerpt:
       "Reconocemos a 100 líderes en España que inspiran por promover espacios de trabajo donde las personas pueden ser auténticas.",
     content: "",

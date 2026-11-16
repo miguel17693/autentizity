@@ -29,7 +29,7 @@ const DEFAULT_SECTIONS: SectionConfig[] = [
   { id: "act-eventos", label: "Listado de eventos", page: "Actividad", visible: true },
   { id: "act-movimientos", label: "Movimientos Corporativos", page: "Actividad", visible: true },
   // Reconocimiento
-  { id: "rank-intro", label: "¿Qué es el Ranking?", page: "Reconocimiento", visible: true },
+  { id: "rank-intro", label: "Top 100", page: "Reconocimiento", visible: true },
   { id: "rank-categories", label: "Categorías", page: "Reconocimiento", visible: true },
   { id: "rank-process", label: "Proceso de selección", page: "Reconocimiento", visible: true },
   { id: "rank-cta", label: "¿Quieres participar?", page: "Reconocimiento", visible: true },
