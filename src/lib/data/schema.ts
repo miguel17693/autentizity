@@ -264,4 +264,11 @@ export const MIGRATIONS: Migration[] = [
       }
     },
   },
+  {
+    // The ranking intro heading is now "Top 100"; keep any label renamed by hand.
+    id: "0003-rank-intro-label",
+    up: async (sql) => {
+      await sql`UPDATE sections SET label = ${"Top 100"} WHERE id = ${"rank-intro"} AND label = ${"¿Qué es el Ranking?"}`;
+    },
+  },
 ];

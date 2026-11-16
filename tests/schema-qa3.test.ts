@@ -59,6 +59,13 @@ describe("Ecosistema data migrations (SQL stub, no database)", () => {
     expect(statements().some((q) => q.text.startsWith("INSERT INTO ecosistema_entidades"))).toBe(false);
   });
 
+  it("renames only the legacy ranking intro label in the sections table", async () => {
+    await runDataMigrations();
+    expect(statements().filter((q) => q.text.startsWith("UPDATE sections"))).toEqual([
+      { text: "UPDATE sections SET label = ? WHERE id = ? AND label = ?", values: ["Top 100", "rank-intro", "¿Qué es el Ranking?"] },
+    ]);
+  });
+
   it("keeps data changes out of the DDL that runs on every deploy", async () => {
     await ensureSchema(sql);
     expect(statements().length).toBeGreaterThan(0);
