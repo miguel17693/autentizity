@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getEventoBySlug, getMovimiento } from "@/lib/data/store";
 import { isAdminPreview } from "@/lib/auth/preview";
 import { isPubliclyVisible } from "@/lib/visibility";
+import { isPastEvent } from "@/lib/dates";
 import { isOptimizableImage } from "@/lib/images";
 
 export const revalidate = 300;
@@ -71,6 +72,7 @@ export default async function EventoDetailPage({
 
   const heroImage = evento.coverImageHero || evento.coverImage;
   const heroImageDesktop = evento.coverImageHeroDesktop || heroImage;
+  const canRegister = evento.status !== "cancelled" && !!evento.registrationUrl && !isPastEvent(evento);
 
   const eventJsonLd = {
     "@context": "https://schema.org",
@@ -239,7 +241,7 @@ export default async function EventoDetailPage({
                 </div>
 
                 {/* Registration CTA */}
-                {evento.status !== "cancelled" && evento.registrationUrl && (
+                {canRegister && (
                   <a
                     href={evento.registrationUrl}
                     target="_blank"
