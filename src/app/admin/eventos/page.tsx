@@ -65,7 +65,7 @@ export default function AdminEventosPage() {
       const start = new Date(value);
       const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
       const pad = (n: number) => String(n).padStart(2, "0");
-      updates.endDate = `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}T${pad(end.getHours())}:${pad(end.getMinutes())}`;
+      updates.endDate = `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}T${pad(end.getHours())}:${pad(end.getMinutes())}`;
     }
     setEditing({ ...editing, ...updates });
   }
