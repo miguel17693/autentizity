@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import EcosistemaPage from "@/app/(public)/ecosistema/page";
 import AmbassadorCard from "@/components/ui/AmbassadorCard";
+import Header from "@/components/layout/Header";
 import type { EcosistemaSection } from "@/lib/types";
 
 import AdminEcosistemaPage from "@/app/admin/ecosistema/page";
@@ -41,8 +42,9 @@ const store = vi.hoisted(() => ({
 }));
 vi.mock("@/lib/data/store", () => store);
 vi.mock("@/components/ui/Section", () => ({ default: ({ children, id }: { children: ReactNode; id: string }) => <div data-section-id={id}>{children}</div> }));
+vi.mock("next/navigation", () => ({ usePathname: () => "/ecosistema" }));
 vi.mock("@/components/ui/ScrollReveal", () => ({ default: ({ children }: { children: ReactNode }) => children }));
-vi.mock("next/image", () => ({ default: ({ fill, unoptimized, ...props }: ComponentProps<"img"> & { fill?: boolean; unoptimized?: boolean }) => <img {...props} data-original={unoptimized} /> }));
+vi.mock("next/image", () => ({ default: ({ fill, unoptimized, priority, ...props }: ComponentProps<"img"> & { fill?: boolean; unoptimized?: boolean; priority?: boolean }) => <img {...props} data-original={unoptimized} /> }));
 
 const ambassadors: EcosistemaSection = {
   id: "eco-embajadores", name: "Embajadores", slug: "embajadores", description: "Texto administrable", sort_order: 4, active: true,
@@ -207,6 +209,19 @@ describe("Ecosistema public data", () => {
     expect(ids.filter((id) => id === "consejo-consultivo-de-impacto-social")).toHaveLength(1);
     expect(new Set(ids).size).toBe(ids.length);
     expect(html).toContain(`data-section-id="${council.slug}"`);
+  });
+
+  it("exposes the stable Instituciones anchor used by the menu and keeps the slug link", async () => {
+    const slug = "instituciones-fundaciones-camaras-de-comercio-y-asociaciones-corporativas";
+    store.getEcosistemaSections.mockResolvedValue([{ ...ambassadors, id: "eco-instituciones", slug, name: "Instituciones" }]);
+    const html = renderToStaticMarkup(await EcosistemaPage());
+    const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
+    const menu = renderToStaticMarkup(<Header />);
+    const anchor = menu.match(/href="\/ecosistema#(instituciones[^"]*)"/)?.[1];
+    expect(anchor).toBe("instituciones");
+    expect(ids.filter((id) => id === anchor)).toHaveLength(1);
+    expect(ids.filter((id) => id === slug)).toHaveLength(1);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
   it("respects admin section order including portrait sections", async () => {
