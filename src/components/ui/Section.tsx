@@ -1,8 +1,10 @@
+import { draftMode } from "next/headers";
 import { getSections } from "@/lib/data/sections";
 
 /**
- * Server component wrapper that reads section visibility config
- * and applies data-hidden attribute for the preview system.
+ * Server component wrapper that reads section visibility config.
+ * Hidden sections are not rendered for visitors; in admin preview (draft mode)
+ * they are kept with data-hidden so the preview styles can flag them.
  */
 export default async function Section({
   id,
@@ -22,6 +24,8 @@ export default async function Section({
     // DB not available — default to visible
     hidden = false;
   }
+
+  if (hidden && !(await draftMode()).isEnabled) return null;
 
   return (
     <div data-hidden={hidden ? "true" : undefined} data-section-id={id} className={className}>
