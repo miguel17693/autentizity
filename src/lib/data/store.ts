@@ -1,5 +1,6 @@
 import type { News, Event, Movement, Activity, EcosistemaSection, EcosistemaEntity } from "@/lib/types";
 import { getSQL } from "@/lib/data/db";
+import { generateId } from "@/lib/ids";
 
 /*
  * Data store backed by Neon Postgres (via Vercel Storage).
@@ -12,6 +13,10 @@ function requireDB() {
       "DATABASE_URL is not set. Create a Neon database in Vercel Storage and link it to this project."
     );
   }
+}
+
+function unique(ids: string[]): string[] {
+  return [...new Set(ids)];
 }
 
 // --- Eventos ---
@@ -90,8 +95,8 @@ export async function updateEvento(id: string, updates: Partial<Event>): Promise
 export async function deleteEvento(id: string): Promise<boolean> {
   requireDB();
   const sql = getSQL();
-  const result = await sql`DELETE FROM eventos WHERE id = ${id}`;
-  return (result as unknown as { count?: number }).count !== 0;
+  const rows = await sql`DELETE FROM eventos WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
 
 // --- Noticias ---
@@ -166,8 +171,8 @@ export async function updateNoticia(id: string, updates: Partial<News>): Promise
 export async function deleteNoticia(id: string): Promise<boolean> {
   requireDB();
   const sql = getSQL();
-  const result = await sql`DELETE FROM noticias WHERE id = ${id}`;
-  return (result as unknown as { count?: number }).count !== 0;
+  const rows = await sql`DELETE FROM noticias WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
 
 // --- Movimientos ---
@@ -232,8 +237,8 @@ export async function updateMovimiento(id: string, updates: Partial<Movement>): 
 export async function deleteMovimiento(id: string): Promise<boolean> {
   requireDB();
   const sql = getSQL();
-  const result = await sql`DELETE FROM movimientos WHERE id = ${id}`;
-  return (result as unknown as { count?: number }).count !== 0;
+  const rows = await sql`DELETE FROM movimientos WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
 
 // --- Actividades ---
@@ -312,8 +317,8 @@ export async function updateActividad(id: string, updates: Partial<Activity>): P
 export async function deleteActividad(id: string): Promise<boolean> {
   requireDB();
   const sql = getSQL();
-  const result = await sql`DELETE FROM actividades WHERE id = ${id}`;
-  return (result as unknown as { count?: number }).count !== 0;
+  const rows = await sql`DELETE FROM actividades WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
 
 // --- Relaciones Movimiento-Embajador (M:N) ---
@@ -333,11 +338,12 @@ export async function getEmbajadoresByMovimiento(movimientoId: string): Promise<
 export async function setMovimientoEmbajadores(movimientoId: string, entidadIds: string[]): Promise<void> {
   requireDB();
   const sql = getSQL();
-  await sql`DELETE FROM movimiento_embajadores WHERE movimiento_id = ${movimientoId}`;
-  for (const entidadId of entidadIds) {
-    const id = "me_" + Math.random().toString(36).slice(2, 10);
-    await sql`INSERT INTO movimiento_embajadores (id, movimiento_id, entidad_id) VALUES (${id}, ${movimientoId}, ${entidadId})`;
-  }
+  await sql.transaction([
+    sql`DELETE FROM movimiento_embajadores WHERE movimiento_id = ${movimientoId}`,
+    ...unique(entidadIds).map(
+      (entidadId) => sql`INSERT INTO movimiento_embajadores (id, movimiento_id, entidad_id) VALUES (${generateId("me")}, ${movimientoId}, ${entidadId})`
+    ),
+  ]);
 }
 
 // --- Relaciones Movimiento-Actividad (M:N) ---
@@ -345,11 +351,12 @@ export async function setMovimientoEmbajadores(movimientoId: string, entidadIds:
 export async function setMovimientoActividades(movimientoId: string, actividadIds: string[]): Promise<void> {
   requireDB();
   const sql = getSQL();
-  await sql`DELETE FROM movimiento_actividades WHERE movimiento_id = ${movimientoId}`;
-  for (const actividadId of actividadIds) {
-    const id = "ma_" + Math.random().toString(36).slice(2, 10);
-    await sql`INSERT INTO movimiento_actividades (id, movimiento_id, actividad_id) VALUES (${id}, ${movimientoId}, ${actividadId})`;
-  }
+  await sql.transaction([
+    sql`DELETE FROM movimiento_actividades WHERE movimiento_id = ${movimientoId}`,
+    ...unique(actividadIds).map(
+      (actividadId) => sql`INSERT INTO movimiento_actividades (id, movimiento_id, actividad_id) VALUES (${generateId("ma")}, ${movimientoId}, ${actividadId})`
+    ),
+  ]);
 }
 
 export async function getMovimientosByActividad(actividadId: string): Promise<Movement[]> {
@@ -379,11 +386,12 @@ export async function getMovimientosByEmbajador(entidadId: string): Promise<Move
 export async function setActividadMovimientos(actividadId: string, movimientoIds: string[]): Promise<void> {
   requireDB();
   const sql = getSQL();
-  await sql`DELETE FROM movimiento_actividades WHERE actividad_id = ${actividadId}`;
-  for (const movimientoId of movimientoIds) {
-    const id = "ma_" + Math.random().toString(36).slice(2, 10);
-    await sql`INSERT INTO movimiento_actividades (id, movimiento_id, actividad_id) VALUES (${id}, ${movimientoId}, ${actividadId})`;
-  }
+  await sql.transaction([
+    sql`DELETE FROM movimiento_actividades WHERE actividad_id = ${actividadId}`,
+    ...unique(movimientoIds).map(
+      (movimientoId) => sql`INSERT INTO movimiento_actividades (id, movimiento_id, actividad_id) VALUES (${generateId("ma")}, ${movimientoId}, ${actividadId})`
+    ),
+  ]);
 }
 
 export async function getAllMovimientosForEmbajadores(): Promise<Record<string, Movement[]>> {
@@ -406,11 +414,12 @@ export async function getAllMovimientosForEmbajadores(): Promise<Record<string, 
 export async function setEntidadMovimientos(entidadId: string, movimientoIds: string[]): Promise<void> {
   requireDB();
   const sql = getSQL();
-  await sql`DELETE FROM movimiento_embajadores WHERE entidad_id = ${entidadId}`;
-  for (const movimientoId of movimientoIds) {
-    const id = "me_" + Math.random().toString(36).slice(2, 10);
-    await sql`INSERT INTO movimiento_embajadores (id, movimiento_id, entidad_id) VALUES (${id}, ${movimientoId}, ${entidadId})`;
-  }
+  await sql.transaction([
+    sql`DELETE FROM movimiento_embajadores WHERE entidad_id = ${entidadId}`,
+    ...unique(movimientoIds).map(
+      (movimientoId) => sql`INSERT INTO movimiento_embajadores (id, movimiento_id, entidad_id) VALUES (${generateId("me")}, ${movimientoId}, ${entidadId})`
+    ),
+  ]);
 }
 
 // --- Ecosistema Secciones ---
@@ -427,13 +436,6 @@ export async function getAllEcosistemaSections(): Promise<EcosistemaSection[]> {
   const sql = getSQL();
   const rows = await sql`SELECT * FROM ecosistema_secciones ORDER BY sort_order`;
   return rows.map(rowToEcosistemaSection);
-}
-
-export async function getEcosistemaSection(id: string): Promise<EcosistemaSection | null> {
-  requireDB();
-  const sql = getSQL();
-  const rows = await sql`SELECT * FROM ecosistema_secciones WHERE id = ${id} LIMIT 1`;
-  return rows.length ? rowToEcosistemaSection(rows[0]) : null;
 }
 
 export async function saveEcosistemaSection(section: EcosistemaSection): Promise<void> {
@@ -454,8 +456,8 @@ export async function saveEcosistemaSection(section: EcosistemaSection): Promise
 export async function deleteEcosistemaSection(id: string): Promise<boolean> {
   requireDB();
   const sql = getSQL();
-  const result = await sql`DELETE FROM ecosistema_secciones WHERE id = ${id}`;
-  return (result as unknown as { count?: number }).count !== 0;
+  const rows = await sql`DELETE FROM ecosistema_secciones WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
 
 // --- Ecosistema Entidades ---
@@ -494,11 +496,21 @@ export async function saveEcosistemaEntity(entity: EcosistemaEntity): Promise<vo
 export async function deleteEcosistemaEntity(id: string): Promise<boolean> {
   requireDB();
   const sql = getSQL();
-  const result = await sql`DELETE FROM ecosistema_entidades WHERE id = ${id}`;
-  return (result as unknown as { count?: number }).count !== 0;
+  const rows = await sql`DELETE FROM ecosistema_entidades WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
 
 // --- Row mappers ---
+
+function rowToImages(row: Record<string, unknown>) {
+  return {
+    coverImage: (row.cover_image as string) || "",
+    coverImageOriginal: (row.cover_image_original as string) || "",
+    coverImageHero: (row.cover_image_hero as string) || "",
+    coverImageHeroDesktop: (row.cover_image_hero_desktop as string) || "",
+    coverImageCard: (row.cover_image_card as string) || "",
+  };
+}
 
 function rowToEvent(row: Record<string, unknown>): Event {
   return {
@@ -507,11 +519,7 @@ function rowToEvent(row: Record<string, unknown>): Event {
     title: row.title as string,
     description: (row.description as string) || "",
     content: (row.content as string) || "",
-    coverImage: (row.cover_image as string) || "",
-    coverImageOriginal: (row.cover_image_original as string) || "",
-    coverImageHero: (row.cover_image_hero as string) || "",
-    coverImageHeroDesktop: (row.cover_image_hero_desktop as string) || "",
-    coverImageCard: (row.cover_image_card as string) || "",
+    ...rowToImages(row),
     startDate: (row.start_date as string) || "",
     endDate: (row.end_date as string) || "",
     location: (row.location as string) || "",
@@ -533,11 +541,7 @@ function rowToNews(row: Record<string, unknown>): News {
     title: row.title as string,
     excerpt: (row.excerpt as string) || "",
     content: (row.content as string) || "",
-    coverImage: (row.cover_image as string) || "",
-    coverImageOriginal: (row.cover_image_original as string) || "",
-    coverImageHero: (row.cover_image_hero as string) || "",
-    coverImageHeroDesktop: (row.cover_image_hero_desktop as string) || "",
-    coverImageCard: (row.cover_image_card as string) || "",
+    ...rowToImages(row),
     tags: (row.tags as string[]) || [],
     author: (row.author as string) || "",
     publishedAt: (row.published_at as string) || "",
@@ -555,11 +559,7 @@ function rowToMovement(row: Record<string, unknown>): Movement {
     title: row.title as string,
     description: (row.description as string) || "",
     content: (row.content as string) || "",
-    coverImage: (row.cover_image as string) || "",
-    coverImageOriginal: (row.cover_image_original as string) || "",
-    coverImageHero: (row.cover_image_hero as string) || "",
-    coverImageHeroDesktop: (row.cover_image_hero_desktop as string) || "",
-    coverImageCard: (row.cover_image_card as string) || "",
+    ...rowToImages(row),
     tags: (row.tags as string[]) || [],
     status: (row.status as Movement["status"]) || "draft",
     featured: row.featured as boolean,
@@ -573,11 +573,7 @@ function rowToActivity(row: Record<string, unknown>): Activity {
     title: row.title as string,
     description: (row.description as string) || "",
     content: (row.content as string) || "",
-    coverImage: (row.cover_image as string) || "",
-    coverImageOriginal: (row.cover_image_original as string) || "",
-    coverImageHero: (row.cover_image_hero as string) || "",
-    coverImageHeroDesktop: (row.cover_image_hero_desktop as string) || "",
-    coverImageCard: (row.cover_image_card as string) || "",
+    ...rowToImages(row),
     tags: (row.tags as string[]) || [],
     status: (row.status as Activity["status"]) || "draft",
     featured: row.featured as boolean,
