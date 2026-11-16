@@ -188,7 +188,7 @@ describe("Ecosistema CRUD cache invalidation", () => {
     try {
       await expectSuccessfulMutation(handler, method, store.saveEcosistemaEntity,
         { ...entity, movimientoIds: ["movement-1"] },
-        { ...entity, movimientoError: "Movimientos no guardados. Ejecuta las migraciones desde el panel de administración." });
+        { ...entity, movimientoError: "Movimientos no guardados. Inténtalo de nuevo y, si el error persiste, avisa al equipo técnico." });
       expect(store.setEntidadMovimientos).toHaveBeenCalledWith(entity.id, ["movement-1"]);
       expect(log).toHaveBeenCalledWith(`${method} /api/ecosistema/entidades — setEntidadMovimientos error:`, error);
     } finally {

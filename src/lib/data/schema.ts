@@ -1,8 +1,14 @@
 /**
- * Database schema initialization.
- * Run via: POST /api/db/setup (admin only), triggered from the admin dashboard.
+ * Database schema and versioned data migrations, applied automatically before
+ * `next build` on every production deploy (scripts/migrate.ts).
+ * To add a migration append it to MIGRATIONS; never edit or reorder applied ones.
  */
-import { getSQL } from "./db";
+export type SqlTag = (strings: TemplateStringsArray, ...values: unknown[]) => Promise<Record<string, unknown>[]>;
+
+export interface Migration {
+  id: string;
+  up: (sql: SqlTag) => Promise<void>;
+}
 
 const DEFAULT_ECOSISTEMA_SECTIONS = [
   {
@@ -61,8 +67,14 @@ const DEFAULT_ECOSISTEMA_SECTIONS = [
   },
 ];
 
-export async function initSchema() {
-  const sql = getSQL();
+/** Idempotent DDL that is safe to run on every deploy. */
+export async function ensureSchema(sql: SqlTag) {
+  await sql`
+    CREATE TABLE IF NOT EXISTS schema_migrations (
+      id TEXT PRIMARY KEY,
+      applied_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
 
   await sql`
     CREATE TABLE IF NOT EXISTS eventos (
@@ -205,21 +217,6 @@ export async function initSchema() {
   await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS sort_order INTEGER DEFAULT 0`;
   await sql`ALTER TABLE ecosistema_entidades ADD COLUMN IF NOT EXISTS active BOOLEAN DEFAULT true`;
 
-  for (const section of DEFAULT_ECOSISTEMA_SECTIONS) {
-    await sql`
-      INSERT INTO ecosistema_secciones (id, name, slug, description, sort_order, active)
-      VALUES (${section.id}, ${section.name}, ${section.slug}, ${section.description}, ${section.sort_order}, ${section.active})
-      ON CONFLICT DO NOTHING
-    `;
-    // Only replace known legacy copy; preserve custom admin text and empty descriptions.
-    for (const previousDescription of section.previousDescriptions ?? []) {
-      await sql`
-        UPDATE ecosistema_secciones SET description = ${section.description}
-        WHERE id = ${section.id} AND description = ${previousDescription}
-      `;
-    }
-  }
-
   await sql`
     CREATE TABLE IF NOT EXISTS movimiento_embajadores (
       id TEXT PRIMARY KEY,
@@ -237,6 +234,34 @@ export async function initSchema() {
       UNIQUE(movimiento_id, actividad_id)
     )
   `;
-
-  return { success: true };
 }
+
+export const MIGRATIONS: Migration[] = [
+  {
+    // Conflicts on id or slug are skipped, so sections created by hand are kept as they are.
+    id: "0001-seed-ecosistema-sections",
+    up: async (sql) => {
+      for (const section of DEFAULT_ECOSISTEMA_SECTIONS) {
+        await sql`
+          INSERT INTO ecosistema_secciones (id, name, slug, description, sort_order, active)
+          VALUES (${section.id}, ${section.name}, ${section.slug}, ${section.description}, ${section.sort_order}, ${section.active})
+          ON CONFLICT DO NOTHING
+        `;
+      }
+    },
+  },
+  {
+    // QA3 E01–E03: only replace known legacy copy; preserve custom admin text and empty descriptions.
+    id: "0002-qa3-ecosistema-descriptions",
+    up: async (sql) => {
+      for (const section of DEFAULT_ECOSISTEMA_SECTIONS) {
+        for (const previousDescription of section.previousDescriptions ?? []) {
+          await sql`
+            UPDATE ecosistema_secciones SET description = ${section.description}
+            WHERE id = ${section.id} AND description = ${previousDescription}
+          `;
+        }
+      }
+    },
+  },
+];

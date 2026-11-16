@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         await setEntidadMovimientos(entityData.id, movimientoIds);
       } catch (e) {
         console.error("POST /api/ecosistema/entidades — setEntidadMovimientos error:", e);
-        movimientoError = "Movimientos no guardados. Ejecuta las migraciones desde el panel de administración.";
+        movimientoError = "Movimientos no guardados. Inténtalo de nuevo y, si el error persiste, avisa al equipo técnico.";
       }
     }
     revalidatePath("/ecosistema");
@@ -97,7 +97,7 @@ export async function PUT(request: NextRequest) {
         await setEntidadMovimientos(entityData.id, movimientoIds);
       } catch (e) {
         console.error("PUT /api/ecosistema/entidades — setEntidadMovimientos error:", e);
-        movimientoError = "Movimientos no guardados. Ejecuta las migraciones desde el panel de administración.";
+        movimientoError = "Movimientos no guardados. Inténtalo de nuevo y, si el error persiste, avisa al equipo técnico.";
       }
     }
     revalidatePath("/ecosistema");

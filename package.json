@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsx scripts/migrate.ts && next build",
+    "migrate": "tsx scripts/migrate.ts",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run"
@@ -40,11 +41,14 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/sanitize-html": "^2.16.1",
+    "@types/ws": "^8.18.2",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.5.29",
     "postcss": "^8.5.0",
     "tailwindcss": "^4.1.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.7.0",
-    "vitest": "2.1.9"
+    "vitest": "2.1.9",
+    "ws": "^8.23.0"
   }
 }

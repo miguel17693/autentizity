@@ -3,33 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-type MigrationState =
-  | { status: "idle" }
-  | { status: "running" }
-  | { status: "done"; ok: boolean; message: string };
-
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ noticias: 0, eventos: 0, movimientos: 0 });
-  const [migration, setMigration] = useState<MigrationState>({ status: "idle" });
-
-  async function runMigrations() {
-    setMigration({ status: "running" });
-    try {
-      const res = await fetch("/api/db/setup", { method: "POST" });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && data.success) {
-        setMigration({ status: "done", ok: true, message: "Migraciones ejecutadas correctamente." });
-      } else {
-        setMigration({
-          status: "done",
-          ok: false,
-          message: `Error al ejecutar las migraciones (${res.status})${data.error ? `: ${data.error}` : ""}`,
-        });
-      }
-    } catch {
-      setMigration({ status: "done", ok: false, message: "Error de conexión al ejecutar las migraciones." });
-    }
-  }
 
   useEffect(() => {
     Promise.all([
@@ -117,31 +92,6 @@ export default function AdminDashboard() {
             Gestionar movimientos →
           </p>
         </Link>
-      </div>
-
-      {/* Database maintenance */}
-      <div className="mt-8 bg-white border border-border rounded-2xl p-6">
-        <p className="text-[11px] font-medium tracking-[0.1em] uppercase text-text-muted">
-          Base de datos
-        </p>
-        <p className="mt-2 text-sm text-text-secondary font-light">
-          Crea las tablas y columnas que falten. Es seguro ejecutarlo varias veces.
-        </p>
-        <div className="mt-4 flex flex-wrap items-center gap-4">
-          <button
-            type="button"
-            onClick={runMigrations}
-            disabled={migration.status === "running"}
-            className="px-5 py-2.5 bg-primary text-white text-[12px] font-medium tracking-[0.08em] uppercase rounded-full hover:bg-primary-light transition-colors disabled:opacity-50"
-          >
-            {migration.status === "running" ? "Ejecutando..." : "Ejecutar migraciones"}
-          </button>
-          {migration.status === "done" && (
-            <p role="status" className={`text-sm ${migration.ok ? "text-accent" : "text-red-600"}`}>
-              {migration.message}
-            </p>
-          )}
-        </div>
       </div>
     </div>
   );
