@@ -119,6 +119,7 @@ autentizity/
 │   │       ├── db.ts           # getSQL() — conexión Neon
 │   │       ├── schema.ts       # ensureSchema() (DDL idempotente) + MIGRATIONS (cambios de datos, una vez por id)
 │   │       ├── migrate.ts      # runMigrations() — ejecutor usado por scripts/migrate.ts
+│   │       ├── rehost-images.ts # rehostExternalImages() — sube a Blob las imágenes externas (en el deploy)
 │   │       ├── store.ts        # CRUD de todas las tablas
 │   │       ├── sections.ts     # Visibilidad de secciones
 │   │       ├── cleanup.ts      # cleanupOrphanImage() — borra blobs huérfanos
@@ -165,6 +166,7 @@ Las migraciones son **automáticas en cada deploy de producción**: el script `b
 - Deben ser compatibles con la versión publicada (solo añadir), porque se aplican antes de que el nuevo código esté en línea.
 - Ejecución manual: `RUN_MIGRATIONS=1 DATABASE_URL=... pnpm migrate`.
 - El Build Command del proyecto en Vercel debe ser el predeterminado (`pnpm build`); si se sobrescribe, las migraciones no se ejecutan.
+- Tras las migraciones, el mismo script ejecuta `rehostExternalImages()` (`src/lib/data/rehost-images.ts`): busca en las columnas de imagen (`cover_image*` y `ecosistema_entidades.logo_url`, no el HTML de `content`) URLs http(s) que no son de Vercel Blob (p. ej. imgur), las descarga una vez cada una, las valida con `sharp` (PNG/JPEG/WebP/GIF, máx. 10 MB), las sube a Blob en `rehosted/` y actualiza todas las columnas que las usan. Mismas condiciones (`VERCEL_ENV=production` o `RUN_MIGRATIONS=1`) y además necesita `BLOB_READ_WRITE_TOKEN`. **No es fatal**: si una imagen falla solo se avisa (`[rehost-images] warning: …`) y el deploy sigue; el resumen sale como `[rehost-images] rehosted N, failed M`. Es idempotente y nunca borra nada.
 
 ### Acceso a datos
 - `store.ts` usa SQL crudo. Los borrados usan `RETURNING id` y devuelven si se borró algo (la API responde 404 si no existía).
