@@ -35,6 +35,12 @@ export async function cleanupOrphanImage(imageUrl: string): Promise<void> {
     `;
     if ((actRows as unknown[]).length > 0) return;
 
+    // rehost-images.ts can give a cover and an entity logo the same Blob URL
+    const logoRows = await sql`
+      SELECT id FROM ecosistema_entidades WHERE logo_url = ${imageUrl} LIMIT 1
+    `;
+    if ((logoRows as unknown[]).length > 0) return;
+
     // Orphaned — delete from blob
     await del(imageUrl);
   } catch (error) {
