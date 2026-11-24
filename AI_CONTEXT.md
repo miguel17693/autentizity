@@ -265,6 +265,10 @@ interface EcosistemaEntity {
 - Accent: `#0F9181` (teal)
 - Definidos como variables `--color-*` en `src/app/globals.css` (Tailwind 4 `@theme`)
 
+### Variante de fondos blancos (`?color=blanco`)
+- Prueba para el cliente: `?color=blanco` en cualquier URL pública pone en blanco todos los fondos gris/crema (`--color-surface*`). Persiste en la pestaña (sessionStorage `autentizity-fondo`); `?color=gris` o `?color=normal` la desactiva.
+- Lógica en `src/lib/fondo.ts` (`resolveFondo`, script inline anti-parpadeo), aplicada en `src/app/(public)/layout.tsx` con `FondoSwitch` (quita el atributo al salir a `/admin`). CSS: `html[data-fondo="blanco"]` en `globals.css`. No usa searchParams en servidor: las rutas siguen estáticas/ISR.
+
 ### Tipografía
 - Títulos: Montserrat (`--font-serif`, clase `font-serif`)
 - Cuerpo: Poppins (`--font-sans`)
