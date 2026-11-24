@@ -58,6 +58,14 @@
   --radius-input: 0.75rem;
 }
 
+/* Client preview `?color=blanco` (src/lib/fondo.ts): gray/cream backgrounds become white */
+html[data-fondo="blanco"] {
+  --color-surface: #ffffff;
+  --color-surface-alt: #ffffff;
+  --color-surface-warm: #ffffff;
+  --color-surface-dark: #ffffff;
+}
+
 /* Base */
 body {
   font-family: "Poppins", ui-sans-serif, system-ui, sans-serif;
