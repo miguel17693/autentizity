@@ -32,7 +32,8 @@ describe("QA 3 home", () => {
 
   it("renames recognition and the agenda label consistently", async () => {
     const html = renderToStaticMarkup(await HomePage());
-    expect(text(html)).toContain("Referentes de la Autenticidad 2026");
+    expect(text(html)).toContain("Referentes de la Autenticidad – AutentiZity &amp; ManpowerGroup");
+    expect(text(html)).not.toContain("Referentes de la Autenticidad 2026");
     expect(text(html)).toContain("Diploma “Empresa AutentiZity”");
     expect(text(html)).not.toContain(" Agenda ");
     const header = renderToStaticMarkup(<Header />);
@@ -41,6 +42,7 @@ describe("QA 3 home", () => {
     expect(header).toContain('href="/ecosistema#consejo-consultivo-impacto-social"');
     expect(header).toContain('href="/ecosistema#empresas-impulsoras"');
     expect(header).toContain('href="/ecosistema#entidades-colaboradoras"');
+    expect(text(header)).toContain("Instituciones, Fundaciones, Cámaras de Comercio y Asociaciones Corporativas");
   });
 
   it("renders the approved introduction paragraphs with equal typography and full stops", async () => {

@@ -13,7 +13,7 @@ const navItems = [
     children: [
       { label: "Empresas", href: "/ecosistema#empresas-impulsoras" },
       { label: "Entidades Colaboradoras", href: "/ecosistema#entidades-colaboradoras" },
-      { label: "Instituciones, Cámaras de Comercio y Asociaciones Corporativas", href: "/ecosistema#instituciones" },
+      { label: "Instituciones, Fundaciones, Cámaras de Comercio y Asociaciones Corporativas", href: "/ecosistema#instituciones" },
       { label: "Embajadores", href: "/ecosistema#embajadores" },
       { label: "Consejo Consultivo de Impacto Social", href: "/ecosistema#consejo-consultivo-impacto-social" },
     ],
