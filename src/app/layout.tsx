@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const socialImage = {
-  url: "/images/og-autentizity-v2.png",
+  url: "/images/og-autentizity-v3.png",
   alt: "AutentiZity — Aceleradora de Impacto Social. Autenticidad en el trabajo.",
 };
 

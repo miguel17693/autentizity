@@ -11,6 +11,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://autentizity.org/unete" },
 };
 
+const JOIN_CONTACT_EMAIL = "miguelgarzon@autentizity.org";
+
+function ContactButton({ sectionTitle }: { sectionTitle: string }) {
+  const subject = encodeURIComponent(`Quiero unirme a AutentiZity – ${sectionTitle}`);
+  return (
+    <a
+      href={`mailto:${JOIN_CONTACT_EMAIL}?subject=${subject}`}
+      className="mt-8 inline-flex items-center justify-center px-8 py-3.5 bg-secondary text-white rounded-full text-[13px] font-medium tracking-[0.08em] uppercase hover:bg-secondary-light transition-all"
+    >
+      CONTACTA
+    </a>
+  );
+}
+
 /* ============================================
  * ÚNETE — Empresas, Organizaciones, Profesionales
  * ============================================ */
@@ -58,6 +72,7 @@ export default function UnetePage() {
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
                 Una comunidad donde compartir iniciativas, generar alianzas estratégicas y dar visibilidad al compromiso real que impulsa una nueva forma de hacer empresa. Porque la cultura corporativa no solo transforma organizaciones. También transforma la sociedad.
               </p>
+              <ContactButton sectionTitle="Empresas que quieren liderar el cambio" />
             </div>
           </ScrollReveal>
         </div>
@@ -85,6 +100,7 @@ export default function UnetePage() {
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
                 Al adherirte, podrás colaborar con empresas comprometidas, participar en proyectos conjuntos y dar visibilidad, así convertir causas en movimientos corporativos. Fundaciones, asociaciones, entidades sociales e instituciones tienen aquí su espacio.
               </p>
+              <ContactButton sectionTitle="Organizaciones que generan impacto" />
             </div>
           </ScrollReveal>
         </div>
@@ -112,6 +128,7 @@ export default function UnetePage() {
               <p className="mt-4 text-text-secondary text-sm leading-relaxed font-light">
                 En este 2026 están en activo los movimientos: IAuthentiZity, Nuestro Legado a las Siguientes Generaciones, La Diversidad También es Autenticidad, Autenticos Héroes Sin Capa, Sé tú! Liderazgo Auténtico, De Philadelphia a Madrid, Espacios Seguros para el Error, Keep the Calm & Less Burnout, Mujeres Increíbles y Aliados.
               </p>
+              <ContactButton sectionTitle="Embajadores que inspiran" />
             </div>
           </ScrollReveal>
         </div>

@@ -128,7 +128,7 @@ autentizity/
 │   └── middleware.ts          # Protege /admin (excepto /admin/login) y las mutaciones de la API con la cookie firmada "admin_session"
 ├── tests/                     # Vitest
 ├── public/
-│   ├── images/                # logo-transparent.png, og-autentizity-v2.png
+│   ├── images/                # logo-transparent.png, og-autentizity-v3.png
 │   ├── logos/                 # Logos de entidades
 │   └── documents/             # PDFs (código ético)
 ├── docs/                      # Documentación adicional

@@ -4,7 +4,7 @@ import sharp from "sharp";
 import { describe, expect, it } from "vitest";
 import { metadata } from "@/app/layout";
 
-const imagePath = "/images/og-autentizity-v2.png";
+const imagePath = "/images/og-autentizity-v3.png";
 
 describe("Default social preview", () => {
   it("ships a compact opaque 1200 by 630 PNG with strong contrast", async () => {
